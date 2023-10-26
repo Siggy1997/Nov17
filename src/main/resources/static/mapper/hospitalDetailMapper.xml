@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drhome.hospitaldetail.HospitalDetailDAO">
+	<select id="findHospitalByHno" resultType="Map" parameterType="Integer">
+		SELECT * FROM hospital where hno = #{hno}
+	</select>
+</mapper>
