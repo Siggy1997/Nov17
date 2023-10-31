@@ -2,19 +2,91 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.drhome.search.SearchDAO">
 
-	<select id="deparmentKeyword">
-		SELECT dpkeyword
+	<select id="deparmentKeyword" resultType="Map">
+		SELECT dpkind, dpsymptom, dpkeyword
 		FROM department
 	</select>
 	
-	<select id="hospitalList" parameterType="String" resultType="Map">
+	<select id="keywordKind" resultType="Map">
+		SELECT dpkind, dpkeyword
+		FROM department
+	</select>
+	
+	<select id="hospitalList" resultType="Map">
 		SELECT h.hno, h.hname, h.haddr, h.hopentime, h.hclosetime, h.hnightday, h.hnightendtime, h.hholiday,
 		       h.hholidayendtime, h.hparking, d.*, COALESCE(ha.reviewAverage, 0) AS reviewAverage, COALESCE(ha.reviewCount, 0) AS reviewCount
 		FROM hospital h
-		LEFT JOIN doctorList d ON h.hno = d.hno
+		LEFT JOIN doctorAverage d ON h.hno = d.hno
 		LEFT JOIN hospitalAverage ha ON h.hno = ha.hno
 		GROUP BY h.hno
 	</select>
+	
+	<select id="kindHospitalList" parameterType="Object" resultType="Map">
+		SELECT h.hno, h.hname, h.haddr, h.hopentime, h.hclosetime, h.hnightday, h.hnightendtime, h.hholiday,
+		       h.hholidayendtime, h.hparking, d.*, COALESCE(ha.reviewAverage, 0) AS reviewAverage, COALESCE(ha.reviewCount, 0) AS reviewCount
+		FROM hospital h
+		LEFT JOIN doctorAverage d ON h.hno = d.hno
+		LEFT JOIN hospitalAverage ha ON h.hno = ha.hno
+		WHERE #{kindKeyword} = d.dpkind
+		GROUP BY h.hno
+	</select>
+	
+	<select id="symptomHospitalList" parameterType="Object" resultType="Map">
+		SELECT h.hno, h.hname, h.haddr, h.hopentime, h.hclosetime, h.hnightday, h.hnightendtime, h.hholiday,
+		       h.hholidayendtime, h.hparking, d.*, COALESCE(ha.reviewAverage, 0) AS reviewAverage, COALESCE(ha.reviewCount, 0) AS reviewCount
+		FROM hospital h
+		LEFT JOIN doctorAverage d ON h.hno = d.hno
+		LEFT JOIN hospitalAverage ha ON h.hno = ha.hno
+		WHERE FIND_IN_SET(#{symptomKeyword}, d.dpkeyword)
+		GROUP BY h.hno
+	</select>
+	
+	<select id="otherHospitalList" parameterType="Object" resultType="Map">
+		SELECT h.hno, h.hname, h.haddr, h.hopentime, h.hclosetime, h.hnightday, h.hnightendtime, h.hholiday,
+		       h.hholidayendtime, h.hparking, d.*, COALESCE(ha.reviewAverage, 0) AS reviewAverage, COALESCE(ha.reviewCount, 0) AS reviewCount
+		FROM hospital h
+		LEFT JOIN doctorAverage d ON h.hno = d.hno
+		LEFT JOIN hospitalAverage ha ON h.hno = ha.hno
+		WHERE (
+		    (
+		        (#{otherKeyword} IN ('일요일 진료', '일요일', '공휴일 진료', '공휴일')) AND h.hholiday = 1
+		    ) OR
+		    (
+		        (#{otherKeyword} IN ('주차', '주차 가능')) AND h.hparking = 1
+		    ) OR
+		    (
+		        (#{otherKeyword} = '전문의') AND d.dspecialist = 1
+		    ) OR
+		    (
+		        (#{otherKeyword} = '여의사') AND d.dgender = 1
+		    ) OR
+		    (
+		        (#{otherKeyword} = '야간진료') AND h.hnightday IS NOT NULL
+		    )
+		)
+		GROUP BY h.hno
+	</select>
+	
+	<select id="hospitaNamelList" parameterType="Object" resultType="Map">
+		SELECT h.hno, h.hname, h.haddr, h.hopentime, h.hclosetime, h.hnightday, h.hnightendtime, h.hholiday,
+		       h.hholidayendtime, h.hparking, d.*, COALESCE(ha.reviewAverage, 0) AS reviewAverage, COALESCE(ha.reviewCount, 0) AS reviewCount
+		FROM hospital h
+		LEFT JOIN doctorAverage d ON h.hno = d.hno
+		LEFT JOIN hospitalAverage ha ON h.hno = ha.hno
+		WHERE h.hname LIKE CONCAT('%', #{keyword}, '%') OR d.dname LIKE CONCAT('%', #{keyword}, '%')
+		GROUP BY h.hno
+	</select>
+	
+	<select id="hospitalLike" parameterType="Object" resultType="Map">
+		SELECT mhospitallike
+		FROM member
+		WHERE mno = #{mno}
+	</select>
+	
+	
+	
+	
+	
 
 
 </mapper>

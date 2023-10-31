@@ -11,6 +11,9 @@
 <script src="./js/jquery-3.7.0.min.js"></script> 
 
 <script type="text/javascript">
+	window.onload = function() {
+	    document.getElementById('keyword').focus();
+	};
 	
 	$(function(){
 		let recentKeywordCookies = getCookie("recentKeyword");
@@ -145,10 +148,10 @@
 				<div class="searchRecommend">
 					<div class="searchTitle">추천 검색어</div>
 					<div class="searchRecommendItems">
-						<button class="recommendItem">예약</button>
+						<button class="recommendItem">전문의</button>
 						<button class="recommendItem">야간진료</button>
 						<button class="recommendItem">여의사</button>
-						<button class="recommendItem">일요일 진료</button>
+						<button class="recommendItem">공휴일 진료</button>
 						<!-- 추가하기 -->
 						<c:forEach items="${randomKeyword}" var="row">
 							<button class="recommendRandomItem">${row}</button>
