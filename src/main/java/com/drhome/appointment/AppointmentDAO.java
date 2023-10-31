@@ -24,6 +24,6 @@ public interface AppointmentDAO {
 
 	List<Map<String, Object>> getDoctorsByDpno(int dpno);
 
-	List<Map<String, Object>> department(int dpno);
+	List<Map<String, Object>> department(Map<String, Object> map);
 
 }

@@ -40,8 +40,8 @@ public class AppointmentService {
 		return appointmentDAO.getDoctorsByDpno(dpno);
 	}
 
-	public List<Map<String, Object>> department(int dpno) {
-		return appointmentDAO.department(dpno);
+	public List<Map<String, Object>> department(Map<String, Object> map) {
+		return appointmentDAO.department(map);
 	}
 
 	

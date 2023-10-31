@@ -36,10 +36,9 @@
 		WHERE dpno=#{dpno}
 	</select>
 
-	<select id="department" parameterType="Integer" resultType="Map">
-		SELECT dpkind
+	<select id="department" parameterType="Map" resultType="Map">
+		SELECT *
 		FROM department
-		WHERE dpno=#{dpno}
 	</select>
 
 </mapper>

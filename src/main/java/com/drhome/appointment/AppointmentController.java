@@ -8,12 +8,10 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,7 +40,7 @@ public class AppointmentController {
 	 */
 
 	@PostMapping("/adetail")
-	public String appointment(@RequestParam("hno") int hno, @RequestParam("dpno") int dpno, Map<String, Object> map, Model model, HttpSession session) {
+	public String appointment(@RequestParam("hno") int hno, Map<String, Object> map, Model model, HttpSession session) {
 		
 		Map<String, Object> hospital = appointmentService.hospital(hno);
 		model.addAttribute("hospital", hospital);
@@ -54,7 +52,7 @@ public class AppointmentController {
 		List<Map<String, Object>> time = appointmentService.time(hno);
 		model.addAttribute("time", time);
 		
-		List<Map<String, Object>> department = appointmentService.department(dpno);
+		List<Map<String, Object>> department = appointmentService.department(map);
 		model.addAttribute("department", department);
 		
 		/*

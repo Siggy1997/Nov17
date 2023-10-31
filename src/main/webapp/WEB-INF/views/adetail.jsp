@@ -113,7 +113,7 @@ $(document).ready(function () {
          				}); */
          				
           				var newButton = $('<button>')
-       		        	.text(data.doctors.dname + dpno)
+       		        	.text(data.doctors + dpno)
        		        	.data('value', dpno);
 
          		    	buttonContainer.append(newButton);		
@@ -209,7 +209,6 @@ $(document).ready(function () {
 			<option value="">진료과를 선택하세요</option>
 			<c:forEach items="${department}" var="dpinfo">
 				<option value="${dpinfo.dpno}">${dpinfo.dpkind}</option>
-				<input type="hidden" name="dpno" value="${dpinfo.dpno}" />
 			</c:forEach>
 		</select>
 	</div>
