@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.drhome.Appointment.AppointmentDAO">
+<mapper namespace="com.drhome.appointment.AppointmentDAO">
 
-	<select id="list" parameterType="Map" resultType="Map">
-		SELECT * FROM doctor
+	<select id="hospitals" parameterType="Map" resultType="Map">
+		SELECT * FROM hospital
 	</select>
 	
-	<select id="detail" parameterType="Integer" resultType="Map">
+	<select id="hospital" parameterType="Integer" resultType="Map">
+		SELECT * FROM hospital WHERE hno=#{hno}
+	</select>
+	
+	<select id="detail" parameterType="Map" resultType="Map">
 		SELECT m.mname, a.adiagnosis
 		FROM member m
 		INNER JOIN appointment a ON m.mno = a.mno
+	</select>
+
+	<select id="time" parameterType="Integer" resultType="Map">
+		SELECT * FROM appointmenttime WHERE hno=#{hno}
+	</select>
+
+	<select id="doctor" parameterType="Integer" resultType="Map">
+		SELECT dname FROM doctor WHERE hno=#{hno}
+	</select>
+
+<!-- 	<select id="doctorDp" parameterType="Integer" resultType="Map">
+		SELECT dname
+		FROM doctor
+		WHERE dpno = #{dpno}
+	</select> -->
+
+	<select id="getDoctorsByDpno" parameterType="Integer" resultType="Map">
+		SELECT *
+		FROM doctor
+		WHERE dpno=#{dpno}
+	</select>
+
+	<select id="department" parameterType="Integer" resultType="Map">
+		SELECT dpkind
+		FROM department
+		WHERE dpno=#{dpno}
 	</select>
 
 </mapper>
