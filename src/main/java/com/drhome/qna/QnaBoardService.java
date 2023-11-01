@@ -54,4 +54,13 @@ public class QnaBoardService {
 		qnaBoardDAO.delQnaCallDibs(qnaCallDibsData);		
 		
 	}
+
+	public List<Map<String, Object>> doctorInfo(List<Integer> dnoList) {
+		return qnaBoardDAO.doctorInfo(dnoList);
+	}
+
+	public void deleteQnaQuestion(Map<String, Object> deleteQnaQuestionData) {
+		qnaBoardDAO.deleteQnaQuestion(deleteQnaQuestionData);
+		
+	}
 }

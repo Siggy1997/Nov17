@@ -1,5 +1,6 @@
 package com.drhome.qna;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class QnaBoardController {
 	public String qnaDetail(@RequestParam("bno") int bno, Model model, HttpSession session) {
 
 		// int hno = (int) session.getAttribute("hno");
-		int hno = 1; // 추후 세션값으로 변경 예정
+		int hno = 1; // 추후 세션값으로 변경 예정 // 답변 삭제, 수정
 		int mno = 4; // 추후 세션값으로 변경 예정
 		model.addAttribute("hno", hno);
 		model.addAttribute("mno", mno);
@@ -51,6 +52,19 @@ public class QnaBoardController {
 		List<Map<String, Object>> qnaAnswer = qnaBoardService.qnaAnswer(bno);
 		model.addAttribute("qnaAnswer", qnaAnswer);
 
+		if (!qnaAnswer.isEmpty()) {
+			List<Integer> dnoList = new ArrayList<>();
+			for (Map<String, Object> answer : qnaAnswer) {
+				int dno = (int) answer.get("dno");
+				dnoList.add(dno);
+
+			}
+			// 병원 및 의사 정보 가져오기
+			List<Map<String, Object>> doctorInfo = qnaBoardService.doctorInfo(dnoList);
+			model.addAttribute("doctorInfo", doctorInfo);
+		}
+		
+		
 		return "qnaDetail";
 	}
 
@@ -81,7 +95,7 @@ public class QnaBoardController {
 
 		qnaBoardService.postQna(qnaData);
 
-		return "redirect:/qna";
+		return "redirect:/qnaBoard";
 	}
 
 	@PostMapping("/writeQnaAnswer")
@@ -107,6 +121,20 @@ public class QnaBoardController {
 
 		return "redirect:/qnaDetail?bno=" + bno;
 	}
+	
+	@PostMapping("/deleteQnaQuestion")
+	public String deleteQnaQuestion(@RequestParam("bno") int bno) {
+
+		Map<String, Object> deleteQnaQuestionData = new HashMap<>();
+
+		deleteQnaQuestionData.put("bno", bno);
+		deleteQnaQuestionData.put("btype", 2);
+
+		qnaBoardService.deleteQnaQuestion(deleteQnaQuestionData);
+
+		return "redirect:/qnaBoard";
+	}
+
 
 	@PostMapping("/deleteQnaAnswer")
 	public String deleteQnaAnswer(@RequestParam("bno") int bno, @RequestParam("cno") int cno) {
@@ -128,13 +156,12 @@ public class QnaBoardController {
 		Map<String, Object> qnaCallDibsData = new HashMap<>();
 
 		int mno = 4; // 추후 세션값으로 변경 예정
-		
+
 		qnaCallDibsData.put("bno", bno);
-		qnaCallDibsData.put("mno", mno); 
-		
+		qnaCallDibsData.put("mno", mno);
 
 		if (callDibsInput == true) {
-			
+
 			System.out.println(callDibsInput);
 			System.out.println(qnaCallDibsData);
 			qnaBoardService.delQnaCallDibs(qnaCallDibsData);

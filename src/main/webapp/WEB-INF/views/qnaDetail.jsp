@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/qnaDetail.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -20,6 +21,13 @@
 		<div class="bdetail">${qnaQuestion.bcontent}</div>
 		<div class="bdate">${qnaQuestion.bdate}</div>
 	</div>
+
+	<c:if test="${qnaQuestion.mno eq mno}">
+		<form action="deleteQnaQuestion" method="post" id="deleteQnaQuestion">
+			<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
+			<button class="bdelete" onclick="deleteConfirm()">삭제하기</button>
+		</form>
+	</c:if>
 
 
 	<form id="callDibsForm" action="/qnaCallDibs" method="POST">
@@ -35,6 +43,11 @@
 			value="${qnaQuestion.bno}">
 		<button type="submit" id="dibsButtonTrue">★ 찜하기</button>
 	</form>
+
+
+
+
+
 
 	<c:if test="${not empty hno}">
 		<button type="button" id="answerToggleButton">답변 작성하기</button>
@@ -56,17 +69,28 @@
 
 
 	<br> 의료인 답변
+	<br>
+	<br>
 	<div class="answer">
 		<c:forEach items="${qnaAnswer}" var="answer">
-			<div class="hospitalNum">${answer.hno}</div>
-			<div class="doctorNum">${answer.dno}</div>
+			<input type="hidden" name="hospitalNum" value="${answer.hno}">
+			<input type="hidden" name="doctorNum" value="${answer.dno}">
 			<div class="cdetail">${answer.ccontent}</div>
 			<div class="cdate">${answer.cdate}</div>
+
+			<c:forEach items="${doctorInfo}" var="doctor">
+				<img src="${doctor.dimg}" alt="의사 이미지" height="75">
+				<div class="doctorName">${doctor.dname}</div>
+				<div class="doctorDpkind">${doctor.dpkind}</div>
+				<div class="hospital">${doctor.hname}</div>
+			</c:forEach>
+
+
 			<c:if test="${answer.hno eq hno}">
 				<form action="deleteQnaAnswer" method="post" id="deleteQnaAnswer">
 					<input type="hidden" name="cno" id="cno" value="${answer.cno}">
 					<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
-					<button class="cdelete">삭제하기</button>
+					<button class="cdelete" onclick="deleteConfirm()">삭제하기</button>
 				</form>
 			</c:if>
 			<br>
@@ -74,6 +98,7 @@
 	</div>
 
 
+	
 
 
 	<script>
@@ -146,7 +171,6 @@
 					const formContainer = document
 							.getElementById('formContainer');
 
-					// textarea와 formContainer(나타나거나 숨기기)
 					if (textarea.style.display === 'none') {
 						textarea.style.display = 'block';
 						formContainer.style.display = 'block';
@@ -162,36 +186,37 @@
 				.addEventListener(
 						'click',
 						function() {
-							// textarea와 formContainer를 숨김
 							document.getElementById('ccontent').style.display = 'none';
 							document.getElementById('formContainer').style.display = 'none';
 						});
 
 		//찜버튼 클릭
 		window.onload = function() {
-			// 이 부분에서 bcalldibs 값을 가져와야 합니다. db에서 가져온다고 가정
+
 			var bCallDibs = "${qnaQuestion.bcalldibs}";
 
 			// mno 값 가져오기
-			var mno = "${mno}"; // mnoValue는 어떻게 가져올지에 따라 수정해야 합니다.
+			var mno = "${mno}";
 
-			// 쉼표로 분할하여 배열로 만듭니다.
+			// 쉼표로 분할
 			var mnoArray = bCallDibs.split(',');
 
-			// mno 값이 배열에 포함되는지 확인합니다.
+			// mno 값이 배열에 포함되는지 확인
 			var isDibsTrue = mnoArray.includes(mno);
 
 			var dibsButtonTrue = document.getElementById("dibsButtonTrue");
 			var dibsButtonFalse = document.getElementById("dibsButtonFalse");
 
 			if (isDibsTrue) {
-				dibsButtonTrue.style.display = "block"; // 표시
-				dibsButtonFalse.style.display = "none"; // 숨김
+				dibsButtonTrue.style.display = "block";
+				dibsButtonFalse.style.display = "none";
 			} else {
-				dibsButtonTrue.style.display = "none"; // 숨김
-				dibsButtonFalse.style.display = "block"; // 표시
+				dibsButtonTrue.style.display = "none";
+				dibsButtonFalse.style.display = "block";
 			}
 		}
+
+	
 	</script>
 
 </body>

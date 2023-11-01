@@ -17,10 +17,11 @@
 
 	<select id="qnaQuestion" parameterType="Integer"
 		resultType="Map">
-		SELECT bno, btitle, bcontent, bdate, bcalldibs
+		SELECT board.bno, board.btitle, board.bcontent,
+		board.bdate, board.bcalldibs, member.mno
 		FROM board
-		WHERE
-		bno=#{bno}
+		LEFT JOIN member ON board.mno = member.mno
+		WHERE board.bno = #{bno};
 	</select>
 
 	<select id="qnaAnswer" parameterType="Integer" resultType="Map">
@@ -36,6 +37,18 @@
 		comment.cdate, comment.ccontent
 		ORDER BY
 		comment.cno DESC;
+	</select>
+
+	<select id="doctorInfo" parameterType="Integer" resultType="Map">
+		SELECT dv.dname, dv.dimg, dv.dinfo, dv.dpkind, dv.dcareer, dv.hno,
+		dv.reviewAverage, hv.hname, hv.hospitalDepartments
+		FROM doctorinfo_view
+		dv
+		INNER JOIN hospitalinfo_view hv ON dv.hno = hv.hno
+		WHERE dv.dno IN
+		<foreach item="dno" collection="list" open="(" separator=","
+			close=")"> #{dno}
+		</foreach>
 	</select>
 
 	<insert id="postQna" parameterType="Map">
@@ -87,14 +100,25 @@
 
 	<update id="delQnaCallDibs" parameterType="Map">
 		UPDATE board
-		SET bcalldibs =
+		SET
+		bcalldibs =
 		CASE
-		WHEN CONCAT(',', bcalldibs, ',') LIKE CONCAT('%,', #{mno}, ',%') THEN
-		TRIM(BOTH ',' FROM REPLACE(CONCAT(',', bcalldibs, ','), CONCAT(',',
+		WHEN CONCAT(',', bcalldibs, ',') LIKE CONCAT('%,',
+		#{mno}, ',%') THEN
+		TRIM(BOTH ',' FROM REPLACE(CONCAT(',', bcalldibs,
+		','), CONCAT(',',
 		#{mno}, ','), ','))
 		ELSE bcalldibs
 		END
-		WHERE bno = #{bno}
+		WHERE bno =
+		#{bno}
+	</update>
+
+	<update id="deleteQnaQuestion" parameterType="Map">
+		UPDATE board
+		SET
+		btype = #{btype}
+		WHERE bno=#{bno}
 	</update>
 
 </mapper>

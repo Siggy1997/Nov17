@@ -28,5 +28,9 @@ public interface QnaBoardDAO {
 
 	void delQnaCallDibs(Map<String, Object> qnaCallDibsData);
 
+	List<Map<String, Object>> doctorInfo(List<Integer> dnoList);
+
+	void deleteQnaQuestion(Map<String, Object> deleteQnaQuestionData);
+
 
 }
