@@ -93,7 +93,6 @@ $(document).ready(function () {
                
                 dataType: "json",
                 success: function (data) {
-                	alert("!");
                     
           				/* value += "<c:forEach items='${doctor}' var='dc'>";
           				value += "<div style='text-align: center;'>";
@@ -111,9 +110,11 @@ $(document).ready(function () {
          				doctors.forEach(function() {
          					alert("테스트");
          				}); */
+
+         				
          				
           				var newButton = $('<button>')
-       		        	.text(data.doctors + dpno)
+       		        	.text(data.doctors[0].dname + dpno)
        		        	.data('value', dpno);
 
          		    	buttonContainer.append(newButton);		
@@ -179,14 +180,16 @@ $(document).ready(function () {
 	<c:forEach items="${time }" var="t">
 		<div style="text-align: center;">
 			<form action="/adetail" method="POST">
-				<input type="hidden" name="hno" vlaue="${t.hno }" /> 오전 :
+				<input type="hidden" name="hno" value="${t.hno }" />
+				오전 :
 				<button>${t.at1 }</button>
 				<button>${t.at2 }</button>
 				<button>${t.at3 }</button>
 				<button>${t.at4 }</button>
 				<button>${t.at5 }</button>
 				<button>${t.at6 }</button>
-				<br> 오후 :
+				<br> 
+				오후 :
 				<button>${t.at7 }</button>
 				<button>${t.at8 }</button>
 				<button>${t.at9 }</button>

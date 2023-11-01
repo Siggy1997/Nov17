@@ -65,7 +65,7 @@ public class AppointmentController {
 	
 	@ResponseBody
 	@PostMapping("/getDoctors")
-	public JSONArray getDoctors(@RequestParam("dpno") int dpno, Map<String, Object> map) {
+	public String getDoctors(@RequestParam("dpno") int dpno, Map<String, Object> map) {
 		System.out.println(dpno);
 		List<Map<String, Object>> doctors = appointmentService.getDoctorsByDpno(dpno);
 		
@@ -74,9 +74,11 @@ public class AppointmentController {
 			jsonArray.put(convertMapToJson(mapList));
 		}
 		
-		System.out.println(jsonArray); 
+		JSONObject json = new JSONObject();
+		json.put("doctors", jsonArray);
 		
-	    return jsonArray;
+		
+	    return json.toString();
 		
 	}
 	
