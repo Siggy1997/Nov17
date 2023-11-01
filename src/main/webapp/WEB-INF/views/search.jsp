@@ -11,7 +11,10 @@
 <script src="./js/jquery-3.7.0.min.js"></script> 
 
 <script type="text/javascript">
-
+	window.onload = function() {
+	    document.getElementById('keyword').focus();
+	};
+	
 	$(function(){
 		let recentKeywordCookies = getCookie("recentKeyword");
 		if (recentKeywordCookies == null) {
@@ -20,7 +23,7 @@
 			let stringArray = separationString(recentKeywordCookies);
 			let searchRecentItems = '';
 			for(let item of stringArray) {
-				searchRecentItems += '<div class="recentItemBox"><div class="recentItem">' + item + '</div><div class="xi-close-min"></div></div>';
+				searchRecentItems += '<div class="recentItemBox"><button class="recentItem">' + item + '</button><div class="xi-close-min"></div></div>';
 			}
 			$(".searchRecentItems").html(searchRecentItems);
 		}
@@ -29,9 +32,24 @@
 			deleteAllCookie("recentKeyword");
 			$(".searchRecentItems").html('');
 		});
+		
+		$(".recommendItem").click(function(){
+			let keyword = $(this).text();
+			$('#keyword').val(keyword);
+		})
+		
+		$(".recommendRandomItem").click(function(){
+			let keyword = $(this).text();
+			$('#keyword').val(keyword);
+		})
+		
+		$(".recentItem").click(function(){
+			let keyword = $(this).text();
+			$('#keyword').val(keyword);
+		})
 	});
 	
-	$(document).on("click", ".xi-search", function(){
+	$(document).on("submit", "#searchForm", function(){
 		let recentKeyword = $("#keyword").val();
 		setCookie("recentKeyword", recentKeyword, 30);
 	});
@@ -108,45 +126,40 @@
 <body>
 	<h1>search</h1>
 	<div class="searchBox">
-		<form action="/search" method="post">
+		<form id="searchForm" action="/search" method="post">
 			<div class="searchHospital">
 				<div class="xi-angle-left"></div>
 				<input placeholder="질병, 진료과, 병원을 검색하세요." name="keyword" id="keyword">
 				<button class="xi-search"></button>
 			</div>
-		</form>
-		<div class="serachItem">
-		
-			<!-- 최근 검색 -->
-			<div class="searchRecent">
-				<div class="searchTitle">최근 검색</div>
-				<div class="searchDelete">전체삭제</div>
-				<div class="searchRecentItems">
-					<div class="recentItemBox">
-						<div class="recentItem"></div>
-						<div class="xi-close-min"></div>
+			<div class="serachItem">
+				<!-- 최근 검색 -->
+				<div class="searchRecent">
+					<div class="searchTitle">최근 검색</div>
+					<div class="searchDelete">전체삭제</div>
+					<div class="searchRecentItems">
+						<div class="recentItemBox">
+							<button class="recentItem"></button>
+							<div class="xi-close-min"></div>
+						</div>
+					</div>
+				</div>
+				<!-- 추천 검색어 -->
+				<div class="searchRecommend">
+					<div class="searchTitle">추천 검색어</div>
+					<div class="searchRecommendItems">
+						<button class="recommendItem">전문의</button>
+						<button class="recommendItem">야간진료</button>
+						<button class="recommendItem">여의사</button>
+						<button class="recommendItem">공휴일 진료</button>
+						<!-- 추가하기 -->
+						<c:forEach items="${randomKeyword}" var="row">
+							<button class="recommendRandomItem">${row}</button>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
-			
-			<!-- 추천 검색어 -->
-			<div class="searchRecommend">
-				<div class="searchTitle">추천 검색어</div>
-				<div class="searchRecommendItems">
-					<div class="recommendItem">예약</div>
-					<div class="recommendItem">야간진료</div>
-					<div class="recommendItem">여의사</div>
-					<div class="recommendItem">일요일 진료</div>
-					<!-- 추가하기 -->
-					<c:forEach items="${randomKeyword}" var="row">
-						<div class="recommendRandomItem">${row}</div>
-					</c:forEach>
-				</div>
-			</div>
-			
-			
-		
-		</div>
+		</form>
 	</div>
 	
 </body>
