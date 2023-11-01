@@ -22,6 +22,20 @@
 	</div>
 
 
+<div id="formContainer">
+      <form action="./writeFreeComment" method="post" id="freeCommentForm">
+         <div>
+            댓글작성<br>
+            <textarea rows="5" cols="13" name="ccontent" id="ccontent"></textarea>
+         </div>
+         <input type="hidden" name="cdate" id="cdate"> <input
+            type="hidden" name="bno" id="bno" value="${freePost.bno}">
+         <button type="submit" id="submitCommnetButton">완료</button>
+         <button type="button" id="cancelCommnetButton">취소</button>
+      </form>
+   </div>
+
+
 	
 
 <br> 댓글
@@ -84,6 +98,29 @@
 		});
 
 		
+		// 댓글 작성 시 현재 날짜와 시간을 추가
+	      document.getElementById('freeCommentForm').addEventListener(
+	            'submit',
+	            function(event) {
+	               event.preventDefault(); // 기본 제출 동작을 막음
+
+	               // 현재 날짜와 시간을 가져오기
+	               const currentDatetime = new Date();
+	               const utcDatetime = new Date(currentDatetime.toISOString()
+	                     .slice(0, 19)
+	                     + "Z"); // UTC 시간으로 변환
+	               const formattedDatetime = new Date(utcDatetime.getTime()
+	                     + 9 * 60 * 60 * 1000);
+
+	               document.getElementById('cdate').value = formattedDatetime
+	                     .toISOString().slice(0, 19).replace("T", " ");
+
+	               const content = document
+	                     .querySelector('textarea[name="ccontent"]').value;
+
+	               // 폼 제출
+	               this.submit();
+	            });
 		
 	</script>
 

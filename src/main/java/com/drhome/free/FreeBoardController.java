@@ -76,5 +76,27 @@ public class FreeBoardController {
 		    return "redirect:/freeBoard";
 		}
 		
+		@PostMapping("/writeFreeComment")
+		public String writeFreeComment(@RequestParam("bno") int bno, @RequestParam("ccontent") String ccontent,
+				@RequestParam("cdate") String cdate) {
+
+			// 게시물당 댓글 수 조회
+			int commentCount = freeBoardService.commentCount(bno);
+
+			// 새 댓글의 cno 설정
+			int cno = commentCount + 1;
+
+			Map<String, Object> freeCommentData = new HashMap<>();
+
+			freeCommentData.put("bno", bno);
+			freeCommentData.put("mno", 4); // 추후 세션값으로 변경 예정
+			freeCommentData.put("cno", cno);
+			freeCommentData.put("ccontent", ccontent);
+			freeCommentData.put("cdate", cdate);
+
+			freeBoardService.writeFreeComment(freeCommentData);
+
+			return "redirect:/freeDetail?bno=" + bno;
+		}
 		
 }

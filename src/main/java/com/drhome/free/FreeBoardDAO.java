@@ -17,5 +17,9 @@ public interface FreeBoardDAO {
 
 	void postFree(Map<String, Object> freeData);
 
+	int commentCount(int bno);
+
+	void writeFreeComment(Map<String, Object> freeCommentData);
+
 
 }

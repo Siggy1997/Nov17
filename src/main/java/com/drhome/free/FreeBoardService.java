@@ -31,4 +31,15 @@ public class FreeBoardService {
 		freeBoardDAO.postFree(freeData);
 		
 	}
+
+
+	public int commentCount(int bno) {
+		return freeBoardDAO.commentCount(bno);
+	}
+
+
+	public void writeFreeComment(Map<String, Object> freeCommentData) {
+		freeBoardDAO.writeFreeComment(freeCommentData);
+		
+	}
 }
