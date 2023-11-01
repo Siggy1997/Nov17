@@ -3,9 +3,7 @@
 <mapper namespace="com.drhome.myinfo.MyInfoDAO">
 	
 	<select id="myInfo" parameterType="Integer" resultType="Map">
-		SELECT * 
-		FROM member
-		WHERE mno=#{mno};
+		SELECT * FROM member WHERE mno=#{mno};
 	</select>
 	
 	<update id="changePW" parameterType="Map">
@@ -31,5 +29,27 @@
 	<select id="myComment" parameterType="Integer" resultType="Map">
 		SELECT c.*, m.mnickname FROM comment c JOIN member m ON c.mno=m.mno WHERE m.mno=#{mno};
 	</select>
-
+	
+	<select id="healthRecord" parameterType="Integer" resultType="Map">
+		SELECT * FROM healthRecord WHERE mno=#{mno};
+	</select>
+	
+	<update id="changeHealthRecord" parameterType="Map">
+		UPDATE healthRecord SET hrheight=#{hrheight}, hrweight=#{hrweight}, hrsystolicpressure=#{hrsystolicpressure}, hrdiastolicpressure=#{hrdiastolicpressure}, hrissue=#{hrissue} WHERE mno=#{mno}; 
+	</update>
+	
+	<insert id="registerHealthRecord" parameterType="Map">
+	    INSERT INTO healthRecord (mno) VALUES (#{mno});
+	</insert>
+	
+	<select id="selectHealthRecord" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM healthRecord WHERE mno=#{mno};
+	</select>
+	
+	<select id="callDibs" parameterType="Integer" resultType="Map">
+	    SELECT b.*, m.mnickname FROM board b 
+	    JOIN member m ON b.mno = m.mno
+	    WHERE FIND_IN_SET(#{mno}, bcalldibs) > 0
+	</select>
+	
 </mapper>

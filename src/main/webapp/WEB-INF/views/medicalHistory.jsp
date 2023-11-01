@@ -17,6 +17,6 @@
 <body>
 	<a href="../main">&nbsp;&nbsp;←뒤로가기</a>
 	<h1>MedicalHistory</h1>
-	${sessionScope.mname} 님 반갑습니다.
+	<h3>내 진료내역 확인하기</h3>
 </body>
 </html>

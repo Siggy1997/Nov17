@@ -44,5 +44,25 @@ public class MyInfoService {
 	public List<Map<String, Object>> myComment(int mno) {
 		return myInfoDAO.myComment(mno);
 	}
+
+	public Map<String, Object> healthRecord(int mno) {
+		return myInfoDAO.healthRecord(mno);
+	}
+
+	public void changeHealthRecord(Map<String, Object> map) {
+		myInfoDAO.changeHealthRecord(map);	
+	}
+
+	public int registerHealthRecord(int mno) {
+		return myInfoDAO.registerHealthRecord(mno);
+	}
+
+	public int selectHealthRecord(int mno) {
+		return myInfoDAO.selectHealthRecord(mno);
+	}
+
+	public List<Map<String, Object>> callDibs(int mno) {
+		return myInfoDAO.callDibs(mno);
+	}
 	
 }

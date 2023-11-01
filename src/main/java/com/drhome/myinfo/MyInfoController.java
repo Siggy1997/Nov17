@@ -23,7 +23,6 @@ public class MyInfoController {
 	@GetMapping("/myInfo/{mno}")
 	public String myInfo(@PathVariable int mno, Model model) {
 		Map<String, Object> myInfo = myInfoService.myInfo(mno);
-		
 		model.addAttribute("myInfo", myInfo);
 		
 		return "/myInfo";
@@ -64,12 +63,14 @@ public class MyInfoController {
 	
 	@GetMapping("/myWriting/{mno}")
 	public String myWriting(@PathVariable int mno, Model model) {
+		List<Map<String, Object>> callDibs = myInfoService.callDibs(mno);
+		model.addAttribute("callDibs", callDibs);
+		
 		List<Map<String, Object>> myWriting = myInfoService.myWriting(mno);
 		model.addAttribute("myWriting", myWriting);
 		
 		List<Map<String, Object>> myComment = myInfoService.myComment(mno);
 		model.addAttribute("myComment", myComment);
-		System.out.println(myComment);
 		
 		return "/myWriting";
 	}
@@ -82,9 +83,27 @@ public class MyInfoController {
 	
 	@GetMapping("/healthRecord/{mno}")
 	public String healthRecord(@PathVariable int mno, Model model) {
+		Map<String, Object> healthRecord = myInfoService.healthRecord(mno);
+		int selectHealthRecord = myInfoService.selectHealthRecord(mno);
 		
+		//클릭 시 만약 값 있다면 불러오기 그렇지 않으면 생성해주기
+		if(selectHealthRecord == 1) {
+			model.addAttribute("healthRecord", healthRecord);
+		} else {
+			myInfoService.registerHealthRecord(mno);
+	        healthRecord = myInfoService.healthRecord(mno);
+	        model.addAttribute("healthRecord", healthRecord);
+		}
 		return "/healthRecord";
-	}
+		}
 	
+	@PostMapping("/changeHealthRecord/{mno}")
+	public String changeHealthRecord(@RequestParam Map<String, Object> map, @PathVariable int mno) {
+		System.out.println(map);
+		map.put("mno", mno);
+		myInfoService.changeHealthRecord(map);
+		
+		return "redirect:/healthRecord/{mno}";
+	}
 	
 }

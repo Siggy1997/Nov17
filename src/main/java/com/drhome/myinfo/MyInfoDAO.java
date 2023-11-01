@@ -22,4 +22,14 @@ public interface MyInfoDAO {
 
 	List<Map<String, Object>> myComment(int mno);
 
+	Map<String, Object> healthRecord(int mno);
+
+	void changeHealthRecord(Map<String, Object> map);
+
+	int registerHealthRecord(int mno);
+
+	int selectHealthRecord(int mno);
+
+	List<Map<String, Object>> callDibs(int mno);
+
 }
