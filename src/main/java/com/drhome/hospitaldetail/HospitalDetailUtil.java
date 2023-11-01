@@ -45,11 +45,9 @@ public class HospitalDetailUtil {
 	    for (Map<String, Object> review : reviewList) {
 	        totalHospitalRate += (Double) review.get("rrate");
 	    }
-
 	    double averageHospitalRate = totalHospitalRate / reviewList.size();
 	    String formatRate = String.format("%.1f",averageHospitalRate);
 	    return formatRate;
-
 	}
 
 }

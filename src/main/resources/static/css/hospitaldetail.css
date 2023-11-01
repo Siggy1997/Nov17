@@ -1,14 +1,19 @@
 @charset "UTF-8";
-
+body{
+	font-size: 3rem;
+}
 header {
 	background-color: gray;
 }
+button{
+	font-size: 2rem;
+}
+
 
 header nav ul li {
 	display: inline-block;
 	list-style-type: none;
 }
-
 
 #available {
 	display: none;
@@ -24,33 +29,52 @@ header nav ul li {
 	display: inline-block;
 	list-style-type: none;
 }
+
 .todayInfo {
-  display: flex;
-  flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .today {
-  width: 50%;
-  box-sizing: border-box;
-   padding-bottom: 30px;
+	width: 50%;
+	box-sizing: border-box;
+	padding-bottom: 30px;
 }
 
 .timeInfo {
-  display: flex;
-  flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .day {
-  width: 50%;
-  box-sizing: border-box;
-  padding-bottom: 10px;
+	width: 50%;
+	box-sizing: border-box;
+	padding-bottom: 10px;
 }
 
-.star{
+.star {
 	color: #FFB300;
 }
-.keyword{
+
+.keyword {
 	display: inline-block;
 	border: 1px solid black;
-	font-size: 3px;
+	font-size: 2rem;
+}
+
+.doctorDetail img {
+	width: 150px;
+	height: 170px;
+}
+
+.doctorDetail span {
+	position: relative;
+	
+}
+
+.doctorDetail button {
+	float: right;
+}
+.barChart{
+	width: 700px;
 }
