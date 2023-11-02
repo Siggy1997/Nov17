@@ -41,13 +41,18 @@ public class HospitalDetailUtil {
 	}
 
 	public String getHospitalAverageRate(ArrayList<Map<String, Object>> reviewList) {
-	    double totalHospitalRate = 0;
-	    for (Map<String, Object> review : reviewList) {
-	        totalHospitalRate += (Double) review.get("rrate");
-	    }
-	    double averageHospitalRate = totalHospitalRate / reviewList.size();
-	    String formatRate = String.format("%.1f",averageHospitalRate);
-	    return formatRate;
+		if (reviewList != null && !reviewList.isEmpty()) {
+
+			double totalHospitalRate = 0;
+			for (Map<String, Object> review : reviewList) {
+				totalHospitalRate += (Double) review.get("rrate");
+			}
+			double averageHospitalRate = totalHospitalRate / reviewList.size();
+			String formatRate = String.format("%.1f", averageHospitalRate);
+			return formatRate;
+		}else {
+			return null;
+		}
 	}
 
 }

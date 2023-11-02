@@ -1,8 +1,19 @@
 @charset "UTF-8";
-.selectedChoice{
+
+.selectedChoice {
 	background-color: black;
 	color: white;
 }
-#resetQuestions{
+
+#resetQuestions {
 	display: none;
+}
+
+.circle {
+	background-color: #04bbec;
+	height: 35px;
+	width: 35px;
+	top: 383px;
+	left: 64.7px;
+	border-radius: 50%;
 }

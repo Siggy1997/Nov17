@@ -8,20 +8,32 @@
 <meta charset="UTF-8">
 <title>Main</title>
 
-<script src="./js/jquery-3.7.0.min.js"></script> 
+<script src="./js/jquery-3.7.0.min.js"></script>
 
 <script type="text/javascript">
+	$(document).ready(function() {
+		$("#runIframe").click(function() {
+			// 새로운 iframe 요소 생성
+			var newIframe = $("<iframe>");
+			newIframe.attr({
+				id : "myIframe",
+				width : "1000",
+				height :"700",
+				 style: "border: 3px solid black;",
+				src : "../navigation"
+			});
+
+			// body에 추가
+			$("body").append(newIframe);
+		});
+	});
 </script>
 
 </head>
 <body>
-	<h1>main</h1>
-	${sessionScope.mname} 님 반갑습니다.
-	<button type="button" onclick="location.href='./login'">로그인</button>
-	<button type="button" onclick="location.href='./logout'">로그아웃</button>
-	<button type="button" onclick="location.href='./myInfo/${sessionScope.mno}'">내정보</button>
-	<button type="button" onclick="location.href='./myWriting/${sessionScope.mno}'">내글보기</button>
-	<button type="button" onclick="location.href='./medicalHistory/${sessionScope.mno}'">진료내역</button>
-	<button type="button" onclick="location.href='./healthRecord/${sessionScope.mno}'">건강기록</button>
+
+	<button id="runIframe">IFrame 실행</button>
+
+
 </body>
 </html>

@@ -13,7 +13,7 @@
 
 
 	<select id="findHospitalTop5" resultType="Map">
-		SELECT hname, hno, reviewCount, reviewAverage
+		SELECT hname, hno, reviewCount, reviewAverage, hopendate
 		FROM hospitalinfo_view
 		WHERE
 		hospitalDepartments LIKE CONCAT('%', #{dpkind}, '%')
@@ -24,6 +24,7 @@
 			AND dspecialist = #{dspecialist}
 		</if>
 		ORDER BY ${sort} DESC
+		LIMIT 5
 	</select>
 
 

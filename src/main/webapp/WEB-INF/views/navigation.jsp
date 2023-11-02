@@ -53,24 +53,29 @@
 							let jsonData = JSON.parse(data);
 							let question = jsonData.nextQuestion.nqquestion;
 							let choices = jsonData.nextChoices;
-							let hospitalList =jsonData.hospitalList;
+							let hospitalList = jsonData.hospitalList;
 
 							item = "<div class='qna'>";
 							item += "<div class='question'>" + question
 									+ "</div>";
-
-							if (ncgoto >= 29 && ncgoto <= 40) {
+									
+							if(ncgoto == 22){
+								alert("!")
+								item += "<button onclick=\"location.href='../mychatt'\">hello</button>";
+								
+							}else if (ncgoto >= 29 && ncgoto <= 40) {
 								for (let i = 0; i < hospitalList.length; i++) {
 									let hospital = hospitalList[i];
-									
-									item += "<div class='hospitalname'>" + hospital.hname + hospital.reviewCount + hospital.reviewAverage
-									+ "</div>";
-									
-									item += "<button onclick=\"location.href='/hospitaldetail/" + hospital.hno + "'\">goto</button>";
 
-										
+									item += "<div class='hospitalname'>"
+											+ hospital.hname
+											+ hospital.reviewCount
+											+ hospital.reviewAverage + "</div>";
+
+									item += "<button class='hospitalDetail' onclick=\"location.href='/hospitaldetail/" + hospital.hno + "'\">goto</button>";
+
 								}
-								
+
 							} else {
 
 								for (let i = 0; i < choices.length; i++) {
@@ -82,12 +87,17 @@
 							}
 
 							item += "</div><br>";
-
+							alert(ncgoto)
 							$('.navigationContainer').append(item);
 						}
 					});
 		}
 	});
+	
+	function changeLocation() {
+		 var iframe = document.getElementById('myIframe');
+		    iframe.parentNode.removeChild(iframe);
+	}
 </script>
 
 </head>
