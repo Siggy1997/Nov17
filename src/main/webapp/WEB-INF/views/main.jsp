@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Main</title>
 
 <script src="./js/jquery-3.7.0.min.js"></script>
 
@@ -31,7 +31,9 @@
 
 </head>
 <body>
+
 	<button id="runIframe">IFrame 실행</button>
+
 
 </body>
 </html>
