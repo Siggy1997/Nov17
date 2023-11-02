@@ -1,34 +1,18 @@
 package com.drhome.hospitaldetail;
 
-<<<<<<< HEAD
-import java.util.Map;
-
-=======
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.json.JSONArray;
->>>>>>> fcf96f6a336637dcac6301ac9175cae50d5ca486
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HospitalDetailService {
-<<<<<<< HEAD
 	
-	@Autowired
-	private HospitalDetailDAO hospitalDetailDAO;
 
-	public Map<String, Object> findHospitalByHno() {
-		int hno = 1;
-		
-		return hospitalDetailDAO.findHospitalByHno(hno);
-	}
 	
 	
 	
-	
-=======
 	@Autowired
 	private HospitalDetailDAO hospitalDetailDAO;
 
@@ -87,5 +71,4 @@ public class HospitalDetailService {
 
 
 
->>>>>>> fcf96f6a336637dcac6301ac9175cae50d5ca486
 }
