@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+body {
+	font-size: 3rem;
+}
+
+header {
+	background-color: gray;
+}
+
+button {
+	font-size: 2rem;
+}
+
+header ul li {
+	display: inline-block;
+	list-style-type: none;
+}
+
+.circle {
+	background-color: #04bbec;
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+	text-align: center;
+}
+.chooseDate{
+	border: none;
+	align-content: center;
+}
+.dateContainer div{
+	display: inline-block;
+	
+	margin: 10px;
+	border: 1px solid;
+}
+img{
+	width: 200px;
+}
+
+.selectDoctor img {
+	width: 150px;
+	border-radius: 20px;
+	margin: 15px;
+}
+
+.selectDoctorInfo {
+	display: inline-block;
+	text-align: center;
+	font-size: 25px;
+	margin: 50px 20px 124px 0;
+}
+
+.selectedDoc {
+	background-color: #4FC3F7;
+	border-radius: 20px;
+	color: white;
+
+}
+
+.selectedDate{
+	background-color: #04bbec;
+	color: white;
+}
+.timeUnavaliable{
+	background-color: red;
+	color: white;
+}
+.selectedTime{
+	background-color: #04bbec;
+	color: white;
+}
+.content{
+	display:none;
+	width: 900px;
+	height: 400px;
+}
+
+.finish{
+	display: none;
+}

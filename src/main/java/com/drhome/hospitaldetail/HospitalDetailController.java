@@ -40,7 +40,7 @@ public class HospitalDetailController {
 		ArrayList<Map<String, Object>> doctorList = hospitalDetailService.findDoctorByHno(hno);
 
 		ArrayList<Map<String, Object>> reviewList = hospitalDetailService.findReviewByHno(hno);
-
+		
 		String averageHospitalRate = util.getHospitalAverageRate(reviewList);
 
 		Map<String, Object> reviewCount = hospitalDetailService.countReviewByRate(hno);

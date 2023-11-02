@@ -59,7 +59,7 @@ public class NavigationUtil {
 		} else if(ncgoto ==30 || ncgoto == 33 || ncgoto == 36 || ncgoto == 39) {
 			check.put("sort", "reviewAverage");
 		} else {
-			check.put("sort", "distance");
+			check.put("sort", "hopenDate"); 
 			
 		}
 	

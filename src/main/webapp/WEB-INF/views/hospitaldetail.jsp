@@ -115,18 +115,18 @@
 	                let item = "<div class='reviewList'>";
 	                item += "<div class='reviewRate'>";
 
-	                for (let j = 1; j <= rateInt; j++) {
+	                for (let i = 1; i <= rateInt; i++) {
 	                    item += "<i class='star xi-star xi-x'></i>";
 	                }
 
-	                for (let k = 1; k <= 5 - rateInt; k++) {
+	                for (let j = 1; j <= 5 - rateInt; j++) {
 	                    item += "<i class='star xi-star-o xi-x'></i>";
 	                }
 	                item += "</div>";
 	                item += "<div class='reviewKeyword'>";
 
 	                let keywords = n.rkeyword.split(',');
-	                for (let l = 0; l < keywords.length; l++) {
+	                for (let k = 0; k < keywords.length; k++) {
 	                    item += "<div class='keyword'>" + keywords[l] + "</div>";
 	                }
 
@@ -425,10 +425,14 @@
 
 	<hr>
 
-	<div class="totalReviewList">
+	<div class="reviewContainer">
 		<div class="hospitalTitle">리뷰</div>
-		총 ${reviewList.size() }개<br> 이 병원을 ${(averageHospitalRate * 20) }%가
-		추천하고 싶어해요
+		총 ${reviewList.size() }개<br>
+		<c:choose>
+			<c:when test="${reviewList != null && !reviewList.isEmpty() }">이 병원을 ${(averageHospitalRate * 20) }%가 추천하고 싶어해요</c:when>
+			<c:otherwise>리뷰가 없습니다</c:otherwise>
+		</c:choose>
+
 
 		<div class="averageHospitalRate">
 			${averageHospitalRate }
@@ -453,17 +457,17 @@
 
 		</div>
 		<hr>
-
-		<button id="sort1" style="width: 200px; height: 100px" value="1">최신순</button>
-		<button id="sort2" style="width: 200px; height: 100px" value="2">오래된순</button>
-		<button id="sort3" style="width: 200px; height: 100px" value="3">별점높은순</button>
-		<button id="sort4" style="width: 200px; height: 100px" value="4">별점낮은순</button>
-
+		<c:if test="${reviewList != null && !reviewList.isEmpty() }">
+			<button id="sort1" style="width: 200px; height: 100px" value="1">최신순</button>
+			<button id="sort2" style="width: 200px; height: 100px" value="2">오래된순</button>
+			<button id="sort3" style="width: 200px; height: 100px" value="3">별점높은순</button>
+			<button id="sort4" style="width: 200px; height: 100px" value="4">별점낮은순</button>
+		</c:if>
 		<hr>
 		<div id="reviewContainer"></div>
-
-
 	</div>
+	
+	
 	<script>
     // 만족도 데이터
     let labels = ['매우만족', '만족', '보통', '별로', '매우 별로'];
@@ -523,7 +527,10 @@
         options: options
     });
 </script>
-
+	<footer>
+		<button>진료하기</button>
+		<button onclick="location.href='../appointment/'+${hno}">예약하기</button>
+	</footer>
 
 
 
