@@ -1,5 +1,7 @@
 package com.drhome.main;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 	@Autowired MainService mainService;
 	
-	@GetMapping(value = { "/", "/index" })
+	@GetMapping(value = { "/", "/main" })
 	public String main() {
+		
+		
 		return "/main";
 	}
 }
