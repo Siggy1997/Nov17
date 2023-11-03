@@ -12,8 +12,6 @@ public interface SearchDAO {
 
 	List<Map<String, Object>> hospitalList();
 
-	List<String> hospitalLike(Object mno);
-
 	List<Map<String, Object>> kindHospitalList(Map<String, Object> map);
 
 	List<Map<String, Object>> symptomHospitalList(Map<String, Object> map);
@@ -21,6 +19,10 @@ public interface SearchDAO {
 	List<Map<String, Object>> otherHospitalList(Map<String, Object> map);
 
 	List<Map<String, Object>> hospitaNamelList(Map<String, Object> map);
+
+	void hospitalLike(Map<String, Object> map);
+
+	String hospitalLikeList(int mno);
 
 
 

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.util.Calendar, java.util.Date" %>
@@ -9,12 +9,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/hospital.css">
-<script src="./js/jquery-3.7.0.min.js"></script> 
-<!-- <script src="./js/wnInterface.js"></script> 
-<script src="./js/mcore.min.js"></script> 
-<script src="./js/mcore.extends.js"></script>  -->
 <script type="text/javascript">
 	$(function(){
 		
@@ -338,43 +332,40 @@
 </head>
 <body>
 	<h1>hospital</h1>
-	<form id="searchForm" action="/search" method="post">
 	<div class="hospitalBox">
-		<div class="searchHospital">
+		<div class="hospitalLikeHeader">
 			<div class="xi-angle-left"></div>
-			<input placeholder="질병, 진료과, 병원을 검색하세요." name="keyword" id="keyword">
-			<button class="xi-search"></button>
+			<div class="hospitalLikeHeaderText">즐겨찾기</div>
+			<button class="hospitalLikeHeaderButton" onclick="href='hospital'">추가하기</button>
 		</div>
 	
-		<div class="filterHospital">
-			<button type="button" class="selectByLocal">위치</button>
-			<button type="button" class="selectByAvailable">진료중</button>
-			<button type="button" class="selectByDepartment">
-				<span class="selectByDepartmentText">진료과/증상</span>
-				<span class="xi-angle-down-min"></span>
-			</button>
-			<button type="button" class="selectByCategory">
-				<span class="selectByCategoryText">유형</span>
-				<span class="xi-angle-down-min"></span>
-			</button>
-		</div>
-		<div class="hospitalBar">
+		
+		<div class="hospitalLikeBar">
 			<div class="hospitalCount">
 				병원<span class="countNumber"></span>
 			</div>
-			<select class="sortHospital">
-				<option class="sortByExact">정확도 순</option>
-				<option class="sortByRate">별점 순</option>
-				<option class="sortByReview">리뷰 순</option>
-			</select>
 		</div>
-		<!-- [{dpkind=피부과, hholidayendtime=12:00:00, hparking=1, dpno=5, hnightday=수요일, dno=1, 
-		dpsymptom=피부 질환, hno=1, dpkeyword=티눈,아토피,안면홍조, dspecialist=0, dgender=0, hreviewCount=4, 
-		hopentime=09:00:00, hnightendtime=23:00:00, hname=연세세브란스, haddr=서울특별시 서대문구 신촌동 연세로 50-1, 
-		hclosetime=18:00:00, hholiday=0, hreviewAverage=4.2} -->
-		<div class="nightCare">오늘 야간진료 병원</div>
 	<div class="hospitalListContainerBox">
-		 <c:forEach items="${hospitalList}" var="row">
+		<c:if test="${sessionScope.mno ne null}">
+			<c:forEach items="${hospitalList}" var="row">
+				<c:if test="${fn:contains(hospitalLikeList, row.hname)}">
+			
+			
+			
+			
+				</c:if>
+		
+		
+		
+		</c:if>
+		
+		
+				
+			
+	
+	
+	
+		
 		 	<div class="hospitalListContainer">
 				<div class="hospitalList" onclick="hospitalDetail(${row.hno})">
 					<div class="hospitalStatus" style="color:red;">
@@ -434,181 +425,16 @@
 						<div class="receptionStatus" style="color: blue"></div>
 						<div class="reservationStatus">예약 가능</div>
 					</div>
+					<div class="hospitalLike xi-heart"></div>
 				</div>
-				<c:choose>
-					<c:when test="${sessionScope.mno ne null}">
-						<c:choose>
-							<c:when test="${fn:contains(hospitalLikeList, row.hname)}">
-								<div class="hospitalLike xi-heart"></div>
-							</c:when>
-							<c:otherwise>
-								<div class="hospitalLike xi-heart-o"></div>
-							</c:otherwise>
-						</c:choose>
-					</c:when>
-					<c:otherwise>
-						<div class="hospitalLike xi-heart-o"></div>
-					</c:otherwise>
-				</c:choose>
+				
 			</div>
 		</c:forEach>
-		
-		<c:if test="${notTodayNightHospital.size() gt 0 }">
-		<div class="nightCare">다른 요일 야간진료 병원</div>
-			<c:forEach items="${notTodayNightHospital}" var="row">
-				<div class="hospitalListContainer">
-					<div class="hospitalList" onclick="hospitalDetail(${row.hno})">
-						<div class="hospitalStatus" style="color:red;">
-						
-							<!-- 공휴일 -->
-							<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
-								<c:choose>
-									<c:when test="${row.hholiday == 1}">
-										<c:choose>
-											<c:when test="${currentTime ge row.hopentime && currentTime le row.hholidayendtime}">
-												<img src="./img/status.png" style="width: 4%"><span class="hospitalStatus_text">진료 중</span>
-											</c:when>
-											<c:otherwise><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
-										</c:choose>
-									</c:when>
-									<c:otherwise><span class="hospitalStatus_text">휴진</span></c:otherwise>
-								</c:choose>
-							</c:if>
-							<!-- 평일 -->
-							<c:if test="${ !(currentDay == '토요일' || currentDay == '일요일') }">
-								<c:choose>
-									<c:when test="${row.hnightday == currentDay}">
-										<c:choose>
-											<c:when test="${currentTime ge row.hopentime && currentTime le row.hnightendtime}">
-												<img src="./img/status.png" style="width: 4%"><span class="hospitalStatus_text">진료 중</span>
-											</c:when>
-											<c:otherwise><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
-										</c:choose>
-									</c:when>
-									<c:otherwise>
-										<c:choose>
-												<c:when test="${currentTime ge row.hopentime && currentTime le row.hclosetime}">
-													<img src="./img/status.png" style="width: 4%"><span class="hospitalStatus_text">진료 중</span>
-												</c:when>
-												<c:otherwise><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
-											</c:choose>
-									</c:otherwise>
-								</c:choose>
-							</c:if>
-						</div>
-						<div class="hospitalHeader">
-							<div class="hospitalName">${row.hname}</div>
-							<div class="hospitalDepartment">${row.dpkind}</div>
-						</div>
-						<div class="hospitalBody">
-							<!-- <div class="hospitalDistance">뺄지말지고민</div> -->
-							<div class="hospitalAddress">${row.haddr}</div>
-						</div>
-						<div class="hospitalReview">
-							<img src="./img/star.png" style="width: 4%">
-							<div class="reviewScore">${row.hReviewAverage}</div>
-							<div class="reviewCount">(${row.hReviewCount})</div>
-						</div>
-						<div class="hospitalReserve">
-							<div class="receptionStatus" style="color: blue"></div>
-							<div class="reservationStatus">예약 가능</div>
-						</div>
-					</div>
-					<div class="hospitalLike xi-heart-o"></div>
-				</div>
-			</c:forEach>
-		</c:if>
 	</div>
 		
 		
-		<!-- 진료과/증상 모달 -->
-		<div class="modal fade symptomModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	        <div class="modal-dialog modal-dialog-centered">
-	         <div class="modal-content">
-	            <!-- 모달 헤더 -->
-	            <div class="modal-header">
-	               <h5 class="modal-title" id="exampleModalLabel">
-		               	<button type="button" class="modalDepartment">진료과</button>
-		               	<button type="button" class="modalSymptom">증상·질환</button>
-	               </h5>
-	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-				<!-- 모달 바디 -->
-	            <div class="modal-body">
-	            	<!-- 진료과 -->
-	            	<div class="departmentGroup">
-	            		<button class="departmentKind">전체</button>
-		            	<c:forEach items="${departmentKeyword}" var="row">
-		            	<button class="departmentKind">${row.dpkind}</button>
-		            	</c:forEach>
-	            	</div>
-	            	<!-- 증상 -->
-		  			 <div class="symptomContainer">
-		            	<c:forEach items="${departmentKeyword}" var="row">
-		            	<div class="symptomKindBox">
-		            		<div class="symptomGroup">
-		            			<div class="symptomGroupText">${row.dpsymptom}</div>
-		            			<div class="xi-angle-down-thin"></div>
-		            		</div>
-				        	<div class="symptomKindButton">
-		            		<c:set var="keywords" value="${row.dpkeyword.split(',')}"/>
-					        <c:forEach var="keyword" items="${keywords}">
-				            	<button class="symptomKind">${keyword}</button>
-					        </c:forEach>
-		            		</div>
-			        	</div>
-		            	</c:forEach>
-		           	</div>
-	            </div>
-	         </div>
-	      </div>
-	   </div>
 	   
-	   	<!-- 유형 모달 -->
-		<div class="modal fade optionModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	        <div class="modal-dialog modal-dialog-centered">
-	         <div class="modal-content">
-	            <!-- 모달 헤더 -->
-	            <div class="modal-header">
-	               <h5 class="modal-title" id="exampleModalLabel">
-		               	<button type="button" class="modalOption">유형</button>
-	               </h5>
-	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-				<!-- 모달 바디 -->
-	            <div class="modal-body">
-	            	<div class="optionGroup">
-	            		<button type="button" class="optionKind">
-	            			<span class="optionKindText">전문의</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            		<button type="button" class="optionKind">
-	            			<span class="optionKindText">여의사</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            		<button type="button" class="optionKind">
-	            			<span class="optionKindText">주차장</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            		<button type="button" class="optionKind" value="휴일진료">
-	            			<span class="optionKindText">휴일진료</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            		<button type="button" class="optionKind" value="야간진료">
-	            			<span class="optionKindText">야간진료</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            	</div>
-						<input type="hidden" name="optionKeywordBox" id="optionKeywordBox">
-						<div class="optionSubmit">
-			            		<button>선택완료</button>
-		            	</div>
-	            </div>
-	         </div>
-	      </div>
-	   </div>
    </div>
-   </form>
    
    
    			
@@ -619,10 +445,5 @@
 	
 	
 	
-	<!-- Bootstrap core JS -->
-   <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="js/scripts.js"></script>
-   <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>

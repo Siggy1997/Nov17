@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -67,5 +68,15 @@ public class SearchUtil {
         }
         return allKeywords;
     }
+	
+	// hno 중복 제거하기
+	public List<Map<String, Object>> hnoUnique(List<Map<String, Object>> hospitalList) {
+		List<Map<String, Object>> hnoDistinct = hospitalList.stream()
+				.collect(Collectors.toMap(m -> m.get("hno"), m -> m, (m1, m2) -> m1))
+		        .values()
+		        .stream()
+		        .collect(Collectors.toList());
+		return hnoDistinct;
+	}
 	
 }
