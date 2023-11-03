@@ -112,7 +112,7 @@ function deleteCookie(cookieName){
                 dataType: "json",
                 success: function(data){
                 	
-                    if(data.PWresult == 1){
+                    if(data.PWresult == 1 || data.PWresult == 3){
                        let form = $('<form></form>')
                        form.attr("action", "./main");
                        form.attr("method", "get");
@@ -121,6 +121,23 @@ function deleteCookie(cookieName){
                        
                        form.submit();
                       }
+                    
+                    if(data.PWresult == 2){
+                        let form = $('<form></form>')
+                        form.attr("action", "./docMain/"+data.mno+"/"+data.dno);
+                        form.attr("method", "get");
+                        
+                        form.appendTo("body");
+                        
+                        form.submit();
+                       }
+                    
+                    if(data.PWresult == 4){
+                        alert("휴면계정 또는 탈퇴회원입니다. 관리자에게 문의해주세요.");
+                        $(".info").css("color","red");
+                        $("#mid").focus();
+                        $(".info").text("관리자에게 문의하기");
+                    }
                 	
                     if(data.IDresult == 0){
                         alert("일치하는 아이디가 없습니다.");

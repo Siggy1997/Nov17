@@ -54,7 +54,6 @@ public class MyInfoController {
 	
 	@PostMapping("/changePhoneNumber/{mno}")
 	public String changePhoneNumber(@RequestParam Map<String, Object> map, @PathVariable int mno) {
-		System.out.println(map);
 		map.put("mno", mno);
 		myInfoService.changePhoneNumber(map);
 		
@@ -78,6 +77,14 @@ public class MyInfoController {
 	@GetMapping("/medicalHistory/{mno}")
 	public String medicalHistory(@PathVariable int mno, Model model) {
 		
+		List<Map<String, Object>> appointmentHistory = myInfoService.appointmentHistory(mno);
+		model.addAttribute("appointmentHistory", appointmentHistory);
+		System.out.println(appointmentHistory);
+		
+		List<Map<String, Object>> telehealthHistory = myInfoService.telehealthHistory(mno);
+		model.addAttribute("telehealthHistory", telehealthHistory);
+		System.out.println(telehealthHistory);
+		
 		return "/medicalHistory";
 	}
 	
@@ -99,7 +106,6 @@ public class MyInfoController {
 	
 	@PostMapping("/changeHealthRecord/{mno}")
 	public String changeHealthRecord(@RequestParam Map<String, Object> map, @PathVariable int mno) {
-		System.out.println(map);
 		map.put("mno", mno);
 		myInfoService.changeHealthRecord(map);
 		

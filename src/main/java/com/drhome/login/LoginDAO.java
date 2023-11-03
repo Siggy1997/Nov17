@@ -17,4 +17,8 @@ public interface LoginDAO {
 
 	Map<String, Object> findPW(Map<String, Object> map);
 
+	int getMno(Map<String, Object> map);
+
+	int getDno(Map<String, Object> map);
+
 }

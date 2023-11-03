@@ -23,11 +23,11 @@
 	</update>
 	
 	<select id="myWriting" parameterType="Integer" resultType="Map">
-		SELECT b.*, m.mnickname FROM board b JOIN member m ON b.mno=m.mno WHERE m.mno=#{mno};
+		SELECT b.*, m.mnickname FROM board b JOIN member m ON b.mno=m.mno WHERE m.mno=#{mno} ORDER BY bdate DESC;
 	</select>
 	
 	<select id="myComment" parameterType="Integer" resultType="Map">
-		SELECT c.*, m.mnickname FROM comment c JOIN member m ON c.mno=m.mno WHERE m.mno=#{mno};
+		SELECT c.*, m.mnickname FROM comment c JOIN member m ON c.mno=m.mno WHERE m.mno=#{mno} ORDER BY cdate DESC;
 	</select>
 	
 	<select id="healthRecord" parameterType="Integer" resultType="Map">
@@ -49,7 +49,27 @@
 	<select id="callDibs" parameterType="Integer" resultType="Map">
 	    SELECT b.*, m.mnickname FROM board b 
 	    JOIN member m ON b.mno = m.mno
-	    WHERE FIND_IN_SET(#{mno}, bcalldibs) > 0
+	    WHERE FIND_IN_SET(#{mno}, bcalldibs) > 0 ORDER BY bdate DESC;
+	</select>
+	
+	<select id="appointmentHistory" parameterType="Integer" resultType="Map">
+	    SELECT a.*, h.hname, d.dname, dp.dpkind
+	    FROM appointment a
+	    JOIN hospital h ON a.hno = h.hno
+	    JOIN doctor d ON a.dno = d.dno
+	    JOIN department dp ON a.dpno = dp.dpno
+	    WHERE a.mno = #{mno}
+	    ORDER BY a.adate DESC;
+	</select>
+	
+	<select id="telehealthHistory" parameterType="Integer" resultType="Map">
+	    SELECT t.*, h.hname, d.dname, dp.dpkind
+	    FROM telehealth t
+	    JOIN hospital h ON t.hno = h.hno
+	    JOIN doctor d ON t.dno = d.dno
+	    JOIN department dp ON t.dpno = dp.dpno
+	    WHERE t.mno = #{mno}
+	    ORDER BY t.tdate DESC;
 	</select>
 	
 </mapper>

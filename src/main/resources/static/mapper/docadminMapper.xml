@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drhome.docadmin.DocAdminDAO">
+	
+	<select id="telehealthHistory" parameterType="Integer" resultType="Map">
+	    SELECT t.*, m.mname, d.dname, dp.dpkind
+	    FROM telehealth t
+	    JOIN member m ON t.mno = m.mno
+	    JOIN doctor d ON t.dno = d.dno
+	    JOIN department dp ON t.dpno = dp.dpno
+	    WHERE t.dno = #{dno}
+	    ORDER BY t.tdate DESC;
+	</select>
+	
+	<select id="searchMname" parameterType="Map" resultType="Map">
+	    <![CDATA[
+	    SELECT t.*, m.mname, d.dname, dp.dpkind
+	    FROM telehealth t
+	    JOIN member m ON t.mno = m.mno
+	    JOIN doctor d ON t.dno = d.dno
+	    JOIN department dp ON t.dpno = dp.dpno
+	    WHERE t.dno = #{dno}
+	    ]]>
+	    <if test="mname != null">
+	        AND m.mname LIKE CONCAT('%', #{mname}, '%')
+	    </if>
+	    <![CDATA[
+	    ORDER BY t.tdate DESC LIMIT 10;
+	    ]]>
+	</select>
+	
+	<select id="getHno" parameterType="Map" resultType="Integer">
+		SELECT hno FROM doctor WHERE dno=#{dno};
+	</select>
+	
+	<select id="dpKind" parameterType="Map" resultType="Map">
+	    SELECT DISTINCT dp.dpkind
+	    FROM doctor d
+	    JOIN department dp ON d.dpno = dp.dpno
+	    WHERE d.hno=#{hno};
+	</select>
+	
+	<select id="docMainDetail" parameterType="Integer" resultType="Map">
+	    SELECT d.dname, h.hname
+	    FROM doctor d
+	    JOIN hospital h ON d.hno = h.hno
+	    WHERE d.dno=#{dno};
+	</select>
+	
+	<delete id="deleteRows" parameterType="List">
+	    DELETE FROM telehealth WHERE tno IN 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</delete>
+	
+</mapper>

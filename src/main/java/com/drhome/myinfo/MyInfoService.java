@@ -64,5 +64,13 @@ public class MyInfoService {
 	public List<Map<String, Object>> callDibs(int mno) {
 		return myInfoDAO.callDibs(mno);
 	}
+
+	public List<Map<String, Object>> appointmentHistory(int mno) {
+		return myInfoDAO.appointmentHistory(mno);
+	}
+
+	public List<Map<String, Object>> telehealthHistory(int mno) {
+		return myInfoDAO.telehealthHistory(mno);
+	}
 	
 }

@@ -32,4 +32,8 @@ public interface MyInfoDAO {
 
 	List<Map<String, Object>> callDibs(int mno);
 
+	List<Map<String, Object>> appointmentHistory(int mno);
+
+	List<Map<String, Object>> telehealthHistory(int mno);
+
 }
