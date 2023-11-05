@@ -1,0 +1,168 @@
+@charset "UTF-8";
+
+@import
+	url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css")
+	;
+
+@font-face {
+	font-family: 'EASTARJET-Heavy';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/EASTARJET-Heavy.woff2')
+		format('woff2');
+	font-weight: 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'EASTARJET-Medium';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/EASTARJET-Medium.woff2')
+		format('woff2');
+	font-weight: 500;
+	font-style: normal;
+}
+
+* {
+	font-family: "Pretendard Variable";
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.header {
+	height: 7vh;
+	display: flex;
+	justify-content: space-around !important;
+	align-items: center;
+	width: 100%;
+	align-items: center;
+}
+
+.headerTitle {
+	font-family: 'EASTARJET-Heavy';
+	font-size: 40px;
+	text-align: center;
+	font-weight: bolder;
+	width: 600px;
+}
+
+footer {
+	height: 7vh;
+	background-color: skyblue;
+}
+
+.container {
+	height: 86vh;
+	overflow: scroll;
+	padding-top: 15px;
+}
+
+.swiper {
+	width: 90%;
+	height: 600px;
+	border-radius: 30px;
+}
+
+.departmentList {
+	margin: 0 auto;
+	width: 90%;
+	margin-top: 20px;
+	font-size: 27px;
+}
+
+.hospitalName {
+	margin: 10px auto;
+	width: 90%;
+	font-size: 80px;
+	font-weight: 800;
+}
+
+.wrapper {
+	margin: 10px auto;
+	width: 90%;
+	display: flex;
+	flex-direction: row;
+	font-size: 30px;
+	font-weight: 600;
+}
+
+.wrapper>* {
+	margin-right: 30px;
+}
+
+.availableCircle {
+	color: green;
+}
+
+.unavailableCircle {
+	color: #9E9E9E;
+}
+
+.call {
+	margin: 50px auto;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.call button {
+	width: 330px;
+	height: 80px;
+	font-size: 35px;
+	background-color: white;
+	border-radius: 14px;
+	border: 0.1pt solid #2d2d2d;
+}
+.call button i{
+	font-size : 40px;
+	margin: 6px 20px 0 0;
+}
+.detailMenu ul li {
+	display: inline-block;
+	list-style-type: none;
+}
+
+.todayInfo {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.today {
+	width: 50%;
+	padding-bottom: 30px;
+}
+
+.timeInfo {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.day {
+	width: 50%;
+	padding-bottom: 10px;
+}
+
+.star {
+	color: #FFB300;
+}
+
+.keyword {
+	display: inline-block;
+	border: 1px solid black;
+}
+
+.doctorDetail img {
+	width: 150px;
+	height: 170px;
+}
+
+.doctorDetail span {
+	position: relative;
+}
+
+.doctorDetail button {
+	float: right;
+}
+
+.barChart {
+	width: 700px;
+}

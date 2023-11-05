@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,26 +24,20 @@ public class HospitalDetailController {
 	@Autowired
 	private HospitalDetailUtil util;
 
-	@GetMapping("/hospitaldetail/{hno}")
-	public String hospitaldetail(HttpSession session, @PathVariable int hno, Model model) {
-		// 추후 변경 로그인 페이지 만든후 변경
-		String[] hospitallike = { "연세세브란스" };
-
-		// 로그인 페이지에서 Session에 추가
-		session.setAttribute("hospitallike", hospitallike);
-		session.setAttribute("mno", 1);
-		session.setAttribute("mname", "정준식");
-
-		Map<String, Object> hospital = hospitalDetailService.findHospitalByHno(hno);
-
-		ArrayList<Map<String, Object>> doctorList = hospitalDetailService.findDoctorByHno(hno);
-
-		ArrayList<Map<String, Object>> reviewList = hospitalDetailService.findReviewByHno(hno);
+	//병원 상세페이지 
+	@GetMapping("/hospitalDetail/{hno}")
+	public String hospitalDetail(@PathVariable int hno, Model model) {
 		
-		String averageHospitalRate = util.getHospitalAverageRate(reviewList);
+		Map<String, Object> hospital = hospitalDetailService.findHospitalByHno(hno); 
+ 
+		ArrayList<Map<String, Object>> doctorList = hospitalDetailService.findDoctorByHno(hno);
+  
+		ArrayList<Map<String, Object>> reviewList = hospitalDetailService.findReviewByHno(hno);
 
 		Map<String, Object> reviewCount = hospitalDetailService.countReviewByRate(hno);
-		System.out.println(reviewCount);
+		
+		//병원 평균 평점가져오기
+		String averageHospitalRate = util.getHospitalAverageRate(reviewList);
 
 		Map<String, Object> now = new HashMap<>();
 		now.put("dayOfWeek", util.getDayOfWeek(util.dayOfWeek));
@@ -59,16 +52,17 @@ public class HospitalDetailController {
 
 		return "/hospitalDetail";
 	}
-
+	
+	//의사 상세 페이지
 	@GetMapping("/doctorDetail/{dno}")
 	public String dotordetail(@PathVariable int dno, Model model) {
 		Map<String, Object> doctorDetail = hospitalDetailService.findDoctorByDno(dno);
-		System.out.println(doctorDetail);
 		model.addAttribute("doctorDetail", doctorDetail);
 		return "/doctorDetail";
 
 	}
 
+	//댓글 정렬하기 (신규, 오래된순, 별점 높은순, 별점 낮은순)
 	@ResponseBody
 	@GetMapping("/sort/{hno}")
 	public String sort(@PathVariable int hno, @RequestParam("sortValue") int sortValue, Model model) {
@@ -78,61 +72,67 @@ public class HospitalDetailController {
 			JSONObject review = new JSONObject();
 			review.put("review", sort1);
 			return review.toString();
-			
-		} else if (sortValue == 2){
+
+		} else if (sortValue == 2) {
 			ArrayList<Map<String, Object>> sort2 = hospitalDetailService.sortReviewByOld(hno);
-			
+
 			JSONObject review = new JSONObject();
 			review.put("review", sort2);
-			
-			return review.toString();
-			
-			
-		} else if (sortValue == 3){
-			ArrayList<Map<String, Object>> sort3 = hospitalDetailService.sortReviewByHighRate(hno);
-			
-			JSONObject review = new JSONObject();
-			review.put("review", sort3);
-			 
+
 			return review.toString();
 
-		} else if (sortValue == 4){
+		} else if (sortValue == 3) {
+			ArrayList<Map<String, Object>> sort3 = hospitalDetailService.sortReviewByHighRate(hno);
+
+			JSONObject review = new JSONObject();
+			review.put("review", sort3);
+
+			return review.toString();
+
+		} else if (sortValue == 4) {
 			ArrayList<Map<String, Object>> sort4 = hospitalDetailService.sortReviewByLowRate(hno);
-			
+
 			JSONObject review = new JSONObject();
 			review.put("review", sort4);
-			
+
 			return review.toString();
-			
-		}else {
+
+		} else {
 			ArrayList<Map<String, Object>> sort0 = hospitalDetailService.findReviewByHno(hno);
 
 			JSONObject review = new JSONObject();
 			review.put("review", sort0);
-			System.out.println(review.toString());
 			return review.toString();
 		}
 	}
 
+	//댓글 좋아요 수 올리기
 	@ResponseBody
 	@PostMapping("/countReviewLike")
 	public String countReviewLike(@RequestParam("reviewer") String reviewer) {
-		System.out.println(reviewer);
 		hospitalDetailService.countUpReviewLike(reviewer);
 		return "";
 	}
-	
+	 
+	//병원 즐겨찾기 해제
 	@ResponseBody
 	@PostMapping("/unlike")
-	public String unlike(@RequestParam("hospitalname") String hname) {
-		hospitalDetailService.hospitalUnlike(hname);
+	public String unlike(@RequestParam("hospitalname") String hname, HttpSession session ) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hname", hname);
+		map.put("mno", session.getAttribute("mno"));
+		hospitalDetailService.hospitalUnlike(map);
 		return "";
 	}
 
+	//병원 즐겨찾기 추가
 	@ResponseBody
 	@PostMapping("/like")
-	public String like(@RequestParam("hospitalname") String hname) {
-		hospitalDetailService.hospitalLike(hname);
+	public String like(@RequestParam("hospitalname") String hname,  HttpSession session ) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hname", hname);
+		map.put("mno", session.getAttribute("mno"));
+		hospitalDetailService.hospitalLike(map);
 		return "";
 	}
 }

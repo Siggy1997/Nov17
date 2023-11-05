@@ -1,49 +1,127 @@
 @charset "UTF-8";
 
-*{
+* {
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
-#chatt{
-	width: 800px;
-	margin: 20px auto;
+.header {
+	height: 7vh;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 100%;
+	border-bottom: 0.1pt solid #9E9E9E;
 }
 
-#chatt #talk{
-	width: 800px;
-	height: 400px;
-	overflow: scroll;
-	border : 1px solid #aaa;
-}
-#chatt #msg{
-	width: 740px;
-	height:100px;
-	display: inline-block;
+#blank {
+	width: 64px;
 }
 
-#chatt #sendZone > *{
+.headerTitle {
+	font-size: 40px;
+	text-align: center;
+	font-weight: bolder;
+	width: 600px;
+}
+
+#chatt {
+	width: 100%;
+	height: 93vh;
+}
+
+#talk {
+	position: relative;
+	height: 86vh;
+	overflow-y: scroll; /* y 축만 스크롤되도록 수정 */
+	padding-top: 43px;
+}
+
+#sendZone>* {
 	vertical-align: top;
-	
-}
-#chatt #btnSend{
-	width: 54px;
-	height: 100px;
 }
 
-#chatt #talk div{
-	width: 70%;
-	display: inline-block;
-	padding: 6px;
-	border-radius:10px;
-	
+#sendZone {
+	display: flex;
+	height: 7vh;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-content: center;
+	background-color: white;
+	border-top: 0.01rem solid #0E0E0E;
 }
 
-#chatt .me{
-	background-color : #ffc;
-	margin : 1px 0px 2px 30%;	
+#msg {
+	padding: 5px;
+	width: 85%;
+	height: 5vh;
+	border-radius: 20px;
+	border: none;
+	background-color: #F5F5F5;
+	font-size: 50px;
 }
 
-#chatt .other{
-	background-color : #eee;
-	margin : 2px;
+#btnSend {
+	color: #1976D2;
+	height: 5vh;
+	border-radius: 20px;
+	display: flex;
+	align-content: center;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+#content {
+	max-width: 100%;
+	white-space: normal;
+	font-size: 42px;
+}
+
+.me {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.other {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+}
+
+.message {
+	padding: 15px;
+	border-radius: 7px;
+	max-width: 65%;
+	margin: 10px;
+	font-size: 30px;
+}
+
+.me .message {
+	background-color: #00C9FF;
+	color: white;
+	min-height: 100px;
+	word-wrap: break-word; /* 줄바꿈 속성 추가 */
+	margin-right: 30px;
+}
+
+.other .message {
+	background-color: #EEEEEE;
+	min-height: 100px;
+	word-wrap: break-word; /* 줄바꿈 속성 추가 */
+	margin-left: 30px;
+}
+
+.date {
+	margin: 0px 10px 10px 0px;
+	font-size: 25px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+textarea:focus {
+	outline: none;
+	border: none;
 }
