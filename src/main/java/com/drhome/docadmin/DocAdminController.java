@@ -36,6 +36,10 @@ public class DocAdminController {
 	public String docReception(@PathVariable int dno, @PathVariable int mno, Model model,@RequestParam Map<String,Object> map) {
 		map.put("dno", dno);
 		
+		Map<String, Object> docMainDetail = docAdminService.docMainDetail(dno);
+		model.addAttribute("docMainDetail", docMainDetail);
+		System.out.println(docMainDetail);
+		
 		//검색내역 뽑기
 		List<Map<String, Object>> searchMname = docAdminService.searchMname(map);
 		model.addAttribute("searchMname", searchMname);
@@ -53,15 +57,45 @@ public class DocAdminController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/deleteRows")
-	public String deleteRows(@RequestParam(value = "row[]") List<Integer> tnoArr) {
+	@PostMapping("/updateRows")
+	public String updateRows(@RequestParam(value = "row[]") List<Integer> tnoArr) {
 		
 		System.out.println(tnoArr);
-		int result = docAdminService.deleteRows(tnoArr);
+		int result = docAdminService.updateRows(tnoArr);
 		
 		JSONObject json = new JSONObject();
 
 		return json.toString();
+	}
+	
+	@GetMapping("/docReceptionDetail/{mno}/{dno}")
+	public String docReceptionDetail(@RequestParam Map<String, Object> map, @PathVariable int dno, Model model) {
+		Map<String, Object> docMainDetail = docAdminService.docMainDetail(dno);
+		model.addAttribute("docMainDetail", docMainDetail);
+		
+		//환자정보 뽑기
+		Map<String, Object> patientDetail = docAdminService.patientDetail(map);
+		model.addAttribute("patientDetail", patientDetail);
+		System.out.println(patientDetail);
+		
+		//우리병원 이용횟수 뽑기
+		map.put("mno", patientDetail.get("mno"));
+		map.put("hno", patientDetail.get("hno"));
+		System.out.println(map);
+		int hospitalCount = docAdminService.hospitalCount(map);
+		model.addAttribute("hospitalCount", hospitalCount);
+		System.out.println(hospitalCount);
+		
+		return "/docReceptionDetail";
+	}
+	
+	@PostMapping("/updateTelehealth/{mno}/{dno}")
+	public String updateTelehealth(@RequestParam Map<String, Object> map, @PathVariable int dno, @PathVariable int mno, Model model) {
+		
+		System.out.println("map:"+map);
+		docAdminService.updateTelehealth(map);
+		
+		return "redirect:/docMain/"+mno+"/"+dno;
 	}
 	
 }

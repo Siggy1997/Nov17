@@ -11,7 +11,7 @@
 	
 	<insert id="join" parameterType="Map">
 		INSERT INTO member (mid, mpw, mname, mnickname, mrrn, memail, mgender, mhomeaddr, mhomeaddr2, mcompanyaddr, mcompanyaddr2, mbirth, mphonenumber)
-		values(#{mid}, #{mpw}, #{mname}, #{mnickname}, #{mrrn}, #{memail}, #{mgender}, #{mhomeaddr}, #{mhomeaddr2}, #{mcompanyaddr}, #{mcompanyaddr2}, #{mbirth}, #{mphonenumber});
+		values(#{mid}, HEX(AES_ENCRYPT(#{mpw}, 'drhome')), #{mname}, #{mnickname}, #{mrrn}, #{memail}, #{mgender}, #{mhomeaddr}, #{mhomeaddr2}, #{mcompanyaddr}, #{mcompanyaddr2}, #{mbirth}, #{mphonenumber});
 	</insert>
 	
 	<select id="mrrnCheck" parameterType="String" resultType="Integer">

@@ -39,6 +39,7 @@ public class LoginController {
 		} else {
 			// 일치하는 비밀번호 체크
 			int PWresult = loginService.PWresult(map);
+			System.out.println("PWresult: " + PWresult);
 			if (PWresult == 1) {
 				Map<String, Object> loginCheck = loginService.loginCheck(map);
 				System.out.println("mno, mname, mid, mhospitallike, mgrade, dno: " + loginCheck);
@@ -53,23 +54,38 @@ public class LoginController {
 				
 				int mgrade = (int) loginCheck.get("mgrade");
 				int getMno = loginService.getMno(map);
-				int getDno = loginService.getDno(map);
 				System.out.println("mno: "+getMno);
-				System.out.println("dno: "+getDno);
+				
+				int selectHealthRecord = loginService.selectHealthRecord(getMno);
 				
 				if (mgrade >= 2 && mgrade <= 4) {
 					json.put("PWresult", 1);
 					json.put("mno", getMno);
+					//로그인 시 건강기록 생성해주기
+					if(selectHealthRecord == 1) {
+						//만약 기록 있다면 생성x
+					} else {//없다면 생성o
+						loginService.registerHealthRecord(getMno);
+						}
 					return json.toString();
 				} else if (mgrade == 5 || mgrade == 6) {
+					int getDno = loginService.getDno(map);
 					session.setAttribute("dno", loginCheck.get("dno"));
 					json.put("PWresult", 2);
 					json.put("mno", getMno);
 					json.put("dno", getDno);
+					if(selectHealthRecord == 1) {
+					} else {
+						loginService.registerHealthRecord(getMno);
+						}
 					return json.toString();
 				} else if(mgrade == 7 || mgrade == 8) {
 					json.put("PWresult", 3);
 					json.put("mno", getMno);
+					if(selectHealthRecord == 1) {
+					} else {
+						loginService.registerHealthRecord(getMno);
+						}
 					return json.toString();
 				} else if(mgrade == 0 || mgrade == 1) {
 					json.put("PWresult", 4);

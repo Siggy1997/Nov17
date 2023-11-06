@@ -32,9 +32,22 @@ public class DocAdminService {
 		return docAdminDAO.docMainDetail(dno);
 	}
 
-	public int deleteRows(List<Integer> tnoArr) {
-		return docAdminDAO.deleteRows(tnoArr);
+	public int updateRows(List<Integer> tnoArr) {
+		return docAdminDAO.updateRows(tnoArr);
 
+	}
+
+	public Map<String, Object> patientDetail(Map<String, Object> map) {
+		return docAdminDAO.patientDetail(map);
+	}
+
+	public int hospitalCount(Map<String, Object> map) {
+		return docAdminDAO.hospitalCount(map);
+	}
+
+	public void updateTelehealth(Map<String, Object> map) {
+		docAdminDAO.updateTelehealth(map);
+		
 	}
 	
 }

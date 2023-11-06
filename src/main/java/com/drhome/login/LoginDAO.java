@@ -21,4 +21,8 @@ public interface LoginDAO {
 
 	int getDno(Map<String, Object> map);
 
+	void registerHealthRecord(int getMno);
+
+	int selectHealthRecord(int getMno);
+
 }

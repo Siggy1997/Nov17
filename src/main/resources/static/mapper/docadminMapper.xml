@@ -47,11 +47,30 @@
 	    WHERE d.dno=#{dno};
 	</select>
 	
-	<delete id="deleteRows" parameterType="List">
-	    DELETE FROM telehealth WHERE tno IN 
+	<update id="updateRows" parameterType="List">
+	    UPDATE telehealth SET tstatus=2 WHERE tno IN 
 	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
 	        #{item}
 	    </foreach>
-	</delete>
+	</update>
+	
+	<select id="patientDetail" parameterType="Map" resultType="Map">
+	    SELECT m.*, t.*, hr.*, h.hno
+	    FROM telehealth t
+	    JOIN member m ON t.mno = m.mno
+	    JOIN healthRecord hr ON t.mno = hr.mno
+	    JOIN hospital h ON t.hno = h.hno
+	    WHERE t.tno=#{tno};
+	</select>
+	
+	<select id="hospitalCount" parameterType="Map" resultType="Integer">
+	    SELECT COUNT(*) as count
+	    FROM telehealth 
+	    WHERE mno=#{mno} and hno=#{hno};
+	</select>
+	
+	<update id="updateTelehealth" parameterType="Map">
+		UPDATE telehealth SET tdiagnosisdetail=#{tdiagnosisdetail}, tstatus=1 WHERE tno=#{tno};
+	</update>
 	
 </mapper>

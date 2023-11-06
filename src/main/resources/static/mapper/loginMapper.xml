@@ -7,14 +7,14 @@
 	</select>
 
 	<select id="PWresult" parameterType="Map" resultType="Integer">
-		SELECT COUNT(*) FROM member	WHERE mid=#{mid} AND mpw=#{mpw};
+		SELECT COUNT(*) FROM member	WHERE mid=#{mid} AND AES_DECRYPT(UNHEX(mpw),'drhome')=#{mpw};
 	</select>
 
 	<select id="loginCheck" parameterType="Map" resultType="Map">
 		SELECT
 		mno, mname, mid, mhospitallike, mgrade, dno
 		FROM member
-		WHERE mid=#{mid} AND mpw=#{mpw};
+		WHERE mid=#{mid} AND AES_DECRYPT(UNHEX(mpw),'drhome')=#{mpw};
 	</select>
 
 	<select id="findID" parameterType="Map" resultType="Map">
@@ -30,11 +30,19 @@
 	</select>
 	
 	<select id="getMno" parameterType="Map" resultType="Integer">
-		SELECT mno FROM member WHERE mid=#{mid} AND mpw=#{mpw};
+		SELECT mno FROM member WHERE mid=#{mid} AND AES_DECRYPT(UNHEX(mpw),'drhome')=#{mpw};
 	</select>
 	
 	<select id="getDno" parameterType="Map" resultType="Integer">
-		SELECT dno FROM member WHERE mid=#{mid} AND mpw=#{mpw};
+		SELECT dno FROM member WHERE mid=#{mid} AND AES_DECRYPT(UNHEX(mpw),'drhome')=#{mpw};
+	</select>
+	
+	<insert id="registerHealthRecord" parameterType="Map">
+	    INSERT INTO healthRecord (mno) VALUES (#{getMno});
+	</insert>
+	
+	<select id="selectHealthRecord" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM healthRecord WHERE mno=#{getMno};
 	</select>
 	
 </mapper>

@@ -11,9 +11,11 @@
 <link href="./css/login.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="/js/wnInterface.js"></script> 
+<script src="/js/mcore.min.js"></script> 
+<script src="/js/mcore.extends.js"></script> 
+
 <script type="text/javascript">
 
 //getCookie() 사용 전 미리 로드할 수 있도록 배치 필요!!
@@ -104,6 +106,25 @@ function deleteCookie(cookieName){
                 return false;
             }
             
+/*          //모피어스 암호화 해서 로그인 처리하기
+            let encrypt = M.sec.encrypt(mpw);
+            M.tool.log(encrypt);
+            
+         	// JSON.stringify(encrypt)의 결과 문자열
+            let jsonString = JSON.stringify(encrypt); 
+
+            try {
+                let jsonObject = JSON.parse(jsonString); // JSON 문자열을 파싱하여 객체로 변환
+                let resultValue = jsonObject.result; // result 속성에 해당하는 값 추출
+
+                // resultValue를 사용하면 원하는 값에 접근할 수 있습니다.
+                console.log(resultValue); 
+            	$("#mpw").val(resultValue);
+            	mpw = resultValue;
+            } catch (error) {
+                console.error("JSON 파싱 에러: " + error);
+            } */
+            
             //ajax
             $.ajax({
                 url: "./loginCheck",
@@ -113,6 +134,7 @@ function deleteCookie(cookieName){
                 success: function(data){
                 	
                     if(data.PWresult == 1 || data.PWresult == 3){
+                    	
                        let form = $('<form></form>')
                        form.attr("action", "./main");
                        form.attr("method", "get");
@@ -152,7 +174,8 @@ function deleteCookie(cookieName){
                         $("#mid").focus();
                         $(".info").text("비밀번호를 다시 확인해주세요.");
                     } 
-                }, 
+                    
+                },//success 끝
                 error : function(error){
                     alert("에러가 발생했습니다." + error);
                 }//에러끝

@@ -10,6 +10,9 @@
 
 <script src="./js/jquery-3.7.0.min.js"></script> 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/wnInterface.js"></script> 
+<script src="/js/mcore.min.js"></script> 
+<script src="/js/mcore.extends.js"></script> 
 
 <script type="text/javascript">
 
@@ -283,6 +286,24 @@ $(function(){
 				    				        return false;
 				    				    }
 				             }//esle 끝
+				             			//모피어스 암호화
+				             			/* let mpw = $("#mpw").val();
+							            let encrypt = M.sec.encrypt(mpw);
+							            M.tool.log(encrypt);
+							            
+							         	// JSON.stringify(encrypt)의 결과 문자열
+							            let jsonString = JSON.stringify(encrypt); 
+
+							            try {
+							                let jsonObject = JSON.parse(jsonString); // JSON 문자열을 파싱하여 객체로 변환
+							                let resultValue = jsonObject.result; // result 속성에 해당하는 값 추출
+
+							                // resultValue를 사용하면 원하는 값에 접근할 수 있습니다.
+							                console.log(resultValue); 
+							            	$("#mpw").val(resultValue);
+							            } catch (error) {
+							                console.error("JSON 파싱 에러: " + error);
+							            } */
 				    				    $("#join").submit();
 				          },//success 끝
 				          error:function(request, status, error){

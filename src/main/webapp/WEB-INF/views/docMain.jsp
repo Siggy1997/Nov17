@@ -41,7 +41,20 @@
             <td style="width:100px; min-width: 100px; max-width: 100px;">${row.mname}</td>
             <td style="width:100px; min-width: 100px; max-width: 100px;">${row.dpkind}</td>
             <td style="width:150px; min-width: 150px; max-width: 150px;">${row.tsymptomdetail}</td>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.tstatus}</td>
+					<c:choose>
+					<c:when test="${row.tstatus eq 0}">
+					<td style="width: 100px; min-width: 100px; max-width: 100px;"
+						class="tstatus">진료대기</td>
+					</c:when>
+					<c:when test="${row.tstatus eq 1}">
+						<td style="width: 100px; min-width: 100px; max-width: 100px; color: blue"
+						class="tstatus">진료완료</td>
+					</c:when>
+					<c:otherwise>
+						<td style="width: 100px; min-width: 100px; max-width: 100px; color: red"
+						class="tstatus">진료취소</td>
+					</c:otherwise>
+					</c:choose>
             <td style="width:100px; min-width: 100px; max-width: 100px;">${row.dname}</td>
           </tr>
         </c:forEach>

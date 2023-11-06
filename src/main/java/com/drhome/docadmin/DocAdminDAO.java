@@ -18,6 +18,12 @@ public interface DocAdminDAO {
 
 	Map<String, Object> docMainDetail(int dno);
 
-	int deleteRows(List<Integer> tnoArr);
+	int updateRows(List<Integer> tnoArr);
+
+	Map<String, Object> patientDetail(Map<String, Object> map);
+
+	int hospitalCount(Map<String, Object> map);
+
+	void updateTelehealth(Map<String, Object> map);
 
 }

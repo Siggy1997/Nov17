@@ -38,5 +38,13 @@ public class LoginService {
 	public int getDno(Map<String, Object> map) {
 		return loginDAO.getDno(map);
 	}
+
+	public void registerHealthRecord(int getMno) {
+		loginDAO.registerHealthRecord(getMno);
+	}
+
+	public int selectHealthRecord(int getMno) {
+		return loginDAO.selectHealthRecord(getMno);
+	}
 	
 }
