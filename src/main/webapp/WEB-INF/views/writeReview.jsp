@@ -186,9 +186,9 @@
 
 		<div class="totalTreatment">
 			<div class="title">진료 결과는 어때요?</div>
-			<button class="treatment t1" value="효과없어요">효과 없어요</button>
+			<button class="treatment t1" value="효과 없어요">효과 없어요</button>
 			<button class="treatment t2" value="보통이에요">보통이에요</button>
-			<button class="treatment t3" value="효과좋아요">효과 좋아요</button>
+			<button class="treatment t3" value="효과 좋아요">효과 좋아요</button>
 		</div>
 
 		<div class="totalFeedback">

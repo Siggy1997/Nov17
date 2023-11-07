@@ -3,7 +3,7 @@
 <mapper namespace="com.drhome.hospitaldetail.HospitalDetailDAO">
 	<select id="findHospitalByHno" resultType="Map">
 		SELECT h.hname,
-		h.haddr, v.hospitalDepartments,
+		h.haddr, v.hospitalDepartments, v.symptomKeywords,
 		h.hno, h.htelnumber, h.himg,
 		h.hinfo,hnightday,
 		TIME_FORMAT(hopentime, '%H:%i') as hopentime,
@@ -17,7 +17,7 @@
 	</select>
 
 	<select id="findDoctorByHno" resultType="Map">
-		SELECT dno,dname, dimg,
+		SELECT dno,dname, dimg, dspecialist, dgender,
 		dpkind, dpkeyword
 		FROM doctor d
 		JOIN department dp ON d.dpno = dp.dpno
@@ -27,7 +27,7 @@
 	<select id="findReviewByHno">
 		SELECT m.mname,
 		DATE_FORMAT(r.rdate, '%Y-%m-%d %H:%i') AS rdate ,
-		r.rrate, r.rimg, r.rcontent, r.rkeyword,
+		r.rrate, r.rcontent, r.rkeyword,
 		r.rlike,rno, d.dname FROM review r
 		JOIN doctor d on r.dno = d.dno 
 		JOIN member m on r.mno=m.mno 
@@ -59,7 +59,6 @@
 	<select id="sortReviewByNew" resultType="Map">
 		SELECT m.mname,
 		DATE_FORMAT(r.rdate, '%Y-%m-%d %H:%i') AS rdate, r.rrate,
-		r.rimg,
 		r.rcontent, r.rkeyword, r.rlike, rno, d.dname FROM review r
 		JOIN
 		doctor
@@ -72,7 +71,6 @@
 	<select id="sortReviewByOld" resultType="Map">
 		SELECT m.mname,
 		DATE_FORMAT(r.rdate, '%Y-%m-%d %H:%i') AS rdate, r.rrate,
-		r.rimg,
 		r.rcontent, r.rkeyword, r.rlike,rno, d.dname FROM review r JOIN
 		doctor
 		d ON r.dno = d.dno JOIN member m ON r.mno = m.mno WHERE r.hno =
@@ -83,7 +81,6 @@
 	<select id="sortReviewByHighRate" resultType="Map">
 		SELECT m.mname,
 		DATE_FORMAT(r.rdate, '%Y-%m-%d %H:%i') AS rdate, r.rrate,
-		r.rimg,
 		r.rcontent, r.rkeyword, r.rlike,rno, d.dname FROM review r JOIN
 		doctor
 		d ON r.dno = d.dno JOIN member m ON r.mno = m.mno WHERE r.hno =
@@ -94,7 +91,6 @@
 	<select id="sortReviewByLowRate" resultType="Map">
 		SELECT m.mname,
 		DATE_FORMAT(r.rdate, '%Y-%m-%d %H:%i') AS rdate, r.rrate,
-		r.rimg,
 		r.rcontent, r.rkeyword, r.rlike,rno, d.dname FROM review r JOIN
 		doctor
 		d ON r.dno = d.dno JOIN member m ON r.mno = m.mno WHERE r.hno =

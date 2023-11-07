@@ -24,19 +24,19 @@ public class HospitalDetailController {
 	@Autowired
 	private HospitalDetailUtil util;
 
-	//병원 상세페이지 
+	// 병원 상세페이지
 	@GetMapping("/hospitalDetail/{hno}")
 	public String hospitalDetail(@PathVariable int hno, Model model) {
-		
-		Map<String, Object> hospital = hospitalDetailService.findHospitalByHno(hno); 
- 
+
+		Map<String, Object> hospital = hospitalDetailService.findHospitalByHno(hno);
+		System.out.println(hospital);
 		ArrayList<Map<String, Object>> doctorList = hospitalDetailService.findDoctorByHno(hno);
-  
+
 		ArrayList<Map<String, Object>> reviewList = hospitalDetailService.findReviewByHno(hno);
 
 		Map<String, Object> reviewCount = hospitalDetailService.countReviewByRate(hno);
-		
-		//병원 평균 평점가져오기
+
+		// 병원 평균 평점가져오기
 		String averageHospitalRate = util.getHospitalAverageRate(reviewList);
 
 		Map<String, Object> now = new HashMap<>();
@@ -52,8 +52,8 @@ public class HospitalDetailController {
 
 		return "/hospitalDetail";
 	}
-	
-	//의사 상세 페이지
+
+	// 의사 상세 페이지
 	@GetMapping("/doctorDetail/{dno}")
 	public String dotordetail(@PathVariable int dno, Model model) {
 		Map<String, Object> doctorDetail = hospitalDetailService.findDoctorByDno(dno);
@@ -62,7 +62,7 @@ public class HospitalDetailController {
 
 	}
 
-	//댓글 정렬하기 (신규, 오래된순, 별점 높은순, 별점 낮은순)
+	// 댓글 정렬하기 (신규, 오래된순, 별점 높은순, 별점 낮은순)
 	@ResponseBody
 	@GetMapping("/sort/{hno}")
 	public String sort(@PathVariable int hno, @RequestParam("sortValue") int sortValue, Model model) {
@@ -106,18 +106,18 @@ public class HospitalDetailController {
 		}
 	}
 
-	//댓글 좋아요 수 올리기
+	// 댓글 좋아요 수 올리기
 	@ResponseBody
 	@PostMapping("/countReviewLike")
 	public String countReviewLike(@RequestParam("reviewer") String reviewer) {
 		hospitalDetailService.countUpReviewLike(reviewer);
 		return "";
 	}
-	 
-	//병원 즐겨찾기 해제
+
+	// 병원 즐겨찾기 해제
 	@ResponseBody
 	@PostMapping("/unlike")
-	public String unlike(@RequestParam("hospitalname") String hname, HttpSession session ) {
+	public String unlike(@RequestParam("hospitalname") String hname, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("hname", hname);
 		map.put("mno", session.getAttribute("mno"));
@@ -125,10 +125,10 @@ public class HospitalDetailController {
 		return "";
 	}
 
-	//병원 즐겨찾기 추가
+	// 병원 즐겨찾기 추가
 	@ResponseBody
 	@PostMapping("/like")
-	public String like(@RequestParam("hospitalname") String hname,  HttpSession session ) {
+	public String like(@RequestParam("hospitalname") String hname, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("hname", hname);
 		map.put("mno", session.getAttribute("mno"));

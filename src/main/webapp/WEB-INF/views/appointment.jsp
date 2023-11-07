@@ -143,7 +143,7 @@
 	<header>
 		<ul>
 			<li>
-				<button onclick="location.href='../hospitaldetail/'+${hospital.hno}">
+				<button onclick="location.href='../hospitalDetail/'+${hospital.hno}">
 					<i class="xi-angle-left xi-2x"></i>
 				</button>
 			</li>

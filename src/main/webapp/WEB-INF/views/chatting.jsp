@@ -49,7 +49,7 @@
 			let mno = "${sessionScope.mno}";
 			//mgrade로 의사인지 판별하기, 
 			if (mgrade == 6) {
-				ws = new WebSocket("ws://" + location.host + "/chatt/43");
+				ws = new WebSocket("ws://" + location.host + "/chatt/60");
 
 				//의사가 아니면 새로운 방 오픈하기
 			} else {

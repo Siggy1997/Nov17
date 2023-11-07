@@ -1,6 +1,17 @@
 @charset "UTF-8";
 
+@import
+	url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css")
+	;
+
+@import
+	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
+	;
+a{
+	color: black;
+}
 * {
+	font-family: "Pretendard Variable";
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
