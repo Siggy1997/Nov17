@@ -21,10 +21,6 @@ table {
 	flex-direction: column;
 }
 </style>
-<script>
-
-
-</script>
 </head>
 <body>
 	<h1 style="text-align: center;">예약하기</h1>
@@ -52,6 +48,5 @@ table {
 			</c:forEach>
 		</table>
 	</div>
-
 </body>
 </html>
