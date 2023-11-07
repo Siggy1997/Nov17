@@ -1,7 +1,9 @@
 package com.drhome.search;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -77,6 +79,22 @@ public class SearchUtil {
 		        .stream()
 		        .collect(Collectors.toList());
 		return hnoDistinct;
+	}
+	
+	// 현재 요일
+	public String currentDayOfTheWeek() {
+		Calendar cal = Calendar.getInstance();
+		String currentDay = convertDayOfWeek(cal.get(Calendar.DAY_OF_WEEK)); // 현재 요일 (1일, 2월, 3화, 4수, 5목, 6금, 7토)
+		return currentDay;
+	}
+	
+	// 현재 시간 
+	public String currentTime() {
+		Calendar cal = Calendar.getInstance();
+		Date currentTime = cal.getTime(); // 현재 시간
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // 시간 형식 
+		String formattedTime = sdf.format(currentTime); // 포맷된 시간 (10:44:55)
+		return formattedTime;
 	}
 	
 }

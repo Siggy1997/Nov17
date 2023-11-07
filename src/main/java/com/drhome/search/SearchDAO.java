@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SearchDAO {
 
-	List<Map<String, Object>> deparmentKeyword();
+	List<Map<String, Object>> departmentKeyword();
 
 	List<Map<String, Object>> hospitalList();
 
