@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AppointmentDAO {
 
+<<<<<<< HEAD
 	List<Map<String, Object>> hospitals(Map<String, Object> map);
 
 	Map<String, Object> hospital(int hno);
@@ -26,4 +27,14 @@ public interface AppointmentDAO {
 
 	List<Map<String, Object>> department(Map<String, Object> map);
 
+=======
+	List<Map<String, Object>> list(Map<String, Object> map);
+
+	List<Map<String, Object>> detail(Map<String, Object> map);
+
+	List<Map<String, Object>> time(Map<String, Object> map);
+
+	List<Map<String, Object>> doctor(Map<String, Object> map);
+	
+>>>>>>> aea7a98805df0ce87e20671e7cc9141591ddbdd8
 }

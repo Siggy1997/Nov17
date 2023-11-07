@@ -6,16 +6,20 @@
 		SELECT * FROM hospital
 	</select>
 	
+<<<<<<< HEAD
 	<select id="hospital" parameterType="Integer" resultType="Map">
 		SELECT * FROM hospital WHERE hno=#{hno}
 	</select>
 	
+=======
+>>>>>>> aea7a98805df0ce87e20671e7cc9141591ddbdd8
 	<select id="detail" parameterType="Map" resultType="Map">
 		SELECT m.mname, a.adiagnosis
 		FROM member m
 		INNER JOIN appointment a ON m.mno = a.mno
 	</select>
 
+<<<<<<< HEAD
 	<select id="time" parameterType="Integer" resultType="Map">
 		SELECT * FROM appointmenttime WHERE hno=#{hno}
 	</select>
@@ -39,6 +43,14 @@
 	<select id="department" parameterType="Integer" resultType="Map">
 		SELECT *
 		FROM department
+=======
+	<select id="time" parameterType="Map" resultType="Map">
+		SELECT * FROM appointmenttime
+	</select>
+
+	<select id="doctor" parameterType="Map" resultType="Map">
+		SELECT * FROM doctor
+>>>>>>> aea7a98805df0ce87e20671e7cc9141591ddbdd8
 	</select>
 
 </mapper>
