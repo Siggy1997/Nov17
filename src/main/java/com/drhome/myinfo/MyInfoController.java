@@ -24,6 +24,7 @@ public class MyInfoController {
 	public String myInfo(@PathVariable int mno, Model model) {
 		Map<String, Object> myInfo = myInfoService.myInfo(mno);
 		model.addAttribute("myInfo", myInfo);
+		System.out.println(myInfo);
 		
 		return "/myInfo";
 	}

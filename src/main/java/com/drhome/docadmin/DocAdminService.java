@@ -49,5 +49,9 @@ public class DocAdminService {
 		docAdminDAO.updateTelehealth(map);
 		
 	}
+
+	public Map<String, Object> findHospitalByHno(Map<String, Object> map) {
+		return docAdminDAO.findHospitalByHno(map);
+	}
 	
 }

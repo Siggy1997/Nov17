@@ -105,6 +105,47 @@
 	<h1>DocReception</h1>
 	<h3>${docMainDetail.hname}</h3>
 	<h3>실시간 비대면 접수내역</h3>
+		<div class="consulationHours">
+            <span>오늘&nbsp</span>
+            <br>
+            <c:if
+               test="${!(now.dayOfWeek == '토요일' || now.dayOfWeek == '일요일') && now.dayOfWeek != hospital.hnightday}">
+               <span class="openTime">${hospital.hopentime }</span> ~
+         		<span class="closeTime">${hospital.hclosetime }</span>
+            </c:if>
+
+            <c:if test="${now.dayOfWeek == hospital.hnightday}">
+               <span class="openTime">${hospital.hopentime }</span> ~ 
+         		<span class="closeTime">${hospital.hnightendtime }</span>
+            </c:if>
+
+            <c:if
+               test="${(now.dayOfWeek == '토요일' || now.dayOfWeek == '일요일') && hospital.hholiday !=0}">
+               <span class="openTime">${hospital.hopentime }</span> ~
+         	<span class="closeTime">${hospital.hholidayendtime }</span>
+            </c:if>
+
+            <c:if
+               test="${(now.dayOfWeek == '토요일' || now.dayOfWeek == '일요일') && hospital.hholiday ==0}">
+               <span>휴진</span>
+            </c:if>
+         </div>
+         
+    	<div class="today todayBreakInfo">
+               <div class="dayTitle">점심시간</div>
+               <span id="todayBreak"> <c:if
+                     test="${(now.dayOfWeek == '토요일' || now.dayOfWeek == '일요일') && hospital.hholiday ==0}">
+                  휴진
+               </c:if> <c:if
+                     test="${(now.dayOfWeek == '토요일' || now.dayOfWeek == '일요일') && hospital.hholiday ==1}">
+                  없음
+               </c:if> <c:if
+                     test="${now.dayOfWeek == '월요일' || now.dayOfWeek == '화요일' || now.dayOfWeek == '수요일' || now.dayOfWeek == '목요일' || now.dayOfWeek == '금요일'}">
+            ${hospital.hbreaktime } ~ ${hospital.hbreakendtime }
+               </c:if>
+               </span>
+            </div>
+            
 	<form action="/docReception/${sessionScope.mno}/${sessionScope.dno}"
 		method="get">
 		<input id="mname" name="mname" placeholder="환자명을 입력하세요.">

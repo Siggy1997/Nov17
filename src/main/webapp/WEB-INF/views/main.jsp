@@ -23,5 +23,6 @@
 	<button type="button" onclick="location.href='./myWriting/${sessionScope.mno}'">내글보기</button>
 	<button type="button" onclick="location.href='./medicalHistory/${sessionScope.mno}'">진료내역</button>
 	<button type="button" onclick="location.href='./healthRecord/${sessionScope.mno}'">건강기록</button>
+	<button type="button" onclick="location.href='./pay/${sessionScope.mno}?tno=9'">결제하기</button>
 </body>
 </html>

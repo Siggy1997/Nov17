@@ -73,4 +73,16 @@
 		UPDATE telehealth SET tdiagnosisdetail=#{tdiagnosisdetail}, tstatus=1 WHERE tno=#{tno};
 	</update>
 	
+	<select id="findHospitalByHno" parameterType="Map" resultType="Map">
+	    SELECT TIME_FORMAT(hopentime, '%H:%i') as hopentime,
+      	TIME_FORMAT(hclosetime, '%H:%i') as hclosetime,
+      	TIME_FORMAT(hnightendtime, '%H:%i') as hnightendtime,
+      	TIME_FORMAT(hbreaktime, '%H:%i') as hbreaktime,
+     	TIME_FORMAT(hbreakendtime, '%H:%i') as hbreakendtime,
+      	TIME_FORMAT(hholidayendtime, '%H:%i') as hholidayendtime
+	    FROM hospitalList_view 
+	    WHERE hno=#{hno}
+	    GROUP BY hno;
+	</select>
+	
 </mapper>

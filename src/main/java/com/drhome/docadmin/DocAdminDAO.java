@@ -26,4 +26,6 @@ public interface DocAdminDAO {
 
 	void updateTelehealth(Map<String, Object> map);
 
+	Map<String, Object> findHospitalByHno(Map<String, Object> map);
+
 }

@@ -3,11 +3,12 @@
 <mapper namespace="com.drhome.myinfo.MyInfoDAO">
 	
 	<select id="myInfo" parameterType="Integer" resultType="Map">
-		SELECT * FROM member WHERE mno=#{mno};
+	   SELECT mname, mnickname, mid, CAST(AES_DECRYPT(UNHEX(mpw), 'drhome') AS CHAR) AS mpw, memail, mhomeaddr, mhomeaddr2, mcompanyaddr, mcompanyaddr2, mbirth, mphonenumber 
+		FROM member WHERE mno=#{mno};
 	</select>
 	
 	<update id="changePW" parameterType="Map">
-		UPDATE member SET mpw=#{mpw} WHERE mno=#{mno}; 
+		UPDATE member SET mpw=HEX(AES_ENCRYPT(#{mpw}, 'drhome')) WHERE mno=#{mno}; 
 	</update>
 	
 	<update id="changeHomeAddr" parameterType="Map">

@@ -1,5 +1,6 @@
 package com.drhome.docadmin;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class DocAdminController {
+	
+	@Autowired 
+	private HospitalDetailUtil util;
 
 	@Autowired
 	private DocAdminService docAdminService;
@@ -52,6 +56,15 @@ public class DocAdminController {
 		model.addAttribute("dpKind", dpKind);
 		int dpCount = dpKind.size();
 		model.addAttribute("dpCount", dpCount);
+		
+		//진료시간 점심시간 뽑기
+		Map<String, Object> now = new HashMap<>();
+		Map<String, Object> hospital = docAdminService.findHospitalByHno(map);
+		now.put("dayOfWeek", util.getDayOfWeek(util.dayOfWeek));
+		model.addAttribute("now", now);
+		model.addAttribute("hospital", hospital);
+		
+		System.out.println(hospital);
 		
 		return "/docReception";
 	}

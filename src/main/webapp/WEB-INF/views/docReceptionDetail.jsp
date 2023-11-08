@@ -44,7 +44,7 @@ function scrollDiagnosis() {
 
 
 M.onResume( function(e) {
-    // TODO : resume event handle code here
+	
 });
 		
 $(function() {
@@ -63,7 +63,6 @@ $(function() {
 		  let phoneNumber = $("#phoneNumber").val();
 		  alert(phoneNumber);
 		  M.sys.call(phoneNumber);
-		  M.sys.exit() //종료 필요?
 		  M.onResume( function(e) { //여기를 어떻게 활용해야 하는지 모르겠다. 
 			  let tno = $("#tno").val();
 			});
