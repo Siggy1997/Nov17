@@ -1,45 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 	
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="./js/wnInterface.js"></script> 
-<script src="./js/mcore.min.js"></script> 
-<script src="./js/mcore.extends.js"></script> 
-<link rel="stylesheet" href="./css/freeDetail.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="./js/wnInterface.js"></script>
+<script src="./js/mcore.min.js"></script>
+<script src="./js/mcore.extends.js"></script>
+<script src="/js/jquery.plugin.js"></script>
 
-<script>
 
-M.plugin("location").current({
-    timeout: 10000,
-    maximumAge: 1,
-    callback: function( result ) {
-        if ( result.status === 'NS' ) {
-            console.log('This Location Plugin is not supported');
-        }
-        else if ( result.status !== 'SUCCESS' ) {
-            if ( result.message ) {
-                console.log( result.status + ":" + result.message );
-            }
-            else {
-                console.log( 'Getting GPS coords is failed' );
-            }
-        }
-        else {
-            if ( result.coords ) {
-                console.log( JSON.stringify(result.coords) );
-            }
-            else {
-                console.log( 'It cann\'t get GPS Coords.' );
-            }
-        }
-    }
-});
-
-</script>
 
 <title>Insert title here</title>
 
@@ -58,7 +32,11 @@ M.plugin("location").current({
 .placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
 .placeinfo .tel {color:#0f7833;}
 .placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
- 
+ 	
+ 	
+
+ 	
+ 	.overlayLocation {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
     .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
     .wrap * {padding: 0;margin: 0;}
     .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
@@ -78,190 +56,278 @@ M.plugin("location").current({
 </head>
 <body>
 
+
+
 <div class="map_wrap">
-    <div id="map" style="width:70%;height:500px;position:relative;overflow:hidden;"></div>
+    <div id="map" style="width:100%;height:700px;position:relative;overflow:hidden;">
+    </div>
 </div>
 
- 
+   
+</body>
 	
 	<!--실제 지도를 그리는 javascript API를 불러오기-->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485&libraries=services"></script>
-
-	
-	
 		<script type="text/javascript"
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485"></script>
 
-
-
 <script>
+var map; // map 변수를 전역 범위에서 정의
 
-//마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
-    contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-    markers = [],
-    currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+(function () {
+    $(function () {
+      $.getCurrentLocation().then((result) => {
+        if (result.status === 'NS') {
+          console.log('This Location Plugin is not supported');
+         
+        } else if (result.status !== 'SUCCESS') {
+          if (result.message) {
+        	  
+        	  console.log(result.status + ':' + result.message);
+              initializeMap(37.498599, 127.028575); // 기본 중심 좌표
+       
+          } else {
+            console.log('Getting GPS coords is failed');
+           
+          }
+        } else {
+          if (result.coords) {
+            var { latitude, longitude } = result.coords;
+            var lat = parseFloat(latitude);
+            var lon = parseFloat(longitude);
+            console.log(lat, lon);
+            initializeMap(lat, lon); // 현재 위치의 중심 좌표
+           
+            var circle;
 
-var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+            // 지도의 확대 수준이 변경될 때마다 원의 크기를 조절
+            kakao.maps.event.addListener(map, 'zoom_changed', function() {
+                var currentLevel = map.getLevel();
+                // 확대 레벨에 따라 반지름을 조절 (예시에서는 확대 레벨에 따라 반지름이 50에서 2000까지 변경)
+                var radius = Math.pow(2, currentLevel - 3) * 10;
 
-var mapOption = {
-    center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-    level: 5 // 지도의 확대 레벨
-};
+                // 기존의 원을 제거
+                if (circle) {
+                    circle.setMap(null);
+                }
 
-// 지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption);
+                circle = new kakao.maps.Circle({
+                    center: new kakao.maps.LatLng(lat, lon),
+                    radius: radius,
+                    strokeWeight: 5,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.7,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.3
+                });
 
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
-var hospitals = []; // 병원 데이터를 저장하는 배열
-
-//커스텀 오버레이 변수를 전역 범위에서 정의합니다
-var overlay = new kakao.maps.CustomOverlay({
-    content: contentNode,
-    map: map
-});
-
-
-
-<c:forEach items="${hospitalList}" var="h">
-	var hospitalNumber = "${h.hno}";
-    var title = "${h.hname}";
-    var address = "${h.haddr}";
-    var opentime = "${h.hopentime}";
-    var closetime = "${h.hclosetime}";
-    var nightday = "${h.hnightday}";
-    var nightendtime = "${h.hnightendtime}";
-    var himg = "${h.himg}";
-    var hbreaktime = "${h.hbreaktime}";
-    var hbreakendtime = "${h.hbreakendtime}";
-
-
-    
-    hospitals.push({
-    	hospitalNumber: hospitalNumber,
-        title: title,
-        address: address,
-        opentime: opentime,
-        closetime: closetime,
-        nightday: nightday,
-        nightendtime: nightendtime,
-        himg: himg,
-        hbreaktime: hbreaktime,
-        hbreakendtime: hbreakendtime
-        
+                circle.setMap(map);
+            });
+           
+           
+          } else {
+            console.log("It cann't get GPS Coords.");
+          }
+        }
+      });
     });
-</c:forEach>
+   
+   
+   
+ // 지도 초기화 함수
+    function initializeMap(centerLat, centerLon) {
+        var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+        var mapOption = {
+            center: new kakao.maps.LatLng(centerLat, centerLon), // 지도의 중심좌표
+            level: 5 // 지도의 확대 레벨
+        };
+
+        // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
+        map = new kakao.maps.Map(mapContainer, mapOption);
 
 
-function timeToMinutes(time) {
-    const parts = time.split(":");
-    if (parts.length === 2) {
-        const hours = parseInt(parts[0], 10);
-        const minutes = parseInt(parts[1], 10);
-        return hours * 60 + minutes;
+        //마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
+        var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
+            contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+            markers = [],
+            currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+        var hospitals = []; // 병원 데이터를 저장하는 배열
+
+        //커스텀 오버레이 변수를 전역 범위에서 정의합니다
+        var overlay = new kakao.maps.CustomOverlay({
+            content: contentNode,
+            map: map
+        });
+
+
+        <c:forEach items="${hospitalList}" var="h">
+        	var hospitalNumber = "${h.hno}";
+            var title = "${h.hname}";
+            var address = "${h.haddr}";
+            var opentime = "${h.hopentime}";
+            var closetime = "${h.hclosetime}";
+            var nightday = "${h.hnightday}";
+            var nightendtime = "${h.hnightendtime}";
+            var himg = "${h.himg}";
+            var hbreaktime = "${h.hbreaktime}";
+            var hbreakendtime = "${h.hbreakendtime}";
+            var hHoliday = "${h.hholiday}";
+            var hHolidayEndTime = "${h.hholidayendtime}";
+
+           
+           
+            hospitals.push({
+            	hospitalNumber: hospitalNumber,
+                title: title,
+                address: address,
+                opentime: opentime,
+                closetime: closetime,
+                nightday: nightday,
+                nightendtime: nightendtime,
+                himg: himg,
+                hbreaktime: hbreaktime,
+                hbreakendtime: hbreakendtime,
+                hHoliday : hHoliday,
+                hHolidayEndTime : hHolidayEndTime
+            });
+        </c:forEach>
+
+
+        function timeToMinutes(time) {
+            const parts = time.split(":");
+            if (parts.length === 2) {
+                const hours = parseInt(parts[0], 10);
+                const minutes = parseInt(parts[1], 10);
+                return hours * 60 + minutes;
+            }
+            return 0; // 예외 처리
+        }
+
+        function checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime) {
+            const now = new Date();
+            const currentDay = now.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
+            const currentTime = now.getHours() * 60 + now.getMinutes(); // 현재 시간을 분 단위로 표시
+
+            const openMinutes = timeToMinutes(opentime);
+            const closeMinutes = timeToMinutes(closetime);
+            const nightEndMinutes = timeToMinutes(nightendtime);
+            const holidayEndMinutes = timeToMinutes(hHolidayEndTime);
+
+           
+            if(currentDay == 0 || currentDay == 6) {
+            	if(hHoliday == 1){   		
+            		if (currentTime >= openMinutes && currentTime <= holidayEndMinutes) {
+                     return "진료중";        
+                 } else {
+                     return "진료종료";
+                 }
+
+            	} else {    		
+            		 return "휴진일";
+            	}
+            	
+            } else {
+           
+            if (nightday == currentDay) {
+                if (currentTime >= openMinutes && currentTime <= nightEndMinutes) {
+                    return "진료중";        
+                } else {
+                    return "진료종료";
+                }
+            } else {
+                if (currentTime >= openMinutes && currentTime <= closeMinutes) {
+                    return "진료중";
+                } else {
+                    return "진료종료";
+                }
+            }  
+           
+            }
+           
+           
+        }
+
+
+
+
+        hospitals.forEach(function (position) {
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(position.address, function (result, status) {
+                // 정상적으로 검색이 완료됐으면
+                if (status === kakao.maps.services.Status.OK) {
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                    // 결과값으로 받은 위치를 마커로 표시합니다
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
+
+                    // 마커 클릭 이벤트 리스너를 추가합니다.
+                    kakao.maps.event.addListener(marker, 'click', function () {
+                        // 클릭한 마커의 정보를 가져옵니다.
+                        var hospitalNumber = position.hospitalNumber;
+                        var title = position.title;
+                        var address = position.address;
+                        var opentime = position.opentime;
+                        var closetime = position.closetime;
+                        var nightendtime = position.nightendtime;
+                        var nightday = position.nightday;
+                        var himg = position.himg;
+                        var hbreaktime = position.hbreaktime;
+                        var hbreakendtime = position.hbreakendtime;
+                        var hHoliday = position.hHoliday;
+                        var hHolidayEndTime = position.hHolidayEndTime;
+                       
+                        const currentDay = new Date().getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
+           
+                        // 영업 상태를 확인합니다.
+                        var status = checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime);
+
+                        // 커스텀 오버레이의 내용을 업데이트합니다.
+                        var overlayContent =
+                      	  '<div class="wrap">' +
+                            '    <div class="info"><a href="http://172.30.1.78:8080/hospitalDetail/' + hospitalNumber + '" target="_blank" class="link">' +
+                            '        <div class="title">' +
+                            '            ' + title +
+                            '        </div>' +
+                            '        <div class="body">' +
+                            '            <div class="img">' +
+                            '                <img src="' + himg + '" width="73" height="70">' +
+                            '           </div>' +
+                            '            <div class="desc">' +
+                            '                <div class="ellipsis">' + address + '</div>' +
+                            '                <div class="time">' + opentime + "~" + (nightday == currentDay ? nightendtime : closetime) + '</div>' +
+                            '                <div class="status">' + status + '</div>' +
+                            '            </div>' +
+                            '        </div>' +
+                            '    </a></div>' +
+                            '</div>';
+
+                        // 커스텀 오버레이를 업데이트합니다.
+                        overlay.setContent(overlayContent);
+                        overlay.setPosition(marker.getPosition());
+
+                        // 커스텀 오버레이를 지도에 표시합니다.
+                        overlay.setMap(map);   
+                       
+                    });
+                }
+            });
+        });
     }
-    return 0; // 예외 처리
-}
-
-function checkBusinessStatus(opentime, closetime, nightday, nightendtime) {
-    const now = new Date();
-    const currentDay = now.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
-    const currentTime = now.getHours() * 60 + now.getMinutes(); // 현재 시간을 분 단위로 표시
-
-    const openMinutes = timeToMinutes(opentime);
-    const closeMinutes = timeToMinutes(closetime);
-    const nightEndMinutes = timeToMinutes(nightendtime);
-  
-    
-    if (nightday == currentDay) {
-        if (currentTime >= openMinutes && currentTime <= nightEndMinutes) {
-            return "진료중";        
-        } else {
-            return "진료종료";
-        }
-    } else {
-        if (currentTime >= openMinutes && currentTime <= closeMinutes) {
-            return "진료중";
-        } else {
-            return "진료종료";
-        }
-    }    
-}
+   
+   
+   
+  })();
 
 
-
-
-hospitals.forEach(function (position) {
-    // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(position.address, function (result, status) {
-        // 정상적으로 검색이 완료됐으면
-        if (status === kakao.maps.services.Status.OK) {
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: coords
-            });
-
-            // 마커 클릭 이벤트 리스너를 추가합니다.
-            kakao.maps.event.addListener(marker, 'click', function () {
-                // 클릭한 마커의 정보를 가져옵니다.
-                var hospitalNumber = position.hospitalNumber;
-                var title = position.title;
-                var address = position.address;
-                var opentime = position.opentime;
-                var closetime = position.closetime;
-                var nightendtime = position.nightendtime;
-                var nightday = position.nightday;
-                var himg = position.himg;
-                var hbreaktime = position.hbreaktime;
-                var hbreakendtime = position.hbreakendtime;
-                
-                const currentDay = new Date().getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
-    
-                // 영업 상태를 확인합니다.
-                var status = checkBusinessStatus(opentime, closetime, nightday, nightendtime);
-
-                // 커스텀 오버레이의 내용을 업데이트합니다.
-                var overlayContent = '<div class="wrap">' +
-                    '    <div class="info"><a href="http://localhost:hospitalDetail/' + hospitalNumber + '" target="_blank" class="link">' +
-                    '        <div class="title">' +
-                    '            ' + title +
-                    '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-                    '        </div>' +
-                    '        <div class="body">' +
-                    '            <div class="img">' +
-                    '                <img src="' + himg + '" width="73" height="70">' +
-                    '           </div>' +
-                    '            <div class="desc">' +
-                    '                <div class="ellipsis">' + address + '</div>' +
-                    '                <div class="time">' + opentime + "~" + (nightday == currentDay ? nightendtime : closetime) + '</div>' +
-                    '                <div class="status">' + status + '</div>' +
-                    '            </div>' +
-                    '        </div>' +
-                    '    </a></div>' +
-                    '</div>';
-
-                // 커스텀 오버레이를 업데이트합니다.
-                overlay.setContent(overlayContent);
-                overlay.setPosition(marker.getPosition());
-
-                // 커스텀 오버레이를 지도에 표시합니다.
-                overlay.setMap(map);
-            });
-        }
-    });
-});
-
-//커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-function closeOverlay() {
-    overlay.setMap(null);     
-}
 
  
 </script>
 
-</body>
+
 </html>
