@@ -23,6 +23,10 @@
 	background-color: yellow;
 }
 
+.seletedSymptomBox, .symptomExample {
+	display: none;
+}
+
 .availableCircle {
    color: #0091FF;
 }
@@ -36,7 +40,7 @@
 	background-color: aqua;
 }
 
-.symptomKindButton, .addSelectByDepartment {
+.symptomKindButton {
 	display: none;
 }
 

@@ -151,7 +151,7 @@
 						<button class="recommendItem">전문의</button>
 						<button class="recommendItem">야간진료</button>
 						<button class="recommendItem">여의사</button>
-						<button class="recommendItem">공휴일 진료</button>
+						<button class="recommendItem">휴일진료</button>
 						<!-- 추가하기 -->
 						<c:forEach items="${randomKeyword}" var="row">
 							<button class="recommendRandomItem">${row}</button>
