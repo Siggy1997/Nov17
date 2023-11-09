@@ -41,11 +41,6 @@ function scrollDiagnosis() {
     	diagnosisInfoSection.scrollIntoView({ behavior: "smooth" });
     }
 }  
-
-
-M.onResume( function(e) {
-	
-});
 		
 $(function() {
 	$("#completeDiagnosis").click(function(){
@@ -58,17 +53,18 @@ $(function() {
 		}
 		
 	});
+
+	document.getElementById("callIcon").addEventListener("click", function() {
+	  let phoneNumber = $("#phoneNumber").val();
+	  // 현재 화면 정보를 변수에 저장
+	  M.sys.call(phoneNumber);
+
+	});
 	
-	  document.getElementById("callIcon").addEventListener("click", function() {
-		  let phoneNumber = $("#phoneNumber").val();
-		  alert(phoneNumber);
-		  M.sys.call(phoneNumber);
-		  M.onResume( function(e) { //여기를 어떻게 활용해야 하는지 모르겠다. 
-			  let tno = $("#tno").val();
-			});
-		  
-		});
 });
+
+
+
 
 </script>
 

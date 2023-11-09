@@ -3,10 +3,9 @@
 <mapper namespace="com.drhome.pay.PayDAO">
 	
 	<select id="payMoney" parameterType="Map" resultType="Map">
-		SELECT p.pmoneypayment 
-		FROM telehealth t
-		JOIN pay p ON t.pno = p.pno
-		WHERE t.tno=#{tno};
+		SELECT tprice
+		FROM telehealth 
+		WHERE tno=#{tno};
 	</select>
 	
 	<select id="cardCheck" parameterType="Map" resultType="Map">
@@ -50,6 +49,6 @@
 	
 	<update id="updatePaystatus" parameterType="Map">
 		UPDATE telehealth SET tpaystatus=1 WHERE mno=#{mno} and tno=#{tno};
-	</update>
-	
+	</update>	
+
 </mapper>

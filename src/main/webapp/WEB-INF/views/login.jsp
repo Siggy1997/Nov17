@@ -190,6 +190,7 @@ function deleteCookie(cookieName){
 
 </head>
 <body>
+	<%@ include file="footer.jsp"%>
 		<div id='search' class='search'>
 	<div id='icon' class='icon'>
 	<img id='personfilled' class='personfilled' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAYSURBVHgB7cABDQAAAMKg90/t7AEFAMANCRgAAbQRseIAAAAASUVORK5CYII='/>

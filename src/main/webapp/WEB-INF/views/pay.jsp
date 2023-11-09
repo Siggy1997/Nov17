@@ -205,7 +205,7 @@ $(function() {
 	<a href="../main">&nbsp;&nbsp;←뒤로가기</a>
 	<h1>Pay</h1>
 	<h2>결제 예정금액 : </h2>
-	<input id="expectPay" value="${payMoney.pmoneypayment}">원
+	<input id="expectPay" value="${payMoney.tprice}">원
 	<h3>카드 조회하기</h3>
 	<h4>카드번호</h4>
 	<input type="text" id="firstNum" name="firstMrrn" maxlength="4" placeholder="1234"> -

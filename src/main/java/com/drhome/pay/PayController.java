@@ -20,7 +20,7 @@ public class PayController {
 	
 	@GetMapping("/pay/{mno}")
 	public String pay(@PathVariable int mno, Model model, @RequestParam Map<String, Object> map) {
-		
+		System.out.println(map);
 		map.put("mno", mno);
 		Map<String, Object> payMoney = payService.payMoney(map);
 		model.addAttribute("payMoney", payMoney);
@@ -49,7 +49,6 @@ public class PayController {
 	public String completePay(@PathVariable int mno, Map<String, Object> map) {
 		map.put("mno", mno);
 		map.put("tno", 9);
-		
 		
 		return "/completePay";
 	}
