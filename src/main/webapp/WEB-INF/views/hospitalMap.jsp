@@ -36,21 +36,21 @@
  	
 
  	
- 	.overlayLocation {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
-    .wrap * {padding: 0;margin: 0;}
-    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
-    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
-    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
-    .info .close:hover {cursor: pointer;}
-    .info .body {position: relative;overflow: hidden;}
-    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
-    .desc .ellipsis {overflow: visible;text-overflow: ellipsis;white-space: normal;}
-    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
-    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
-    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-    .info .link {color: #5085BB;}
+
+      .map_wrap {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            overflow: hidden;
+        }
+
+        #map {
+            width: 100%;
+            height: 700px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
 </style>
 
 </head>
@@ -59,17 +59,42 @@
 
 
 <div class="map_wrap">
-    <div id="map" style="width:100%;height:700px;position:relative;overflow:hidden;">
-    </div>
+    <div id="map"></div>
 </div>
 
-   
+
+
+<script>
+    // 자바스크립트로 div 생성
+    var newDiv = document.createElement("div");
+
+    // div 속성 설정
+    newDiv.id = "myDynamicDiv";
+    newDiv.textContent = "This is a dynamic div!";
+    newDiv.style.border = "1px solid black";
+    newDiv.style.padding = "10px";
+    newDiv.style.position = "absolute"; // 위치를 절대값으로 설정
+    newDiv.style.bottom = "0px"; 
+    newDiv.style.left = "0px"; // 페이지 상단으로부터 20px 아래에 위치
+    newDiv.style.zIndex = "1000"; // 맵보다 위에 위치하도록 설정
+    newDiv.style.backgroundColor = "#fff"; // 흰색 배경
+    newDiv.style.width = "400px"; // 고정된 가로 크기
+    newDiv.style.height = "150px"; // 고정된 세로 크기
+
+    // body의 맨 뒤에 동적으로 생성한 div 추가
+    document.body.appendChild(newDiv);
+</script>
+
 </body>
 	
 	<!--실제 지도를 그리는 javascript API를 불러오기-->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485&libraries=services"></script>
 		<script type="text/javascript"
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485"></script>
+
+
+
+
 
 <script>
 var map; // map 변수를 전역 범위에서 정의
@@ -287,9 +312,10 @@ var map; // map 변수를 전역 범위에서 정의
                         // 영업 상태를 확인합니다.
                         var status = checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime);
 
-                        // 커스텀 오버레이의 내용을 업데이트합니다.
-                        var overlayContent =
-                      	  '<div class="wrap">' +
+                        // 동적으로 생성한 컨테이너에 정보 추가
+                        var dynamicContainer = document.getElementById("myDynamicDiv");
+                        dynamicContainer.innerHTML =
+                            '<div class="wrap">' +
                             '    <div class="info"><a href="http://172.30.1.78:8080/hospitalDetail/' + hospitalNumber + '" target="_blank" class="link">' +
                             '        <div class="title">' +
                             '            ' + title +
@@ -305,14 +331,7 @@ var map; // map 변수를 전역 범위에서 정의
                             '            </div>' +
                             '        </div>' +
                             '    </a></div>' +
-                            '</div>';
-
-                        // 커스텀 오버레이를 업데이트합니다.
-                        overlay.setContent(overlayContent);
-                        overlay.setPosition(marker.getPosition());
-
-                        // 커스텀 오버레이를 지도에 표시합니다.
-                        overlay.setMap(map);   
+                            '</div>';   
                        
                     });
                 }
@@ -328,6 +347,8 @@ var map; // map 변수를 전역 범위에서 정의
 
  
 </script>
+
+
 
 
 </html>

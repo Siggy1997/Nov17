@@ -17,7 +17,8 @@ TIME_FORMAT(hopentime, '%H:%i') AS hopentime,
     END AS hnightday,
 TIME_FORMAT(hnightendtime, '%H:%i') AS hnightendtime,
 TIME_FORMAT(hbreaktime, '%H:%i') AS hbreaktime,
-TIME_FORMAT(hbreakendtime, '%H:%i') AS hbreakendtime, hholiday, hholidayendtime
+TIME_FORMAT(hbreakendtime, '%H:%i') AS hbreakendtime, hholiday, 
+TIME_FORMAT(hholidayendtime, '%H:%i') AS hholidayendtime
 		FROM hospital
 	</select>
 

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QnaBoardService {
-	
-	@Autowired 
+
+	@Autowired
 	private QnaBoardDAO qnaBoardDAO;
 
 	public List<Map<String, Object>> qnaList() {
@@ -42,17 +42,13 @@ public class QnaBoardService {
 
 	}
 
-	public List<Map<String, Object>> boardSearch(String searchWord) {
-		return qnaBoardDAO.boardSearch(searchWord);
-	}
-
 	public void addQnaCallDibs(Map<String, Object> qnaCallDibsData) {
-		qnaBoardDAO.addQnaCallDibs(qnaCallDibsData);		
+		qnaBoardDAO.addQnaCallDibs(qnaCallDibsData);
 	}
 
 	public void delQnaCallDibs(Map<String, Object> qnaCallDibsData) {
-		qnaBoardDAO.delQnaCallDibs(qnaCallDibsData);		
-		
+		qnaBoardDAO.delQnaCallDibs(qnaCallDibsData);
+
 	}
 
 	public List<Map<String, Object>> doctorInfo(List<Integer> dnoList) {
@@ -61,6 +57,32 @@ public class QnaBoardService {
 
 	public void deleteQnaQuestion(Map<String, Object> deleteQnaQuestionData) {
 		qnaBoardDAO.deleteQnaQuestion(deleteQnaQuestionData);
+
+	}
+
+	public void reportPost(Map<String, Object> reportData) {
+		qnaBoardDAO.reportPost(reportData);
+
+	}
+
+	public List<Map<String, Object>> boardSearchAll(String searchWord) {
+		return qnaBoardDAO.boardSearchAll(searchWord);
+	}
+
+	public List<Map<String, Object>> boardSearchTitle(String searchWord) {
+		return qnaBoardDAO.boardSearchTitle(searchWord);
+	}
+
+	public List<Map<String, Object>> boardSearchContent(String searchWord) {
+		return qnaBoardDAO.boardSearchContent(searchWord);
+	}
+
+	public int reportCount(Map<String, Object> reportCountData) {
+		return qnaBoardDAO.reportCount(reportCountData);
+	}
+
+	public void editBoard(Map<String, Object> editBoardData) {
+		qnaBoardDAO.editBoard(editBoardData);
 		
 	}
 }

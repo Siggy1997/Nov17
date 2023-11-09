@@ -13,23 +13,26 @@ public class MapController {
 	@Autowired MapService mapService;
 	
 	@GetMapping("/hospitalMap")
-	public String map(Model model) {
+	public String hospitalMap(Model model) {
 		
 		
 		List<Map<String, Object>> hospitalList = mapService.hospitalList();
 		model.addAttribute("hospitalList", hospitalList);
+
 		
-		System.out.println(hospitalList);
+		return "/hospitalMap";	
+		
+	}
+	
+	@GetMapping("/pharmacyMap")
+	public String pharmacyMap(Model model) {
 		
 		
 		List<Map<String, Object>> pharmacyList = mapService.pharmacyList();
 		model.addAttribute("pharmacyList", pharmacyList);
 
-		
-		return "/hospitalMap";
-		
-		
-		
+		return "/pharmacyMap";	
 		
 	}
+	
 }
