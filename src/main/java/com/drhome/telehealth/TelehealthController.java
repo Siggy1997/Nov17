@@ -1,6 +1,5 @@
 package com.drhome.telehealth;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +10,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.drhome.search.SearchUtil;
 
@@ -29,6 +30,7 @@ public class TelehealthController {
 	@Autowired 
 	private SearchUtil searchUtil;
 	
+	// 비대면 진료 검색 페이지
 	@GetMapping("/telehealthSearch")
 	public String telehealthSearch(Model model) {
 		
@@ -61,6 +63,7 @@ public class TelehealthController {
 		return "/telehealthSearch";
 	}
 	
+	// 비대면 진료 검색하면 페이지 보내기
 	@PostMapping("/telehealthSearch")
 	public String telehealthSearch(@RequestParam Map<String, Object> map) throws Exception {
 		//System.out.println(map); {keyword=내과}
@@ -95,7 +98,7 @@ public class TelehealthController {
         }
 	}
 	
-	
+	// 비대면 진료 의사 리스트 페이지
 	@GetMapping("/telehealth")
 	public String telehealth(@RequestParam(required = false) Map<String, Object> map, Model model) {
 		// {kindKeyword=이비인후과, symptomKeyword=감기, keyword=이국종}
@@ -135,8 +138,10 @@ public class TelehealthController {
 		return "/telehealth";
 	}
 	
+	// 비대면 진료 의사 상세 페이지
 	@GetMapping("/doctorDetail/{dno}")
 	public String doctorDetail(@PathVariable int dno, Model model) {
+		
 		// 현재 요일, 시간
 		model.addAttribute("currentDay", searchUtil.currentDayOfTheWeek());
 		model.addAttribute("currentTime", searchUtil.currentTime());
@@ -156,19 +161,20 @@ public class TelehealthController {
 		}
 	}
 	
+	// 비대면 진료 의사 리뷰 페이지 보내기
 	@PostMapping("/doctorDetail/{dno}")
 	public String doctorDetail(@PathVariable int dno, HttpSession session) {
 		// 로그인한 사용자만 리뷰 남기기
 		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
 			return "redirect:/doctorReview?mno="+session.getAttribute("mno")+"&dno="+dno;
-			
 		}
-		return "redirect:/main";
+		return "redirect:/login";
 	}
 	
+	// 비대면 진료 의사 리뷰 페이지
 	@GetMapping("/doctorReview")
 	public String doctorReview(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
-//		System.out.println(map);{mno=3, dno=1}
+		//	System.out.println(map);{mno=3, dno=1}
 		// 로그인한 사용자만 리뷰 남기기
 		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
 			Map<String, Object> doctor = telehealthService.doctor(Integer.parseInt((String) map.get("dno")));
@@ -178,7 +184,65 @@ public class TelehealthController {
 		return "redirect:/main";
 	}
 	
-//	@PostMapping("/doctorReview")
-//	public String 
+	// 비대면 진료 의사 상세페이지 리뷰 남기기
+	@ResponseBody
+	@PostMapping("/doctorReview")
+	public String doctorReview(@RequestParam Map<String, Object> map) {
+		JSONObject json = new JSONObject();
+		//	System.out.println(map);{rrate=3, rkeyword=보통이에요,보통이에요, mno=3, dno=1, rcontent=ㅇㅇ}
+		telehealthService.doctorReviewWrite(map);
+		return json.toString();
+	}
+	
+	// 비대면 진료 의사 상세페이지 리뷰 좋아요 누르기
+	@ResponseBody
+	@PostMapping("/reviewRecommend")
+	public String reviewRecommend(@RequestParam("rno") int rno) {
+		telehealthService.reviewLike(rno);
+		int rlike = telehealthService.rlikeUpdate(rno);
+		JSONObject json = new JSONObject();
+		json.put("rlike", rlike);
+		return json.toString();
+	}
+	
+	// 비대면 진료 의사 상세페이지 내 글 리뷰 삭제하기
+	@ResponseBody
+	@PostMapping("/reviewDelete")
+	public String reviewDelete(@RequestParam("rno") int rno) {
+		telehealthService.reviewDelete(rno);
+		JSONObject json = new JSONObject();
+		return json.toString();
+	}
+	
+	// 비대면 진료 접수 페이지
+	@GetMapping("/telehealthApply")
+	public String telehealthApply(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
+		//	System.out.println(map);{mno=3, dno=1}
+		// 로그인한 사용자만 접수하기
+		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
+			Map<String, Object> telehealthApply = telehealthService.telehealthApply(Integer.parseInt((String) map.get("dno")));
+			model.addAttribute("telehealthApply", telehealthApply);
+			return "/telehealthApply";
+		}
+		return "redirect:/main";
+	}
+	
+	@PostMapping("/telehealthApply")
+	public String telehealthApply(@RequestParam Map<String, Object> map, HttpSession session) {
+		// System.out.println(map);{tsymptomdetail=ㅇㅇ, hno=2, dno=2, dpno=1, pay=1}
+		if (Integer.parseInt((String) map.get("pay")) == 1) {
+			map.put("pay", 15000);
+		} else {
+			map.put("pay", 10000);
+		}
+		
+		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
+			String mno = (String) session.getAttribute("mno");
+			return "/pay/" + mno + "?tno="; //+ tno;
+		}
+		
+		System.out.println(map);
+		return "redirect:/main";
+	}
 	
 }

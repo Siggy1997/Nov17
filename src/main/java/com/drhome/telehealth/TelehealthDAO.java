@@ -22,4 +22,14 @@ public interface TelehealthDAO {
 
 	List<Map<String, Object>> doctorReview(int dno);
 
+	void doctorReviewWrite(Map<String, Object> map);
+
+	void reviewLike(int rno);
+
+	int rlikeUpdate(int rno);
+
+	void reviewDelete(int rno);
+
+	Map<String, Object> telehealthApply(int dno);
+
 }

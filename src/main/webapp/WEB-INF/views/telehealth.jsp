@@ -38,6 +38,8 @@
 			}).addClass("btn-color-css");
 		} 
 		
+		
+		
 		/* 검색하기 */
 		$(document).on("click", "#keyword", function(){
 			$("#keyword").val('');
@@ -78,8 +80,24 @@
 			doctorCount();
 		});
 		
+		/*  여의사만 보기 */
+		$(document).on("click", ".selectByFemale", function(){
+			let inSpecialist = $(".doctorListContainer").filter(function() {
+				return $(this).find(".femaleDoctor").val() === "1";
+			});
+			if ( $(this).hasClass("btn-color-css") ) {
+				$(this).removeClass("btn-color-css");
+				$(".doctorListContainer").show();
+			} else {
+				$(this).addClass("btn-color-css");
+		        $(".doctorListContainer").hide();
+		        inSpecialist.show();
+			    }
+			doctorCount();
+		});
+		
 		/* 진료과, 증상 모달 */
-		$(document).on("click", ".selectByDepartment", function(){
+		$(document).on("click", ".selectByDepartmentText", function(){
 			if( symptomKeyword != null ) {
 				$(".departmentGroup").hide();
 				$(".symptomContainer").show();
@@ -109,8 +127,8 @@
 		});
 		
 		/* 증상이 들어와있을 경우 */
-		if ($(".symptomKind").hasClass("filter-btn-css")) {
-			let keywordClass = $(".filter-btn-css").parent();
+		if ($(".symptomKind").hasClass("btn-color-css")) {
+			let keywordClass = $(".symptomKindButton").find(".btn-color-css").parent();
 			toggleClass(keywordClass);
 			/* 증상 그룹별로 보여주기 */
 			$(document).on("click", ".symptomGroup", function(){
@@ -173,17 +191,29 @@
 		});
 		
 		/* 카테고리 선택 해제 */
-		let selectByDepartment = $(".selectByDepartment");
-		deselect(selectByDepartment);
-		let selectByCategory = $(".selectByCategory");
-		deselect(selectByCategory);
+		if ($(".selectByDepartment").hasClass("btn-color-css")) {
+			let toggleDepartment = $(".selectByDepartment").children(".xi-angle-down-min");
+			toggleDepartment.removeClass("xi-angle-down-min").addClass("xi-close-circle");
+		} else {
+			let toggleDepartment = $(".selectByDepartment").children(".xi-close-circle");
+			toggleDepartment.removeClass("xi-close-circle").addClass("xi-angle-down-min");
+		}
+		
+		/* 카테고리 지웠을 때 삭제하기 */
+		$(document).on("click", ".xi-close-circle", function(){
+			if(kindKeyword != null) {
+				changeURL("kindKeyword");
+			} else {
+				changeURL("symptomKeyword");
+			}
+		});
 		
 
 	});
 
 	/* Collection of functions */
 	
-	/* 병원 상세보기 페이지 이동 */
+	/* 의사 상세보기 페이지 이동 */
 	function doctorDetail(dno) {
 		location.href= '/doctorDetail/' + dno;
 	}
@@ -241,6 +271,15 @@
 			toggleDepartment.removeClass("xi-close-circle").addClass("xi-angle-down-min");
 		}
 	}
+	
+	/* url 변경하기 */
+	function changeURL(deleteParams) {
+		let urlString = location.search;
+		let urlParams = new URLSearchParams(urlString);
+		urlParams.delete(deleteParams);
+		urlString = urlParams.toString();
+		location.href= "telehealth?"+urlString;
+	}
 
 </script>
 
@@ -258,6 +297,7 @@
 		<div class="filterDoctor">
 			<button type="button" class="selectByAvailable"><span class="xi-time"></span> 진료중</button>
 			<button type="button" class="selectBySpecialist"><span class="xi-school"></span> 전문의</button>
+			<button type="button" class="selectByFemale"><span class="xi-woman"></span> 여의사</button>
 			<button type="button" class="selectByDepartment">
 				<span class="xi-plus-square"></span> 
 				<span class="selectByDepartmentText"> 진료과/증상</span>
@@ -277,6 +317,7 @@
 		<div class="doctorListContainerBox">
 			 <c:forEach items="${doctorList}" var="row">
 			 	<div class="doctorListContainer" onclick="doctorDetail(${row.dno})">
+				 <input type="hidden" class="femaleDoctor" value="${row.dgender}">
 					<div class="doctorHeader">
 						<div class="doctorImg"><img src="${row.dimg}" style="width:10%"></div>
 						<input type="hidden" class="dno" value="${row.dno}">

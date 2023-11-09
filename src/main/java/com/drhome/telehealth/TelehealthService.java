@@ -39,4 +39,25 @@ public class TelehealthService {
 	public List<Map<String, Object>> doctorReview(int dno) {
 		return telehealthDAO.doctorReview(dno);
 	}
+
+	public void doctorReviewWrite(Map<String, Object> map) {
+		telehealthDAO.doctorReviewWrite(map);
+		
+	}
+
+	public void reviewLike(int rno) {
+		telehealthDAO.reviewLike(rno);
+	}
+
+	public int rlikeUpdate(int rno) {
+		return telehealthDAO.rlikeUpdate(rno);
+	}
+
+	public void reviewDelete(int rno) {
+		telehealthDAO.reviewDelete(rno);
+	}
+
+	public Map<String, Object> telehealthApply(int dno) {
+		return telehealthDAO.telehealthApply(dno);
+	}
 }

@@ -36,16 +36,45 @@
 	
 	<select id="doctor" parameterType="Integer" resultType="Map">
 		SELECT h.*, COALESCE(COUNT(t.dno), 0) as count
-		FROM hospitalList_view h 
+		FROM hospitalList_view h
 		LEFT JOIN telehealth t ON h.dno = t.dno
 		WHERE h.dno = #{dno}
 	</select>
 	
 	<select id="doctorReview" parameterType="Integer" resultType="Map">
-		SELECT r.mno, DATE_FORMAT(r.rdate, '%Y-%m-%d') AS rdate, r.rrate, r.rcontent, r.rkeyword, r.rlike, r.dno, r.hno, m.mname
+		SELECT r.rno, r.mno, DATE_FORMAT(r.rdate, '%Y-%m-%d %H:%i') AS rdate, r.rrate, r.rcontent, r.rkeyword, r.rlike, r.dno, r.hno, m.mname
 		FROM review r
 		JOIN member m ON m.mno = r.mno
 		WHERE r.dno = #{dno}
+		ORDER BY rdate DESC
+	</select>
+	
+	<insert id="doctorReviewWrite" parameterType="Object">
+		INSERT INTO review (mno,rrate,rcontent,rkeyword,dno,hno)
+		VALUES (#{mno},#{rrate},#{rcontent},#{rkeyword},#{dno}, (SELECT hno FROM hospitalList_view WHERE dno=#{dno}))
+	</insert>
+	
+	<update id="reviewLike" parameterType="Integer">
+		UPDATE review r
+		SET r.rlike = r.rlike + 1
+		WHERE r.rno = #{rno}
+	</update>
+	
+	<select id="rlikeUpdate" parameterType="Integer" resultType="Integer">
+		SELECT r.rlike
+		FROM review r
+		WHERE r.rno = #{rno}
+	</select>
+	
+	<delete id="reviewDelete" parameterType="Integer">
+		DELETE FROM review
+		WHERE r.rno = #{rno}
+	</delete>
+	
+	<select id="telehealthApply" parameterType="Integer" resultType="Map">
+		SELECT h.hno, h.dno, h.dspecialist, h.dpno, h.dpkind, h.dpkeyword
+		FROM hospitalList_view h
+		WHERE h.dno = #{dno}
 	</select>
 	
 </mapper>

@@ -4,3 +4,19 @@
 	background-color: #00C9FF;
 	color: white;
 }
+
+.reviewQuestion1Box {
+	display: none;
+}
+
+.reviewQuestion2Box, .reviewWriteSubmit {
+	display: none;
+}
+
+.reviewQuestion3Box {
+	display: none;
+}
+
+.reviewWriteSubmit {
+	display: none;
+}

@@ -405,7 +405,7 @@
 		let urlParams = new URLSearchParams(urlString);
 		urlParams.delete(deleteParams);
 		urlString = urlParams.toString();
-		location.href= "hospital?"+urlString
+		location.href= "hospital?"+urlString;
 	}
 	
 	
