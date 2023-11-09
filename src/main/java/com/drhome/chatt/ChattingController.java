@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-public class ChattController {
-	
-	@RequestMapping("/mychatt")
-	public ModelAndView chatt() {
+public class ChattingController {
+
+	@RequestMapping("/chatting")
+	public ModelAndView chatting() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("chatting");
 		return mv;

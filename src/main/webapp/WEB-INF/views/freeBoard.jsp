@@ -10,19 +10,21 @@
 </head>
 <body>
 
+
 <h1>자유 게시판</h1>
 
 <button onclick="location.href='writeFree'">작성하기</button>
 
-	<c:forEach items="${freeList}" var="free">
-		<a
-			href="<c:url value='/freeDetail'>
+	<c:forEach items="${requestScope.freeList}" var="free">
+		<a href="<c:url value='/freeDetail'>
     <c:param name='bno' value='${free.bno}' />
   </c:url>">
 			<div class="list">
 				<div class="title">${free.btitle}</div>
 				<div class="content">${free.bcontent}</div>
-				<div class="count">${free.comment_count}</div>
+				<div class="nickname">${free.mnickname}</div>
+				<div class="countComment">${free.comment_count}</div>
+				<div class="countCalldibs">${free.bcalldibsCount}</div>
 			</div>
 		</a>
 		<br>
@@ -30,7 +32,14 @@
 	
 	
 	
+	
 	<script>
+	
+	
+	
+	
+	
+	
     var maxLength = 30; // 최대 문자열 길이
     var contentElements = document.querySelectorAll(".content");
 
@@ -42,6 +51,7 @@
             contentElement.textContent = truncatedText;
         }
     });
+    
     
 </script>
 

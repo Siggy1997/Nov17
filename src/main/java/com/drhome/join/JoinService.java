@@ -36,5 +36,6 @@ public class JoinService {
 	public int mrrnCheck(String mrrn) {
 		return joinDAO.mrrnCheck(mrrn);
 	}
+
 	
 }

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -22,12 +23,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.cj.Session;
+
 
 @Controller
 public class SearchController {
 	
-	@Autowired private SearchService searchService;
-	@Autowired private SearchUtil searchUtil;
+	@Autowired 
+	private SearchService searchService;
+	@Autowired 
+	private SearchUtil searchUtil;
 	
 	@GetMapping("/search")
 	public String search(Model model) {
@@ -51,8 +56,8 @@ public class SearchController {
 	}
 	
 	@PostMapping("/search")
-	public String search(@RequestParam String keyword) throws Exception {
-		System.out.println(keyword);
+	public String search(@RequestParam Map<String, Object> map) throws Exception {
+			//System.out.println(map);//{keyword=내과, optionKeywordBox=휴일진료,주차장}
 			
 			List<Map<String, Object>> keywordKind = searchService.departmentKeyword();
 			// {dpkind=소아과, dpsymptom=소아 질환, dpkeyword=감기,예방접종,성장판검사,신생아황달}
@@ -64,40 +69,57 @@ public class SearchController {
 			List<String> symptomKeyword = searchUtil.changeTypeToStringByComma(keywordKind, "dpkeyword");
 			
 			// 기타 키워드별 [주차, 주차 가능, 전문의, 여의사, 공휴일 진료, 일요일 진료, 공휴일, 일요일, 야간진료]
-			List<String> otherKeyword = List.of("주차", "주차 가능", "전문의", "여의사", "공휴일 진료", "일요일 진료", "공휴일", "일요일", "야간진료");
-
+			List<String> otherKeyword = List.of("주차장", "전문의", "여의사", "야간진료", "휴일진료");
 			
-	    	// 한글로 들어올 때 인코딩 해주기
+			String keyword = (String) map.get("keyword");
+			
+			if (keyword.contains("휴일") || keyword.contains("일요일")) {
+			    keyword = "휴일진료";
+			}
+			if (keyword.contains("주차") || keyword.contains("주차 가능")) {
+			    keyword = "주차장";
+			}
+
+			// 한글로 들어올 때 인코딩 해주기
 	        String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8.toString());
 	        // 디코딩
 	        String decodedKeyword = URLDecoder.decode(encodedKeyword, StandardCharsets.UTF_8.toString());
-	        if (kindKeyword.contains(decodedKeyword)) {
-	        	return "redirect:/hospital?kindKeyword=" + encodedKeyword;
-	        } else if (symptomKeyword.contains(decodedKeyword)) {
-	        	return "redirect:/hospital?symptomKeyword=" + encodedKeyword;
-	        } else if (otherKeyword.contains(decodedKeyword)) {
-	        	return "redirect:/hospital?otherKeyword=" + encodedKeyword;
-	        } else if (decodedKeyword.contains("전체") || decodedKeyword.contains("예약") || decodedKeyword == "") {
-	        	return "redirect:/hospital";
+	        
+	        if ( map.get("optionKeywordBox") != null && !(map.get("optionKeywordBox").equals(""))  ) {
+	        	String encodedOptionKeyword = URLEncoder.encode( (String)map.get("optionKeywordBox"), StandardCharsets.UTF_8.toString());
+	        	if (kindKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?kindKeyword=" + encodedKeyword + "&optionKeyword="+ encodedOptionKeyword;
+		        } else if (symptomKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?symptomKeyword=" + encodedKeyword + "&optionKeyword="+ encodedOptionKeyword;
+		        } else if (otherKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?optionKeyword=" + encodedOptionKeyword;
+		        } else if (decodedKeyword.contains("전체") || decodedKeyword.contains("예약") || decodedKeyword == "") {
+		        	return "redirect:/hospital?optionKeyword="+ encodedOptionKeyword;
+		        } else {
+		        	return "redirect:/hospital?keyword=" + encodedKeyword + "&optionKeyword="+ encodedOptionKeyword;
+		        }
 	        } else {
-	        	return "redirect:/hospital?keyword=" + encodedKeyword;
-	        } 
+	        	if (kindKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?kindKeyword=" + encodedKeyword;
+		        } else if (symptomKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?symptomKeyword=" + encodedKeyword;
+		        } else if (otherKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?optionKeyword=" + encodedKeyword;
+		        } else if (decodedKeyword.contains("전체") || decodedKeyword.contains("예약") || decodedKeyword == "") {
+		        	return "redirect:/hospital";
+		        } else {    
+		        	return "redirect:/hospital?keyword=" + encodedKeyword;
+		        } 
+	        }
 	}
-	
 	
 	@GetMapping("/hospital")
 	public String hospitalList(@RequestParam(required = false) Map<String, Object> map, Model model, HttpSession session) {
-		model.addAttribute("map", map);// map : {kindKeyword=소아과} {symptomKeyword=안구건조증} {otherKeyword=여의사} {keyword=안경}
+		model.addAttribute("map", map);// map : {kindKeyword=소아과} {symptomKeyword=안구건조증} {keyword=안경} {optionKeyword=휴일진료,주차장}
 		
 		// 현재 요일와 시간
-		Calendar cal = Calendar.getInstance();
-		String currentDay = searchUtil.convertDayOfWeek(cal.get(Calendar.DAY_OF_WEEK)); // 현재 요일 (1일, 2월, 3화, 4수, 5목, 6금, 7토)
-		model.addAttribute("currentDay", currentDay);
-		
-		Date currentTime = cal.getTime(); // 현재 시간
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // 시간 형식 
-		String formattedTime = sdf.format(currentTime); // 포맷된 시간 (10:44:55)
-		model.addAttribute("currentTime", formattedTime);
+		model.addAttribute("currentDay", searchUtil.currentDayOfTheWeek());
+		model.addAttribute("currentTime", searchUtil.currentTime());
 		
 		//[{dpkind=피부과, hholidayendtime=12:00:00, hparking=1, dpno=5, hnightday=수요일, dno=1, dpsymptom=피부 질환, hno=1, dpkeyword=티눈,아토피,안면홍조, dspecialist=0, dgender=0, reviewCount=4, hopentime=09:00:00, hnightendtime=23:00:00, hname=연세세브란스, haddr=서울특별시 서대문구 신촌동 연세로 50-1, hclosetime=18:00:00, hholiday=0, reviewAverage=4.2}
 		// 기본
@@ -117,17 +139,16 @@ public class SearchController {
 		// 병원, 의사 이름별
 		List<Map<String, Object>> hospitaNamelList = searchService.hospitaNamelList(map);
 				
-		 /* map : {kindKeyword=소아과} {symptomKeyword=안구건조증} {otherKeyword=여의사} {keyword=안경} */
 		if (map.containsKey("kindKeyword")) {
-			model.addAttribute("hospitalList", kindHospitalList);
+			model.addAttribute("hospitalList", searchUtil.hnoUnique(kindHospitalList));
 		} else if (map.containsKey("symptomKeyword")) {
-			model.addAttribute("hospitalList", symptomHospitalList);
-		} else if (map.containsKey("otherKeyword")) {
-			if( map.get("otherKeyword").equals("야간진료")) {
-				for (Map<String, Object> hospital : otherHospitalList) {
+			model.addAttribute("hospitalList", searchUtil.hnoUnique(symptomHospitalList));
+		} else if (map.containsKey("optionKeyword")) {
+			if( (map.get("optionKeyword").toString()).contains("야간진료")) {
+				for (Map<String, Object> hospital : searchUtil.hnoUnique(otherHospitalList)) {
 				    String hnightday = (String) hospital.get("hnightday");
 				    if (hnightday != null) {
-				    	if (currentDay.equals(hnightday)) {
+				    	if (searchUtil.currentDayOfTheWeek().equals(hnightday)) {
 				    		todayNightHospital.add(hospital);
 					    } else {
 					    	notTodayNightHospital.add(hospital);
@@ -137,39 +158,59 @@ public class SearchController {
 				model.addAttribute("hospitalList", todayNightHospital);
 	    		model.addAttribute("notTodayNightHospital", notTodayNightHospital);
 			} else {
-				model.addAttribute("hospitalList", otherHospitalList);
+				model.addAttribute("hospitalList", searchUtil.hnoUnique(otherHospitalList));
 			}
 		} else if (map.containsKey("keyword")) {
-			model.addAttribute("hospitalList", hospitaNamelList);
+			model.addAttribute("hospitalList", searchUtil.hnoUnique(hospitaNamelList));
 		} else {
-			model.addAttribute("hospitalList", hospitalList);
+			model.addAttribute("hospitalList", searchUtil.hnoUnique(hospitalList));
 		}
-		
 		// 종류 {dpkind=소아과, dpsymptom=소아 질환, dpkeyword=감기,예방접종,성장판검사,신생아황달}
 		List<Map<String, Object>> departmentKeyword = searchService.departmentKeyword();
 		model.addAttribute("departmentKeyword", departmentKeyword);
 		
-
 		
-
-		// 찜하기
-		session.setAttribute("mno", 3);
-		List<String> hospitalLike = searchService.hospitalLike(session.getAttribute("mno"));
-		//{mhospitallike=이루이비인후과}
+		//나중에 지우기
+//		session.setAttribute("mno", 3);
+//		session.setAttribute("mid", "peazh");
+//		session.invalidate();
 		
+		// 찜한 병원 리스트
+		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
+			String hospitalLikeList = searchService.hospitalLikeList((int) session.getAttribute("mno"));
+			model.addAttribute("hospitalLikeList", hospitalLikeList);
+		}
 		return "/hospital";
 	}
 	
-	
-	
 	@ResponseBody
 	@PostMapping("/hospital")
-	public String hospitalList() {
+	public String hospitalList(@RequestParam Map<String, Object> map, HttpSession session) {
+		// map : //{hospitalName=연세세브란스, hospitalDelName=, mno=3}
+		JSONObject json = new JSONObject(); 
 		
-		JSONObject json = new JSONObject();
-		
-		
+		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
+			map.put("mno", session.getAttribute("mno"));
+			searchService.hospitalLike(map);
+		}
 		return json.toString();
 	}
+	
+	@GetMapping("/hospitalLike")
+	public String hospitalLike(HttpSession session, Model model) {
+		
+		// 현재 요일와 시간
+		model.addAttribute("currentDay", searchUtil.currentDayOfTheWeek());
+		model.addAttribute("currentTime", searchUtil.currentTime());
+				
+		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
+			String hospitalLikeList = searchService.hospitalLikeList((int) session.getAttribute("mno"));
+			model.addAttribute("hospitalLikeList", hospitalLikeList);
+			List<Map<String, Object>> hospitalList = searchService.hospitalList();
+			model.addAttribute("hospitalList", searchUtil.hnoUnique(hospitalList));
+		}
+		return "/hospitalLike";
+	}
+	
 	
 }

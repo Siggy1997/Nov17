@@ -8,19 +8,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SearchService {
+	
 	@Autowired 
 	private SearchDAO searchDAO;
 
 	public List<Map<String, Object>> departmentKeyword() {
-		return searchDAO.deparmentKeyword();
+		return searchDAO.departmentKeyword();
 	}
 
 	public List<Map<String, Object>> hospitalList() {
 		return searchDAO.hospitalList();
-	}
-
-	public List<String> hospitalLike(Object mno) {
-		return searchDAO.hospitalLike(mno);
 	}
 
 	public List<Map<String, Object>> kindHospitalList(Map<String, Object> map) {
@@ -37,6 +34,15 @@ public class SearchService {
 
 	public List<Map<String, Object>> hospitaNamelList(Map<String, Object> map) {
 		return searchDAO.hospitaNamelList(map);
+	}
+
+	public void hospitalLike(Map<String, Object> map) {
+		searchDAO.hospitalLike(map);
+		
+	}
+
+	public String hospitalLikeList(int mno) {
+		return searchDAO.hospitalLikeList(mno);
 	}
 
 	

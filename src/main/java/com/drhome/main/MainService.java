@@ -5,6 +5,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MainService {
-	@Autowired 
+	@Autowired
 	private MainDAO mainDAO;
+	
+	public void hello() {
+		
+	}
+
 }

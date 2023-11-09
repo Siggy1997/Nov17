@@ -1,6 +1,5 @@
 package com.drhome.hospitaldetail;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -13,12 +12,13 @@ import org.springframework.stereotype.Component;
 public class HospitalDetailUtil {
 
 	LocalDate now = LocalDate.now();
-	String dayOfWeek = now.getDayOfWeek().toString();
+	private String dayOfWeek = now.getDayOfWeek().toString();
 
 	LocalTime timenow = LocalTime.now();
 	DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 	String time = timenow.format(timeFormatter);
 
+	
 	public String getDayOfWeek(String dayOfWeek) {
 		switch (dayOfWeek) {
 		case "SUNDAY":
@@ -39,7 +39,8 @@ public class HospitalDetailUtil {
 			return "";
 		}
 	}
-
+	 
+	//병원 평균 평점 가져오기
 	public String getHospitalAverageRate(ArrayList<Map<String, Object>> reviewList) {
 		if (reviewList != null && !reviewList.isEmpty()) {
 
@@ -53,6 +54,14 @@ public class HospitalDetailUtil {
 		}else {
 			return null;
 		}
+	}
+
+	public String getDayOfWeek() {
+		return dayOfWeek;
+	}
+
+	public void setDayOfWeek(String dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
 	}
 
 }

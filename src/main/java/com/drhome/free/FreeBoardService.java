@@ -17,8 +17,8 @@ public class FreeBoardService {
 	}
 
 
-	public Map<String, Object> freePost(int bno) {
-		return freeBoardDAO.freePost(bno);
+	public Map<String, Object> freePosting(int bno) {
+		return freeBoardDAO.freePosting(bno);
 	}
 
 
@@ -42,4 +42,47 @@ public class FreeBoardService {
 		freeBoardDAO.writeFreeComment(freeCommentData);
 		
 	}
+
+
+	public void deleteFreeComment(Map<String, Object> deleteFreeCommentData) {
+		freeBoardDAO.deleteFreeComment(deleteFreeCommentData);		
+	}
+
+
+	public void reportFreePost(Map<String, Object> reportData) {
+		freeBoardDAO.reportFreePost(reportData);	
+		
+	}
+
+	public void addFreePostLike(Map<String, Object> freePostLikeData) {
+		freeBoardDAO.addFreePostLike(freePostLikeData);	
+		
+	}
+
+	public void delFreePostLike(Map<String, Object> freePostLikeData) {
+		freeBoardDAO.delFreePostLike(freePostLikeData);	
+		
+	}
+
+	
+	public int commentReportCount(Map<String, Object> commentReportCountData) {
+		return freeBoardDAO.commentReportCount(commentReportCountData);	
+	}
+
+	public void reportFreeComment(Map<String, Object> commentReportData) {
+		freeBoardDAO.reportFreeComment(commentReportData);	
+		
+	}
+
+
+	public int reportCount(Map<String, Object> reportCountData) {
+		return freeBoardDAO.reportCount(reportCountData);	
+	}
+
+
+
+
+
+
+	
 }

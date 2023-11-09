@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <link rel="stylesheet" href="../css/appointment.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -142,7 +143,7 @@
 	<header>
 		<ul>
 			<li>
-				<button onclick="location.href='../hospitaldetail/'+${hospital.hno}">
+				<button onclick="location.href='../hospitalDetail/'+${hospital.hno}">
 					<i class="xi-angle-left xi-2x"></i>
 				</button>
 			</li>

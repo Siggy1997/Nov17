@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drhome.admin.AdminDAO">
+
+	<select id="memberList" resultType="Map">
+		SELECT *
+		FROM member
+	</select>
+
+	<select id="adminLogin" parameterType="Map" resultType="Map">
+		<![CDATA[
+			SELECT
+			count(*) as count, mid, mname, mgrade
+			FROM member
+			WHERE mid=#{id} AND AES_DECRYPT(UNHEX(mpw), 'drhome')=#{pw} AND mgrade > 4
+		]]>
+	</select>
+
+	<select id="adminInfo" parameterType="Map" resultType="Map">
+		SELECT *
+		FROM member
+		WHERE mno=#{mno}
+	</select>
+
+	<select id="report" parameterType="Map" resultType="Map">
+		SELECT *
+		FROM report
+		WHERE DATE_FORMAT(rpdate, '%Y-%m-%d')
+	</select>
+
+	<select id="manageBoardList" resultType="Map">
+		SELECT *
+		FROM board ORDER
+		BY bno ASC
+	</select>
+
+	<update id="gradeChange" parameterType="Map">
+		UPDATE member SET
+		mgrade=#{grade} WHERE mno=#{mno}
+	</update>
+
+	<update id="resultChange" parameterType="Map">
+		UPDATE report 
+		SET rpresult=#{rpresult} WHERE rpno=#{rpno}
+	</update>
+
+	<update id="memberRcount" parameterType="Map">
+		<![CDATA[
+		UPDATE member
+		SET mboardcount = mboardcount + 1
+		WHERE mno=#{mno} AND mboardcount < 6
+		]]>
+	</update>
+
+	<select id="getMno" parameterType="Map" resultType="Integer">
+		SELECT mno
+		FROM report
+		WHERE rpno = #{rpno}
+	</select>
+ 
+	<select id="reportList" parameterType="Map" resultType="Map">
+		SELECT * FROM report
+		WHERE bno=#{bno}
+	</select>
+
+	<select id="aApprove" parameterType="Map" resultType="Map">
+		SELECT * FROM appointment
+	</select>
+
+	<update id="appointmentChange" parameterType="Map">
+		UPDATE appointment 
+		SET aresult=#{aresult} WHERE ano=#{ano}
+	</update>
+	
+	<select id="hospitalOpen" parameterType="Map" resultType="Map">
+		SELECT * FROM hospitalList_view
+	</select>
+
+	<insert id="insertHospital" parameterType="Map">
+		INSERT INTO registerhospital (hname, hopendate, haddr, htelnumber, himg, hinfo, hopentime, hclosetime, hnightday, hnightendtime, hbreaktime, hbreakendtime, hholiday, hholidayendtime, hparking)
+		VALUES (#{hname}, #{hopendate}, #{haddr}, #{htelnumber}, #{himg}, #{hinfo}, #{hopentime}, #{hclosetime}, #{hnightday}, #{hnightendtime}, #{hbreaktime}, #{hbreakendtime}, #{hholiday}, #{hholidayendtime}, #{hparking})
+	</insert>
+	
+	<insert id="insertDoctor" parameterType="Map">
+		INSERT INTO doctor (dname, dimg, dinfo, dgender, dcareer, dspecialist, dpno, hno, dtelehealth)
+		VALUES (#{dname}, #{dimg}, #{dinfo}, #{dgender}, #{dcareer}, #{dspecialist}, #{dpno}, #{hno}, #{dtelehealth})
+	</insert>
+	
+</mapper>
