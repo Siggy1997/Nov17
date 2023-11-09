@@ -29,28 +29,13 @@ public class AppointmentController {
 		
 		return "appointment";
 	}
-	
-	/*
-	 * @GetMapping("/adetail") public String adetail(Map<String, Object> map, Model
-	 * model, HttpSession session) {
-	 * 
-	 * return "adetail";
-	 * 
-	 * }
-	 */
 
 	@PostMapping("/adetail")
-	public String appointment(@RequestParam("hno") int hno, Map<String, Object> map, Model model, HttpSession session) {
+	public String appointment(@RequestParam("hno") int hno, Map<String, Object> map, Model model) {
 		
 		Map<String, Object> hospital = appointmentService.hospital(hno);
 		model.addAttribute("hospital", hospital);
 		System.out.println(hospital);
-		
-		List<Map<String, Object>> detail = appointmentService.detail(map);
-		model.addAttribute("detail", detail);
-		
-		List<Map<String, Object>> time = appointmentService.time(hno);
-		model.addAttribute("time", time);
 		
 		List<Map<String, Object>> department = appointmentService.department(map);
 		model.addAttribute("department", department);

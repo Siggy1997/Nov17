@@ -9,16 +9,6 @@
 	<select id="hospital" parameterType="Integer" resultType="Map">
 		SELECT * FROM hospital WHERE hno=#{hno}
 	</select>
-	
-	<select id="detail" parameterType="Map" resultType="Map">
-		SELECT m.mname, a.adiagnosis
-		FROM member m
-		INNER JOIN appointment a ON m.mno = a.mno
-	</select>
-
-	<select id="time" parameterType="Map" resultType="Map">
-		SELECT * FROM appointmenttime
-	</select>
 
 	<select id="doctor" parameterType="Map" resultType="Map">
 		SELECT * FROM doctor

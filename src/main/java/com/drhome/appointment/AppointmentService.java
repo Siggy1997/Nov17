@@ -24,14 +24,6 @@ public class AppointmentService {
 		return appointmentDAO.list(map);
 	}
 
-	public List<Map<String, Object>> detail(Map<String, Object> map) {
-		return appointmentDAO.detail(map);
-	}
-
-	public List<Map<String, Object>> time(int hno) {
-		return appointmentDAO.time(hno);
-	}
-
 	public List<Map<String, Object>> doctor(Map<String, Object> map) {
 		return appointmentDAO.doctor(map);
 	}

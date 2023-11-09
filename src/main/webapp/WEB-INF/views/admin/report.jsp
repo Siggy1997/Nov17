@@ -8,15 +8,34 @@
 <meta charset="UTF-8">
 <title>report</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweet-modal/dist/min/jquery.sweet-modal.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweet-modal/dist/min/jquery.sweet-modal.min.js"></script>
 <script type="text/javascript">
-function resultCh(rpno, value) {
-	if(confirm("변경하시겠습니까?")) {
-		location.href="./resultChange?rpno="+rpno+"&rpresult="+value;		
+	function resultCh(rpno, value) {
+		$.sweetModal({
+			content : '변경하시겠습니까?',
+			icon : $.sweetModal.ICON_WARNING,
+			buttons : {
+				someOtherAction : {
+					label : '예',
+					classes : 'blueB',
+					action : function() {
+						location.href="./resultChange?rpno="+rpno+"&rpresult="+value;
+					}
+				},
+				someAction : {
+					label : '아니오',
+					classes : 'redB',
+					action : function() {
+						location.href="./report";
+					}
+				},
+			},
+			width : '70%',
+		});
 	}
-}
 </script>
 <style type="text/css">
-
 .content{
 	width: 70%;
 	margin: 0 auto;
@@ -26,6 +45,24 @@ function resultCh(rpno, value) {
 .rpcontent {
 	width: 50%;
 }
+
+.sweet-modal-content {
+   font-size: 35px !important;
+   font-weight: 600 !important;
+}
+
+.sweet-modal-buttons {
+   display: flex !important;
+   justify-content: center !important;
+   border-radius: 15px !important;
+}
+
+.redB, .blueB {
+   font-size: 36px !important; 
+   width: 45% !important;
+}
+
+
 </style>
 </head>
 <body>
@@ -60,6 +97,7 @@ function resultCh(rpno, value) {
 					</tr>
 				</c:forEach>
 			</table>
+			<button onclick="location.href='./main'">돌아가기</button>
 		</div>
 	</div>
 </body>

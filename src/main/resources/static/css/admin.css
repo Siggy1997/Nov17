@@ -119,12 +119,7 @@ h1{
 	animation: fadeInUp 0.5s;
 }
 
-
-
-
-
-
-
-
-
-
+.name {
+	text-align: left;
+	font-weight: bold;
+}

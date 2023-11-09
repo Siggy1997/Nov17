@@ -14,10 +14,6 @@ public interface AppointmentDAO {
 
 	List<Map<String, Object>> list(Map<String, Object> map);
 
-	List<Map<String, Object>> detail(Map<String, Object> map);
-
-	List<Map<String, Object>> time(int hno);
-
 	List<Map<String, Object>> doctor(Map<String, Object> map);
 
 	int result(Map<String, Object> map);

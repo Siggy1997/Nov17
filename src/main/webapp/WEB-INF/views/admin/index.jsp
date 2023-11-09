@@ -4,6 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="./js/wnInterface.js"></script> 
+<script src="./js/mcore.min.js"></script> 
+<script src="./js/mcore.extends.js"></script>
+<title>admin</title>
 <script type="text/javascript">
 $(function() {
 	$(".login").click(function() {		
@@ -20,7 +24,7 @@ $(function() {
 		}
 		
 	var form = document.createElement("form");       
-		form.setAttribute("action" , "./login");
+		form.setAttribute("action" , "./index");
 		form.setAttribute("method" , "post");
 	
 	var id = document.createElement("input");
@@ -41,14 +45,56 @@ $(function() {
 	});
 });
 </script>
-<title>admin</title>
+<style type="text/css">
+body {
+	margin: 0px;
+	padding: 0px;
+}
+.main{
+	width:100%;
+	height:100vh;
+	background-size: inherit;
+	background-repeat: no-repeat;
+}
+.login-box{
+	margin-left: 43%;
+	bottom: 350px;
+	width: 300px;
+	height: 300px;
+	text-align: center;
+	position:absolute;
+	border: 1px solid black;
+	background-color: gray;
+}
+.login-form{
+	width: 200px;
+	margin-left: 17%;
+	margin-top: 30%;
+}
+.login-form input{
+	margin: 3px;
+	width: 180px;
+	height: 35px;
+	font-weight: bold;
+	text-align: center;
+}
+.login-form button{
+	margin: 3px;
+	width: 185px;
+	height: 35px;
+	border: 0px;
+	background-color: #00FFFF;
+	border-radius: 15px;
+	color: white;
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
 	<div class="continer">
 		<div class="main">
 			<div class="article">
 				<div class="login-box">
-					<div class="login-image"></div>
 					<div class="login-form">
 						<input type="text" name="id" id="id" required="required" maxlength="10"> 
 						<input type="password" name="pw" id="pw" required="required" maxlength="15">

@@ -10,16 +10,22 @@
 	<select id="adminLogin" parameterType="Map" resultType="Map">
 		<![CDATA[
 			SELECT
-			count(*) as mname, mgrade
+			count(*) as count, mid, mname, mgrade
 			FROM member
-			WHERE mid=#{mid} AND AES_DECRYPT(UNHEX(mpw),'sik')=#{pw} AND mgrade > 5
+			WHERE mid=#{id} AND AES_DECRYPT(UNHEX(mpw), 'drhome')=#{pw} AND mgrade > 4
 		]]>
+	</select>
+
+	<select id="adminInfo" parameterType="Map" resultType="Map">
+		SELECT *
+		FROM member
+		WHERE mno=#{mno}
 	</select>
 
 	<select id="report" parameterType="Map" resultType="Map">
 		SELECT *
-		FROM
-		report
+		FROM report
+		WHERE DATE_FORMAT(rpdate, '%Y-%m-%d')
 	</select>
 
 	<select id="manageBoardList" resultType="Map">
@@ -39,9 +45,11 @@
 	</update>
 
 	<update id="memberRcount" parameterType="Map">
+		<![CDATA[
 		UPDATE member
 		SET mboardcount = mboardcount + 1
-		WHERE mno=#{mno}
+		WHERE mno=#{mno} AND mboardcount < 6
+		]]>
 	</update>
 
 	<select id="getMno" parameterType="Map" resultType="Integer">
@@ -49,10 +57,33 @@
 		FROM report
 		WHERE rpno = #{rpno}
 	</select>
-
+ 
 	<select id="reportList" parameterType="Map" resultType="Map">
 		SELECT * FROM report
 		WHERE bno=#{bno}
 	</select>
 
+	<select id="aApprove" parameterType="Map" resultType="Map">
+		SELECT * FROM appointment
+	</select>
+
+	<update id="appointmentChange" parameterType="Map">
+		UPDATE appointment 
+		SET aresult=#{aresult} WHERE ano=#{ano}
+	</update>
+	
+	<select id="hospitalOpen" parameterType="Map" resultType="Map">
+		SELECT * FROM hospitalList_view
+	</select>
+
+	<insert id="insertHospital" parameterType="Map">
+		INSERT INTO registerhospital (hname, hopendate, haddr, htelnumber, himg, hinfo, hopentime, hclosetime, hnightday, hnightendtime, hbreaktime, hbreakendtime, hholiday, hholidayendtime, hparking)
+		VALUES (#{hname}, #{hopendate}, #{haddr}, #{htelnumber}, #{himg}, #{hinfo}, #{hopentime}, #{hclosetime}, #{hnightday}, #{hnightendtime}, #{hbreaktime}, #{hbreakendtime}, #{hholiday}, #{hholidayendtime}, #{hparking})
+	</insert>
+	
+	<insert id="insertDoctor" parameterType="Map">
+		INSERT INTO doctor (dname, dimg, dinfo, dgender, dcareer, dspecialist, dpno, hno, dtelehealth)
+		VALUES (#{dname}, #{dimg}, #{dinfo}, #{dgender}, #{dcareer}, #{dspecialist}, #{dpno}, #{hno}, #{dtelehealth})
+	</insert>
+	
 </mapper>

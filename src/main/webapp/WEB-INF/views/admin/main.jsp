@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,16 @@
 		<div class="main">
 			<div class="article">			
 				<h1>관리 목록</h1>
+				<div class="name">
+					<c:choose>
+						<c:when test="${sessionScope.mgrade gt 6}">
+							${sessionScope.mname } 관리자님 환영합니다.						
+						</c:when>
+						<c:otherwise>
+							${sessionScope.mname } 의사님 환영합니다.
+						</c:otherwise>
+					</c:choose>
+				</div>
 				<div class="box" style="background-color: #2EFEF7;" onclick="url('boardManage')">
 					게시판 관리
 					<div id="comment">QnA 및 자유게시판을 관리합니다</div>
@@ -32,14 +43,9 @@
 					<div id="comment">회원을 관리합니다</div>
 				</div>
 				
-				<div class="box" style="background-color: #2EFEF7;" onclick="url('houseOpen')">
+				<div class="box" style="background-color: #2EFEF7;" onclick="url('newHospital')">
 					병원 개설 관리
 					<div id="comment">병원의 개설을 관리합니다</div>
-				</div>
-				
-				<div class="box" style="background-color: #2EFEF7;" onclick="url('appointmentApprove')">
-					예약 관리
-					<div id="comment">진료 예약을 관리합니다.</div>
 				</div>
 			</div>
 		</div>

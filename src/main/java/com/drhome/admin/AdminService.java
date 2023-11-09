@@ -45,4 +45,32 @@ public class AdminService {
 		return adminDAO.reportList(map);
 	}
 
+	public List<Map<String, Object>> aApprove(Map<String, Object> map) {
+		return adminDAO.aApprove(map);
+	}
+
+	public int appointmentChange(Map<String, String> map) {
+		return adminDAO.appointmentChange(map);
+	}
+
+	public Map<String, Object> adminInfo(Map<String, Object> map) {
+		return adminDAO.adminInfo(map);
+	}
+
+	public List<Map<String, Object>> hospitalOpen(Map<String, Object> map) {
+		return adminDAO.hospitalOpen(map);
+	}
+
+	public int insertHospital(Map<String, Object> map) {
+		return adminDAO.insertHospital(map);
+	}
+
+	public List<Map<String, Object>> hList() {
+		return adminDAO.hList();
+	}
+
+	public int insertDoctor(Map<String, Object> map) {
+		return adminDAO.insertDoctor(map);
+	}
+
 }

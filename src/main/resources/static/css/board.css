@@ -15,12 +15,12 @@
 
 .div-cell {
 	display: table-cell;
-	border-bottom: 1px solid gray;
+	border-bottom: 1px solid #00FFFF;
 	text-align: center;
 }
 
 .table-head {
-	background-color: gray;
+	background-color: #00FFFF;
 	font-weight: bold;
 	text-align: center;
 }

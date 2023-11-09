@@ -27,4 +27,18 @@ public interface AdminDAO {
 
 	List<Map<String, Object>> reportList(Map<String, Object> map);
 
+	List<Map<String, Object>> aApprove(Map<String, Object> map);
+
+	int appointmentChange(Map<String, String> map);
+
+	Map<String, Object> adminInfo(Map<String, Object> map);
+
+	List<Map<String, Object>> hospitalOpen(Map<String, Object> map);
+
+	int insertHospital(Map<String, Object> map);
+
+	List<Map<String, Object>> hList();
+
+	int insertDoctor(Map<String, Object> map);
+
 }
