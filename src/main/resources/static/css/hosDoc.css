@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+body {
+	margin-top: 90px;
+}
+
+.btn {
+	border: 0;
+	background-color: #00C9FF;
+	border-radius: 15px;
+	color: white;
+	width: 250px;
+	height: 30px;
+	margin-bottom: 30px;
+}
+
+.article {
+	margin: 0 auto;
+	text-align: center;
+	width: 500px;
+	border: 1px solid gray;
+	border-radius: 15px;
+}
+
+input {
+	text-align: left;
+	margin-left: 100px;
+}
+
+.Group {
+	width: 430px;
+	height: 40px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.vector {
+	width: 220px;
+	border-width: 0 0 1px;
+}
+
+.content {
+	margin-bottom: 30px;
+}

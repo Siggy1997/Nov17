@@ -31,12 +31,30 @@ th, td {
 <body>
 	<a href="../main">&nbsp;&nbsp;←뒤로가기</a>
 	<h3>${sessionScope.mname} 님이 찜한 글 입니다.</h3>
-	
+	    <table class="table">
+      <thead>
+        <tr>
+          <th style="width:300px; min-width: 300px; max-width: 300px;">제목</th>
+          <th style="width:150px; min-width: 150px; max-width: 150px;">글쓴이</th>
+          <th style="width:150px; min-width: 150px; max-width: 150px;">날짜</th>
+          <th style="width:60px; min-width: 60px; max-width: 60px;">조회수</th>
+        </tr>
+      </thead>
+      <tbody>
+        <c:forEach items="${callDibs}" var="row">
+          <tr>
+            <td class="tdtitle" style="width:300px; min-width: 300px; max-width: 300px;" onclick="choiceDetail(${row.bno}, ${row.btype})">${row.btitle}</td>
+            <td style="width:150px; min-width: 150px; max-width: 150px;">${row.mnickname}</td>
+            <td style="width:150px; min-width: 150px; max-width: 150px;">${row.bdate}</td>
+            <td style="width:60px; min-width: 60px; max-width: 60px;">${row.blike}</td>
+          </tr>
+        </c:forEach>
+      </tbody>
+    </table>
 	<h3>${sessionScope.mname} 님이 작성하신 글입니다.</h3>
     <table class="table">
       <thead>
         <tr>
-          <th style="width:60px; min-width: 60px; max-width: 60px;">번호</th>
           <th style="width:300px; min-width: 300px; max-width: 300px;">제목</th>
           <th style="width:150px; min-width: 150px; max-width: 150px;">글쓴이</th>
           <th style="width:150px; min-width: 150px; max-width: 150px;">날짜</th>
@@ -46,7 +64,6 @@ th, td {
       <tbody>
         <c:forEach items="${myWriting}" var="row">
           <tr>
-            <td style="width:60px; min-width: 60px; max-width: 60px;">${row.bno}</td>
             <td class="tdtitle" style="width:300px; min-width: 300px; max-width: 300px;" onclick="choiceDetail(${row.bno}, ${row.btype})">${row.btitle}</td>
             <td style="width:150px; min-width: 150px; max-width: 150px;">${row.mnickname}</td>
             <td style="width:150px; min-width: 150px; max-width: 150px;">${row.bdate}</td>
@@ -59,19 +76,19 @@ th, td {
         <table class="table">
       <thead>
         <tr>
-          <th style="width:60px; min-width: 60px; max-width: 60px;">번호</th>
           <th style="width:300px; min-width: 300px; max-width: 300px;">댓글내용</th>
           <th style="width:150px; min-width: 150px; max-width: 150px;">글쓴이</th>
           <th style="width:150px; min-width: 150px; max-width: 150px;">날짜</th>
+          <th style="width:60px; min-width: 60px; max-width: 60px;">조회수</th>
         </tr>
       </thead>
       <tbody>
         <c:forEach items="${myComment}" var="row">
           <tr>
-            <td style="width:60px; min-width: 60px; max-width: 60px;">${row.cno}</td>
             <td class="tdtitle" style="width:300px; min-width: 300px; max-width: 300px;"  onclick="location.href='../commentDetail?cno=${row.cno}'">${row.ccontent}</td>
             <td style="width:150px; min-width: 150px; max-width: 150px;">${row.mnickname}</td>
             <td style="width:150px; min-width: 150px; max-width: 150px;">${row.cdate}</td>
+            <td style="width:60px; min-width: 60px; max-width: 60px;">${row.clike}</td>
           </tr>
         </c:forEach>
       </tbody>

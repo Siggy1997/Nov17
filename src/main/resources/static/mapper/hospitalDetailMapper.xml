@@ -34,12 +34,6 @@
 		WHERE r.hno =#{hno}
 	</select>
 
-	<select id="findDoctorByDno">
-		SELECT dname, dimg, dinfo, dgender, dcareer,
-		dspecialist, hname, haddr FROM
-		doctor d join hospital h on d.hno=h.hno
-		WHERE dno =#{dno}
-	</select>
 
 	<select id="countReviewByRate" resultType="Map">
 		SELECT COUNT(CASE

@@ -26,7 +26,7 @@ public class JoinController {
 	public String join(@RequestParam Map<String, Object> map) {
 		joinService.join(map);
 		
-		return "/join";
+		return "/login";
 	}
 	
 	@ResponseBody

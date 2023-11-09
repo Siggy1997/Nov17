@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 public class MainService {
 	@Autowired
 	private MainDAO mainDAO;
-
+	
 	public void hello() {
-		mainDAO.hello();
+		
 	}
 
-	
-	
 }

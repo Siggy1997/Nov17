@@ -15,7 +15,6 @@ public interface HospitalDetailDAO {
 
 	ArrayList<Map<String, Object>> findReviewByHno(int hno);
 
-	Map<String, Object> findDoctorByDno(int dno);
 
 	Map<String, Object> countReviewByRate(int hno);
 	

@@ -8,59 +8,143 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="./js/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" href="./css/freeDetail.css">
 <title>Insert title here</title>
 </head>
 <body>
 
 
-	<div class="freePost">
-		<div class="boardNum">${freePost.bno}</div>
-		<div class="btitle">${freePost.btitle}</div>
-		익명
-		<div class="bdetail">${freePost.bcontent}</div>
-		<div class="bdate">${freePost.bdate}</div>
+		<button class="toFreeBoard" onclick="location.href='freeBoard'">목록으로</button>
+
+	<div class="freePosting">
+		<div class="boardNum">글번호 ${freePosting.bno}</div>
+		<br> 제목
+		<div class="btitle">${freePosting.btitle}</div>
+		<br> 닉네임
+		<div class="mnickname">${freePosting.mnickname}</div>
+		<br> 내용
+		<div class="bdetail">${freePosting.bcontent}</div>
+		<br> 작성 날짜
+		<div class="bdate">${freePosting.bdate}</div>
+		<br>
+	</div>
+
+<c:if test="${isDibsTrue eq false}">
+	<form id="callDibsForm" action="/freePostLike" method="POST">
+		<input type="hidden" id="likePostInput" name="likePostInput"
+			value="false"> <input type="hidden" name="bno" id="bno"
+			value="${freePosting.bno}">
+		<button type="submit" id="dibsButtonFalse">♡ 공감하기</button>
+	</form>
+		</c:if>
+
+<c:if test="${isDibsTrue eq true}">
+	<form id="callDibsForm" action="/freePostLike" method="POST">
+		<input type="hidden" id="likePostInput" name="likePostInput"
+			value="true"> <input type="hidden" name="bno" id="bno"
+			value="${freePosting.bno}">
+		<button type="submit" id="dibsButtonTrue">♥ 공감하기</button>
+	</form>
+	</c:if>
+
+
+<c:if test="${freePosting.mno eq mno}">
+<form id="requestEditForm" action="/editBoard" method="POST">
+<input type="hidden" name="bno" id="bno"
+			value="${freePosting.bno}">
+			<input type="hidden" name="btitle" id="btitle"
+			value="${freePosting.btitle}">
+			<input type="hidden" name="bcontent" id="bcontent"
+			value="${freePosting.bcontent}">
+			<input type="hidden" name="btype" id="btype"
+			value="1">
+<button id="editButton">수정하기</button>
+</form>
+</c:if>
+
+
+	<c:if test="${freePosting.mno ne mno}">
+		<button type="button" id="reportButton">신고하기</button>
+	</c:if>
+
+	<div id="reportModal" class="modal">
+		<div class="modal-content">
+			<span class="close" id="closeModal">&times;</span>
+			<h2>신고하기</h2>
+
+			신고 사유
+			<form action="/reportFreePost" method="post" id="reportForm">
+				<input type="hidden" name="rpdate" id="rpdate"> <input
+					type="hidden" name="bno" id="bno" value="${freePosting.bno}">
+				<textarea rows="5" cols="13" name="rpcontent" id="rpcontent"></textarea>
+				<button type="submit">신고하기</button>
+			</form>
+		</div>
 	</div>
 
 
-<div id="formContainer">
-      <form action="./writeFreeComment" method="post" id="freeCommentForm">
-         <div>
-            댓글작성<br>
-            <textarea rows="5" cols="13" name="ccontent" id="ccontent"></textarea>
-         </div>
-         <input type="hidden" name="cdate" id="cdate"> <input
-            type="hidden" name="bno" id="bno" value="${freePost.bno}">
-         <button type="submit" id="submitCommnetButton">완료</button>
-         <button type="button" id="cancelCommnetButton">취소</button>
-      </form>
-   </div>
 
 
-	
 
-<br> 댓글
+	<div id="formContainer">
+		<form action="/writeFreeComment" method="post" id="freeCommentForm">
+			<div>
+				댓글작성<br>
+				<textarea rows="5" cols="13" name="ccontent" id="ccontent"></textarea>
+			</div>
+			<input type="hidden" name="cdate" id="cdate"> <input
+				type="hidden" name="bno" id="bno" value="${freePosting.bno}">
+			<button type="submit" id="submitCommnetButton">완료</button>
+		</form>
+	</div>
+
+
+
+	<br> 댓글
 	<div class="comment">
 		<c:forEach items="${freeComment}" var="comment">
 			<div class="cdetail">${comment.ccontent}</div>
 			<div class="cdate">${comment.cdate}</div>
+
+			<c:if test="${comment.mno ne mno}">
+				<button type="submit" class="commentReportButton"
+					data-bno="${freePosting.bno}" data-cno="${comment.cno}">신고하기</button>
+			</c:if>
+
 			<c:if test="${comment.mno eq mno}">
-				<form action="deleteFreeComment" method="post" id="deleteFreeComment">
-				<input type="hidden" name="cno" id="cno" value="${comment.cno}">
-					<input type="hidden" name="bno" id="bno" value="${freePost.bno}">
-					<button class="cdelete">삭제하기</button>
+				<form action="/deleteFreeComment" method="post"
+					id="deleteFreeComment">
+					<input type="hidden" name="cno" id="cno" value="${comment.cno}">
+					<input type="hidden" name="bno" id="bno" value="${freePosting.bno}">
+					<button class="cdelete" onclick="deleteConfirm()">삭제하기</button>
 				</form>
 			</c:if>
 			<br>
+
+			<div id="commentReportModal" class="modal">
+				<div class="modal-content">
+					<span class="close" id="closeModal2">&times;</span>
+					<h2>신고하기</h2>
+
+					신고 사유
+					<form action="/reportFreeComment" method="post"
+						id="commentReportForm">
+						<input type="hidden" name="crpdate" id="crpdate"> <input
+							type="hidden" name="cno" id="cno" value="${comment.cno}">
+						<input type="hidden" name="bno" id="bno"
+							value="${freePosting.bno}">
+						<textarea rows="5" cols="13" name="rpcontent" id="rpcontent"></textarea>
+						<button type="submit">신고하기</button>
+					</form>
+				</div>
+			</div>
 		</c:forEach>
 	</div>
-
-	
-
 
 
 
 	<script>
-	
 		//날짜, 시간 변환하기
 		function updateDate(element, dateString) {
 			const postTime = new Date(dateString);
@@ -94,35 +178,118 @@
 			const cdateElements = document.querySelectorAll(".cdate");
 			cdateElements.forEach(function(element) {
 				updateDate(element, element.textContent);
-			});
+			});  
 		});
 
+
+		document.getElementById('freeCommentForm').addEventListener(
+				'submit',
+				function(event) {
+					
+					var content = document.getElementById('ccontent').value.trim();
+					
+					if (content.trim() === '') {
+						alert('내용을 입력해주세요.');
+						event.preventDefault(); // 폼 전송 막기
+						return false;
+					}
+
+					// 폼 제출
+					this.submit();
+				});
+
 		
-		// 댓글 작성 시 현재 날짜와 시간을 추가
-	      document.getElementById('freeCommentForm').addEventListener(
-	            'submit',
-	            function(event) {
-	               event.preventDefault(); // 기본 제출 동작을 막음
+		function deleteConfirm() {
+			if (confirm("삭제하시겠습니까?")) {
+				return true;
+			} else {
+				event.preventDefault(); // 기본 제출 동작을 막음
+			}
+		}
 
-	               // 현재 날짜와 시간을 가져오기
-	               const currentDatetime = new Date();
-	               const utcDatetime = new Date(currentDatetime.toISOString()
-	                     .slice(0, 19)
-	                     + "Z"); // UTC 시간으로 변환
-	               const formattedDatetime = new Date(utcDatetime.getTime()
-	                     + 9 * 60 * 60 * 1000);
-
-	               document.getElementById('cdate').value = formattedDatetime
-	                     .toISOString().slice(0, 19).replace("T", " ");
-
-	               const content = document
-	                     .querySelector('textarea[name="ccontent"]').value;
-
-	               // 폼 제출
-	               this.submit();
-	            });
+	
 		
+		
+		$(document).on("click",".commentReportButton",function() {
+			
+							const bno = $(this).data("bno");
+							const cno = $(this).data("cno");
+
+							$.ajax({
+										url : "/commentReportCount",
+										type : "post",
+										data : {
+											bno : bno,
+											cno : cno
+										},
+										success : function(result) {
+											const data = JSON.parse(result);
+
+											if (data.result !== 0) {
+												alert("이미 신고한 댓글 입니다");
+											} else {
+												document
+														.getElementById("commentReportModal").style.display = "block";
+												
+												// 닫기 버튼 클릭 시 모달 닫기
+												closeModal2.addEventListener(
+																"click",
+																function() {
+																	document.getElementById("commentReportModal").style.display = "none";
+																});
+
+												// 모달 외부 클릭 시 모달 닫기
+												window.addEventListener(
+																"click",
+																function(event) {
+																	if (event.target == document
+																			.getElementById("commentReportModal")) {
+																		document.getElementById("commentReportModal").style.display = "none";
+																	}
+																});
+												
+											}
+
+										},
+										error : function() {
+											// 오류 처리
+										}
+									});
+						});
+
+		
+		
+		
+		
+
+		// 버튼 클릭 시 모달 열기
+		reportButton.addEventListener("click", function() {
+			const reportCount = "${reportCount}";
+
+
+	
+			if (reportCount !== "0") {
+				alert("이미 신고한 게시글 입니다");
+			} else {
+
+				document.getElementById("reportModal").style.display = "block";
+
+			}
+		});
+
+		// 닫기 버튼 클릭 시 모달 닫기
+		closeModal.addEventListener("click", function() {
+			document.getElementById("reportModal").style.display = "none";
+		});
+
+		// 모달 외부 클릭 시 모달 닫기
+		window.addEventListener("click", function(event) {
+			if (event.target == document.getElementById("reportModal")) {
+				document.getElementById("reportModal").style.display = "none";
+			}
+		});
 	</script>
+
 
 </body>
 </html>

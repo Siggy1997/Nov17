@@ -40,7 +40,7 @@ public class HospitalDetailController {
 		String averageHospitalRate = util.getHospitalAverageRate(reviewList);
 
 		Map<String, Object> now = new HashMap<>();
-		now.put("dayOfWeek", util.getDayOfWeek(util.dayOfWeek));
+		now.put("dayOfWeek", util.getDayOfWeek(util.getDayOfWeek()));
 		now.put("time", util.time);
 
 		model.addAttribute("hospital", hospital);
@@ -53,14 +53,6 @@ public class HospitalDetailController {
 		return "/hospitalDetail";
 	}
 
-	// 의사 상세 페이지
-	@GetMapping("/doctorDetail/{dno}")
-	public String dotordetail(@PathVariable int dno, Model model) {
-		Map<String, Object> doctorDetail = hospitalDetailService.findDoctorByDno(dno);
-		model.addAttribute("doctorDetail", doctorDetail);
-		return "/doctorDetail";
-
-	}
 
 	// 댓글 정렬하기 (신규, 오래된순, 별점 높은순, 별점 낮은순)
 	@ResponseBody
