@@ -4,7 +4,7 @@
 
 	<select id="qnaList" resultType="Map">
 		SELECT board.bno, board.btitle,
-		board.bcontent, COUNT(comment.cno) AS
+		board.bcontent, board.bkind, COUNT(comment.cno) AS
 		comment_count
 		FROM board
 		LEFT JOIN
@@ -17,10 +17,12 @@
 
 	<select id="qnaQuestion" parameterType="Integer"
 		resultType="Map">
-		SELECT bno, btitle, bcontent, bdate, bcalldibs
+		SELECT board.bno, board.btitle, board.bcontent, board.bkind,
+		board.bdate, board.bcalldibs, member.mno
 		FROM board
-		WHERE
-		bno=#{bno}
+		LEFT JOIN member ON
+		board.mno = member.mno
+		WHERE board.bno = #{bno};
 	</select>
 
 	<select id="qnaAnswer" parameterType="Integer" resultType="Map">
@@ -38,11 +40,23 @@
 		comment.cno DESC;
 	</select>
 
+	<select id="doctorInfo" parameterType="Integer" resultType="Map">
+		SELECT dv.dno, dv.dname, dv.dimg, dv.dinfo, dv.dpkind, dv.dcareer, dv.hno,
+		dv.reviewAverage, hv.hname, hv.hospitalDepartments
+		FROM doctorinfo_view
+		dv
+		INNER JOIN hospitalinfo_view hv ON dv.hno = hv.hno
+		WHERE dv.dno IN
+		<foreach item="dno" collection="list" open="(" separator=","
+			close=")"> #{dno}
+		</foreach>
+	</select>
+
 	<insert id="postQna" parameterType="Map">
 		INSERT INTO board (btitle,
-		bcontent, bdate, btype, mno)
+		bcontent, bdate, btype, mno, bkind)
 		VALUES (#{btitle}, #{bcontent}, #{bdate},
-		#{btype}, #{mno})
+		#{btype}, #{mno}, #{selectDepartment})
 	</insert>
 
 	<select id="commentCount" parameterType="Integer"
@@ -52,27 +66,15 @@
 
 	<insert id="writeQnaAnswer" parameterType="Map">
 		INSERT INTO comment
-		(bno, dno, hno, cno, ccontent, cdate)
+		(bno, dno, hno, ccontent, cdate)
 		VALUES (#{bno}, #{dno}, #{hno},
-		#{cno}, #{ccontent}, #{cdate})
+		#{ccontent}, #{cdate})
 	</insert>
 
 	<delete id="deleteQnaAnswer" parameterType="Map">
 		DELETE FROM comment
 		WHERE bno = #{bno} AND cno = #{cno}
 	</delete>
-
-	<select id="boardSearch" parameterType="String" resultType="Map">
-		SELECT b.*
-		FROM board b
-		WHERE b.btitle LIKE CONCAT('%', '${searchWord}',
-		'%')
-		OR b.bcontent LIKE CONCAT('%', '${searchWord}', '%')
-		OR EXISTS
-		(SELECT 1 FROM comment c WHERE c.bno = b.bno AND c.ccontent
-		LIKE
-		CONCAT('%', '${searchWord}', '%'));
-	</select>
 
 	<update id="addQnaCallDibs" parameterType="Map">
 		UPDATE board
@@ -87,14 +89,82 @@
 
 	<update id="delQnaCallDibs" parameterType="Map">
 		UPDATE board
-		SET bcalldibs =
+		SET
+		bcalldibs =
 		CASE
-		WHEN CONCAT(',', bcalldibs, ',') LIKE CONCAT('%,', #{mno}, ',%') THEN
-		TRIM(BOTH ',' FROM REPLACE(CONCAT(',', bcalldibs, ','), CONCAT(',',
+		WHEN CONCAT(',', bcalldibs, ',') LIKE CONCAT('%,',
+		#{mno}, ',%') THEN
+		TRIM(BOTH ',' FROM REPLACE(CONCAT(',', bcalldibs,
+		','), CONCAT(',',
 		#{mno}, ','), ','))
 		ELSE bcalldibs
 		END
-		WHERE bno = #{bno}
+		WHERE bno =
+		#{bno}
+	</update>
+
+	<update id="deleteQnaQuestion" parameterType="Map">
+		UPDATE board
+		SET
+		btype = #{btype}
+		WHERE bno=#{bno}
+	</update>
+
+	<select id="reportCount" parameterType="Map"
+		resultType="Integer">
+		SELECT COUNT(rpno) FROM report WHERE bno = #{bno} AND
+		rpreporterno = #{mno}
+	</select>
+
+	<insert id="reportPost" parameterType="Map">
+	INSERT INTO report
+		(rpreporterno, bno, rpcontent, rpurl, rpdate, mno) VALUES (#{mno},
+		#{bno}, #{rpcontent}, #{rpurl}, #{rpdate}, (SELECT mno FROM board
+		WHERE bno = #{bno}))
+	</insert>
+
+	<select id="boardSearchAll" parameterType="String"
+		resultType="Map">
+		SELECT b.*
+		FROM board b
+		WHERE b.btitle LIKE CONCAT('%',
+		'${searchWord}',
+		'%')
+		OR b.bcontent LIKE CONCAT('%', '${searchWord}',
+		'%')
+		OR EXISTS
+		(SELECT 1 FROM comment c WHERE c.bno = b.bno AND
+		c.ccontent
+		LIKE
+		CONCAT('%', '${searchWord}', '%'));
+	</select>
+
+	<select id="boardSearchTitle" parameterType="String"
+		resultType="Map">
+		SELECT b.*
+		FROM board b
+		WHERE b.btitle LIKE CONCAT('%',
+		'${searchWord}', '%');
+	</select>
+
+	<select id="boardSearchContent" parameterType="String"
+		resultType="Map">
+		SELECT b.*
+		FROM board b
+		WHERE b.bcontent LIKE CONCAT('%',
+		'${searchWord}', '%')
+		OR EXISTS
+		(SELECT 1 FROM comment c WHERE c.bno =
+		b.bno AND c.ccontent LIKE CONCAT('%',
+		'${searchWord}', '%'));
+	</select>
+	
+	<update id="editBoard" parameterType="Map">
+		UPDATE board
+		SET
+		btitle = #{btitle},
+		bcontent = #{bcontent}
+		WHERE bno=#{bno}
 	</update>
 
 </mapper>

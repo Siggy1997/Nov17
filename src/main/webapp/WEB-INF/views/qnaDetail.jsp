@@ -8,6 +8,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="./js/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" href="./css/qnaDetail.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -18,25 +20,63 @@
 		<div class="btitle">${qnaQuestion.btitle}</div>
 		익명
 		<div class="bdetail">${qnaQuestion.bcontent}</div>
+		 <c:if test="${qnaQuestion.bkind ne 'unknown'}">
+		<div class="bkind">${qnaQuestion.bkind}</div>
+		 </c:if>
 		<div class="bdate">${qnaQuestion.bdate}</div>
 	</div>
 
+	<c:if test="${qnaQuestion.mno eq mno}">
+		<form action="deleteQnaQuestion" method="post" id="deleteQnaQuestion">
+			<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
+			<button class="bdelete" onclick="deleteConfirm()">삭제하기</button>
+		</form>
+	</c:if>
 
-	<form id="callDibsForm" action="/qnaCallDibs" method="POST">
-		<input type="hidden" id="callDibsInput" name="callDibsInput"
-			value="false"> <input type="hidden" name="bno" id="bno"
-			value="${qnaQuestion.bno}">
-		<button type="submit" id="dibsButtonFalse">☆ 찜하기</button>
-	</form>
+	<c:if test="${qnaQuestion.mno ne mno}">
+		<button type="button" id="reportButton">신고하기</button>
+	</c:if>
 
-	<form id="callDibsForm" action="/qnaCallDibs" method="POST">
-		<input type="hidden" id="callDibsInput" name="callDibsInput"
-			value="true"> <input type="hidden" name="bno" id="bno"
-			value="${qnaQuestion.bno}">
-		<button type="submit" id="dibsButtonTrue">★ 찜하기</button>
-	</form>
 
-	<c:if test="${not empty hno}">
+	<div id="reportModal" class="modal">
+		<div class="modal-content">
+			<span class="close" id="closeModal">&times;</span>
+			<h2>신고하기</h2>
+
+			신고 사유
+			<form action="/reportPost" method="post" id="reportForm">
+				<input type="hidden" name="rpdate" id="rpdate"> <input
+					type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
+				<textarea rows="5" cols="13" name="rpcontent" id="rpcontent"></textarea>
+				<button type="submit">신고하기</button>
+			</form>
+
+		</div>
+	</div>
+
+	<c:if test="${isDibsTrue eq false}">
+		<form id="callDibsForm" action="/qnaCallDibs" method="POST">
+			<input type="hidden" id="callDibsInput" name="callDibsInput"
+				value="false"> <input type="hidden" name="bno" id="bno"
+				value="${qnaQuestion.bno}">
+			<button type="submit" id="dibsButtonFalse">☆ 찜하기</button>
+		</form>
+	</c:if>
+
+	<c:if test="${isDibsTrue eq true}">
+		<form id="callDibsForm" action="/qnaCallDibs" method="POST">
+			<input type="hidden" id="callDibsInput" name="callDibsInput"
+				value="true"> <input type="hidden" name="bno" id="bno"
+				value="${qnaQuestion.bno}">
+			<button type="submit" id="dibsButtonTrue">★ 찜하기</button>
+		</form>
+	</c:if>
+
+
+
+
+
+	<c:if test="${not empty dno}">
 		<button type="button" id="answerToggleButton">답변 작성하기</button>
 	</c:if>
 
@@ -56,22 +96,36 @@
 
 
 	<br> 의료인 답변
+	<br>
+	<br>
 	<div class="answer">
 		<c:forEach items="${qnaAnswer}" var="answer">
-			<div class="hospitalNum">${answer.hno}</div>
-			<div class="doctorNum">${answer.dno}</div>
+			<input type="hidden" name="hospitalNum" value="${answer.hno}">
+			<input type="hidden" name="doctorNum" value="${answer.dno}">
 			<div class="cdetail">${answer.ccontent}</div>
 			<div class="cdate">${answer.cdate}</div>
-			<c:if test="${answer.hno eq hno}">
+
+			<c:forEach items="${doctorInfo}" var="doctor">
+			   <c:if test="${doctor.dno eq answer.dno}">
+				<img src="${doctor.dimg}" alt="의사 이미지" height="75">
+				<div class="doctorName">${doctor.dname}</div>
+				<div class="doctorDpkind">${doctor.dpkind}</div>
+				<div class="hospital">${doctor.hname}</div>
+				 </c:if>
+			</c:forEach>
+
+
+			<c:if test="${answer.dno eq dno}">
 				<form action="deleteQnaAnswer" method="post" id="deleteQnaAnswer">
 					<input type="hidden" name="cno" id="cno" value="${answer.cno}">
 					<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
-					<button class="cdelete">삭제하기</button>
+					<button class="cdelete" onclick="deleteConfirm()">삭제하기</button>
 				</form>
 			</c:if>
 			<br>
 		</c:forEach>
 	</div>
+
 
 
 
@@ -113,29 +167,8 @@
 			});
 		});
 
-		// 폼이 제출될 때 현재 날짜와 시간을 입력란에 추가
-		document.getElementById('qnaAnswerForm').addEventListener(
-				'submit',
-				function(event) {
-					event.preventDefault(); // 기본 제출 동작을 막음
-
-					// 현재 날짜와 시간을 가져오기
-					const currentDatetime = new Date();
-					const utcDatetime = new Date(currentDatetime.toISOString()
-							.slice(0, 19)
-							+ "Z"); // UTC 시간으로 변환
-					const formattedDatetime = new Date(utcDatetime.getTime()
-							+ 9 * 60 * 60 * 1000);
-
-					document.getElementById('cdate').value = formattedDatetime
-							.toISOString().slice(0, 19).replace("T", " ");
-
-					const content = document
-							.querySelector('textarea[name="ccontent"]').value;
-
-					// 폼 제출
-					this.submit();
-				});
+		
+		
 
 		// "답변 작성하기" 버튼 클릭 시 답변 입력창 나타내기
 		document.getElementById('answerToggleButton').addEventListener(
@@ -146,7 +179,6 @@
 					const formContainer = document
 							.getElementById('formContainer');
 
-					// textarea와 formContainer(나타나거나 숨기기)
 					if (textarea.style.display === 'none') {
 						textarea.style.display = 'block';
 						formContainer.style.display = 'block';
@@ -155,6 +187,7 @@
 						formContainer.style.display = 'none';
 					}
 				});
+		
 
 		// "취소" 버튼 클릭 시 답변 입력창 가리기 
 		document
@@ -162,37 +195,46 @@
 				.addEventListener(
 						'click',
 						function() {
-							// textarea와 formContainer를 숨김
 							document.getElementById('ccontent').style.display = 'none';
 							document.getElementById('formContainer').style.display = 'none';
 						});
 
-		//찜버튼 클릭
-		window.onload = function() {
-			// 이 부분에서 bcalldibs 값을 가져와야 합니다. db에서 가져온다고 가정
-			var bCallDibs = "${qnaQuestion.bcalldibs}";
-
-			// mno 값 가져오기
-			var mno = "${mno}"; // mnoValue는 어떻게 가져올지에 따라 수정해야 합니다.
-
-			// 쉼표로 분할하여 배열로 만듭니다.
-			var mnoArray = bCallDibs.split(',');
-
-			// mno 값이 배열에 포함되는지 확인합니다.
-			var isDibsTrue = mnoArray.includes(mno);
-
-			var dibsButtonTrue = document.getElementById("dibsButtonTrue");
-			var dibsButtonFalse = document.getElementById("dibsButtonFalse");
-
-			if (isDibsTrue) {
-				dibsButtonTrue.style.display = "block"; // 표시
-				dibsButtonFalse.style.display = "none"; // 숨김
+		function deleteConfirm() {
+			if (confirm("삭제하시겠습니까?")) {
+				return true;
 			} else {
-				dibsButtonTrue.style.display = "none"; // 숨김
-				dibsButtonFalse.style.display = "block"; // 표시
+				event.preventDefault(); // 기본 제출 동작을 막음
 			}
 		}
+
+		// 버튼 클릭 시 모달 열기
+		reportButton.addEventListener("click", function() {
+			const reportCount = ${reportCount};
+		
+			if (reportCount !== 0) {
+				const submitButton = document
+						.querySelector("button[type='submit']");
+				alert("이미 신고한 게시물 입니다");
+			} else {
+
+				document.getElementById("reportModal").style.display = "block";
+
+			}
+		});
+
+		// 닫기 버튼 클릭 시 모달 닫기
+		closeModal.addEventListener("click", function() {
+			document.getElementById("reportModal").style.display = "none";
+		});
+
+		// 모달 외부 클릭 시 모달 닫기
+		window.addEventListener("click", function(event) {
+			if (event.target == document.getElementById("reportModal")) {
+				document.getElementById("reportModal").style.display = "none";
+			}
+		});
 	</script>
+
 
 </body>
 </html>
