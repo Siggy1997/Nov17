@@ -1,5 +1,6 @@
 package com.drhome.main;
 
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,4 +17,5 @@ public class MainController {
 		
 		return "/main";
 	}
+
 }
