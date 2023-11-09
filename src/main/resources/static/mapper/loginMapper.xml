@@ -18,7 +18,9 @@
 
 	<select id="loginCheck" parameterType="Map" resultType="Map">
 		SELECT
+
 		mno, mname, mid, mhospitallike
+
 		FROM member
 		WHERE mid=#{mid} AND mpw=#{mpw};
 	</select>

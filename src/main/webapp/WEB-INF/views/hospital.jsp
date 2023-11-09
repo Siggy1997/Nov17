@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/hospital.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
+
 <!-- <script src="./js/wnInterface.js"></script> 
 <script src="./js/mcore.min.js"></script> 
 <script src="./js/mcore.extends.js"></script>  -->
@@ -20,6 +21,7 @@
 		
 		let optionKeywordBox = '';
 		let addSelectByDepartment = '';
+
 		/* input창에 검색 키워드 넣기 */
 		let urlString = location.search;
 		let urlParams = new URLSearchParams(urlString);
@@ -32,18 +34,22 @@
 		} else if (kindKeyword != null) {
 			$("#keyword").val(kindKeyword);
 			$(".selectByDepartmentText").text(kindKeyword);
+
 			$(".selectByDepartment").addClass("filter-btn-css");
+
 			$(".departmentKind").filter(function() {
 			    return $(this).text().trim() === kindKeyword;
 			}).addClass("btn-color-css");
 		} else if (symptomKeyword != null) {
 			$("#keyword").val(symptomKeyword);
 			$(".selectByDepartmentText").text(symptomKeyword);
+
 			$(".selectByDepartment").addClass("filter-btn-css");
 			$(".symptomKind").filter(function() {
 			    return $(this).text().trim() === symptomKeyword;
 			}).addClass("btn-color-css");
 		} 
+
 		if (optionKeyword != null) {
 			$(".selectByCategory").addClass("filter-btn-css");
 			optionKeywordBox += optionKeyword;
@@ -103,14 +109,17 @@
 			} else {
 				$(this).addClass("btn-color-css");
 		        $(".hospitalListContainer").hide();
+
 		        inTreatment.show();
 			    }
 		    hospitalCount();
 		});
 		
 		/* 진료과, 증상 모달 */
+
 		$(document).on("click", ".selectByDepartmentText", function(){
 	    	if( symptomKeyword != null ) {
+
 				$(".departmentGroup").hide();
 				$(".symptomContainer").show();
 			} else {
@@ -196,6 +205,7 @@
 		});
 		
 		$(document).on("click", ".optionSubmit", function(){
+
 			$("#optionKeywordBox").val(optionKeywordBox);
 		});
 		
@@ -239,6 +249,7 @@
 		    
 		});
 
+
 		/* 검색 input창 */
 		$("#keyword").click(function(){
 			location.href= '/search';
@@ -256,6 +267,7 @@
 			}
 		});
 		
+
 		/* 정렬 */
 		$(".sortHospital").change(function(){
 			let selectedOption = $(this).find("option:selected").text();
@@ -322,6 +334,7 @@
 
 	});
 
+
 	/* Collection of functions */
 	
 	/* 병원 상세보기 페이지 이동 */
@@ -387,7 +400,6 @@
 	        return [];
 	    }
 	}
-	
 	/* 카테고리 선택 해제하기 */
 	function deselect(select) {
 		if (select.hasClass("filter-btn-css")) {
@@ -409,6 +421,7 @@
 	}
 	
 	
+
 
 
 </script>
@@ -709,16 +722,19 @@
 	            			<span class="xi-radiobox-blank"></span>
 	            		</button>
 	            	</div>
+
 						<input type="hidden" name="optionKeywordBox" id="optionKeywordBox">
 						<div class="optionSubmit">
 			            		<button>선택완료</button>
 		            	</div>
+
 	            </div>
 	         </div>
 	      </div>
 	   </div>
    </div>
    </form>
+
 	
 	<!-- Bootstrap core JS -->
    <script

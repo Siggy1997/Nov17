@@ -2,13 +2,17 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <%@ page import="java.util.Calendar, java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="../css/hospital.css">
 <script src="../js/jquery-3.7.0.min.js"></script> 
@@ -173,10 +177,12 @@
 		
 	});
 
+
 </script>
 
 </head>
 <body>
+
 	<h1>doctor</h1>
 	
 	<div class="doctorContainerBox">
@@ -379,5 +385,6 @@ mname=송화진, rkeyword=효과좋아요,친절해요, mno=1} -->
 		</c:choose>
 	</div>
 	</div>
+
 </body>
 </html>

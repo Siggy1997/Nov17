@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drhome.free.FreeBoardDAO">
+
+	<select id="freeList" resultType="Map">
+		SELECT board.bno, board.btitle,
+		board.bcontent, COUNT(comment.cno) AS
+		comment_count
+		FROM board
+		LEFT JOIN
+		comment ON board.bno = comment.bno
+		WHERE board.btype = 1
+		GROUP BY
+		board.bno, board.btitle, board.bcontent
+		ORDER BY board.bno DESC;
+	</select>
+
+
+	<select id="freePost" parameterType="Integer" resultType="Map">
+		SELECT
+		mno, bno, btitle, bcontent, bdate
+		FROM board
+		WHERE
+		bno=#{bno}
+	</select>
+
+	<select id="freeComment" parameterType="Integer"
+		resultType="Map">
+		SELECT comment.mno, comment.cno, comment.cdate,
+		comment.ccontent
+		FROM
+		comment
+		LEFT JOIN board ON comment.bno = board.bno
+		WHERE board.bno = #{bno}
+		GROUP BY
+		comment.mno,
+		comment.cdate,
+		comment.ccontent
+		ORDER BY
+		comment.cno DESC;
+	</select>
+
+	<insert id="postFree" parameterType="Map">
+		INSERT INTO board (btitle,
+		bcontent, bdate, btype, mno)
+		VALUES (#{btitle}, #{bcontent}, #{bdate},
+		#{btype}, #{mno})
+	</insert>
+
+	<select id="commentCount" parameterType="Integer"
+		resultType="Integer">
+		SELECT COUNT(cno) FROM comment WHERE bno = #{bno}
+	</select>
+
+	<insert id="writeFreeComment" parameterType="Map">
+		INSERT INTO comment
+		(bno, mno, cno, ccontent, cdate)
+		VALUES (#{bno}, #{mno},
+		#{cno}, #{ccontent}, #{cdate})
+	</insert>
+
+
+
+</mapper>

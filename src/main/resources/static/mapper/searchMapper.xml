@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.drhome.search.SearchDAO">
 
+
 	<select id="departmentKeyword" resultType="Map">
 		SELECT dpkind, dpsymptom, dpkeyword
 		FROM department
@@ -129,6 +130,7 @@
 		FROM member
 		WHERE mno = #{mno}
 	</select>
+
 
 
 </mapper>
