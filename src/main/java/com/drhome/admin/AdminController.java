@@ -29,7 +29,7 @@ public class AdminController {
 	private Util util;
 
 	@GetMapping("/adminMain")
-	public String main(@RequestParam Map<String, Object> map, Model model, HttpSession session) {
+	public String adminmain(@RequestParam Map<String, Object> map, Model model, HttpSession session) {
 		
 		if (session.getAttribute("mid") == null) {
 		

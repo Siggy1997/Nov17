@@ -77,8 +77,8 @@
 	</select>
 
 	<insert id="insertHospital" parameterType="Map">
-		INSERT INTO registerhospital (hname, hopendate, haddr, htelnumber, himg, hinfo, hopentime, hclosetime, hnightday, hnightendtime, hbreaktime, hbreakendtime, hholiday, hholidayendtime, hparking)
-		VALUES (#{hname}, #{hopendate}, #{haddr}, #{htelnumber}, #{himg}, #{hinfo}, #{hopentime}, #{hclosetime}, #{hnightday}, #{hnightendtime}, #{hbreaktime}, #{hbreakendtime}, #{hholiday}, #{hholidayendtime}, #{hparking})
+		INSERT INTO registerhospital (rhname, rhopendate, rhaddr, rhtelnumber, rhimg, rhinfo, rhopentime, rhclosetime, rhnightday, rhnightendtime, rhbreaktime, rhbreakendtime, rhholiday, rhholidayendtime, rhparking)
+		VALUES (#{rhname}, #{rhopendate}, #{rhaddr}, #{rhtelnumber}, #{rhimg}, #{rhinfo}, #{rhopentime}, #{rhclosetime}, #{rhnightday}, #{rhnightendtime}, #{rhbreaktime}, #{rhbreakendtime}, #{rhholiday}, #{rhholidayendtime}, #{rhparking})
 	</insert>
 	
 	<insert id="insertDoctor" parameterType="Map">
