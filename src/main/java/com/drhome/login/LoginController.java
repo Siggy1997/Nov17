@@ -47,7 +47,6 @@ public class LoginController {
 				session.setAttribute("mno", loginCheck.get("mno"));
 				session.setAttribute("mid", loginCheck.get("mid"));
 				session.setAttribute("mname", loginCheck.get("mname"));
-				session.setAttribute("mgrade", loginCheck.get("mgrade"));
 				session.setAttribute("mhospitallike", loginCheck.get("mhospitallike"));
 				session.setAttribute("mgrade", loginCheck.get("mgrade"));
 
