@@ -19,6 +19,7 @@ public class HospitalDetailUtil {
 	DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 	String time = timenow.format(timeFormatter);
 
+	
 	public String getDayOfWeek(String dayOfWeek) {
 		switch (dayOfWeek) {
 		case "SUNDAY":
@@ -39,7 +40,8 @@ public class HospitalDetailUtil {
 			return "";
 		}
 	}
-
+	
+	//병원 평균 평점 가져오기
 	public String getHospitalAverageRate(ArrayList<Map<String, Object>> reviewList) {
 		if (reviewList != null && !reviewList.isEmpty()) {
 

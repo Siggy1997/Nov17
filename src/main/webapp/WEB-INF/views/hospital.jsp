@@ -12,9 +12,49 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/hospital.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
+<script src="./js/wnInterface.js"></script> 
+<script src="./js/mcore.min.js"></script> 
+<script src="./js/mcore.extends.js"></script> 
 
 <script type="text/javascript">
-	$(document).ready(function(){
+	$(function(){
+		$(".optionModal").modal("show");// 이따가 바꾸기
+		let optionKeywordBox = '';
+		/* input창에 검색 키워드 넣기 */
+		let urlString = window.location.search;
+		let urlParams = new URLSearchParams(urlString);
+		let kindKeyword = urlParams.get('kindKeyword');
+		let symptomKeyword = urlParams.get('symptomKeyword');
+		let otherKeyword = urlParams.get('otherKeyword');
+		let keyword = urlParams.get('keyword');
+		if (urlParams == '') {
+			$("#keyword").val("예약 가능한 병원");
+		} else if (kindKeyword != null) {
+			$("#keyword").val(kindKeyword);
+			$(".selectByDepartmentText").text(kindKeyword);
+			$(".selectByDepartment").addClass(".filter-btn-css");
+			$(".departmentKind").filter(function() {
+			    return $(this).text().trim() === kindKeyword;
+			}).addClass("btn-color-css");
+		} else if (symptomKeyword != null) {
+			$("#keyword").val(symptomKeyword);
+			$(".selectByDepartmentText").text(symptomKeyword);
+			$(".selectByDepartment").addClass(".filter-btn-css");
+			$(".symptomKind").filter(function() {
+			    return $(this).text().trim() === symptomKeyword;
+			}).addClass("btn-color-css");
+		} 
+		if (otherKeyword != null) {
+			$("#keyword").val(otherKeyword);
+			$(".selectByCategoryText").text(otherKeyword);
+			optionKeywordBox += otherKeyword;
+			$(".optionKind").filter(function() {
+			    return $(this).text().trim() === otherKeyword;
+			}).addClass("btn-color-css").children(".xi-radiobox-blank").addClass("xi-check-circle").removeClass("xi-radiobox-blank");
+		}
+		if (keyword != null) {
+			$("#keyword").val(keyword);
+		}
 		
 		/* 병원 총 개수 세기 */
 	    hospitalCount();
@@ -30,43 +70,6 @@
 	        }
 	    });
 		
-		/* input창에 검색 키워드 넣기 */
-		let urlString = window.location.search;
-		let urlParams = new URLSearchParams(urlString);
-		let kindKeyword = urlParams.get('kindKeyword');
-		let symptomKeyword = urlParams.get('symptomKeyword');
-		let otherKeyword = urlParams.get('otherKeyword');
-		let keyword = urlParams.get('keyword');
-		if (urlParams == '') {
-			$("#keyword").val("예약 가능한 병원");
-		} else if (kindKeyword != null) {
-			$("#keyword").val(kindKeyword);
-			$(".selectByDepartmentText").text(kindKeyword);
-			$(".selectByDepartment").addClass(".filter-btn-css");
-			$(".departmentKind:contains('" + kindKeyword + "')").addClass("btn-color-css");
-			$(".departmentGroup").show();
-			$(".symptomContainer").hide();
-		} else if (symptomKeyword != null) {
-			$("#keyword").val(symptomKeyword);
-			$(".selectByDepartmentText").text(symptomKeyword);
-			$(".selectByDepartment").addClass(".filter-btn-css");
-			$(".symptomKind:contains('" + symptomKeyword + "')").addClass("btn-color-css");
-			$(".departmentGroup").hide();
-			$(".symptomContainer").show();
-		} 
-		
-		if (otherKeyword != null) {
-			$("#keyword").val(otherKeyword);
-			$(".selectByCategoryText").text(otherKeyword);
-			$(".departmentGroup").show();
-			$(".symptomContainer").hide();
-		} 
-		if (keyword != null) {
-			$("#keyword").val(keyword);
-			$(".departmentGroup").show();
-			$(".symptomContainer").hide();
-		}
-		
 		/* 야간진료 */
 		if (otherKeyword == '야간진료') {
 			$(".nightCare").show();
@@ -74,56 +77,33 @@
 			$(".nightCare").hide();
 		}
 		
-		
-
-	});
-	
-	/* 진료과목 모달 */
-	
-	
-	/* $.ajax({
-    url: "./hospital",
-    type: "post",
-    data: {searchKeyword : searchKeyword},
-    dataType: "json",
-    success: function(m){
-       
-    },
-    error: function(error){
-       alert("Error");
-    }
- }); */		
-		
-		
-
-		
-		
-		
-		
-		
-			
-			
-			
-	
-	
-	$(function(){
-		
 		/* 진료 중인 병원만 보기 */
-		$(".selectByAvailable").click(function(){
-		    let inTreatment = $(".hospitalStatus_text:contains('진료 중')");
-		    let onlyInTreatment = inTreatment.filter(".hospitalList");
-		    if (onlyInTreatment.is(':visible')) {
-		        $(".hospitalList").show();
-		    } else {
+		$(document).on("click", ".selectByAvailable", function(){
+		    let inTreatment = $(".hospitalList").filter(function() {
+		        return $(this).find(".hospitalStatus_text:contains('진료 중')").length > 0;
+		    });
+			
+			if ( $(this).hasClass("btn-color-css") ) {
+				$(this).removeClass("btn-color-css");
+				$(".hospitalList").show();
+			} else {
+				$(this).addClass("btn-color-css");
 		        $(".hospitalList").hide();
-		        onlyInTreatment.show();
-		    }
+		        inTreatment.show();
+			    }
 		    hospitalCount();
 		});
 		
-		/* 모달 */
+		/* 진료과, 증상 모달 */
 		$(document).on("click", ".selectByDepartment", function(){
-			$("#exampleModal").modal("show");
+			if( symptomKeyword != null ) {
+				$(".departmentGroup").hide();
+				$(".symptomContainer").show();
+			} else {
+				$(".departmentGroup").show();
+				$(".symptomContainer").hide();
+			}
+			$(".symptomModal").modal("show");
 		});
 
 		/* 진료과 선택했을 때 */
@@ -170,13 +150,99 @@
 			$('#keyword').val(symptomKind);
 		});
 		
+		/* 유형 모달 */
+		$(document).on("click", ".selectByCategory", function(){
+			
+		});
+		
+		/* 유형 검색하기 */
+		$(document).on("click", ".optionKind", function(){
+			/* 유형값이 들어와있을 경우 */
+			if ($(this).hasClass("btn-color-css")) {
+				$(this).removeClass("btn-color-css");
+				let optionClass = $(this).children(".xi-check-circle");
+				optionToggleIcon(optionClass);
+				let optionKeyword = $(this).children().text();
+				/* optionKeywordBox 지우기 */
+				deleteOptionKeyword = (separationString(optionKeywordBox)).filter(item => item !== optionKeyword);
+				optionKeywordBox = deleteOptionKeyword.join(",");
+				
+			} else {
+				$(this).addClass("btn-color-css");
+				let optionClass = $(this).children(".xi-radiobox-blank");
+				optionToggleIcon(optionClass);
+				/* optionKeywordBox 넣기 */
+				let optionKeyword = $(this).children().text();
+				if (optionKeywordBox == '') {
+					optionKeywordBox += optionKeyword;
+				} else {
+					optionKeywordBox += "," + optionKeyword;
+				}
+			}
+		});
+		
+		$(document).on("click", ".optionSubmit", function(){
+			alert(optionKeywordBox); // 키워드 넘겨줘야 함
+			$('#optionKeywordBox').val(optionKeywordBox);
+			
+			
+			/* $.ajax({
+			    url: "./hospital",
+			    type: "post",
+			    data: {optionKeywordBox : optionKeywordBox, kindKeyword : kindKeyword, symptomKeyword : symptomKeyword, keyword : keyword},
+			    dataType: "json",
+			    success: function(h){
+			       
+			    },
+			    error: function(error){
+			       alert("Error");
+			    }
+			 }); */
+			
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/* 검색 input창 */
 		$("#keyword").click(function(){
 			window.location.href= '/search';
 		});
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 	});
 	
+		
+		
+
+		
+		
+		
+		
+		
+			
+			
+			
+	
+	/* Collection of functions */
 	
 	/* 병원 상세보기 페이지 이동 */
 	function hospitalDetail(hno) {
@@ -210,10 +276,31 @@
 	    }
 	}
 	
+	/* 모달에서 옵션 토글 아이콘 변경 */
+	function optionToggleIcon(optionKind) {
+		if ( optionKind.hasClass("xi-check-circle") ) {
+			optionKind.addClass("xi-radiobox-blank").removeClass("xi-check-circle");
+			
+		} else {
+			optionKind.addClass("xi-check-circle").removeClass("xi-radiobox-blank");
+		}
+	}
+	
 	/* 목록에 있는 병원 개수 세기 */
 	function hospitalCount() {
 		let divCount = $(".hospitalList:visible").length;
 		$(".countNumber").text("총 " + divCount + "개");
+	}
+	
+	/* String 잘라서 배열로 만들기 */
+	function separationString(stringList) {
+	    if (stringList) {
+	        return stringList.split(",").map(function(item) {
+	            return item.trim();
+	        });
+	    } else {
+	        return [];
+	    }
 	}
 
 </script>
@@ -385,7 +472,7 @@
 		
 		
 		<!-- 진료과/증상 모달 -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade symptomModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	        <div class="modal-dialog modal-dialog-centered">
 	         <div class="modal-content">
 	            <!-- 모달 헤더 -->
@@ -426,10 +513,57 @@
 	         </div>
 	      </div>
 	   </div>
+	   
+	   	<!-- 유형 모달 -->
+		<div class="modal fade optionModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	        <div class="modal-dialog modal-dialog-centered">
+	         <div class="modal-content">
+	            <!-- 모달 헤더 -->
+	            <div class="modal-header">
+	               <h5 class="modal-title" id="exampleModalLabel">
+		               	<button type="button" class="modalOption">유형</button>
+	               </h5>
+	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+				<!-- 모달 바디 -->
+	            <div class="modal-body">
+	            	<div class="optionGroup">
+	            		<button type="button" class="optionKind">
+	            			<span class="optionKindText">전문의</span>
+	            			<span class="xi-radiobox-blank"></span>
+	            		</button>
+	            		<button type="button" class="optionKind">
+	            			<span class="optionKindText">여의사</span>
+	            			<span class="xi-radiobox-blank"></span>
+	            		</button>
+	            		<button type="button" class="optionKind">
+	            			<span class="optionKindText">주차장</span>
+	            			<span class="xi-radiobox-blank"></span>
+	            		</button>
+	            		<button type="button" class="optionKind" value="휴일진료">
+	            			<span class="optionKindText">휴일진료</span>
+	            			<span class="xi-radiobox-blank"></span>
+	            		</button>
+	            		<button type="button" class="optionKind" value="야간진료">
+	            			<span class="optionKindText">야간진료</span>
+	            			<span class="xi-radiobox-blank"></span>
+	            		</button>
+	            	</div>
+	            	<!-- <form id="otherKeywordForm" action="/hospital" method="get"> -->
+						<input type="hidden" name="optionKeywordBox" id="optionKeywordBox">
+						<div class="optionSubmit">
+			            		<button>선택완료</button>
+		            	</div>
+				<!-- 	</form> -->
+	            </div>
+	         </div>
+	      </div>
+	   </div>
    </div>
    </form>
+   
+   
    			
-	
 	
 
 

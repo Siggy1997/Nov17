@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -50,9 +51,11 @@ public class SearchController {
 		return "/search";
 	}
 	
+	
+	
 	@PostMapping("/search")
-	public String search(@RequestParam String keyword) throws Exception {
-		System.out.println(keyword);
+	public String search(@RequestParam Map<String, Object> map) throws Exception {
+			//System.out.println(map);//{keyword=내과, optionKeywordBox=휴일진료,주차장}
 			
 			List<Map<String, Object>> keywordKind = searchService.departmentKeyword();
 			// {dpkind=소아과, dpsymptom=소아 질환, dpkeyword=감기,예방접종,성장판검사,신생아황달}
@@ -64,31 +67,44 @@ public class SearchController {
 			List<String> symptomKeyword = searchUtil.changeTypeToStringByComma(keywordKind, "dpkeyword");
 			
 			// 기타 키워드별 [주차, 주차 가능, 전문의, 여의사, 공휴일 진료, 일요일 진료, 공휴일, 일요일, 야간진료]
-			List<String> otherKeyword = List.of("주차", "주차 가능", "전문의", "여의사", "공휴일 진료", "일요일 진료", "공휴일", "일요일", "야간진료");
+			List<String> otherKeyword = List.of("주차", "주차 가능", "전문의", "여의사", "공휴일 진료", "일요일 진료", "공휴일", "일요일", "야간진료", "휴일진료");
 
-			
-	    	// 한글로 들어올 때 인코딩 해주기
-	        String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8.toString());
+			// 한글로 들어올 때 인코딩 해주기
+	        String encodedKeyword = URLEncoder.encode( (String)map.get("keyword"), StandardCharsets.UTF_8.toString());
 	        // 디코딩
 	        String decodedKeyword = URLDecoder.decode(encodedKeyword, StandardCharsets.UTF_8.toString());
-	        if (kindKeyword.contains(decodedKeyword)) {
-	        	return "redirect:/hospital?kindKeyword=" + encodedKeyword;
-	        } else if (symptomKeyword.contains(decodedKeyword)) {
-	        	return "redirect:/hospital?symptomKeyword=" + encodedKeyword;
-	        } else if (otherKeyword.contains(decodedKeyword)) {
-	        	return "redirect:/hospital?otherKeyword=" + encodedKeyword;
-	        } else if (decodedKeyword.contains("전체") || decodedKeyword.contains("예약") || decodedKeyword == "") {
-	        	return "redirect:/hospital";
+	        
+	        if ( map.get("optionKeywordBox") != null && !(map.get("optionKeywordBox").equals(""))  ) {
+	        	String encodedOptionKeyword = URLEncoder.encode( (String)map.get("optionKeywordBox"), StandardCharsets.UTF_8.toString());
+	        	if (kindKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?kindKeyword=" + encodedKeyword + "&optionKeywordBox="+ encodedOptionKeyword;
+		        } else if (symptomKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?symptomKeyword=" + encodedKeyword + "&optionKeywordBox="+ encodedOptionKeyword;
+		        } else if (otherKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?optionKeywordBox=" + encodedOptionKeyword;
+		        } else if (decodedKeyword.contains("전체") || decodedKeyword.contains("예약") || decodedKeyword == "") {
+		        	return "redirect:/hospital?optionKeywordBox="+ encodedOptionKeyword;
+		        } else {
+		        	return "redirect:/hospital?keyword=" + encodedKeyword + "&optionKeywordBox="+ encodedOptionKeyword;
+		        }
 	        } else {
-	        	return "redirect:/hospital?keyword=" + encodedKeyword;
-	        } 
+	        	if (kindKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?kindKeyword=" + encodedKeyword;
+		        } else if (symptomKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?symptomKeyword=" + encodedKeyword;
+		        } else if (otherKeyword.contains(decodedKeyword)) {
+		        	return "redirect:/hospital?otherKeyword=" + encodedKeyword;
+		        } else if (decodedKeyword.contains("전체") || decodedKeyword.contains("예약") || decodedKeyword == "") {
+		        	return "redirect:/hospital";
+		        } else {
+		        	return "redirect:/hospital?keyword=" + encodedKeyword;
+		        } 
+	        }
 	}
-	
 	
 	@GetMapping("/hospital")
 	public String hospitalList(@RequestParam(required = false) Map<String, Object> map, Model model, HttpSession session) {
-		model.addAttribute("map", map);// map : {kindKeyword=소아과} {symptomKeyword=안구건조증} {otherKeyword=여의사} {keyword=안경}
-		
+		model.addAttribute("map", map);// map : {kindKeyword=소아과} {symptomKeyword=안구건조증} {otherKeyword=여의사} {keyword=안경} {optionKeywordBox=휴일진료,주차장}
 		// 현재 요일와 시간
 		Calendar cal = Calendar.getInstance();
 		String currentDay = searchUtil.convertDayOfWeek(cal.get(Calendar.DAY_OF_WEEK)); // 현재 요일 (1일, 2월, 3화, 4수, 5목, 6금, 7토)
@@ -103,9 +119,32 @@ public class SearchController {
 		// 기본
 		List<Map<String, Object>> hospitalList = searchService.hospitalList();
 		
-		// 진료과별
-		List<Map<String, Object>> kindHospitalList = searchService.kindHospitalList(map);
 		
+		
+		
+		// 진료과별
+		//List<Map<String, Object>> kindHospitalList = searchService.kindHospitalList(map);
+		
+		Map<String, Object> keywordCheck = new HashMap<String, Object>();
+		keywordCheck.put("kindKeyword", map.get("kindKeyword"));
+		System.out.println(map.get("optionKeywordBox"));
+		if (map.get("optionKeywordBox") != null) {
+			String keys = map.get("optionKeywordBox").toString();
+			if(keys.contains("여의사")){   
+				keywordCheck.put("gender", "1");  
+			}  
+				 
+		} else {
+			keywordCheck.put("gender", "0"); 
+			
+		}
+		System.out.println(keywordCheck);
+		
+		List<Map<String, Object>> aa = searchService.kindHospitalList(keywordCheck); 
+		 
+		System.out.println(aa);
+		
+		System.out.println("+++++++++++++++++++++++++++++");
 		// 증상별
 		List<Map<String, Object>> symptomHospitalList = searchService.symptomHospitalList(map);
 		
@@ -117,9 +156,8 @@ public class SearchController {
 		// 병원, 의사 이름별
 		List<Map<String, Object>> hospitaNamelList = searchService.hospitaNamelList(map);
 				
-		 /* map : {kindKeyword=소아과} {symptomKeyword=안구건조증} {otherKeyword=여의사} {keyword=안경} */
 		if (map.containsKey("kindKeyword")) {
-			model.addAttribute("hospitalList", kindHospitalList);
+			//model.addAttribute("hospitalList", kindHospitalList);
 		} else if (map.containsKey("symptomKeyword")) {
 			model.addAttribute("hospitalList", symptomHospitalList);
 		} else if (map.containsKey("otherKeyword")) {
@@ -149,7 +187,6 @@ public class SearchController {
 		List<Map<String, Object>> departmentKeyword = searchService.departmentKeyword();
 		model.addAttribute("departmentKeyword", departmentKeyword);
 		
-
 		
 
 		// 찜하기
@@ -161,15 +198,54 @@ public class SearchController {
 	}
 	
 	
-	
-	@ResponseBody
-	@PostMapping("/hospital")
-	public String hospitalList() {
-		
-		JSONObject json = new JSONObject();
-		
-		
-		return json.toString();
-	}
-	
+//	
+//	@ResponseBody
+//	@PostMapping("/hospital")
+//	public String hospitalList(@RequestParam Map<String, Object> map) {
+//		//map {optionKeywordBox=전문의,여의사,주차장,휴일진료,야간진료, kindKeyword=피부과, symptomKeyword=, keyword=}
+//		JSONObject json = new JSONObject();
+//		// 현재 요일와 시간
+//		Calendar cal = Calendar.getInstance();
+//		String currentDay = searchUtil.convertDayOfWeek(cal.get(Calendar.DAY_OF_WEEK));
+//		
+//		if ( map.get("kindKeyword") != null ) {// 진료과 선택 + otherKeyword
+//			//List<Map<String, Object>> kindHospitalList = searchService.kindHospitalList(map);
+//			//json.put("hospitalList", kindHospitalList);
+//		} else if ( map.get("symptomKeyword") != null ) {// 증상 선택 + otherKeyword
+//			List<Map<String, Object>> symptomHospitalList = searchService.symptomHospitalList(map);
+//			json.put("hospitalList", symptomHospitalList);
+//			
+//		} else if ( map.get("keyword") != null ) {// 병원 or 의사 선택 + otherKeyword
+//			List<Map<String, Object>> hospitaNamelList = searchService.hospitaNamelList(map);
+//			json.put("hospitalList", hospitaNamelList);
+//		} else if ( map.get("optionKeywordBox") != null ) {// otherKeyword
+//			// 기타 키워드별 (야간진료일 때, 아닐때 나눔)
+//			List<Map<String, Object>> otherHospitalList = searchService.otherHospitalList(map);
+//			List<Map<String, Object>> todayNightHospital = new ArrayList<>();
+//			List<Map<String, Object>> notTodayNightHospital = new ArrayList<>();
+//			if( ((String) map.get("optionKeywordBox")).contains("야간진료")) {
+//				for (Map<String, Object> hospital : otherHospitalList) {
+//				    String hnightday = (String) hospital.get("hnightday");
+//				    if (hnightday != null) {
+//				    	if (currentDay.equals(hnightday)) {
+//				    		todayNightHospital.add(hospital);
+//					    } else {
+//					    	notTodayNightHospital.add(hospital);
+//					    }
+//				    } 
+//				}
+//				json.put("hospitalList", todayNightHospital);
+//				json.put("notTodayNightHospital", notTodayNightHospital);
+//			} else {
+//				json.put("hospitalList", otherHospitalList);
+//			}
+//		}
+//	
+//				
+//		
+//		
+//		
+//		return json.toString();
+//	}
+//	
 }

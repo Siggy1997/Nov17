@@ -18,10 +18,10 @@ public interface HospitalDetailDAO {
 	Map<String, Object> findDoctorByDno(int dno);
 
 	Map<String, Object> countReviewByRate(int hno);
-	void hospitalUnlike(String hname);
+	
+	void hospitalUnlike(Map<String, Object> map);
 
-	void hospitalLike(String hname);
-
+	void hospitalLike(Map<String, Object> map);
 
 	ArrayList<Map<String, Object>> sortReviewByNew(int hno);
 

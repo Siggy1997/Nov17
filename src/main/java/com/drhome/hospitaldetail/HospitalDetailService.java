@@ -30,12 +30,12 @@ public class HospitalDetailService {
 		return hospitalDetailDAO.countReviewByRate(hno);
 	}
 	
-	public void hospitalUnlike(String hname) {
-		hospitalDetailDAO.hospitalUnlike(hname);
+	public void hospitalUnlike(Map<String, Object> map) {
+		hospitalDetailDAO.hospitalUnlike(map);
 	}
 
-	public void hospitalLike(String hname) {
-		hospitalDetailDAO.hospitalLike(hname);
+	public void hospitalLike(Map<String, Object> map) {
+		hospitalDetailDAO.hospitalLike(map);
 
 	}
 
