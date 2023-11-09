@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+.search
+{
+background-color:#00c9ff;
+height:48px;
+width:48px;
+border-radius:100px;
+padding:12px;
+display:flex;
+flex-direction:row;
+justify-content:flex-start;
+align-items:flex-start;
+gap:10px;
+position:relative;
+}
+.icon
+{
+height:49px;
+width:65px;
+align-self:flex-start;
+left:12px;
+top:9px;
+position:absolute;
+padding:0px;
+display:flex;
+flex-direction:row;
+justify-content:flex-start;
+align-items:flex-start;
+border-style:hidden;
+outline:none;
+}
+.personfilled
+{
+height:24px;
+width:24px;
+padding:0px;
+border-style:hidden;
+outline:none;
+}
+
+.logo-title{
+	color:#00c9ff;
+text-align:center;
+vertical-align:text-top;
+font-size:26px;
+font-family:Inter;
+letter-spacing:-0.16500000655651093px;
+line-height:18px;
+border-style:hidden;
+outline:none;
+width:169px;
+	
+}
+
+.loginBtn {
+	background-color: #00c9ff;
+	height: 50px;
+	width: 335px;
+	border-radius: 50px;
+	padding-left: 24px;
+	padding-right: 24px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	position: relative;
+	border-style: hidden;
+	outline: none;
+}
+
+.joinHospital{
+	color: #00c9ff;
+}
+
+.inside {
+	height: 26px;
+	width: 92px;
+	align-self: flex-start;
+	left: 121.5px;
+	top: 12px;
+	position: absolute;
+	padding: 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 14px;
+}
+
+.button3 {
+	color: #ffffff;
+	text-align: center;
+	vertical-align: text-top;
+	font-size: 16px;
+	font-family: Inter;
+	line-height: 160.0000023841858px;
+	border-style: hidden;
+	outline: none;
+	width: 54px;
+	align-self: flex-start;
+	display: flex;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+.icon-light /arrowright {
+	background-color: #ffffff;
+	height: 24px;
+	width: 24px;
+	align-self: flex-start;
+	left: 68px;
+	top: 1px;
+	position: absolute;
+	padding: 0px;
+	border-style: hidden;
+	outline: none;
+}
+
+.vector {
+	height: 24px;
+	width: 24px;
+	width: 24px;
+	height: 24px;
+}
+
+.vector2 {
+	width: 16.5px;
+	width: 16.5px;
+	left: 3.75px;
+	top: 12px;
+	width: 16.5px;
+	position: absolute;
+}
+
+.vector3 {
+	height: 13.5px;
+	width: 6.75px;
+	width: 6.75px;
+	height: 13.5px;
+	left: 13.5px;
+	top: 5.25px;
+	width: 6.75px;
+	height: 13.5px;
+	position: absolute;
+}

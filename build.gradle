@@ -37,6 +37,7 @@ dependencies {
    implementation   "org.apache.tomcat.embed:tomcat-embed-jasper"//tomcat사용하기
    implementation   'org.springframework.boot:spring-boot-starter-tomcat' //runtime시에만 필요,   실행환경에서 제공되는 dependency를 설정
    implementation 'org.json:json:20230227'
+   implementation 'org.springframework.boot:spring-boot-starter-websocket'
 //runtimeOnly 'com.mysql:mysql-connector-j'
    runtimeOnly 'com.mysql:mysql-connector-j'
 

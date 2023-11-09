@@ -1,0 +1,161 @@
+@charset "UTF-8";
+
+@import
+	url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css")
+	;
+
+@import
+	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
+	;
+
+* {
+	font-family: "Pretendard Variable";
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: white;
+}
+
+header {
+	position: fixed;
+	height: 8vh;
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	align-items: center;
+	z-index: 1000;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
+}
+
+footer {
+	bottom: 0;
+	position: fixed;
+	height: 8vh;
+	width: 100%;
+	z-index: 1000;
+	background-color: white;
+}
+
+.mainTitle {
+	font-size: 17px;
+	font-weight: 500;
+	margin: 0 auto;
+	margin-bottom: 22px;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
+.advertisment {
+	background-color: #c0e5ef;
+	height: 27vh;
+	width: 100%;
+	box-sizing: border-box;
+}
+.advertisment img{
+		height: 27vh;
+	width: 100%;
+}
+
+#mainSearch {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #ffffff;
+	height: 42px;
+	width: 301px;
+	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+	border-radius: 7px;
+	display: flex;
+	align-items: center;
+	z-index: 1000;
+}
+
+#mainSearch .xi-search {
+	color: #00C9FF;
+	margin-left: 20px;
+}
+
+#mainSearch div {
+	margin-left: 20px;
+	border: none;
+	font-size: 12px;
+	color: #979797;
+}
+
+.container {
+	padding-top: 4vh;
+	padding-bottom: 8vh !important;
+	height: 64vh;
+}
+
+.graySeperate {
+	height: 15px;
+	background-color: #F5F5F5;
+}
+
+.section {
+	padding: 21px 0 21px 0 !important;
+	margin: 0 auto;
+	width: 90%;
+}
+
+#mainQuickSlot {
+	display: flex;
+	justify-content: space-around;
+}
+
+#mainQuickSlot .mainTop {
+	display: flex;
+	flex-direction: column;
+	font-size: 11px;
+	align-items: center;
+}
+
+.mainTop Img {
+	width: 52px;
+	height: 52px;
+	padding: 9px;
+	background-color: #F5F5F5;
+	border-radius: 15px;
+}
+
+.mainTop p {
+	padding: 7px 0;
+}
+
+#selectDepartment .xi-angle-right {
+	color: #757575;
+	font-size: 15px !important;
+}
+
+#departmentWrapper {
+	display: flex;
+	padding-right: 8px;
+	flex-wrap: wrap;
+	font-size: 14px;
+	justify-content: space-between;
+}
+
+#departmentWrapper a {
+	width: 45%;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	background-color: #F5F5F5;
+	border-radius: 15px;
+	padding: 8px;
+	margin-bottom: 12px;
+}
+
+#departmentWrapper img {
+	margin-right: 30px;
+	height: 30px;
+	width: 30px;
+}
