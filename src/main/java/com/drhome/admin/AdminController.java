@@ -28,7 +28,7 @@ public class AdminController {
 	@Autowired
 	private Util util;
 
-	@GetMapping("/main")
+	@GetMapping("/adminMain")
 	public String main(@RequestParam Map<String, Object> map, Model model, HttpSession session) {
 		
 		if (session.getAttribute("mid") == null) {
@@ -37,7 +37,7 @@ public class AdminController {
 			Map<String, Object> infoList = adminService.adminInfo(map);
 			model.addAttribute("infoList", infoList);
 			
-			return "admin/main";
+			return "admin/adminMain";
 		} else {
 			return "redirect:/admin/index";
 		}
