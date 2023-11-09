@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.drhome.hospitaldetail.HospitalDetailUtil;
+
 @Controller
 public class DocAdminController {
 	
@@ -60,7 +62,7 @@ public class DocAdminController {
 		//진료시간 점심시간 뽑기
 		Map<String, Object> now = new HashMap<>();
 		Map<String, Object> hospital = docAdminService.findHospitalByHno(map);
-		now.put("dayOfWeek", util.getDayOfWeek(util.dayOfWeek));
+		now.put("dayOfWeek", util.getDayOfWeek(util.getDayOfWeek()));
 		model.addAttribute("now", now);
 		model.addAttribute("hospital", hospital);
 		

@@ -55,8 +55,6 @@ public class SearchController {
 		return "/search";
 	}
 	
-	
-	
 	@PostMapping("/search")
 	public String search(@RequestParam Map<String, Object> map) throws Exception {
 			//System.out.println(map);//{keyword=내과, optionKeywordBox=휴일진료,주차장}
@@ -71,7 +69,6 @@ public class SearchController {
 			List<String> symptomKeyword = searchUtil.changeTypeToStringByComma(keywordKind, "dpkeyword");
 			
 			// 기타 키워드별 [주차, 주차 가능, 전문의, 여의사, 공휴일 진료, 일요일 진료, 공휴일, 일요일, 야간진료]
-
 			List<String> otherKeyword = List.of("주차장", "전문의", "여의사", "야간진료", "휴일진료");
 			
 			String keyword = (String) map.get("keyword");
@@ -85,14 +82,12 @@ public class SearchController {
 
 			// 한글로 들어올 때 인코딩 해주기
 	        String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8.toString());
-
 	        // 디코딩
 	        String decodedKeyword = URLDecoder.decode(encodedKeyword, StandardCharsets.UTF_8.toString());
 	        
 	        if ( map.get("optionKeywordBox") != null && !(map.get("optionKeywordBox").equals(""))  ) {
 	        	String encodedOptionKeyword = URLEncoder.encode( (String)map.get("optionKeywordBox"), StandardCharsets.UTF_8.toString());
 	        	if (kindKeyword.contains(decodedKeyword)) {
-
 		        	return "redirect:/hospital?kindKeyword=" + encodedKeyword + "&optionKeyword="+ encodedOptionKeyword;
 		        } else if (symptomKeyword.contains(decodedKeyword)) {
 		        	return "redirect:/hospital?symptomKeyword=" + encodedKeyword + "&optionKeyword="+ encodedOptionKeyword;
@@ -102,7 +97,6 @@ public class SearchController {
 		        	return "redirect:/hospital?optionKeyword="+ encodedOptionKeyword;
 		        } else {
 		        	return "redirect:/hospital?keyword=" + encodedKeyword + "&optionKeyword="+ encodedOptionKeyword;
-
 		        }
 	        } else {
 	        	if (kindKeyword.contains(decodedKeyword)) {
@@ -110,12 +104,10 @@ public class SearchController {
 		        } else if (symptomKeyword.contains(decodedKeyword)) {
 		        	return "redirect:/hospital?symptomKeyword=" + encodedKeyword;
 		        } else if (otherKeyword.contains(decodedKeyword)) {
-
 		        	return "redirect:/hospital?optionKeyword=" + encodedKeyword;
 		        } else if (decodedKeyword.contains("전체") || decodedKeyword.contains("예약") || decodedKeyword == "") {
 		        	return "redirect:/hospital";
 		        } else {    
-
 		        	return "redirect:/hospital?keyword=" + encodedKeyword;
 		        } 
 	        }
@@ -123,9 +115,8 @@ public class SearchController {
 	
 	@GetMapping("/hospital")
 	public String hospitalList(@RequestParam(required = false) Map<String, Object> map, Model model, HttpSession session) {
-
 		model.addAttribute("map", map);// map : {kindKeyword=소아과} {symptomKeyword=안구건조증} {keyword=안경} {optionKeyword=휴일진료,주차장}
-
+		
 		// 현재 요일와 시간
 		model.addAttribute("currentDay", searchUtil.currentDayOfTheWeek());
 		model.addAttribute("currentTime", searchUtil.currentTime());
@@ -134,32 +125,9 @@ public class SearchController {
 		// 기본
 		List<Map<String, Object>> hospitalList = searchService.hospitalList();
 		
-		
-		
-		
 		// 진료과별
-		//List<Map<String, Object>> kindHospitalList = searchService.kindHospitalList(map);
+		List<Map<String, Object>> kindHospitalList = searchService.kindHospitalList(map);
 		
-		Map<String, Object> keywordCheck = new HashMap<String, Object>();
-		keywordCheck.put("kindKeyword", map.get("kindKeyword"));
-		System.out.println(map.get("optionKeywordBox"));
-		if (map.get("optionKeywordBox") != null) {
-			String keys = map.get("optionKeywordBox").toString();
-			if(keys.contains("여의사")){   
-				keywordCheck.put("gender", "1");  
-			}  
-				 
-		} else {
-			keywordCheck.put("gender", "0"); 
-			
-		}
-		System.out.println(keywordCheck);
-		
-		List<Map<String, Object>> aa = searchService.kindHospitalList(keywordCheck); 
-		 
-		System.out.println(aa);
-		
-		System.out.println("+++++++++++++++++++++++++++++");
 		// 증상별
 		List<Map<String, Object>> symptomHospitalList = searchService.symptomHospitalList(map);
 		
@@ -172,9 +140,7 @@ public class SearchController {
 		List<Map<String, Object>> hospitaNamelList = searchService.hospitaNamelList(map);
 				
 		if (map.containsKey("kindKeyword")) {
-
 			model.addAttribute("hospitalList", searchUtil.hnoUnique(kindHospitalList));
-
 		} else if (map.containsKey("symptomKeyword")) {
 			model.addAttribute("hospitalList", searchUtil.hnoUnique(symptomHospitalList));
 		} else if (map.containsKey("optionKeyword")) {
@@ -217,7 +183,6 @@ public class SearchController {
 		return "/hospital";
 	}
 	
-
 	@ResponseBody
 	@PostMapping("/hospital")
 	public String hospitalList(@RequestParam Map<String, Object> map, HttpSession session) {
@@ -246,5 +211,6 @@ public class SearchController {
 		}
 		return "/hospitalLike";
 	}
-
+	
+	
 }

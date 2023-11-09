@@ -39,9 +39,6 @@ public class HospitalDetailService {
 
 	}
 
-	public Map<String, Object> findDoctorByDno(int dno) {
-		return hospitalDetailDAO.findDoctorByDno(dno);
-	}
 
 	public ArrayList<Map<String, Object>> sortReviewByNew(int hno) {
 		// TODO Auto-generated method stub
