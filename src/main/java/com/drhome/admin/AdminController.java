@@ -28,28 +28,6 @@ public class AdminController {
 	@Autowired
 	private Util util;
 
-	@GetMapping("/index")
-	public String adminIndex() {
-		return "admin/index";
-	}
-
-	@PostMapping("/index")
-	public String adminLogin(@RequestParam Map<String, Object> map, HttpSession session) {
-		Map<String, Object> result = adminService.adminLogin(map);
-		System.out.println(result);
-		if(Integer.parseInt(String.valueOf(result.get("count"))) == 1) {
-		
-		// 세션 올리기
-		session.setAttribute("mid", result.get("id"));
-		session.setAttribute("mname", result.get("mname"));
-		session.setAttribute("mgrade", result.get("mgrade"));
-		// 메인으로 이동하기
-		return "redirect:/admin/main";
-		} else {
-			return "redirect:/admin/index";
-		}
-	}
-
 	@GetMapping("/main")
 	public String main(@RequestParam Map<String, Object> map, Model model, HttpSession session) {
 		
