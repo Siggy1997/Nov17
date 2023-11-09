@@ -92,7 +92,7 @@
 
 		<a href="./hospitalDetail/1">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</a> <a href="./chatting">111111111111111ㅇㅇ</a>
 		<a href="./login">111111111111111ㅇㅇ</a>
-
+  
 
 
 	</div>
