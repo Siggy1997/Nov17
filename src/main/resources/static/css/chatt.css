@@ -7,9 +7,7 @@
 @import
 	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
 	;
-a{
-	color: black;
-}
+
 * {
 	font-family: "Pretendard Variable";
 	box-sizing: border-box;
@@ -17,37 +15,66 @@ a{
 	padding: 0;
 }
 
-.header {
-	height: 7vh;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	width: 100%;
-	border-bottom: 0.1pt solid #9E9E9E;
+body {
+	background-color: white;
 }
 
-#blank {
-	width: 64px;
+header {
+    position: fixed;
+    height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    z-index: 1000;
+    background-color: white;
+    padding-inline-end: 22px;
+    padding-inline-start: 24px;
 }
 
 .headerTitle {
-	font-size: 40px;
+	font-family: "NanumSquare" !important;
+	font-size: 18px;
 	text-align: center;
-	font-weight: bolder;
-	width: 600px;
+	font-weight: 900;
+	margin: 20px 50px;
+
+	
 }
 
-#chatt {
+footer {
+	bottom: 0;
+	position: fixed;
+	height: 8vh;
 	width: 100%;
-	height: 93vh;
+	z-index: 1000;
+	background-color: white;
+}
+
+.container {
+	height: 100vh;
+	padding-top: 9vh;
+	padding-bottom: 8vh !important;
+}
+
+#blank {
+	width: 21px;
+}
+.xi-angle-left{
+	color: #757575;
 }
 
 #talk {
 	position: relative;
-	height: 86vh;
+	height: 82vh;
 	overflow-y: scroll; /* y 축만 스크롤되도록 수정 */
-	padding-top: 43px;
 }
+
+a {
+	color: black;
+}
+
+
 
 #sendZone>* {
 	vertical-align: top;
@@ -55,12 +82,11 @@ a{
 
 #sendZone {
 	display: flex;
-	height: 7vh;
+	height: 8vh;
 	flex-wrap: wrap;
 	justify-content: space-around;
 	align-content: center;
 	background-color: white;
-	border-top: 0.01rem solid #0E0E0E;
 }
 
 #msg {
@@ -70,7 +96,7 @@ a{
 	border-radius: 20px;
 	border: none;
 	background-color: #F5F5F5;
-	font-size: 50px;
+	font-size: 15px;
 }
 
 #btnSend {
@@ -86,7 +112,7 @@ a{
 #content {
 	max-width: 100%;
 	white-space: normal;
-	font-size: 42px;
+	font-size: 14px;
 }
 
 .me {
@@ -101,31 +127,29 @@ a{
 }
 
 .message {
-	padding: 15px;
+	padding: 7px;
 	border-radius: 7px;
 	max-width: 65%;
-	margin: 10px;
-	font-size: 30px;
+	margin: 12px 6px 0 6px;
+	font-size: 13px;
 }
 
 .me .message {
 	background-color: #00C9FF;
 	color: white;
-	min-height: 100px;
 	word-wrap: break-word; /* 줄바꿈 속성 추가 */
-	margin-right: 30px;
+	margin-right: 22px;
 }
 
 .other .message {
 	background-color: #EEEEEE;
-	min-height: 100px;
 	word-wrap: break-word; /* 줄바꿈 속성 추가 */
-	margin-left: 30px;
+	margin-left: 22px;
 }
 
 .date {
-	margin: 0px 10px 10px 0px;
-	font-size: 25px;
+	margin-top: 10px;
+	font-size: 8px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;

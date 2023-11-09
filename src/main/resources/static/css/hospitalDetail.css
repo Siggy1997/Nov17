@@ -15,23 +15,29 @@
 	padding: 0;
 }
 
-header {
-	position: fixed;
-	height: 7vh;
-	display: flex;
-	justify-content: space-around;
-	width: 100%;
-	align-items: center;
-	z-index: 1000;
+body {
 	background-color: white;
+}
+
+header {
+    position: fixed;
+    height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    z-index: 1000;
+    background-color: white;
+    padding-inline-end: 22px;
+    padding-inline-start: 24px;
 }
 
 .headerTitle {
 	font-family: "NanumSquare" !important;
-	font-size: 45px;
+	font-size: 18px;
 	text-align: center;
 	font-weight: 900;
-	width: 600px;
+	margin: 20px 50px;
 }
 
 footer {
@@ -48,93 +54,77 @@ footer {
 
 footer button {
 	display: flex;
-	font-size: 40px;
 	font-weight: 700;
 	background-color: #00c9ff;
 	color: white;
-	height: 73%;
+	height: 80%;
 	width: 43%;
-	border-radius: 23px;
 	border: none;
 	text-align: center;
 	align-items: center;
 	justify-content: center;
+	font-size: 15px;
+	border-radius: 14px;
 }
 
 .container {
-	height: 85vh;
-	padding-top: calc(7vh + 20px);
-	margin-bottom: 7vh !important;
+	height: 100vh;
+	padding-top: 9vh;
+	padding-bottom: 8vh !important;
 }
 
 .section {
-	padding: 60px 0 80px 0 !important;
+	padding: 23px 0 45px 0 !important;
 }
 
 .graySeperate {
-	height: 25px;
-	background-color: #F1F1F1;
+	height: 15px;
+	background-color: #F5F5F5;
 }
 
 .hospitalTitle {
-	font-size: 52px;
+	font-size: 19px;
 	font-weight: 700;
 	width: 90%;
 	margin: 0 auto;
-	margin-bottom: 50px;
+	margin-bottom: 22px;
 }
 
 .xi-angle-left, .xi-angle-right {
 	color: #757575;
 }
 
-.sweet-modal-content {
-	font-size: 35px !important;
-	font-weight: 600 !important;
-}
-
-.sweet-modal-buttons {
-	display: flex !important;
-	justify-content: center !important;
-	border-radius: 15px !important;
-}
-
-.redB, .blueB {
-	font-size: 36px !important;
-	width: 45% !important;
-}
-
 .swiper {
 	width: 90%;
-	height: 600px;
-	border-radius: 30px;
+	height: 250px;
+	border-radius: 20px;
 }
 
 .departmentList {
 	margin: 0 auto;
 	width: 89%;
-	margin-top: 30px;
-	font-size: 30px;
+	margin-top: 20px;
+	font-size: 12px;
 }
 
 .hospitalName {
-	margin: 10px auto;
+	margin: 9px auto;
 	width: 90%;
-	font-size: 75px;
+	font-size: 30px;
 	font-weight: 800;
 }
 
 .wrapper {
-	margin: 15px auto;
+	margin: 2px auto;
 	width: 89%;
 	display: flex;
 	flex-direction: row;
-	font-size: 30px;
+	font-size: 12px;
 	font-weight: 600;
 }
 
 .wrapper>* {
-	margin-right: 30px;
+	margin-right: 15px;
 }
 
 .availableCircle {
@@ -146,24 +136,24 @@ footer button {
 }
 
 .call {
-	margin: 50px auto;
+	margin: 38px auto;
 	display: flex;
 	justify-content: space-evenly;
 }
 
 .call button {
 	color: black;
-	width: 340px;
-	height: 100px;
-	font-size: 35px;
+	width: 150px;
+	height: 45px;
+	font-size: 15px;
 	background-color: white;
 	border-radius: 14px;
 	border: 0.1pt solid #2d2d2d;
 }
 
 .call button i {
-	font-size: 40px;
-	margin: 6px 20px 0 0;
+	font-size: 17px;
+	margin: 3px 10px 0 0;
 }
 
 .subMenu.fixed {
@@ -194,68 +184,72 @@ footer button {
 
 .subMenu ul li {
 	width: 25%;
-	height: 150px;
+	height: 7vh;
 	text-align: center;
-	padding: 50px 0;
-	font-size: 40px;
+	display: flex;
+	font-size: 15px;
 	font-weight: 600;
 	color: #BFBFBF;
 	border-bottom: 2px solid #E0E0E0;
+	justify-content: center;
+	align-items: center;
+	width: 25%;
 }
 
 .selectedSubMenu {
 	color: black !important;
 	font-weight: 700 !important;
-	border-bottom: 4px solid black !important;
+	border-bottom: 2px solid black !important;
 }
 
 .todayInfo {
 	display: flex;
 	flex-wrap: wrap;
 	width: 90%;
-	margin: 20px auto;
+	margin: 0 auto;
 	background-color: rgba(0, 201, 255, 0.15);
 	border-radius: 25px;
 }
 
 .dayTitle {
-	font-size: 38px;
-	margin-bottom: 10px;
+	font-size: 15px;
+	margin-bottom: 7px;
 	font-weight: 700;
 }
 
 .today {
-	font-size: 35px;
+	font-size: 15px;
 	width: 50%;
-	padding: 40px 60px;
+	padding: 20px 32px;
 }
 
 .timeInfo {
 	display: flex;
 	flex-wrap: wrap;
 	width: 90%;
-	margin: 50px auto;
+	margin: 20px auto;
 	padding: 20px 0;
-	background-color: #F1F1F1;
+	background-color: #F5F5F5;
 	border-radius: 25px;
 }
 
 .day {
-	font-size: 35px;
+	font-size: 15px;
 	width: 50%;
-	padding: 40px 60px;
+	padding: 20px 32px;
 }
 
 #countDepartment, #countDoctorList {
-	font-size: 35px;
+	font-size: 13px;
 	font-weight: 400;
-	margin-top: 5px;
+	margin-top: 3px;
 }
 
 #countReview {
-	font-size: 45px;
-	font-weight: 400;
+	font-size: 13px;
+	font-weight: 600;
 	color: #00c9ff;
+	margin-left: 4px;
 }
 
 .departments {
@@ -265,11 +259,11 @@ footer button {
 }
 
 .departments div {
-	font-size: 37px;
+	font-size: 15px;
 	font-weight: 500;
-	margin-right: 30px;
-	padding: 30px 30px;
-	background-color: #F1F1F1;
+	margin-right: 10px;
+	padding: 6px 10px;
+	background-color: #F5F5F5;
 	border-radius: 20px;
 }
 
@@ -277,81 +271,76 @@ footer button {
 	display: flex;
 	flex-wrap: wrap;
 	width: 90%;
-	margin: 30px auto 0 auto;
+	margin: 4px auto 0 auto;
 }
 
 .symptomKeywords div {
-	font-size: 32px;
+	font-size: 12px;
 	font-weight: 500;
 	color: #9E9E9E;
-	margin: 7px 18px 0 0;
+	margin: 4px 9px 0 0;
 }
 
 .infoContent {
 	width: 90%;
 	margin: 0 auto;
-	font-size: 35px;
-	background-color: #F1F1F1;
+	font-size: 13px;
+	background-color: #F5F5F5;
 	border-radius: 20px;
-	padding: 50px;
+	padding: 20px;
 }
 
 .mapAddr {
 	width: 90%;
 	margin: 0 auto;
-	font-size: 35px;
+	font-size: 13px;
 	font-weight: 600;
 }
 
 #map {
 	width: 100%;
-	height: 500px;
+	height: 300px;
 	margin: 20px auto;
 }
 
 .doctorDetail {
 	display: flex;
 	width: 90%;
-	margin: 20px auto;
-	background-color: #f1f1f1;
+	margin: 10px auto;
+	background-color: #F5F5F5;
 	border-radius: 15px;
 	justify-content: space-between;
 	align-items: center;
-	padding: 20px;
+	padding: 10px;
 }
 
 .doctorDetail img {
-	width: 150px;
-	height: 170px;
-	margin-left: 24px;
+	width: 62px;
+	height: 65px;
+	margin-left: 13px;
 }
 
 .doctorImg {
 	display: flex;
-	font-size: 40px;
+	font-size: 15px;
 	font-weight: 600;
 }
 
 .doctorImg p {
-	font-size: 30px;
+	font-size: 11px;
 	font-weight: 500;
 }
 
 .doctorImg span {
-	font-size: 27px;
+	font-size: 10px;
 	font-weight: 400;
-	padding: 5px;
-	border-radius: 10px;
+	padding: 2px 4px;
+	border-radius: 5px;
 	background-color: #E0E0E0;
 }
 
 .doctorName {
-	margin: 17px 0 0 60px;
-}
-
-.keyword {
-	display: inline-block;
-	border: 1px solid black;
+	margin: 4px 0 0 30px;
 }
 
 .doctorDetail span {
@@ -365,7 +354,7 @@ footer button {
 .reviewHeader {
 	display: flex;
 	width: 90%;
-	margin: 0 auto 50px auto;
+	margin: 0 auto 25px auto;
 	justify-content: space-between;
 }
 
@@ -374,77 +363,74 @@ footer button {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 35%;
+	width: 30%;
+	margin-left: 5px;
 }
 
 #averageNum {
-	font-size: 80px;
+	font-size: 32px;
 	font-weight: 800;
-	padding-bottom: 35px;
+	padding-bottom: 9px;
 }
 
 .averageHospitalRate .star {
 	color: #FFB300;
-	font-size: 50px;
+	font-size: 15px;
 }
 
 .bar-container {
 	width: 60%;
-	padding: 20px;
+	padding-left: 10px;
 }
 
 .count-container {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	font-size: 32px;
+	font-size: 10px;
 	font-weight: 700;
-	padding-bottom: 2px;
 }
 
 .count-star {
-	width: 295px;
+	width: 66%;
 	background-color: #dadada;
-	margin: 10px;
+	margin: 5px;
 	border-radius: 12px;
 }
 
 .bar {
 	border-radius: 12px;
-	width: 0;
-	height: 30px;
+	height: 10px;
 	background-color: #00c9ff;
-	color: white;
-	text-align: center;
-	line-height: 30px;
 }
 
 #writeReview {
 	width: 90%;
-	font-size: 35px;
-	font-weight: 800;
+	font-size: 12px;
+	font-weight: 500;
 	color: #00c9ff;
-	margin: 0 auto 80px auto;
-	height: 110px;
+	margin: 0 auto 34px auto;
+	height: 29px;
 	display: flex;
-	border: 2px solid #00c9ff;
-	border-radius: 15px;
+	border: 1px solid #00c9ff;
 	align-items: center;
 	justify-content: center;
 	border-radius: 15px;
 }
 
-hr {
-	margin: 20px 0;
+.grayLine {
+	width: 100%;
+	height: 2px;
+	background-color: #F5F5F5;
 }
 
 .sort {
-	margin: 25px 15px;
+	margin: 13px 20px;
 }
 
 .sort button {
-	margin: 20px;
-	font-size: 28px;
+	margin: 3px;
+	font-size: 11px;
 	font-weight: 500;
 	border: none;
 	background-color: white;
@@ -457,48 +443,56 @@ hr {
 	font-weight: 600 !important;;
 }
 
+.reviewGrayLine {
+	width: 100%;
+	height: 1px;
+	background-color: #F5F5F5;
+}
+
+.reviewKeyword {
+	display: flex;
+}
+
 .reviewList {
 	width: 90%;
-	margin: 40px auto;
+	margin: 17px auto;
 }
 
 .reviewRate {
-	color: #FFB300;;
-	font-size: 35px;
-	padding: 15px 0;
+	color: #FFB300;
+	font-size: 14px;
+	padding: 4px 0;
 }
 
 .rateInt {
 	color: black;
-	margin-left: 10px;
+	margin-left: 3px;
 	font-weight: 600;
 }
 
 .keyword {
-	font-size: 27px;
-	margin: 0 13px 13px 0;
-	padding: 10px 13px;
-	border-radius: 18px;
-	background-color: #f1f1f1;
+	font-size: 10px;
+	margin: 3px 8px 0 0;
+	padding: 4px 5px;
+	border-radius: 14px;
+	background-color: #F5F5F5;
 	text-align: center;
 	border: none;
 	font-weight: 500;
 }
 
 .reviewContent {
-	font-size: 40px;
-	padding: 20px 0;
-}
-
-.botwrap {
-	font-size: 30px;
-	width: 100%;
-	align-items: center;
+	font-size: 20px;
+	padding: 7px 0;
 }
 
 .botwrap {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+	font-size: 11px;
+	font-weight: 600;
+	width: 100%;
 	align-items: center;
 }
 
@@ -509,8 +503,8 @@ hr {
 
 .reviewLike {
 	margin-left: auto;
-	font-size: 30px;
-	padding: 10px;
+	font-size: 11px;
+	padding: 5px;
 	border: 1px solid black;
 	border-radius: 15px;
 }

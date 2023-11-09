@@ -13,29 +13,33 @@
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <body>
-	<div  class="header">
-		<a href="./main"><i class="xi-angle-left xi-4x"></i></a>
-		<div class="headerTitle">실시간채팅</div>
+	<header>
+		<a href="./main"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">실시간 채팅</div>
 		<div id="blank"></div>
-	</div>
-
-	<div id='chatt'>
+	</header>
+	
+	<div class="container" id='chatt'>
 		<c:choose>
 			<c:when test="${sessionScope.mgrade gt 4 }">
 				<input type='hidden' id='mid' value="의사 ${sessionScope.mname}">
 			</c:when>
-			<c:otherwise> 
+			<c:otherwise>
 				<input type='hidden' id='mid' value="${sessionScope.mname}님">
 			</c:otherwise>
 		</c:choose>
 		<input type='hidden' id='mgrade' value="${sessionScope.mgrade}">
-		
-		<div id='talk'></div>
-		<div id='sendZone'>
-			<textarea id='msg'></textarea>
-			<div id='btnSend'><i  class="xi-send xi-2x"></i></div>
-		</div>
-	</div> 
+			<div id='talk'></div>
+	</div>
+	
+	<footer>
+			<div id='sendZone'>
+				<textarea id='msg'></textarea>
+				<div id='btnSend'>
+					<i class="xi-send xi-2x"></i>
+				</div>
+			</div>
+		</footer> 
 	<script type="text/javascript">
 		$(function() {
 			let ws;
@@ -67,8 +71,8 @@
 						+ data.date + "</div>";
 				item += "<div class='message'>";
 				if (data.mid != mid.value) {
-				    item += "<span><b>" + data.mid +"</b></span><br>";
-				} 
+					item += "<span><b>" + data.mid + "</b></span><br>";
+				}
 				item += "<div id='content'>" + data.msg + "</div></div></div>";
 
 				talk.innerHTML += item;

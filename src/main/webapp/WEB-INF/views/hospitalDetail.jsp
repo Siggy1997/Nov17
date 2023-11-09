@@ -7,20 +7,18 @@
 
 <head>
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
 <link rel="stylesheet" href="../css/hospitalDetail.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script
 	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="../js/jquery-3.7.0.min.js"></script>
-
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e6035c5b6dc0c23f98779b6f6fded6d"></script>
-
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/sweet-modal/dist/min/jquery.sweet-modal.min.css" />
 <script
@@ -148,7 +146,7 @@ $(function() {
 				alertModal()
 			}else{
 				if ($(this).hasClass("xi-heart")) {
-					$(this).parent().html('<i class="xi-heart-o xi-4x"></i>');
+					$(this).parent().html('<i class="xi-heart-o xi-x"></i>');
 					$.ajax({
 						type : "POST",
 						url : "../unlike",
@@ -158,7 +156,7 @@ $(function() {
 					});
 	
 				} else {
-					$(this).parent().html('<i class="xi-heart xi-4x"></i>');
+					$(this).parent().html('<i class="xi-heart xi-x"></i>');
 					$.ajax({
 						type : "POST",
 						url : "../like",
@@ -214,6 +212,7 @@ $(function() {
 	function alertModal(){
 		$.sweetModal({
 			content:'로그인 후에 서비스를 이용할 수 있어요.',
+			width: '100px',
 			icon: $.sweetModal.ICON_WARNING,
 			buttons: {
 				someAction: {
@@ -227,11 +226,10 @@ $(function() {
 						window.location.href = '../login';						}
 				},
 			},
-			width : '70%',
 		});
 	}
 		
-	//만족도 그래프로 보여주기
+	//그래프로 보여주기
 	function displayBar(barElement, targetValue) {
 	    barElement.style.width = targetValue + '%';
 	}
@@ -290,15 +288,13 @@ $(function() {
 					}
 	             
 	                item += "<div class='reviewer'> &nbsp &nbsp" + n.mname + "</div></div>";
-	                item += "<div class='reviewLike'>추천해요<i class='xi-thumbs-up xi'>"+n.rlike +"</i></div>";
+	                item += "<div class='reviewLike'>추천해요<i class='xi-thumbs-up xi'>"+n.rlike +"</i></div></div>";
 	                item += "<input class='rno' type='hidden' value='"+ n.rno +"'>"
-	                item += "<input class='sortValue' type='hidden' value='"+ sortValue +"'>"
-	                
-	                item += "<hr>";
-
+	                item += "<input class='sortValue' type='hidden' value='"+ sortValue +"'</div>"
+					item += "<div class='reviewGrayLine'><div>"
 	            $('#reviewListContainer').append(item);
+					alert
 	            }
-
 	            // 보여질게 있으면 버튼 생성
 	            if (maxReview < newData.review.length) {
 	                
@@ -316,9 +312,13 @@ $(function() {
 	
 		//리뷰 좋아요
 		$(document).on("click", ".reviewLike", function() {
-			reviewer =  $(this).siblings(".rno").val()
-			let sortnum = $(this).siblings(".sortValue").val()
+			if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				alertModal()
+			} else{
 			
+			reviewer =  $(this).parent().siblings(".rno").val()
+			let sortnum = $(this).parent().siblings(".sortValue").val()
+			alert(reviewer)
 			   $.ajax({
 		        url: "/countReviewLike",
 		        type: "POST",
@@ -330,6 +330,7 @@ $(function() {
 		        }
 		     
 			   });		
+			}
 		});
 		
 	
@@ -354,7 +355,7 @@ $(function() {
 </head>
 <body>
 	<header>
-		<a href="./hospital"><i class="xi-angle-left xi-4x"></i></a>
+		<a href="../main"><i class="xi-angle-left xi-x"></i></a>
 
 		<div class="headerTitle">${hospital.hname }</div>
 
@@ -363,14 +364,14 @@ $(function() {
 			<c:forEach var="hospitalLike" items="${sessionScope.hospitallike}">
 				<c:if test="${hospitalLike == hospital.hname}">
 					<div class="like" style="color: red">
-						<i class="xi-heart xi-4x"></i>
+						<i class="xi-heart xi-x"></i>
 					</div>
 					<c:set var="found" value="true" />
 				</c:if>
 			</c:forEach>
 			<c:if test="${not found}">
 				<div class="notlike" style="color: red">
-					<i class="xi-heart-o xi-4x"></i>
+					<i class="xi-heart-o xi-x"></i>
 				</div>
 			</c:if>
 		</div>
@@ -488,11 +489,11 @@ $(function() {
 				</div>
 			</div>
 
-			<div class="timeInfo">
+			<div class="timeInfo"> 
 				<div class="day monday">
 					<c:choose>
 						<c:when test="${hospital.hnightday == '월요일'}">
-							<div class="dayTitle">월요일(야간진료)</div> ${hospital.hopentime } ~ ${hospital.hnightendtime }
+							<div class="dayTitle">월요일 (야간)</div> ${hospital.hopentime } ~ ${hospital.hnightendtime }
 					</c:when>
 						<c:otherwise>
 							<div class="dayTitle">월요일</div> ${hospital.hopentime } ~ ${hospital.hclosetime }
@@ -502,7 +503,7 @@ $(function() {
 				<div class="day tuesday">
 					<c:choose>
 						<c:when test="${hospital.hnightday == '화요일'}">
-							<div class="dayTitle">화요일(야간진료)</div> ${hospital.hopentime } ~ ${hospital.hnightendtime }
+							<div class="dayTitle">화요일 (야간)</div> ${hospital.hopentime } ~ ${hospital.hnightendtime }
 					</c:when>
 						<c:otherwise>
 							<div class="dayTitle">화요일</div> ${hospital.hopentime } ~ ${hospital.hclosetime }
@@ -512,7 +513,7 @@ $(function() {
 				<div class="day wednesday">
 					<c:choose>
 						<c:when test="${hospital.hnightday == '수요일'}">
-							<div class="dayTitle">수요일(야간진료)</div>${hospital.hopentime } ~ ${hospital.hnightendtime }
+							<div class="dayTitle">수요일 (야간)</div>${hospital.hopentime } ~ ${hospital.hnightendtime }
 					</c:when>
 						<c:otherwise>
 							<div class="dayTitle">수요일</div> ${hospital.hopentime } ~ ${hospital.hclosetime }
@@ -522,7 +523,7 @@ $(function() {
 				<div class="day thursday">
 					<c:choose>
 						<c:when test="${hospital.hnightday == '목요일'}">
-							<div class="dayTitle">목요일(야간진료)</div> ${hospital.hopentime } ~ ${hospital.hnightendtime }
+							<div class="dayTitle">목요일 (야간)</div> ${hospital.hopentime } ~ ${hospital.hnightendtime }
 					</c:when>
 						<c:otherwise>
 							<div class="dayTitle">목요일</div> ${hospital.hopentime } ~ ${hospital.hclosetime }
@@ -532,7 +533,7 @@ $(function() {
 				<div class="day friday">
 					<c:choose>
 						<c:when test="${hospital.hnightday == '금요일'}">
-							<div class="dayTitle">금요일(야간진료)</div> ${hospital.hopentime } ~ ${hospital.hnightendtime }
+							<div class="dayTitle">금요일 (야간)</div> ${hospital.hopentime } ~ ${hospital.hnightendtime }
 					</c:when>
 						<c:otherwise>
 							<div class="dayTitle">금요일</div> ${hospital.hopentime } ~ ${hospital.hclosetime }
@@ -655,7 +656,7 @@ $(function() {
 							</c:if>
 						</div>
 					</div>
-					<i class="xi-angle-right xi-4x"
+					<i class="xi-angle-right xi-x"
 						onclick="location.href='../doctorDetail/'+${doctorList.dno}">
 					</i>
 				</div>
@@ -746,7 +747,7 @@ $(function() {
 					<button id="sort4" value="4">별점낮은순</button>
 				</c:if>
 			</div>
-			<hr>
+			<div class="grayLine"></div>
 			<div id="reviewListContainer"></div>
 
 		</div>
