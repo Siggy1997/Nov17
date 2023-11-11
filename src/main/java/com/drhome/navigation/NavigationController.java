@@ -37,7 +37,6 @@ public class NavigationController {
 
 		if (ncgoto >= 7 && ncgoto <= 19) {
 			conditions.put("dpkind", navigationUtil.getDepartmentKind(ncgoto));
-			System.out.println(conditions.get("dpkind"));
 		}
  
 		if (ncgoto >= 29 && ncgoto <= 40) {
@@ -46,6 +45,7 @@ public class NavigationController {
 			conditions.put("sort", navigationUtil.getCheckConditions(ncgoto).get("sort"));
 			
 			ArrayList<Map<String, Object>> hospitalList = navigationService.findHospitalTop5(conditions);
+			System.out.println(hospitalList);
 			result.put("hospitalList", new JSONArray(hospitalList));
 		}
 
