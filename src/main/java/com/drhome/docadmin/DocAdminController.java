@@ -28,6 +28,10 @@ public class DocAdminController {
 	@GetMapping("/docMain/{mno}/{dno}")
 	public String docMain(@PathVariable int dno, Model model) {
 		
+		Map<String, Object> hospital = docAdminService.findHospitalImg(dno);
+		System.out.println(hospital);
+		model.addAttribute("hospital", hospital);
+		
 		Map<String, Object> docMainDetail = docAdminService.docMainDetail(dno);
 		model.addAttribute("docMainDetail", docMainDetail);
 		System.out.println(docMainDetail);

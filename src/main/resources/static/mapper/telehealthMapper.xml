@@ -77,4 +77,12 @@
 		WHERE h.dno = #{dno}
 	</select>
 	
+	<insert id="apply">
+		INSERT INTO telehealth (tdate, tsymptomdetail, tprice, hno, dno, dpno, mno)
+		VALUES (#{date}, #{tsymptomdetail}, #{pay}, #{hno}, #{dno}, #{dpno}, #{mno})
+		<selectKey keyProperty="tno" resultType="int" order="AFTER">
+	        SELECT LAST_INSERT_ID() AS tno
+	    </selectKey>
+	</insert>
+	
 </mapper>

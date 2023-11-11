@@ -4,12 +4,14 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -235,13 +237,13 @@ public class TelehealthController {
 		} else {
 			map.put("pay", 10000);
 		}
-		
+		map.put("date", new Date());
 		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
-			String mno = (String) session.getAttribute("mno");
-			return "/pay/" + mno + "?tno="; //+ tno;
+			int mno = (int) session.getAttribute("mno");
+			map.put("mno", mno);
+			telehealthService.apply(map);
+			return "redirect:/pay/" + mno + "?tno=" + map.get("tno");
 		}
-		
-		System.out.println(map);
 		return "redirect:/main";
 	}
 	
