@@ -33,6 +33,8 @@ public interface TelehealthDAO {
 	void reviewEdit(Map<String, Object> map);
 	
 	Map<String, Object> telehealthApply(int dno);
+	
+	void apply(Map<String, Object> map);
 
 	void apply(Map<String, Object> map);
 

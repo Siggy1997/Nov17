@@ -27,11 +27,11 @@ body {
 footer {
    bottom: 0;
    position: fixed;
-   height: 8vh;
+   height: 9vh;
    width: 100%;
    z-index: 1000;
    background-color: white;
-   border-top: 3px solid #DDDDDD;
+   border-top: 2px solid #DDDDDD;
 }
 
 .section{
@@ -40,7 +40,26 @@ footer {
     flex-direction: row;
     justify-content: space-around;
     border-inline-start: 100px;
-    margin: 4% 0%;
+    margin: 2% 0%;
+}
+
+.footerMain
+{
+width: 40px;
+height: 40px;
+background: linear-gradient(180deg, rgba(131, 247, 146, 0.5) 0%, rgba(0, 201, 255, 0.5) 99.95%, rgba(82, 209, 187, 0.5) 99.96%, rgba(61, 193, 204, 0.5) 99.97%, rgba(49, 183, 214, 0.5) 99.98%, rgba(48, 183, 215, 0.5) 99.99%, rgba(0, 145, 255, 0.5) 100%);
+box-shadow: 0px 12px 32px #979797;
+border-radius: 100px;
+padding: 0;
+margin-bottom: 5px;
+}
+
+#mapIcon {
+   margin: 8px;
+}
+
+.footerIcon img{
+width: 25px;
 }
 
 </style>
@@ -51,16 +70,15 @@ footer {
 <body>
 <footer>
 <div class="section">
-<div class="footerIcon"><a href="./main"><img alt="없음" src="/img/home2.png"></a></div>
-<div class="footerIcon"><a href="./main"><img alt="없음" src="/img/community2.png"></a></div>
-<div class="footerIcon"><a href="./main"><img alt="없음" src="https://cdn0.iconfinder.com/data/icons/phosphor-regular-vol-3/256/map-trifold-512.png"></a></div>
-<div class="footerIcon"><a href="./main"><img alt="없음" src="/img/doc1.png"></a></div>
-<div class="footerIcon"><a href="./main"><img alt="없음" src="/img/chat2.png"></a></div>
+<div class="footerIcon"><a href="./main"><img alt="없음" src="/img/home.png"></a></div>
+<div class="footerIcon"><a href="./main"><img alt="없음" src="/img/medical-records.png"></a></div>
+<div class="footerMain">
+<div class="footerIcon" id="mapIcon"><a href="./main"><img alt="없음" src="/img/map.png"></a></div>
+</div>
+<div class="footerIcon"><a href="./main"><img alt="없음" src="/img/board.png"></a></div>
+<div class="footerIcon"><a href="./main"><img alt="없음" src="/img/chat.png"></a></div>
 </div>
 </footer> 
-
-
-
 
 </body>
 </html>
