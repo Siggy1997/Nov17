@@ -2,28 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.drhome.qna.QnaBoardDAO">
 
-	<select id="qnaList" resultType="Map">
-		SELECT board.bno, board.btitle,
-		board.bcontent, board.bkind, COUNT(comment.cno) AS
-		comment_count
-		FROM board
-		LEFT JOIN
-		comment ON board.bno = comment.bno
-		WHERE board.btype = 0
-		GROUP BY
-		board.bno, board.btitle, board.bcontent
-		ORDER BY board.bno DESC;
-	</select>
+<select id="qnaList" resultType="Map">
+    SELECT board.bno, board.btitle,
+    board.bcontent, department.dpkind AS dpkind, COUNT(comment.cno) AS comment_count
+    FROM board
+    LEFT JOIN comment ON board.bno = comment.bno
+    LEFT JOIN department ON board.dpno = department.dpno
+    WHERE board.btype = 0
+    GROUP BY board.bno, board.btitle, board.bcontent, department.dpkind
+    ORDER BY board.bno DESC;
+</select>
 
-	<select id="qnaQuestion" parameterType="Integer"
-		resultType="Map">
-		SELECT board.bno, board.btitle, board.bcontent, board.bkind,
-		board.bdate, board.bcalldibs, member.mno
-		FROM board
-		LEFT JOIN member ON
-		board.mno = member.mno
-		WHERE board.bno = #{bno};
-	</select>
+	<select id="qnaQuestion" parameterType="Integer" resultType="Map">
+    SELECT board.bno, board.btitle, board.bcontent, department.dpkind AS dpkind,
+    board.bdate, board.bcalldibs, board.bimg, member.mno
+    FROM board
+    LEFT JOIN member ON board.mno = member.mno
+    LEFT JOIN department ON board.dpno = department.dpno
+    WHERE board.bno = #{bno};
+</select>
+
 
 	<select id="qnaAnswer" parameterType="Integer" resultType="Map">
 		SELECT comment.hno, comment.dno, comment.cno, comment.cdate,
@@ -53,11 +51,16 @@
 	</select>
 
 	<insert id="postQna" parameterType="Map">
-		INSERT INTO board (btitle,
-		bcontent, bdate, btype, mno, bkind)
-		VALUES (#{btitle}, #{bcontent}, #{bdate},
-		#{btype}, #{mno}, #{selectDepartment})
-	</insert>
+    INSERT INTO board (btitle, bcontent, bdate, btype, mno, dpno)
+    VALUES (
+        #{btitle},
+        #{bcontent},
+        #{bdate},
+        #{btype},
+        #{mno},
+        (SELECT dpno FROM department WHERE dpkind = #{selectDepartment})
+    );
+</insert>
 
 	<select id="commentCount" parameterType="Integer"
 		resultType="Integer">
@@ -166,5 +169,16 @@
 		bcontent = #{bcontent}
 		WHERE bno=#{bno}
 	</update>
+	
+	<select id="getQnaListByDepartment" parameterType="String" resultType="Map">
+    SELECT board.bno, board.btitle, board.bcontent, department.dpkind AS dpkind, COUNT(comment.cno) AS comment_count
+    FROM board
+        LEFT JOIN comment ON board.bno = comment.bno
+        LEFT JOIN department ON board.dpno = department.dpno
+    WHERE board.btype = 0
+        AND department.dpkind = #{department}
+    GROUP BY board.bno, board.btitle, board.bcontent, dpkind
+    ORDER BY board.bno DESC;
+</select>
 
 </mapper>
