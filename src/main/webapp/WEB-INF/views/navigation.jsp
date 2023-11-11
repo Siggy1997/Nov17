@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../css/navigation.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -91,19 +92,28 @@
 					});
 		}
 	});
-
-
 </script>
 
 </head>
 <body>
-	<div id="introduction">${sessionScope.mname}님
-		안녕하세요
-		<button id="startNavigation">시작하기</button>
-		<button id="resetQuestions">초기화</button>
-	</div>
 
-	<div class="navigationContainer"></div>
+	<header>
+		<a href="../main"><i class="xi-angle-left xi-x"></i></a>
 
+		<div class="headerTitle">네비게이션</div>
+		<div class="blank"></div>
+	</header>
+
+	<main>
+		<div id="introduction">${sessionScope.mname}님
+			안녕하세요
+			<button id="startNavigation">시작하기</button>
+			<button id="resetQuestions">초기화</button>
+		</div>
+
+		<div class="navigationContainer"></div>
+	</main>
+
+	<footer> 123123123123123 </footer>
 </body>
 </html>

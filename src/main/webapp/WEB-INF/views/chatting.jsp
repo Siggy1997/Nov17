@@ -5,9 +5,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../css/chatt.css">
+<link rel="stylesheet" href="../css/chatting.css">
 <script src="../js/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -19,27 +20,29 @@
 		<div id="blank"></div>
 	</header>
 	
-	<div class="container" id='chatt'>
-		<c:choose>
-			<c:when test="${sessionScope.mgrade gt 4 }">
-				<input type='hidden' id='mid' value="의사 ${sessionScope.mname}">
-			</c:when>
-			<c:otherwise>
-				<input type='hidden' id='mid' value="${sessionScope.mname}님">
-			</c:otherwise>
-		</c:choose>
-		<input type='hidden' id='mgrade' value="${sessionScope.mgrade}">
+	<main>
+		<div id='chatt'>
+			<c:choose>
+				<c:when test="${sessionScope.mgrade gt 4 }">
+					<input type='hidden' id='mid' value="의사 ${sessionScope.mname}">
+				</c:when>
+				<c:otherwise>
+					<input type='hidden' id='mid' value="${sessionScope.mname}님">
+				</c:otherwise>
+			</c:choose>
+			<input type='hidden' id='mgrade' value="${sessionScope.mgrade}">
 			<div id='talk'></div>
-	</div>
+		</div>
+	</main>
 	
 	<footer>
-			<div id='sendZone'>
-				<textarea id='msg'></textarea>
-				<div id='btnSend'>
-					<i class="xi-send xi-2x"></i>
-				</div>
+		<div id='sendZone'>
+			<textarea id='msg'></textarea>
+			<div id='btnSend'>
+				<i class="xi-send xi-2x"></i>
 			</div>
-		</footer> 
+		</div>
+	</footer>
 	<script type="text/javascript">
 		$(function() {
 			let ws;
