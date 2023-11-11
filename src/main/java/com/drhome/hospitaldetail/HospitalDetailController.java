@@ -29,7 +29,6 @@ public class HospitalDetailController {
 	public String hospitalDetail(@PathVariable int hno, Model model) {
 
 		Map<String, Object> hospital = hospitalDetailService.findHospitalByHno(hno);
-		System.out.println(hospital);
 		ArrayList<Map<String, Object>> doctorList = hospitalDetailService.findDoctorByHno(hno);
 
 		ArrayList<Map<String, Object>> reviewList = hospitalDetailService.findReviewByHno(hno);

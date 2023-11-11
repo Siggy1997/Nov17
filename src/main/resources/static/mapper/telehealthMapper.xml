@@ -67,9 +67,15 @@
 	</select>
 	
 	<delete id="reviewDelete" parameterType="Integer">
-		DELETE FROM review
+		DELETE FROM review r
 		WHERE r.rno = #{rno}
 	</delete>
+	
+	<update id="reviewEdit" parameterType="Map">
+		UPDATE review r
+		SET r.rcontent = #{rcontent}
+		WHERE r.rno = #{rno}
+	</update>
 	
 	<select id="telehealthApply" parameterType="Integer" resultType="Map">
 		SELECT h.hno, h.dno, h.dspecialist, h.dpno, h.dpkind, h.dpkeyword

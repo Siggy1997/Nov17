@@ -216,6 +216,16 @@ public class TelehealthController {
 		return json.toString();
 	}
 	
+	// 비대면 진료 의사 상세페이지 내 글 리뷰 수정하기
+	@ResponseBody
+	@PostMapping("/reviewEdit")
+	public String reviewEdit(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		telehealthService.reviewEdit(map);
+		JSONObject json = new JSONObject();
+		return json.toString();
+	}
+	
 	// 비대면 진료 접수 페이지
 	@GetMapping("/telehealthApply")
 	public String telehealthApply(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
