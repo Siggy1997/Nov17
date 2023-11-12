@@ -1,5 +1,6 @@
 package com.drhome.admin;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -30,32 +31,31 @@ public class AdminController {
 
 	@GetMapping("/adminMain")
 	public String adminmain(@RequestParam Map<String, Object> map, Model model, HttpSession session) {
-		
+
 		if (session.getAttribute("mid") == null) {
-		
+
 			String mname = String.valueOf(session.getAttribute("mname"));
 			Map<String, Object> infoList = adminService.adminInfo(map);
 			model.addAttribute("infoList", infoList);
-			
+
 			return "admin/adminMain";
 		} else {
 			return "redirect:/admin/index";
 		}
 	}
 
-
 	@RequestMapping(value = "/boardManage", method = RequestMethod.GET)
 	public String BoardList(Model model, @RequestParam Map<String, Object> map, HttpSession session) {
-		
+
 		if (session.getAttribute("mid") == null) {
-		
-		List<Map<String, Object>> manageBoardList = adminService.manageBoardList();
-		model.addAttribute("manageBoardList", manageBoardList);
-			
-		List<Map<String, Object>> reportList = adminService.reportList(map);
-		model.addAttribute("reportList", reportList);
-		
-		return "admin/boardManage";
+
+			List<Map<String, Object>> manageBoardList = adminService.manageBoardList();
+			model.addAttribute("manageBoardList", manageBoardList);
+
+			List<Map<String, Object>> reportList = adminService.reportList(map);
+			model.addAttribute("reportList", reportList);
+
+			return "admin/boardManage";
 		} else {
 			return "redirect:/admin/index";
 		}
@@ -64,7 +64,7 @@ public class AdminController {
 	// member
 	@RequestMapping(value = "/member", method = RequestMethod.GET)
 	public ModelAndView member(HttpSession session) {
-		
+
 		ModelAndView mv = new ModelAndView("admin/member");
 		mv.addObject("memberList", adminService.memberList());
 
@@ -85,11 +85,11 @@ public class AdminController {
 	public String gradeChange(@RequestParam Map<String, String> map) {
 		int grade = Integer.parseInt(map.get("grade"));
 		int mboardcount = Integer.parseInt(map.get("mboardcount"));
-		
+
 		if (mboardcount >= 5) {
-	        map.put("grade", "0");
-	    }
-		
+			map.put("grade", "0");
+		}
+
 		int result = adminService.gradeChange(map);
 		return "redirect:/admin/member";
 	}
@@ -100,66 +100,179 @@ public class AdminController {
 		System.out.println(map);
 		int getMno = adminService.resultChange(map);
 		System.out.println(getMno);
-		
+
 		if (map.get("rpresult").equals("1")) {
 			adminService.memberRcount(getMno);
 		}
-		
+
 		return "redirect:/admin/report";
 	}
-	
+
 	// appointmentChange
 	@RequestMapping(value = "/appointmentChange", method = RequestMethod.GET)
 	public String appointmentChange(@RequestParam Map<String, String> map) {
 		int getAno = adminService.appointmentChange(map);
 		System.out.println(getAno);
-		
+
 		return "redirect:/admin/appointmentApprove";
 	}
-	
-	
+
 	@GetMapping("/newHospital")
 	public String newHospital() {
-		
+
 		return "admin/newHospital";
 	}
-	
-	@PostMapping("/newDoctor")
+
+	@PostMapping("/hospitalOpen")
 	public String newHospital(@RequestParam Map<String, Object> map) {
+		System.out.println(map.containsKey("rhholiday"));
+		if (!(map.containsKey("rhholiday"))) {
+			map.put("rhholiday", 0);
+		}
+
+		System.out.println(map.containsKey("rhparking"));
+		if (!(map.containsKey("rhparking"))) {
+			map.put("rhparking", 0);
+		}
 		System.out.println(map);
-		
-		int insertHospital = adminService.insertHospital(map);
-		System.out.println(insertHospital);
-		
-		return "admin/newDoctor";
-	} 
+
+		int insertRegister = adminService.insertRegister(map);
+		System.out.println(insertRegister);
+
+		return "redirect:/admin/hospitalOpen";
+	}
 
 	@GetMapping("/newDoctor")
-	public String newDoctor() {
-		
+	public String newDoctor(@RequestParam("hno") int hno, Map<String, Object> map) {
+		Map<String, Object> hnoDoctor = adminService.realDetail(hno);
+		map.put("hnoDoctor", hnoDoctor);
+		System.out.println(hnoDoctor);
 		return "admin/newDoctor";
 	}
 	
-	@PostMapping("/hospitalOpen")
+	@PostMapping("/realHospital")
+	public String realHospital(@RequestParam("rhno") int rhno) {
+		
+		Map<String, Object> hospitalApproval = adminService.detail(rhno);
+		int insertHospital = adminService.insertHospital(hospitalApproval);
+		System.out.println(insertHospital);
+		int deleteHospital = adminService.deleteHospital(rhno);
+		System.out.println(deleteHospital);
+		
+		return "redirect:/admin/realHospital";
+	}
+	
+	@GetMapping("/realHospital")
+	public String realHospital(Map<String, Object> map) {
+			
+		List<Map<String, Object>> finalHospital = adminService.finalHospital();
+		map.put("finalHospital", finalHospital);
+		
+		return "admin/realHospital";
+	}
+
+	@PostMapping("/newDoctor")
 	public String newDoctor(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		
+		System.out.println(map.containsKey("dgender"));
+		if (!(map.containsKey("dgender"))) {
+			map.put("dgender", 0);
+		}
+		
+		if (String.valueOf(map.containsKey("dspecialist")) == "on") {
+			map.put("dspecialist", 1);
+		} else {
+			map.put("dspecialist", 0);
+		}
+		System.out.println(map.containsKey("dspecialist"));
+
+		if (String.valueOf(map.containsKey("dtelehealth")) == "on") {
+			map.put("dtelehealth", 1);
+		} else {
+			map.put("dtelehealth", 0);
+		}
+		System.out.println(map.containsKey("dtelehealth"));
 		
 		int insertDoctor = adminService.insertDoctor(map);
 		System.out.println(insertDoctor);
 		
-		return "admin/hospitalOpen";
+		System.out.println(map.get("hno"));
+		System.out.println(map.get("hname"));
+		// Base64.getEncoder().encodeToString(map.get("hname").getBytes())
+		return "redirect:/admin/newDoctor?hno="+map.get("hno");
 	}
-	
+
 	@RequestMapping(value = "/hospitalOpen", method = RequestMethod.GET)
-	public String hospitalOpen(Map<String, Object> map, Model model) {
-		
+	public String hospitalOpen(/* @RequestParam("rhno") int rhno, */ Map<String, Object> map, Model model) {
+
 		List<Map<String, Object>> hospitalOpen = adminService.hospitalOpen(map);
 		map.put("hospitalOpen", hospitalOpen);
 		
-		System.out.println(hospitalOpen);
+		/*
+		 * List<Map<String, Object>> hospitalList = adminService.hospitalList(rhno);
+		 * map.put("hospitalList", hospitalList);
+		 */
 		
 		return "admin/hospitalOpen";
 	}
 
+	@GetMapping("/resultCh")
+	public String resultCh(@RequestParam Map<String, String> map) {
+		System.out.println(map);
+		int getMno = adminService.resultCh(map);
+		
+		return "redirect:/admin/hospitalOpen";
+	}
+
+	@ResponseBody
+	@PostMapping("/detail")
+	public String detail(@RequestParam("rhno") int rhno) {
+
+		Map<String, Object> detail = adminService.detail(rhno);
+
+		JSONObject json = new JSONObject();
+		json.put("detail", detail);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
+
+	@GetMapping("/newHosDoc")
+	public String newHosDoc(Map<String, Object> map, HttpSession session, @RequestParam(name="hno", required=false, defaultValue = "0") int hno) {
+		System.out.println(hno);
+		List<Map<String, Object>> newHospital = adminService.newHospital(hno);  
+		map.put("newHospital", newHospital);
+		System.out.println(newHospital);
+		return "admin/newHosDoc";
+	}
+	
+	@ResponseBody
+	@PostMapping("/search")
+	public String search(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		
+		List<Map<String, Object>> search = adminService.search(map);
+
+		JSONObject json = new JSONObject();
+		json.put("search", search);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
+	
+	@ResponseBody
+	@PostMapping("/doctorView")
+	public String doctorView(@RequestParam("hno") int hno) {
+		
+		List<Map<String, Object>> viewDoctor = adminService.viewDoctor(hno);
+
+		JSONObject json = new JSONObject();
+		json.put("viewDoctor", viewDoctor);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
 	/*
 	 * @ResponseBody
 	 * 
@@ -173,6 +286,5 @@ public class AdminController {
 	 * 
 	 * return json.toString(); }
 	 */
-
 
 }

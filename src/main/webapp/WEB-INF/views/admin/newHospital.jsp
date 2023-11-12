@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,25 +19,18 @@
 		
     	rhholidayendtime.hide();
 
-   		/* $('input[name=rhholiday]').val(0); */
-		rhholiday.val(0);
    		rhholiday.change(function() {
 	        if ($(this).is(":checked")) {
 	            rhholiday.val(1);
 	            rhholidayendtime.show();
 	        } else {
-	            rhholiday.val(0);
 	            rhholidayendtime.hide();
 	        }
 	    });
     	
-   		/* $('input[name=rhparking]').val(0); */
-   		rhparking.val(0);
     	rhparking.change(function() {
 	        if ($(this).is(":checked")) {
 	        	rhparking.val(1);
-	        } else {
-	        	rhparking.val(0);
 	        }
 	    });
 
@@ -76,21 +68,21 @@
 	<div class="article">
 		<h1>DR.Home</h1>
 		<div class="content" style="font-weight: bold">
-			닥터홈에 오신것을 환영합니다!<br> 병원 개설을 위해 아래 내용을 입력해주세요.
+			닥터홈에 오신것을 환영합니다!<br> 
+			병원 개설을 위해 아래 내용을 입력해주세요.
 		</div>
-		<form action="/admin/newDoctor" method="post">
+		<form action="/admin/hospitalOpen" method="POST">
 			<div class="Group">
 				<input class="vector" type="text" placeholder="병원명" name="rhname">
 			</div>
 			<div class="Group">
-				<input class="vector" type="text" placeholder="개원일" name="rhopendate">
+				<input class="vector" type="date" placeholder="개원일" name="rhopendate">
 			</div>
 			<div class="Group">
 				<input class="vector" type="text" placeholder="주소" name="rhaddr">
 			</div>
 			<div class="Group">
-				<input class="vector" type="text" placeholder="전화번호"
-					name="rhtelnumber">
+				<input class="vector" type="text" placeholder="전화번호" name="rhtelnumber">
 			</div>
 			<div class="Group">
 				<input class="vector" type="text" placeholder="병원이미지" name="rhimg">
@@ -99,28 +91,22 @@
 				<input class="vector" type="text" placeholder="소개" name="rhinfo">
 			</div>
 			<div class="Group">
-				<input class="vector" type="text" placeholder="시작시간"
-					name="rhopentime">
+				<input class="vector" type="text" placeholder="시작시간" name="rhopentime">
 			</div>
 			<div class="Group">
-				<input class="vector" type="text" placeholder="종료시간"
-					name="rhclosetime">
+				<input class="vector" type="text" placeholder="종료시간" name="rhclosetime">
 			</div>
 			<div class="Group">
-				<input class="vector" id="rhnightday" type="text"
-					placeholder="야간 진료요일" name="rhnightday">
+				<input class="vector" id="rhnightday" type="text" placeholder="야간 진료요일" name="rhnightday">
 			</div>
 			<div class="Group" id="rhnightendtime">
-				<input class="vector" type="text" placeholder="야간 종료시간"
-					name="rhnightendtime">
+				<input class="vector" type="text" placeholder="야간 종료시간" name="rhnightendtime">
 			</div>
 			<div class="Group">
-				<input class="vector" id="rhbreaktime" type="text"
-					placeholder="브레이크타임" name="rhbreaktime">
+				<input class="vector" id="rhbreaktime" type="text" placeholder="브레이크타임" name="rhbreaktime">
 			</div>
 			<div class="Group" id="rhbreakendtime">
-				<input class="vector" type="text" placeholder="브레이크 종료시간"
-					name="rhbreakendtime">
+				<input class="vector" type="text" placeholder="브레이크 종료시간" name="rhbreakendtime">
 			</div>
 			<div class="Group">
 				<div class="vector" style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">공휴일 진료여부</div>
@@ -128,15 +114,14 @@
 				<!--  <input class="vector" id="hholiday" type="text" placeholder="공휴일 진료여부(0:진료X / 1:진료O)" name="hholiday"> -->
 			</div>
 			<div class="Group" id="rhholidayendtime">
-				<input class="vector" type="text" placeholder="공휴일 종료시간"
-					name="rhholidayendtime">
+				<input class="vector" type="text" placeholder="공휴일 종료시간" name="rhholidayendtime">
 			</div>
 			<div class="Group">
 				<div class="vector" style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">주차 여부</div>
 				<input type="checkbox" id="rhparking" name="rhparking" class="cm-toggle">
 				<!-- <input class="vector" type="text" placeholder="주차여부(0:불가능 / 1:가능)" name="hparking"> -->
 			</div>
-			<button class="btn" type="submit">의사 영입하기 ▷</button>
+			<button class="btn" type="submit">병원 개설하기 ▷</button>
 		</form>
 	</div>
 </body>
