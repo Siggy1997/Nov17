@@ -1,8 +1,10 @@
 package com.drhome.qna;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.drhome.free.FreeBoardService;
 
@@ -58,9 +62,11 @@ public class QnaBoardController {
 	@GetMapping("/qnaDetail")
 	public String qnaDetail(@RequestParam("bno") int bno, Model model, HttpSession session) {
 
-		// int hno = (int) session.getAttribute("hno");
+		
+	 //int mno = (int) session.getAttribute("mno");
+		int mno = 1;
 		int dno = 2; // 추후 세션값으로 변경 예정 // 답변 삭제, 수정
-		int mno = 4; // 추후 세션값으로 변경 예정
+		
 		model.addAttribute("dno", dno);
 		model.addAttribute("mno", mno);
 
@@ -80,7 +86,7 @@ public class QnaBoardController {
 		model.addAttribute("qnaAnswer", qnaAnswer);
 
 		Map<String, Object> reportCountData = new HashMap<>();
-		reportCountData.put("mno", mno);
+		reportCountData.put("mno", 1);
 		reportCountData.put("bno", bno);
 
 		int reportCount = qnaBoardService.reportCount(reportCountData);
@@ -131,18 +137,28 @@ public class QnaBoardController {
 		return "/writeQna";
 	}
 
+
 	@RequestMapping(value = "/postQna", method = RequestMethod.POST)
 	public String postQna(@RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent,
-			@RequestParam("bdate") String bdate, @RequestParam("selectDepartment") String selectDepartment) {
+			@RequestParam("bdate") String bdate, @RequestParam("selectDepartment") String selectDepartment
+			,HttpSession session) throws IOException {
 
+		// int mno = (int) session.getAttribute("mno");
+		
 		Map<String, Object> qnaData = new HashMap<>();
 		qnaData.put("btitle", btitle);
 		qnaData.put("bcontent", bcontent);
 		qnaData.put("bdate", bdate);
 		qnaData.put("btype", 0);
-		qnaData.put("mno", 4); // 추후 세션값으로 변경 예정
+		qnaData.put("mno", 1);
 		qnaData.put("selectDepartment", selectDepartment);
+		// 파일 데이터를 바이트 배열로 변환
+		//byte[] fileBytes = file.getBytes();
 
+		// 바이트 배열을 Base64 문자열로 변환하여 qnaData에 추가
+		//String fileBase64 = Base64.getEncoder().encodeToString(fileBytes);
+		//qnaData.put("fileData", fileBase64);
+		
 		qnaBoardService.postQna(qnaData);
 
 		return "redirect:/qnaBoard";
@@ -150,8 +166,10 @@ public class QnaBoardController {
 
 	@PostMapping("/writeQnaAnswer")
 	public String writeQnaAnswer(@RequestParam("bno") int bno, @RequestParam("ccontent") String ccontent,
-			@RequestParam("cdate") String cdate) {
+			@RequestParam("cdate") String cdate, HttpSession session) {
 
+		// int mno = (int) session.getAttribute("mno");
+		
 		// 게시물당 댓글 수 조회
 		int commentCount = qnaBoardService.commentCount(bno);
 
@@ -206,10 +224,12 @@ public class QnaBoardController {
 
 		Map<String, Object> qnaCallDibsData = new HashMap<>();
 
-		int mno = 4; // 추후 세션값으로 변경 예정
+
+		// int mno = (int) session.getAttribute("mno");
+
 
 		qnaCallDibsData.put("bno", bno);
-		qnaCallDibsData.put("mno", mno);
+		qnaCallDibsData.put("mno", 1);
 
 		if (callDibsInput == true) {
 
@@ -227,14 +247,18 @@ public class QnaBoardController {
 	
 	@PostMapping("/reportPost")
 	public String reportPost(@RequestParam("bno") int bno, @RequestParam("rpcontent") String rpcontent,
-			@RequestParam("rpdate") String rpdate) {
+			@RequestParam("rpdate") String rpdate, HttpSession session) {
 
 		Map<String, Object> reportData = new HashMap<>();
 
 		  LocalDateTime currentDatetime = LocalDateTime.now();
 		
+
+		// int mno = (int) session.getAttribute("mno");
+			
+		  
 		reportData.put("bno", bno);
-		reportData.put("mno", 4); // 추후 세션값으로 변경 예정
+		reportData.put("mno", 1);
 		reportData.put("rpcontent", rpcontent);
 		reportData.put("rpurl", "http://localhost:8080/qnaDetail?bno=" + bno);
 		reportData.put("rpdate", currentDatetime);
@@ -285,6 +309,18 @@ public class QnaBoardController {
 			return "redirect:/freeDetail?bno=" + bno;
 		}
 
+	}
+	
+
+	@GetMapping("/selectDepartment")
+	@ResponseBody
+	public List<Map<String, Object>> selectDepartment(@RequestParam("department") String department, Model model) {
+	    // department 값을 사용하여 게시글 필터링 로직 수행
+	    List<Map<String, Object>> filteredQnaList = qnaBoardService.getQnaListByDepartment(department);
+
+		model.addAttribute("filteredQnaList", filteredQnaList);
+	    // 필터링된 게시글 목록을 JSON 형식으로 반환
+	    return filteredQnaList;
 	}
 
 

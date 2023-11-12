@@ -7,17 +7,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>hospitalList</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/hospital.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
-
-<!-- <script src="./js/wnInterface.js"></script> 
-<script src="./js/mcore.min.js"></script> 
-<script src="./js/mcore.extends.js"></script>  -->
 <script type="text/javascript">
 	$(function(){
+		/* 뒤로가기 버튼 */
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
 		
 		let optionKeywordBox = '';
 		let addSelectByDepartment = '';
@@ -34,16 +35,13 @@
 		} else if (kindKeyword != null) {
 			$("#keyword").val(kindKeyword);
 			$(".selectByDepartmentText").text(kindKeyword);
-
 			$(".selectByDepartment").addClass("filter-btn-css");
-
 			$(".departmentKind").filter(function() {
 			    return $(this).text().trim() === kindKeyword;
 			}).addClass("btn-color-css");
 		} else if (symptomKeyword != null) {
 			$("#keyword").val(symptomKeyword);
 			$(".selectByDepartmentText").text(symptomKeyword);
-
 			$(".selectByDepartment").addClass("filter-btn-css");
 			$(".symptomKind").filter(function() {
 			    return $(this).text().trim() === symptomKeyword;
@@ -51,21 +49,27 @@
 		} 
 
 		if (optionKeyword != null) {
-			$(".selectByCategory").addClass("filter-btn-css");
+			$(".selectByCategory").addClass("filter-btn-css-blue");
 			optionKeywordBox += optionKeyword;
 			if( $("#keyword").val() == '' ) {
 				$("#keyword").val(optionKeywordBox);
 			}
-			
 			let text = $(this).text().trim();
 		    let keywords = optionKeyword.split(',');
 		    for (let i = 0; i < keywords.length; i++) {
-	        	addSelectByDepartment += '<button class="filter-btn-css" type="button"><span class="xi-command"></span><span class="addSelectByDepartmentText"> ' + keywords[i].trim() + '</span><span class="xi-close-circle"></span></<button>';
+	        	addSelectByDepartment += '<button class="filter-btn-css select addSelectByDepartment" type="button"><div class="xi-command"></div><div class="selectByDepartmentText margin-right"> ' + keywords[i].trim() + '</div><div class="deleteKeyword xi-close-circle"></div></<button>';
+	        	$(".optionKindText").each(function() {
+	        	    if ($(this).text() === keywords[i].trim()) {
+	        	        $(this).closest(".optionKind").addClass("btn-color-css");
+	        	        let optionClass = $(this).siblings(".xi-radiobox-blank");
+	        	        optionToggleIcon(optionClass);
+	        	    }
+	        	});
 		        if (text.includes(keywords[i].trim())) {
 		            return true;
 		        }
 		    }
-		    $(".addSelectByDepartment").append(addSelectByDepartment);
+		    $(".filterGroup").append(addSelectByDepartment);
 			
 			$(".optionKind").filter(function() {
 				
@@ -84,6 +88,24 @@
 			$("#keyword").val(keyword);
 		}
 		
+		/* 입력할 때 내용 지우기 */
+		if ($("#keyword").val() !== '') {
+			$(".icon").addClass("xi-close-circle");
+		} else {
+			$(".icon").removeClass("xi-close-circle");
+		}
+		$(document).on("input", "#keyword", function(){
+			if ($("#keyword").val() !== '') {
+				$(".icon").addClass("xi-close-circle");
+			} else {
+				$(".icon").removeClass("xi-close-circle");
+			}
+		});
+		$(document).on("click", ".deleteSearch", function(){
+			$(".icon").removeClass("xi-close-circle");
+			$("#keyword").val('').focus();
+		});
+		
 		/* 병원 총 개수 세기 */
 	    hospitalCount();
 
@@ -93,8 +115,10 @@
 	        let text = $this.text().trim();
 	        if (text === '진료 중') {
 	            $this.closest(".hospitalList").find(".receptionStatus").text('접수 가능');
+	            $this.closest(".hospitalList").find(".receptionStatus").addClass("reservationStatus");
 	        } else {
 	            $this.closest(".hospitalList").find(".receptionStatus").text('접수 마감');
+	            $this.closest(".hospitalList").find(".receptionStatus").removeClass("reservationStatus");
 	        }
 	    });
 		
@@ -103,11 +127,11 @@
 			let inTreatment = $(".hospitalListContainer").filter(function() {
 			    return $(this).find(".hospitalStatus_text").text().trim() === '진료 중';
 			});
-			if ( $(this).hasClass("btn-color-css") ) {
-				$(this).removeClass("btn-color-css");
+			if ( $(this).hasClass("filter-btn-css") ) {
+				$(this).removeClass("filter-btn-css");
 				$(".hospitalListContainer").show();
 			} else {
-				$(this).addClass("btn-color-css");
+				$(this).addClass("filter-btn-css");
 		        $(".hospitalListContainer").hide();
 
 		        inTreatment.show();
@@ -116,13 +140,15 @@
 		});
 		
 		/* 진료과, 증상 모달 */
-
 		$(document).on("click", ".selectByDepartmentText", function(){
 	    	if( symptomKeyword != null ) {
-
+	    		$(".modalSymptom").addClass("modal-title-css");
+				$(".modalDepartment").removeClass("modal-title-css");
 				$(".departmentGroup").hide();
 				$(".symptomContainer").show();
 			} else {
+				$(".modalDepartment").addClass("modal-title-css");
+				$(".modalSymptom").removeClass("modal-title-css");
 				$(".departmentGroup").show();
 				$(".symptomContainer").hide();
 			}
@@ -131,6 +157,8 @@
 
 		/* 진료과 선택했을 때 */
 		$(document).on("click", ".modalDepartment", function(){
+			$(this).addClass("modal-title-css");
+			$(".modalSymptom").removeClass("modal-title-css");
 			$(".departmentGroup").show();
 			$(".symptomContainer").hide();
 		});
@@ -138,11 +166,18 @@
 		/* 진료과 검색하기 */
 		$(document).on("click", ".departmentKind", function(){
 			let departmentKind = $(this).text();
-			$('#keyword').val(departmentKind);
+			if(optionKeyword != null) {
+				$(this).prop("disabled", true);
+				changeURL("kindKeyword", departmentKind);
+			} else {
+				$('#keyword').val(departmentKind);
+			}
 		});
 		
 		/* 증상 선택했을 때 */
 		$(document).on("click", ".modalSymptom", function(){
+			$(this).addClass("modal-title-css");
+			$(".modalDepartment").removeClass("modal-title-css");
 			$(".departmentGroup").hide();
 			$(".symptomContainer").show();
 		});
@@ -170,7 +205,12 @@
 		/* 증상 검색하기 */
 		$(document).on("click", ".symptomKind", function(){
 			let symptomKind = $(this).text();
-			$('#keyword').val(symptomKind);
+			if(optionKeyword != null) {
+				$(this).prop("disabled", true);
+				changeURL("symptomKeyword", symptomKind);
+			} else {
+				$('#keyword').val(symptomKind);
+			}
 		});
 		
 		/* 유형 모달 */
@@ -205,7 +245,6 @@
 		});
 		
 		$(document).on("click", ".optionSubmit", function(){
-
 			$("#optionKeywordBox").val(optionKeywordBox);
 		});
 		
@@ -249,12 +288,6 @@
 		    
 		});
 
-
-		/* 검색 input창 */
-		$("#keyword").click(function(){
-			location.href= '/search';
-		});
-		
 		/* 접수 페이지 이동 */
 		$(document).on("click", ".receptionStatus", function(){
 			let hno = $(this).siblings().val();
@@ -319,155 +352,199 @@
 			$(".addSelectByDepartment").hide();
 		}
 		
-		/* 카테고리, 유형 지웠을 때 삭제하기 */
-		$(document).on("click", ".xi-close-circle", function(){
+		/* 카테고리, 유형 지웠을 때 삭제하기 */	
+		$(document).on("click", ".deleteKeyword", function(){
 			if ($(this).parent().is($(".selectByDepartment"))) {
 				if(kindKeyword != null) {
-					changeURL("kindKeyword");
+					deleteURL("kindKeyword");
 				} else {
-					changeURL("symptomKeyword");
+					deleteURL("symptomKeyword");
 				}
 			} else {
-				alert("아니다");
+				let delOptionKeyword = $(this).siblings(".selectByDepartmentText").text();
+				changeOptionURL(delOptionKeyword);
 			}
 		});
+		
+		/* Collection of functions */
+		
+		/* 병원 상세보기 페이지 이동 */
+		function hospitalDetail(hno) {
+			location.href= '/hospitalDetail/' + hno;
+		}
+		
+		/* 예약 상세보기 페이지 이동 */
+		function hospitalAppointment(hno) {
+			location.href= '/appointment/' + hno;
+		}
+		
+		/* 모달에서 증상별 토글 효과 */
+		function toggleClass(keyword) {
+			let otherKeyword = $(".symptomKindButton").not(keyword);
+			if (otherKeyword.is(":visible")) {
+				otherKeyword.slideUp();
+				toggleIcon(otherKeyword);
+			}
+			if (keyword.is(":visible")) {
+		        toggleIcon(keyword);
+		        keyword.slideUp();
+		    } else {
+		        toggleIcon(keyword);
+		        keyword.slideDown();
+		    }
+		}
+		
+		/* 모달에서 증상별 토글 아이콘 변경 */
+		function toggleIcon(keyword) {
+			if (keyword.is(":visible")) {
+		        let toggle = keyword.siblings().children(".xi-angle-up-thin");
+		        keyword.siblings().children(".symptomGroupText").removeClass("font-css");
+		        toggle.removeClass("xi-angle-up-thin").addClass("xi-angle-down-thin");
+		    } else {
+		    	let toggle = keyword.siblings().children(".xi-angle-down-thin");
+		    	keyword.siblings().children(".symptomGroupText").addClass("font-css");
+		    	toggle.removeClass("xi-angle-down-thin").addClass("xi-angle-up-thin");
+		    }
+		}
+		
+		/* 모달에서 옵션 토글 아이콘 변경 */
+		function optionToggleIcon(optionKind) {
+			if ( optionKind.hasClass("xi-check-circle") ) {
+				optionKind.addClass("xi-radiobox-blank").removeClass("xi-check-circle");
+				
+			} else {
+				optionKind.addClass("xi-check-circle").removeClass("xi-radiobox-blank");
+			}
+		}
+		
+		/* 목록에 있는 병원 개수 세기 */
+		function hospitalCount() {
+			let divCount = $(".hospitalListContainer:visible").length;
+			$(".countNumber").text("총 " + divCount + "개");
+		}
+		
+		/* String 잘라서 배열로 만들기 */
+		function separationString(stringList) {
+		    if (stringList) {
+		        return stringList.split(",").map(function(item) {
+		            return item.trim();
+		        });
+		    } else {
+		        return [];
+		    }
+		}
+		
+		/* 카테고리 선택 해제하기 */
+		function deselect(select) {
+			if (select.hasClass("filter-btn-css")) {
+				let toggleDepartment = select.children(".xi-angle-down-min");
+				toggleDepartment.removeClass("xi-angle-down-min").addClass("xi-close-circle");
+			} else {
+				let toggleDepartment = select.children(".xi-close-circle");
+				toggleDepartment.removeClass("xi-close-circle").addClass("xi-angle-down-min");
+			}
+		}
+		
+		/* url 지우기 */
+		function deleteURL(deleteParams) {
+			urlParams.delete(deleteParams);
+			urlString = urlParams.toString();
+			location.href= "hospital?"+urlString;
+		}
+		
+		/* url 변경하기 */
+		function changeURL(paramName, paramValue) {
+			urlParams.set(paramName,paramValue);
+			if(paramName === "symptomKeyword") {
+				urlParams.delete("kindKeyword");
+			} else {
+				urlParams.delete("symptomKeyword");
+			}
+			location.href= "hospital?" + urlParams.toString();
+		}
+		
+		/* 옵션 url 변경 */
+		function changeOptionURL(deleteKeyword) {
+			/* optionKeyword 뽑아내기 */
+			let optionKeywordValue = urlParams.get("optionKeyword");
+			/* 배열화 하기 */
+			let optionKeywords = optionKeywordValue.split(',');
+			/* 키워드 지우기 */
+			if (optionKeywords.includes(deleteKeyword.trim())) {
+				optionKeywords = optionKeywords.filter(keyword => keyword.trim() !== deleteKeyword.trim());
+			}
+			/* 다시 합치기 */
+			if (optionKeywords.length > 0) {
+			    urlParams.set("optionKeyword", optionKeywords.join(','));
+			  } else {
+			    urlParams.delete("optionKeyword");
+			  }
+			location.href = "hospital?" + urlParams.toString();
+		}
+		
+		
 
 	});
-
-
-	/* Collection of functions */
-	
-	/* 병원 상세보기 페이지 이동 */
-	function hospitalDetail(hno) {
-		location.href= '/hospitalDetail/' + hno;
-	}
-	
-	/* 예약 상세보기 페이지 이동 */
-	function hospitalAppointment(hno) {
-		location.href= '/appointment/' + hno;
-	}
-	
-	/* 모달에서 증상별 토글 효과 */
-	function toggleClass(keyword) {
-		let otherKeyword = $(".symptomKindButton").not(keyword);
-		if (otherKeyword.is(":visible")) {
-			otherKeyword.slideUp();
-			toggleIcon(otherKeyword);
-		}
-		if (keyword.is(":visible")) {
-	        toggleIcon(keyword);
-	        keyword.slideUp();
-	    } else {
-	        toggleIcon(keyword);
-	        keyword.slideDown();
-	    }
-	}
-	
-	/* 모달에서 증상별 토글 아이콘 변경 */
-	function toggleIcon(keyword) {
-		if (keyword.is(":visible")) {
-	        let toggle = keyword.siblings().children(".xi-angle-up-thin");
-	        toggle.removeClass("xi-angle-up-thin").addClass("xi-angle-down-thin");
-	    } else {
-	    	let toggle = keyword.siblings().children(".xi-angle-down-thin");
-	    	toggle.removeClass("xi-angle-down-thin").addClass("xi-angle-up-thin");
-	    }
-	}
-	
-	/* 모달에서 옵션 토글 아이콘 변경 */
-	function optionToggleIcon(optionKind) {
-		if ( optionKind.hasClass("xi-check-circle") ) {
-			optionKind.addClass("xi-radiobox-blank").removeClass("xi-check-circle");
-			
-		} else {
-			optionKind.addClass("xi-check-circle").removeClass("xi-radiobox-blank");
-		}
-	}
-	
-	/* 목록에 있는 병원 개수 세기 */
-	function hospitalCount() {
-		let divCount = $(".hospitalListContainer:visible").length;
-		$(".countNumber").text("총 " + divCount + "개");
-	}
-	
-	/* String 잘라서 배열로 만들기 */
-	function separationString(stringList) {
-	    if (stringList) {
-	        return stringList.split(",").map(function(item) {
-	            return item.trim();
-	        });
-	    } else {
-	        return [];
-	    }
-	}
-	/* 카테고리 선택 해제하기 */
-	function deselect(select) {
-		if (select.hasClass("filter-btn-css")) {
-			let toggleDepartment = select.children(".xi-angle-down-min");
-			toggleDepartment.removeClass("xi-angle-down-min").addClass("xi-close-circle");
-		} else {
-			let toggleDepartment = select.children(".xi-close-circle");
-			toggleDepartment.removeClass("xi-close-circle").addClass("xi-angle-down-min");
-		}
-	}
-	
-	/* url 변경하기 */
-	function changeURL(deleteParams) {
-		let urlString = location.search;
-		let urlParams = new URLSearchParams(urlString);
-		urlParams.delete(deleteParams);
-		urlString = urlParams.toString();
-		location.href= "hospital?"+urlString;
-	}
 	
 	
 
 
+	
 
 </script>
 
 </head>
 <body>
-	<h1>hospital</h1>
 	<form id="searchForm" action="/search" method="post">
-	<div class="hospitalBox">
-		<div class="searchHospital">
-			<div class="xi-angle-left"></div>
-			<input placeholder="질병, 진료과, 병원을 검색하세요." name="keyword" id="keyword">
-			<button class="xi-search"></button>
-		</div>
+	<header>
+		<i class="xi-angle-left xi-x"></i>
+		<div class="headerTitle">병원 검색</div>
+		<div class="blank"></div>
+	</header>
 	
-		<div class="filterHospital">
-			<div class="filterGroup">
-				<button type="button" class="selectByLocal"><span class="xi-my-location"></span> 위치</button>
-				<button type="button" class="selectByAvailable"><span class="xi-time"></span> 진료중</button>
-				<button type="button" class="selectByDepartment">
-					<span class="xi-plus-square"></span> 
-					<span class="selectByDepartmentText"> 진료과/증상</span>
-					<span class="xi-angle-down-min"></span>
-				</button>
-				<div class="addSelectByDepartment">
+	<main class="hospitalBox container">
+		
+		<!-- search -->
+		<div class="search">
+			<div class="searchInput">
+				<input placeholder="진료과, 증상, 병원을 검색하세요." name="keyword" id="keyword">
+				<div class="deleteSearch">
+					<i class="icon"></i>
 				</div>
 			</div>
+			<button class="searchButton"><img src="./img/search.png"></button>
+		</div>
+		
+		<!-- filter -->
+		<div class="filter">
+			<div class="filterGroup">
+				<button type="button" class="selectByLocal select"><span class="xi-my-location margin-right"></span> 위치</button>
+				<button type="button" class="selectByAvailable select"><span class="xi-time-o margin-right"></span> 진료중</button>
+				<button type="button" class="selectByDepartment select">
+					<div class="xi-plus-square-o margin-right"></div> 
+					<div class="selectByDepartmentText"> 진료과/증상</div>
+					<div class="xi-angle-down-min deleteKeyword"></div>
+				</button>
+			</div>
 			<button type="button" class="selectByCategory">
-				<span class=xi-tune></span>
+				<span class="xi-tune"></span>
 			</button>
 		</div>
-		<div class="hospitalBar">
-			<div class="hospitalCount">
-				병원<span class="countNumber"></span>
+		
+		<!-- title -->
+		<div class="hospitalBar bar">
+			<div class="hospitalCount count">
+				병원 <span class="countNumber"></span>
 			</div>
-			<select class="sortHospital">
+			<select class="sortHospital sortByList">
 				<option class="sortByExact">기본 순</option>
 				<option class="sortByRate">별점 순</option>
 				<option class="sortByReview">리뷰 순</option>
 			</select>
 		</div>
-		<!-- [{dpkind=피부과, hholidayendtime=12:00:00, hparking=1, dpno=5, hnightday=수요일, dno=1, 
-		dpsymptom=피부 질환, hno=1, dpkeyword=티눈,아토피,안면홍조, dspecialist=0, dgender=0, hreviewCount=4, 
-		hopentime=09:00:00, hnightendtime=23:00:00, hname=연세세브란스, haddr=서울특별시 서대문구 신촌동 연세로 50-1, 
-		hclosetime=18:00:00, hholiday=0, hreviewAverage=4.2} -->
-		<div class="nightCare">오늘 야간진료 병원</div>
+		
+	<!-- list -->
+	<div class="nightCare">오늘 야간진료 병원</div>
 	<div class="hospitalListContainerBox">
 		 <c:forEach items="${hospitalList}" var="row">
 		 	<div class="hospitalListContainer">
@@ -527,12 +604,12 @@
 						<div class="hospitalAddress">${row.haddr}</div>
 					</div>
 					<div class="hospitalReview" onclick="hospitalDetail(${row.hno})">
-						<img src="./img/star.png" style="width: 4%">
+						<img src="./img/star.png" style="width: 18px;">
 						<div class="reviewScore">${row.hReviewAverage}</div>
 						<div class="reviewCount">(${row.hReviewCount})</div>
 					</div>
 					<div class="hospitalReserve">
-						<div class="receptionStatus" style="color: blue" onclick="hospitalReception(${row.hno})"></div>
+						<div class="receptionStatus" onclick="hospitalReception(${row.hno})"></div>
 						<input type="hidden" class="hno" value="${row.hno}">
 						<div class="reservationStatus" onclick="hospitalAppointment(${row.hno})">예약 가능</div>
 					</div>
@@ -553,6 +630,7 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
+			<div class="graySeperate"></div>
 		</c:forEach>
 		
 		<c:if test="${notTodayNightHospital.size() gt 0 }">
@@ -613,12 +691,12 @@
 							<div class="hospitalAddress">${row.haddr}</div>
 						</div>
 						<div class="hospitalReview" onclick="hospitalDetail(${row.hno})">
-							<img src="./img/star.png" style="width: 4%">
+							<img src="./img/star.png" style="width: 18px;">
 							<div class="reviewScore">${row.hReviewAverage}</div>
 							<div class="reviewCount">(${row.hReviewCount})</div>
 						</div>
 						<div class="hospitalReserve">
-							<div class="receptionStatus" style="color: blue"></div>
+							<div class="receptionStatus"></div>
 							<input type="hidden" class="hno" value="${row.hno}">
 							<div class="reservationStatus" onclick="hospitalAppointment(${row.hno})">예약 가능</div>
 						</div>
@@ -639,6 +717,7 @@
 						</c:otherwise>
 				</c:choose>
 				</div>
+				<div class="graySeperate"></div>
 			</c:forEach>
 		</c:if>
 	</div>
@@ -732,7 +811,7 @@
 	         </div>
 	      </div>
 	   </div>
-   </div>
+   </main>
    </form>
 
 	

@@ -20,8 +20,8 @@
 		<div class="btitle">${qnaQuestion.btitle}</div>
 		익명
 		<div class="bdetail">${qnaQuestion.bcontent}</div>
-		 <c:if test="${qnaQuestion.bkind ne 'unknown'}">
-		<div class="bkind">${qnaQuestion.bkind}</div>
+		 <c:if test="${qnaQuestion.dpkind ne 'unknown'}">
+		<div class="dpkind">${qnaQuestion.dpkind}</div>
 		 </c:if>
 		<div class="bdate">${qnaQuestion.bdate}</div>
 	</div>

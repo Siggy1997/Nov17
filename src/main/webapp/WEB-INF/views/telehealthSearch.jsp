@@ -7,16 +7,32 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>telehealthSearch</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/telehealthSearch.css">
+<link rel="stylesheet" href="./css/hospital.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
-<!-- <script src="./js/wnInterface.js"></script> 
-<script src="./js/mcore.min.js"></script> 
-<script src="./js/mcore.extends.js"></script>  -->
 <script type="text/javascript">
 	$(function(){
+		
+		/* 입력할 때 내용 지우기 */
+		if ($("#keyword").val() !== '') {
+			$(".icon").addClass("xi-close-circle");
+		} else {
+			$(".icon").removeClass("xi-close-circle");
+		}
+		$(document).on("input", "#keyword", function(){
+			if ($("#keyword").val() !== '') {
+				$(".icon").addClass("xi-close-circle");
+			} else {
+				$(".icon").removeClass("xi-close-circle");
+			}
+		});
+		$(document).on("click", ".deleteSearch", function(){
+			$(".icon").removeClass("xi-close-circle");
+			$("#keyword").val('').focus();
+		});
 		
 		/* 진료과 선택했을 때 */
 		$(document).on("click", ".optionDepartment", function(){
@@ -54,8 +70,6 @@
 			let randomKeyword = $(this).text();
 			$('#keyword').val(randomKeyword);
 		});
-		
-		
 	});
 
 	
@@ -92,14 +106,26 @@
 
 </head>
 <body>
-	<h1>Non-face-to-face Search</h1>
-	<div class="telehealthSearchContainer">
-		<form id="searchForm" action="telehealthSearch" method="post">
-			<div class="searchDoctor">
-				<div class="xi-angle-left"></div>
-				<input placeholder="의사, 과목, 증상을 검색하세요." name="keyword" id="keyword">
-				<button class="xi-search"></button>
+	<form id="searchForm" action="telehealthSearch" method="post">
+	<header>
+		<i class="xi-angle-left xi-x"></i>
+		<div class="headerTitle">비대면 진료 검색</div>
+		<div class="blank"></div>
+	</header>
+	
+	<main class="telehealthSearchContainer container">
+			
+			<!-- search -->
+			<div class="search">
+				<div class="searchInput">
+					<input placeholder="진료과, 증상, 의사를 검색하세요." name="keyword" id="keyword">
+					<div class="deleteSearch">
+						<i class="icon"></i>
+					</div>
+				</div>
+				<button class="searchButton"><img src="./img/search.png"></button>
 			</div>
+		
 			<div class="selectedOption">
 				<div class="optionDepartment">과목</div>
 				<div class="optionSymptom">증상</div>
@@ -150,7 +176,7 @@
 					</c:forEach>
 				</div>
 			</div>
-		</form>
-	</div>
+		</main>
+	</form>
 </body>
 </html>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
 
+
    @Autowired
    private LoginService loginService;
 
@@ -130,3 +131,4 @@ public class LoginController {
       return json.toString();
    }
 }
+

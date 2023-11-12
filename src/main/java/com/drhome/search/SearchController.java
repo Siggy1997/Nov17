@@ -3,11 +3,7 @@ package com.drhome.search;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -22,8 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.mysql.cj.Session;
 
 
 @Controller
@@ -76,6 +70,7 @@ public class SearchController {
 			if (keyword.contains("휴일") || keyword.contains("일요일")) {
 			    keyword = "휴일진료";
 			}
+			
 			if (keyword.contains("주차") || keyword.contains("주차 가능")) {
 			    keyword = "주차장";
 			}

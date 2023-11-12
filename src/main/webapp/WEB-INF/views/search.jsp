@@ -5,9 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>search</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" href="./css/hospital.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
 
 <script type="text/javascript">
@@ -16,6 +18,12 @@
 	};
 	
 	$(function(){
+		
+		/* 뒤로가기 버튼 */
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
+		
 		let recentKeywordCookies = getCookie("recentKeyword");
 		if (recentKeywordCookies == null) {
 			$(".searchRecentItems").html('');
@@ -60,17 +68,34 @@
 		$(this).parent().html('');
 	});
 	
+	/* 입력할 때 내용 지우기 */
+	if ($("#keyword").val() !== '') {
+		$(".icon").addClass("xi-close-circle");
+	} else {
+		$(".icon").removeClass("xi-close-circle");
+	}
+	$(document).on("input", "#keyword", function(){
+		if ($("#keyword").val() !== '') {
+			$(".icon").addClass("xi-close-circle");
+		} else {
+			$(".icon").removeClass("xi-close-circle");
+		}
+	});
+	$(document).on("click", ".deleteSearch", function(){
+		$(".icon").removeClass("xi-close-circle");
+		$("#keyword").val('').focus();
+	});
 	
-	// 쿠키 저장하기
+	/* 쿠키 저장하기 */
 	function setCookie(cookieName, cookieValue, exdays){
 		
 		let existingCookie = getCookie(cookieName);
-		// 쿠키 배열로 바꾸기
+		/* 쿠키 배열로 바꾸기 */
 		let arrayCookie = separationString(existingCookie);
 		let exdate = new Date();
 		exdate.setDate(exdate.getDate() + exdays);
 
-		// 중복값 제거하고 추가하기
+		/* 중복값 제거하고 추가하기 */
 		if ( !(arrayCookie.includes(cookieValue)) ) {
 			arrayCookie.push(cookieValue);
 			let newCookie = arrayCookie.join(",");
@@ -79,7 +104,7 @@
 	    }
 	}
 	
-	// 쿠키 한개 삭제하기
+	/* 쿠키 한개 삭제하기 */
 	function deleteCookie(deleteCookieName, cookieName, exdays) {
 		let exdate = new Date();
 		exdate.setDate(exdate.getDate() + exdays);
@@ -90,13 +115,13 @@
 	    document.cookie = cookieName + "=" + newCookie + "; expires=" + exdate.toUTCString();
 	}
 	
-	// 쿠기 전체 삭제하기
+	/* 쿠기 전체 삭제하기 */
 	function deleteAllCookie(cookieName) {
 	    var exdate = new Date(0);
 	    document.cookie = cookieName + "=; expires=" + exdate.toUTCString();
 	}
 	
-	// 쿠키 가져오기
+	/* 쿠키 가져오기 */
 	function getCookie(cookieName) {
 	    let x, y;
 	    let val = document.cookie.split(";");
@@ -110,7 +135,7 @@
 		}
 	}
 	
-	// String 잘라서 배열로 만들기
+	/* String 잘라서 배열로 만들기 */
 	function separationString(stringList) {
 	    if (stringList) {
 	        return stringList.split(",").map(function(item) {
@@ -124,14 +149,26 @@
 
 </head>
 <body>
-	<h1>search</h1>
-	<div class="searchBox">
-		<form id="searchForm" action="/search" method="post">
-			<div class="searchHospital">
-				<div class="xi-angle-left"></div>
-				<input placeholder="질병, 진료과, 병원을 검색하세요." name="keyword" id="keyword">
-				<button class="xi-search"></button>
+	<form id="searchForm" action="/search" method="post">
+	<header>
+		<i class="xi-angle-left xi-x"></i>
+		<div class="headerTitle">병원 검색</div>
+		<div class="blank"></div>
+	</header>
+	
+	<main class="searchBox container">
+		
+			<!-- search -->
+			<div class="search">
+				<div class="searchInput">
+					<input placeholder="진료과, 증상, 병원을 검색하세요." name="keyword" id="keyword">
+					<div class="deleteSearch">
+						<i class="icon"></i>
+					</div>
+				</div>
+				<button class="searchButton"><img src="./img/search.png"></button>
 			</div>
+			
 			<div class="serachItem">
 				<!-- 최근 검색 -->
 				<div class="searchRecent">
@@ -159,8 +196,8 @@
 					</div>
 				</div>
 			</div>
+	</main>
 		</form>
-	</div>
 	
 </body>
 </html>
