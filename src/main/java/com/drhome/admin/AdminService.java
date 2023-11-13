@@ -113,6 +113,10 @@ public class AdminService {
 		return adminDAO.viewDoctor(hno);
 	}
 
+	public List<Map<String, Object>> searchHos(Map<String, Object> map) {
+		return adminDAO.searchHos(map);
+	}
+
 	/*
 	 * public List<Map<String, Object>> hospitalList(int rhno) { return
 	 * adminDAO.hospitalList(rhno); }

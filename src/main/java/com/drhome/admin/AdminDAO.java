@@ -61,6 +61,8 @@ public interface AdminDAO {
 
 	List<Map<String, Object>> viewDoctor(int hno);
 
+	List<Map<String, Object>> searchHos(Map<String, Object> map);
+
 	/* List<Map<String, Object>> hospitalList(int rhno); */
 
 }

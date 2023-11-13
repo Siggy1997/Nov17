@@ -63,8 +63,55 @@
 		});
 	});
 </script>
+<style type="text/css">
+* {
+	font-family: "Pretendard Variable";
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: white;
+}
+
+main {
+	padding-top: 9vh;
+	width : 90%;
+	margin: 0 auto;
+}
+
+header {
+	position: fixed;
+	height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	z-index: 1000;
+	background-color: white;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
+}
+
+.xi-angle-left, .xi-angle-right {
+	color: #757575;
+}
+
+.headerTitle {
+	font-family: "NanumSquare" !important;
+	font-size: 18px;
+}	
+</style>
 </head>
 <body>
+<header>
+    <div class="xi-arrow x"></div>
+    <div class="header title">병원 예약</div>
+    <div class="blank"></div>
+</header>
+
+<main>
 	<div class="article">
 		<h1>DR.Home</h1>
 		<div class="content" style="font-weight: bold">
@@ -124,5 +171,7 @@
 			<button class="btn" type="submit">병원 개설하기 ▷</button>
 		</form>
 	</div>
+</main>	
+<footer></footer>
 </body>
 </html>

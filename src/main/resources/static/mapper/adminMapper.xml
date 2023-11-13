@@ -153,4 +153,16 @@
 		Where hno=#{hno}
 	</select>
 	
+	
+	<select id="searchHos" parameterType="Map" resultType="Map">
+		SELECT *
+		FROM registerhospital
+		<where>
+			<choose>
+				<when test="searchN == 'rhname'">rhname LIKE CONCAT('%', #{searchV}, '%')</when>
+				<when test="searchN == 'rhaddr'">rhaddr LIKE CONCAT('%', #{searchV}, '%')</when>
+			</choose>
+		</where>
+	</select>
+	
 </mapper>

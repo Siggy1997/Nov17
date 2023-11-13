@@ -262,6 +262,20 @@ public class AdminController {
 	}
 	
 	@ResponseBody
+	@PostMapping("/searchHos")
+	public String searchHos(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		
+		List<Map<String, Object>> searchHos = adminService.searchHos(map);
+
+		JSONObject json = new JSONObject();
+		json.put("searchHos", searchHos);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
+	
+	@ResponseBody
 	@PostMapping("/doctorView")
 	public String doctorView(@RequestParam("hno") int hno) {
 		

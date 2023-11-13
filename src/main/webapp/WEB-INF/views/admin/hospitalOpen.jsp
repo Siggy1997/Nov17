@@ -38,6 +38,7 @@ $(document).ready(function () {
 			success : function(data) {
 				let detail = data.detail;
 				
+				
 				$("#data-rhno").text(detail.rhno);
 				$("#data-rhname").text(detail.rhname);
 				$("#data-rhopendate").text(detail.rhopendate);
@@ -51,18 +52,68 @@ $(document).ready(function () {
 				$("#data-rhnightendtime").text(detail.rhnightendtime);
 				$("#data-rhbreaktime").text(detail.rhbreaktime);
 				$("#data-rhbreakendtime").text(detail.rhbreakendtime);
-				$("#data-rhholiday").text(detail.rhholiday);
+				$("#data-rhholiday").text(detail.rhholiday == 0 ? 'X' : 'O');
 				$("#data-rhholidayendtime").text(detail.rhholidayendtime);
-				$("#data-rhparking").text(detail.rhparking);
+				$("#data-rhparking").text(detail.rhparking == 0 ? 'X' : 'O');
 				$("#approve").val(detail.rhno);
 				
 				$("#viewModal").modal("show");
+				
+				$("#data-rhname").css("font-weight", "bold");
 			},
 			error : function(error) {
 				alert("잘못된 에러입니다.");
 			}
 		});
 	});
+
+
+
+	$("#searchHos").click(function() {
+		$("#searchDiv").html("");
+		searchN = $("#searchN option:selected").val();     
+		searchV = $("input[name=searchV]").val();
+		
+		
+		$.ajax({
+			url : "./searchHos",
+			type : "POST",
+			data : {
+				"searchN" : searchN,
+				"searchV" : searchV,
+			},
+			dataType: "json",
+			success : function(data) {
+				let searchHos = data.searchHos;
+				let tabkeMake = "";
+								
+				$("#searchTable").empty();
+				tableMake = "<table border='1' style='margin: 0 auto;' id='searchTable'><tr><th>번호</th><th>병원명</th><th>개원일</th><th>주소</th><th>전화번호</th><th>공휴일 진료여부</th><th>공휴일 종료시간</th></tr>";
+						
+				for (let i = 0; i < searchHos.length; i++) {
+					tableMake += "<tr class='chkData'>";
+					tableMake += "<td class='div-cell' >"+searchHos[i].rhno+"</td>";
+					tableMake += "<td class='div-cell' >"+searchHos[i].rhname+"</td>";
+					tableMake += "<td class='div-cell' >"+searchHos[i].rhopendate+"</td>";
+					tableMake += "<td class='div-cell' >"+searchHos[i].rhaddr+"</td>";
+					tableMake += "<td class='div-cell' >"+searchHos[i].rhtelnumber+"</td>";
+					tableMake += "<td class='div-cell' >"+(searchHos[i].rhholiday == 0 ? 'X' : 'O')+"</td>";
+					tableMake += "<td class='div-cell' >"+searchHos[i].rhholidayendtime+"</td></tr>";
+				
+				}
+				tableMake += "</table>";
+				
+				$("#searchDiv").append(tableMake);
+				
+				$("th").css("width", "7%");
+				
+			},
+			error : function(error) {
+				alert("잘못된 에러입니다.");
+			}
+		});
+	});
+
 });
 </script>
 <style type="text/css">
@@ -92,32 +143,67 @@ $(document).ready(function () {
 	height: 30px;
 	margin-bottom: 30px;
 }
+
+.modal-footer {
+	display: flex;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#closeBtn {
+	margin: 0 auto;
+}
+
+#confirm {
+	margin-right: 5px;
+	margin-left: 368px;
+}
+
+#searchTable {
+	width: 700px;
+	
+}
+
+#searchHos {
+	margin-bottom: 30px;
+}
+
+.btn {
+	border: 0;
+	background-color: #00C9FF;
+	border-radius: 15px;
+	color: white;
+	width: 130px;
+	height: 30px;
+	margin-bottom: 30px;
+}
+
+.dhBtn {
+	margin: 0 auto;
+}
 </style>
 </head>
 <body>
 	<h1 style="text-align: center;">병원 등록 관리</h1>
 	<div class="content">
 		<div style="text-align: center;">
-			<select id="hosStatus" style="width: 120px;">
-				<option value="0" selected="selected">전체</option>
-				<option value="1">대기</option>
-				<option value="2">승인</option>
+			<select id="searchN" name="searchN" style="width: 120px;">
+				<option value="" selected="selected">전체</option>
+				<option value="rhname">병원명</option>
+				<option value="rhaddr">주소</option>
 			</select>
-			<table border="1" style="margin: 0 auto;">
+			<input type="text" name="searchV" maxlength="10" />
+			<button id="searchHos" type="button">검색</button>
+			<div id="searchDiv">
+			<table border="1" style="margin: 0 auto;" id="searchTable">
 				<tr>
-					<th style="width: 7%;">병원번호</th>
-					<th style="width: 7%;">병원명</th>
-					<th style="width: 7%;">개원일</th>
-					<th style="width: 7%;">주소</th>
-					<th style="width: 15%;">전화번호</th>
-					<th style="width: 7%;">시작시간</th>
-					<th style="width: 7%;">종료시간</th>
-					<th style="width: 7%;">야간 진료 요일</th>
-					<th style="width: 7%;">야간 종료시간</th>
-					<th style="width: 7%;">브레이크타임</th>
-					<th style="width: 7%;">브레이크 종료시간</th>
-					<th style="width: 7%;">공휴일 진료여부</th>
-					<th style="width: 7%;">공휴일 종료시간</th>
+					<th style="width: 1%;">병원번호</th>
+					<th style="width: 4%;">병원명</th>
+					<th style="width: 3%;">개원일</th>
+					<th style="width: 4%;">주소</th>
+					<th style="width: 3%;">전화번호</th>
+					<th style="width: 2%;">공휴일 진료여부</th>
+					<th style="width: 1%;">공휴일 종료시간</th>
 				</tr>
 				<c:forEach items="${hospitalOpen}" var="hospitalOpen">
 					<tr class="chkData" >
@@ -126,22 +212,26 @@ $(document).ready(function () {
 						<td class="div-cell">${hospitalOpen.rhopendate}</td>
 						<td class="div-cell">${hospitalOpen.rhaddr}</td>
 						<td class="div-cell">${hospitalOpen.rhtelnumber}</td>
-						<td class="div-cell">${hospitalOpen.rhopentime}</td>
-						<td class="div-cell">${hospitalOpen.rhclosetime}</td>
-						<td class="div-cell">${hospitalOpen.rhnightday}</td>
-						<td class="div-cell">${hospitalOpen.rhnightendtime}</td>
-						<td class="div-cell">${hospitalOpen.rhbreaktime}</td>
-						<td class="div-cell">${hospitalOpen.rhbreakendtime}</td>
-						<td class="div-cell">${hospitalOpen.rhholiday}</td>
+						<td class="div-cell">
+						<c:choose>
+							<c:when test="${hospitalOpen.rhholiday eq 0}">
+								X
+							</c:when>
+							<c:otherwise>
+								O
+							</c:otherwise>
+						</c:choose>
+						</td>
 						<td class="div-cell">${hospitalOpen.rhholidayendtime}</td>
 					</tr>
 				</c:forEach>
 			</table>
+			</div>
 		</div>
 	</div>
 	<br>
-	<div>
-		<button onclick="location.href='./adminMain'">돌아가기</button>
+	<div class="dhBtn">
+		<button class="btn" onclick="location.href='./adminMain'">돌아가기</button>
 	</div>
 	
 	<div class="modal" id="viewModal" tabindex="-1"
@@ -159,32 +249,32 @@ $(document).ready(function () {
 							<td colspan="6" class="td2" id="data-rhname"><b></b></td>
 						</tr>
 						<tr>
-							<td class="td3">번호</td>
+							<td class="td3"><b>번호</b></td>
 							<td colspan="2" id="data-rhno" class="td4"></td>
-							<td class="td3">개원일</td>
+							<td class="td3"><b>개원일</b></td>
 							<td colspan="2" class="td4" id="data-rhopendate"></td>
 						</tr>
                			<tr>
                				<td colspan="6" class="td2"><b>병원 정보</b></td>
                			</tr>
                			<tr>
-               				<td class="td3">주소</td>
+               				<td class="td3"><b>주소</b></td>
                				<td colspan="6" class="td4" id="data-rhaddr"></td>
                			</tr>
                			<tr>
-               				<td class="td3">야간 진료 요일</td>
+               				<td class="td3"><b>야간 진료 요일</b></td>
                				<td class="td4" id="data-rhnightday"></td>
-               				<td class="td3">브래이크 시간</td>
+               				<td class="td3"><b>브래이크 시간</b></td>
                				<td class="td4" id="data-rhbreaktime"></td>
-               				<td class="td3">공휴일 진료 여부</td>
+               				<td class="td3"><b>공휴일 진료 여부</b></td>
                				<td class="td4" id="data-rhholiday"></td>
                			</tr>
                			<tr>
-               				<td class="td3">야간 종료 시간</td>
+               				<td class="td3"><b>야간 종료 시간</b></td>
                				<td class="td4" id="data-rhnightendtime"></td>
-               				<td class="td3">브래이크 종료</td>
+               				<td class="td3"><b>브래이크 종료</b></td>
                				<td class="td4" id="data-rhbreakendtime"></td>
-               				<td class="td3">공휴일 종료</td>
+               				<td class="td3"><b>공휴일 종료</b></td>
                				<td class="td4" id="data-rhholidayendtime"></td>
                			</tr>
                			<tr id="tr-atregcomment1">
