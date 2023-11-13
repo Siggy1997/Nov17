@@ -8,6 +8,8 @@
 <head>
 <meta charset="UTF-8">
 
+<link rel="stylesheet" href="./css/hospitalMap.css">
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="./js/wnInterface.js"></script>
 <script src="./js/mcore.min.js"></script>
@@ -108,21 +110,20 @@
 </body>
 
 <script>
-    // 자바스크립트로 div 생성
     var newDiv = document.createElement("div");
 
-    // div 속성 설정
     newDiv.id = "myDynamicDiv";
     newDiv.textContent = "";
     newDiv.style.border = "1px solid black";
     newDiv.style.padding = "10px";
     newDiv.style.position = "absolute"; // 위치를 절대값으로 설정
     newDiv.style.bottom = "0px"; 
-    newDiv.style.left = "0px"; // 페이지 상단으로부터 20px 아래에 위치
+    newDiv.style.left = "0px"; 
     newDiv.style.zIndex = "1000"; // 맵보다 위에 위치하도록 설정
-    newDiv.style.backgroundColor = "#fff"; // 흰색 배경
-    newDiv.style.width = "100%"; // 고정된 가로 크기
-    newDiv.style.height = "150px"; // 고정된 세로 크기
+    newDiv.style.backgroundColor = "#fff"; 
+    newDiv.style.width = "100%"; 
+    newDiv.style.height = "150px";
+
 
     
     // body의 맨 뒤에 동적으로 생성한 div 추가
@@ -182,10 +183,9 @@ document.addEventListener("DOMContentLoaded", function () {
             // 지도의 확대 수준이 변경될 때마다 원의 크기를 조절
             kakao.maps.event.addListener(map, 'zoom_changed', function() {
                 var currentLevel = map.getLevel();
-                // 확대 레벨에 따라 반지름을 조절 (예시에서는 확대 레벨에 따라 반지름이 50에서 2000까지 변경)
+                // 확대 레벨에 따라 반지름을 조절
                 var radius = Math.pow(2, currentLevel - 3) * 10;
-
-                // 기존의 원을 제거
+ 
                 if (circle) {
                     circle.setMap(null);
                 }
@@ -221,21 +221,20 @@ document.addEventListener("DOMContentLoaded", function () {
             level: 5 // 지도의 확대 레벨
         };
 
-        // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
+        // 지도
         map = new kakao.maps.Map(mapContainer, mapOption);
 
 
-        //마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
+        //마커를 클릭했을 때 장소의 상세정보
         var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
-            contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+            contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠
             markers = [],
-            currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+            currCategory = ''; // 현재 선택된 카테고리
 
-        // 주소-좌표 변환 객체를 생성합니다
+        // 주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
-        var hospitals = []; // 병원 데이터를 저장하는 배열
+        var hospitals = []; // 병원 데이터
 
-        //커스텀 오버레이 변수를 전역 범위에서 정의합니다
         var overlay = new kakao.maps.CustomOverlay({
             content: contentNode,
             map: map
@@ -275,14 +274,14 @@ document.addEventListener("DOMContentLoaded", function () {
         </c:forEach>
         
         
-     // document에 클릭 이벤트 리스너 추가
+
+     // 클릭 이벤트
         document.addEventListener('click', function (event) {
-            // 클릭된 요소가 검색 결과 리스트 또는 검색 버튼인 경우에는 아무 작업도 수행하지 않음
             if (event.target.closest('#searchResults') || event.target.closest('#searchButton')) {
                 return;
             }
 
-            // 검색 결과 리스트가 보이는 경우에만 감추기
+
             if (searchResults.style.display === 'block') {
                 searchResults.style.display = 'none';
             }
@@ -290,10 +289,10 @@ document.addEventListener("DOMContentLoaded", function () {
         
         
         
-     // 검색 버튼 요소 참조
+
         var searchButton = document.getElementById('searchButton');
 
-     // 검색 버튼 클릭 이벤트 리스너 추가
+     // 검색 버튼 클릭
         searchButton.addEventListener('click', function () {
             // 검색어 가져오기
             var keyword = searchInput.value.trim();
@@ -313,15 +312,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     var listItem = document.createElement('li');
                     listItem.textContent = hospital.title;
 
-                 // 리스트 아이템을 클릭하면 해당 병원을 지도에 표시
+                 // 클릭하면 해당 병원을 지도에 표시
                     listItem.addEventListener('click', function () {
-                        // 주소로 좌표를 검색합니다
+                        // 주소로 좌표 검색
                         geocoder.addressSearch(hospital.address, function (result, status) {
-                            // 정상적으로 검색이 완료됐으면
+                            
                             if (status === kakao.maps.services.Status.OK) {
                                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                                // 병원의 좌표로 이동
+                                // 병원 좌표로 이동
                                 map.panTo(coords);
 
                              // 해당 병원에 대한 마커를 찾아서 클릭한 것처럼 보이도록 설정
@@ -356,7 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
         function checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime) {
             const now = new Date();
             const currentDay = now.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
-            const currentTime = now.getHours() * 60 + now.getMinutes(); // 현재 시간을 분 단위로 표시
+            const currentTime = now.getHours() * 60 + now.getMinutes(); 
 
             const openMinutes = timeToMinutes(opentime);
             const closeMinutes = timeToMinutes(closetime);
@@ -418,10 +417,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const currentDay = new Date().getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
 
-            // 영업 상태를 확인합니다.
+            // 영업 상태를 확인
             var status = checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime);
 
-            // 동적으로 생성한 컨테이너에 정보 추가
+            // 컨테이너에 정보 추가
             var dynamicContainer = document.getElementById("myDynamicDiv");
             dynamicContainer.innerHTML =
                 '<div class="wrap">' +
@@ -442,17 +441,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 '    </a></div>' +
                 '</div>';
 
-            // 컨테이너를 표시합니다.
+
+            // 컨테이너를 표시
             dynamicContainer.style.display = 'block';
         }
         
-     // 수정된 해당 병원에 대한 마커를 찾아서 클릭한 것처럼 보이도록 설정하는 부분
+     // 해당 병원에 대한 마커를 찾아서 클릭한 것처럼 보이도록 설정하는 부분
         function simulateMarkerClick(hospital) {
             hospitals.forEach(function (hospitalMarker) {
                 if (hospitalMarker.title === hospital.title) {
                     // 마커 클릭 이벤트를 트리거
                     kakao.maps.event.trigger(hospitalMarker.marker, 'click');
-                    // handleMarkerClick 함수 호출
+
                     handleMarkerClick(hospital);
                 }
             });
@@ -460,27 +460,29 @@ document.addEventListener("DOMContentLoaded", function () {
         
 
         hospitals.forEach(function (position) {
-            // 주소로 좌표를 검색합니다
+            // 주소로 좌표 검색
             geocoder.addressSearch(position.address, function (result, status) {
-                // 정상적으로 검색이 완료됐으면
+                // 검색 완료
                 if (status === kakao.maps.services.Status.OK) {
                     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                    // 결과값으로 받은 위치를 마커로 표시합니다
+                    // 위치 마커로 표시
                     var marker = new kakao.maps.Marker({
                         map: map,
                         position: coords
                     });
 
                     
-                    // 마커 클릭 이벤트 리스너를 추가합니다.
+
+                    // 마커 클릭
                     kakao.maps.event.addListener(marker, 'click', function () {
                         handleMarkerClick(position);
                     });
 
-                    // 지도를 클릭했을 때 동적으로 생성한 컨테이너를 숨깁니다.
+
+                    // 지도를 클릭했을 때 컨테이너 숨김
                     kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-                        // 이벤트가 마커에서 발생한 것인지 확인
+                        
                         if (!mouseEvent.target || !mouseEvent.target.toString().includes('Marker')) {
                             var dynamicContainer = document.getElementById("myDynamicDiv");
                             dynamicContainer.style.display = 'none';

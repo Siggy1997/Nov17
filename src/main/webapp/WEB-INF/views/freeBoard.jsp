@@ -6,14 +6,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/freeBoard.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <title>Insert title here</title>
 </head>
 <body>
 
+<main>
 
-<h1>자유 게시판</h1>
+<!-- <h1>자유 게시판</h1> -->
 
-<button onclick="location.href='writeFree'">작성하기</button>
+<button class="writeButton" onclick="location.href='writeFree'">작성하기</button>
 
 	<c:forEach items="${requestScope.freeList}" var="free">
 		<a href="<c:url value='/freeDetail'>
@@ -27,17 +31,16 @@
 				<div class="countCalldibs">${free.bcalldibsCount}</div>
 			</div>
 		</a>
-		<br>
 	</c:forEach>
 	
+	</main>
+	
+	<footer></footer>
 	
 	
 	
-	<script>
-	
-	
-	
-	
+</body>
+<script>
 	
 	
     var maxLength = 30; // 최대 문자열 길이
@@ -55,5 +58,4 @@
     
 </script>
 
-</body>
 </html>

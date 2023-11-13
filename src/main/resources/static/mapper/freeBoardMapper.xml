@@ -128,5 +128,13 @@ INSERT INTO report
 		 #{rpcontent}, #{rpurl}, #{rpdate}, #{cno}, (SELECT mno FROM comment
 		WHERE cno = #{cno}))
 	</insert>
+	
+	<update id="editBoard" parameterType="Map">
+		UPDATE board
+		SET
+		btitle = #{btitle},
+		bcontent = #{bcontent},
+		WHERE bno=#{bno}
+	</update>
 
 </mapper>
