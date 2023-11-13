@@ -195,15 +195,10 @@ public class FreeBoardController {
 		Map<String, Object> commentReportCountData = new HashMap<>();
 		commentReportCountData.put("mno", mno);
 		commentReportCountData.put("cno", cno);
-		
-		System.out.println(mno);
-		System.out.println(cno);
 
 		int commentReportCount = freeBoardService.commentReportCount(commentReportCountData);
 		JSONObject json = new JSONObject();
 		json.put("result", commentReportCount);
-		
-		System.out.println(commentReportCount);
 
 		return json.toString();
 	}
@@ -231,6 +226,42 @@ public class FreeBoardController {
 		freeBoardService.reportFreeComment(commentReportData);
 
 		return "redirect:/freeDetail?bno=" + bno;
+	}
+	
+	@GetMapping("/editBoard")
+	public String editBoard() {
+
+		return "/editBoard";
+	}
+
+	@PostMapping("/editBoard")
+	public String editBoard(@RequestParam("bno") int bno, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent, Model model) {
+
+		model.addAttribute("bno", bno);
+		//model.addAttribute("btype", btype);
+		model.addAttribute("btitle", btitle);
+		model.addAttribute("bcontent", bcontent);
+		
+		
+		return "/editBoard";
+
+	}
+	
+	@PostMapping("/submitEditBoard")
+	public String submitEditBoard(@RequestParam("bno") int bno, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent, Model model) {
+
+
+	    Map<String, Object> editBoardData = new HashMap<>();
+	    editBoardData.put("bno", bno);
+	  //  editBoardData.put("btype", btype);
+	    editBoardData.put("btitle", btitle);
+	    editBoardData.put("bcontent", bcontent);
+
+	    freeBoardService.editBoard(editBoardData);
+		
+	
+			return "redirect:/freeDetail?bno=" + bno;
+
 	}
 
 }

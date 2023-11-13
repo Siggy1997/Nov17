@@ -1,8 +1,10 @@
 package com.drhome.qna;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.drhome.free.FreeBoardService;
 
@@ -37,6 +41,7 @@ public class QnaBoardController {
 
 		List<Map<String, Object>> qnaList = qnaBoardService.qnaList();
 		model.addAttribute("qnaList", qnaList);
+		
 		
 		// freeList 데이터를 받아옴
 	    List<Map<String, Object>> freeList = freeBoardService.freeList();
@@ -57,15 +62,25 @@ public class QnaBoardController {
 
 	@GetMapping("/qnaDetail")
 	public String qnaDetail(@RequestParam("bno") int bno, Model model, HttpSession session) {
+		
+		//Integer mno = (Integer) session.getAttribute("mno");
 
-		// int hno = (int) session.getAttribute("hno");
+		Integer mno = 4;
+		
+		// 로그인이 되어있지 않을 때 mno를 null로 처리
+		if (mno == null) {
+		    mno = null;
+		}
+
+		//int mno = 1;
 		int dno = 2; // 추후 세션값으로 변경 예정 // 답변 삭제, 수정
-		int mno = 4; // 추후 세션값으로 변경 예정
+		
 		model.addAttribute("dno", dno);
 		model.addAttribute("mno", mno);
 
 		Map<String, Object> qnaQuestion = qnaBoardService.qnaQuestion(bno);
 		model.addAttribute("qnaQuestion", qnaQuestion);
+
 
 		String bCallDibs = (String) qnaQuestion.get("bcalldibs");
 		if (bCallDibs != null) {
@@ -131,18 +146,28 @@ public class QnaBoardController {
 		return "/writeQna";
 	}
 
+
 	@RequestMapping(value = "/postQna", method = RequestMethod.POST)
 	public String postQna(@RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent,
-			@RequestParam("bdate") String bdate, @RequestParam("selectDepartment") String selectDepartment) {
+			@RequestParam("bdate") String bdate, @RequestParam("selectDepartment") String selectDepartment
+			,HttpSession session) throws IOException {
 
+		 int mno = (int) session.getAttribute("mno");
+		
 		Map<String, Object> qnaData = new HashMap<>();
 		qnaData.put("btitle", btitle);
 		qnaData.put("bcontent", bcontent);
 		qnaData.put("bdate", bdate);
 		qnaData.put("btype", 0);
-		qnaData.put("mno", 4); // 추후 세션값으로 변경 예정
+		qnaData.put("mno", mno);
 		qnaData.put("selectDepartment", selectDepartment);
+		// 파일 데이터를 바이트 배열로 변환
+		//byte[] fileBytes = file.getBytes();
 
+		// 바이트 배열을 Base64 문자열로 변환하여 qnaData에 추가
+		//String fileBase64 = Base64.getEncoder().encodeToString(fileBytes);
+		//qnaData.put("fileData", fileBase64);
+		
 		qnaBoardService.postQna(qnaData);
 
 		return "redirect:/qnaBoard";
@@ -150,8 +175,10 @@ public class QnaBoardController {
 
 	@PostMapping("/writeQnaAnswer")
 	public String writeQnaAnswer(@RequestParam("bno") int bno, @RequestParam("ccontent") String ccontent,
-			@RequestParam("cdate") String cdate) {
+			@RequestParam("cdate") String cdate, HttpSession session) {
 
+		int mno = (int) session.getAttribute("mno");
+		
 		// 게시물당 댓글 수 조회
 		int commentCount = qnaBoardService.commentCount(bno);
 
@@ -206,15 +233,20 @@ public class QnaBoardController {
 
 		Map<String, Object> qnaCallDibsData = new HashMap<>();
 
-		int mno = 4; // 추후 세션값으로 변경 예정
+
+		Integer mno = (Integer) session.getAttribute("mno");
+
+		// 로그인이 되어있지 않을 때 mno를 null로 처리
+		if (mno == null) {
+		    mno = null;
+		}
+
 
 		qnaCallDibsData.put("bno", bno);
 		qnaCallDibsData.put("mno", mno);
 
 		if (callDibsInput == true) {
 
-			System.out.println(callDibsInput);
-			System.out.println(qnaCallDibsData);
 			qnaBoardService.delQnaCallDibs(qnaCallDibsData);
 
 		} else {
@@ -227,14 +259,18 @@ public class QnaBoardController {
 	
 	@PostMapping("/reportPost")
 	public String reportPost(@RequestParam("bno") int bno, @RequestParam("rpcontent") String rpcontent,
-			@RequestParam("rpdate") String rpdate) {
+			@RequestParam("rpdate") String rpdate, HttpSession session) {
 
 		Map<String, Object> reportData = new HashMap<>();
 
 		  LocalDateTime currentDatetime = LocalDateTime.now();
 		
+
+		 int mno = (int) session.getAttribute("mno");
+			
+		  
 		reportData.put("bno", bno);
-		reportData.put("mno", 4); // 추후 세션값으로 변경 예정
+		reportData.put("mno", mno);
 		reportData.put("rpcontent", rpcontent);
 		reportData.put("rpurl", "http://localhost:8080/qnaDetail?bno=" + bno);
 		reportData.put("rpdate", currentDatetime);
@@ -245,46 +281,59 @@ public class QnaBoardController {
 	}
 	
 	
-	@GetMapping("/editBoard")
-	public String editBoard() {
 
-		return "/editBoard";
+	@GetMapping("/editQna")
+	public String editQna() {
+
+		return "/editQna";
 	}
 
-	
-	
-	@PostMapping("/editBoard")
-	public String editBoard(@RequestParam("bno") int bno, @RequestParam("btype") int btype, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent, Model model) {
+	@PostMapping("/editQna")
+	public String editBoard(@RequestParam("bno") int bno, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent,
+			@RequestParam("dpkind") String dpkind, Model model) {
 
 		model.addAttribute("bno", bno);
-		model.addAttribute("btype", btype);
+		//model.addAttribute("btype", btype);
 		model.addAttribute("btitle", btitle);
 		model.addAttribute("bcontent", bcontent);
+		model.addAttribute("dpkind", dpkind);
 		
 		
-		return "/editBoard";
+		return "/editQna";
 
 	}
 	
-	@PostMapping("/submitEditBoard")
-	public String submitEditBoard(@RequestParam("bno") int bno, @RequestParam("btype") int btype, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent, Model model) {
+
+	
+	@PostMapping("/submitEditQna")
+	public String submitEditQna(@RequestParam("bno") int bno, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent,
+			 @RequestParam("selectDepartment") String selectDepartment, Model model) {
 
 
-	    Map<String, Object> editBoardData = new HashMap<>();
-	    editBoardData.put("bno", bno);
-	    editBoardData.put("btype", btype);
-	    editBoardData.put("btitle", btitle);
-	    editBoardData.put("bcontent", bcontent);
+	    Map<String, Object> editQnaData = new HashMap<>();
+	    editQnaData.put("bno", bno);
+	  //  editBoardData.put("btype", btype);
+	    editQnaData.put("btitle", btitle);
+	    editQnaData.put("bcontent", bcontent);
+	    editQnaData.put("selectDepartment", selectDepartment);
 
-		qnaBoardService.editBoard(editBoardData);
+		qnaBoardService.editQna(editQnaData);
 		
 		
-		if (btype == 0) {
 			return "redirect:/qnaDetail?bno=" + bno;
-		} else {
-			return "redirect:/freeDetail?bno=" + bno;
-		}
 
+	}
+	
+
+	@GetMapping("/selectDepartment")
+	@ResponseBody
+	public List<Map<String, Object>> selectDepartment(@RequestParam("department") String department, Model model) {
+	    // department 값을 사용하여 게시글 필터링 로직 수행
+	    List<Map<String, Object>> filteredQnaList = qnaBoardService.getQnaListByDepartment(department);
+
+		model.addAttribute("filteredQnaList", filteredQnaList);
+	    // 필터링된 게시글 목록을 JSON 형식으로 반환
+	    return filteredQnaList;
 	}
 
 

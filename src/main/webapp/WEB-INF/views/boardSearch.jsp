@@ -6,11 +6,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<link rel="stylesheet" href="./css/boardSearch.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <title>Insert title here</title>
 </head>
 <body>
 
+<header>
+    <i class="xi-angle-left xi-x"></i>
+    <div class="header title">상담하기</div>
+    <div class="blank"></div>
+</header>
 
+<main>
 
 
 	<form action="/searchWord" method="post" onsubmit="searchForm()">
@@ -50,6 +60,9 @@
 		</c:if>
 	</c:forEach>
 
+</main>
+
+<footer></footer>
 
 	<script>
 		var maxLength = 30; // 최대 문자열 길이

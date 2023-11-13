@@ -8,11 +8,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/writeQna.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <title>Insert title here</title>
 </head>
 <body>
+
+<header>
+    <i class="xi-angle-left xi-x"></i>
+    <div class="header title">상담하기</div>
+    <div class="blank"></div>
+</header>
+
+<main>
+
 	<h2>[QnA 게시판 글쓰기]</h2>
-	<form action='<c:url value='/postQna'/>' method="post" id="qnaForm">
+	<form action='<c:url value='/postQna'/>' method="post" id="qnaForm" enctype="multipart/form-data">
 		<div>
 			제목<input type="text" name="btitle">
 		</div>
@@ -38,25 +50,79 @@
           <option value = "unknown">잘 모름</option>
        </select>	
 		<input type="hidden" name="bdate" id="bdate">
+		<!-- <input type="hidden" name="imageBase64" id="imageBase64"> -->
 		<button type="submit">완료</button>
 		<button type="button" onclick="location.href='qnaBoard'">목록</button>
 	</form>
 
-  <div>
-    <button id="picker">M.media.picker</button>
+  <!-- <div>
+      <button id="picker">M.media.picker</button>
   </div>
   <div id="box"></div>
   <div>
     <button id="upload">Upload Current Image</button>
   </div>
   <div id="progress"></div>
-  <div id="upload-box"></div>
+  <div id="upload-box"></div> -->
+
+</main>
+
+<footer></footer>
+
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="/js/mcore.min.js"></script>
   <script src="/js/jquery.plugin.js"></script>
   
 	<script>
+	
+	// 폼이 제출될 때 현재 날짜와 시간을 입력란에 추가
+	document.getElementById('qnaForm').addEventListener(
+			'submit',
+			function(event) {
+				event.preventDefault(); // 기본 제출 동작을 막음
+
+				// 현재 날짜와 시간을 가져오기
+				const currentDatetime = new Date();
+				const utcDatetime = new Date(currentDatetime.toISOString()
+						.slice(0, 19)
+						+ "Z"); // UTC 시간으로 변환
+				const formattedDatetime = new Date(utcDatetime.getTime()
+						+ 9 * 60 * 60 * 1000);
+
+				document.getElementById('bdate').value = formattedDatetime
+						.toISOString().slice(0, 19).replace("T", " ");
+
+				const title = document
+						.querySelector('input[name="btitle"]').value;
+				const content = document
+						.querySelector('textarea[name="bcontent"]').value;
+				const selectDepartment = document.querySelector('select[name="selectDepartment"]').value;
+				
+				
+				// 제목이나 내용 중 하나라도 비어있으면 경고창을 띄우고 전송을 막음
+				if (title.trim() === '') {
+					alert('제목을 입력해주세요.');
+					event.preventDefault(); // 폼 전송 막기
+					return false;
+				}
+				else if (content.trim() === '') {
+					alert('내용을 입력해주세요.');
+					event.preventDefault(); // 폼 전송 막기
+					return false;
+				}
+				else if (selectDepartment === 'department') {
+					alert('진료 과목을 선택해주세요.');
+					event.preventDefault(); // 폼 전송 막기
+					return false;
+				} else {
+					
+				const selectedDepartment = selectDepartment === 'unknown' ? null : selectDepartment;
+				this.submit();
+				}
+			});
+	
+	/*
 	
 	 (function () {
 
@@ -180,7 +246,6 @@
 		            $uploadImg.attr('src', bodyJson.fullpath)
 		            $uploadBox.append($uploadImg)
 		          } else {
-		        	  alert(status);
 		            return Promise.reject('업로드를 실패하였습니다.')
 		          }
 		        })
@@ -190,53 +255,7 @@
 		        })
 		    })
 		  });
-	
-	
-		// 폼이 제출될 때 현재 날짜와 시간을 입력란에 추가
-		document.getElementById('qnaForm').addEventListener(
-				'submit',
-				function(event) {
-					event.preventDefault(); // 기본 제출 동작을 막음
-
-					// 현재 날짜와 시간을 가져오기
-					const currentDatetime = new Date();
-					const utcDatetime = new Date(currentDatetime.toISOString()
-							.slice(0, 19)
-							+ "Z"); // UTC 시간으로 변환
-					const formattedDatetime = new Date(utcDatetime.getTime()
-							+ 9 * 60 * 60 * 1000);
-
-					document.getElementById('bdate').value = formattedDatetime
-							.toISOString().slice(0, 19).replace("T", " ");
-
-					const title = document
-							.querySelector('input[name="btitle"]').value;
-					const content = document
-							.querySelector('textarea[name="bcontent"]').value;
-					const selectDepartment = document.querySelector('select[name="selectDepartment"]').value;
-					
-					
-					// 제목이나 내용 중 하나라도 비어있으면 경고창을 띄우고 전송을 막음
-					if (title.trim() === '') {
-						alert('제목을 입력해주세요.');
-						event.preventDefault(); // 폼 전송 막기
-						return false;
-					}
-					else if (content.trim() === '') {
-						alert('내용을 입력해주세요.');
-						event.preventDefault(); // 폼 전송 막기
-						return false;
-					}
-					else if (selectDepartment === 'department') {
-						alert('과목을 선택해주세요.');
-						event.preventDefault(); // 폼 전송 막기
-						return false;
-					} else {
-						
-					const selectedDepartment = selectDepartment === 'unknown' ? null : selectDepartment;
-					this.submit();
-					}
-				});
+		  */
 	</script>
 
 </body>

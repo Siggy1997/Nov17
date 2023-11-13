@@ -10,10 +10,19 @@
 <meta charset="UTF-8">
 <script src="./js/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet" href="./css/freeDetail.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <title>Insert title here</title>
 </head>
 <body>
 
+<header>
+    <i class="xi-angle-left xi-x"></i>
+    <div class="header title">상담하기</div>
+    <div class="blank"></div>
+</header>
+
+<main>
 
 		<button class="toFreeBoard" onclick="location.href='freeBoard'">목록으로</button>
 
@@ -57,8 +66,6 @@
 			value="${freePosting.btitle}">
 			<input type="hidden" name="bcontent" id="bcontent"
 			value="${freePosting.bcontent}">
-			<input type="hidden" name="btype" id="btype"
-			value="1">
 <button id="editButton">수정하기</button>
 </form>
 </c:if>
@@ -142,6 +149,9 @@
 		</c:forEach>
 	</div>
 
+</main>
+
+<footer></footer>
 
 
 	<script>
@@ -287,6 +297,12 @@
 			if (event.target == document.getElementById("reportModal")) {
 				document.getElementById("reportModal").style.display = "none";
 			}
+		});
+		
+		
+		/* 뒤로가기 버튼 */
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
 		});
 	</script>
 
