@@ -16,7 +16,7 @@ public class HospitalDetailUtil {
 
 	LocalTime timenow = LocalTime.now();
 	DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-	String time = timenow.format(timeFormatter);
+	private String time = timenow.format(timeFormatter);
 
 	
 	public String getDayOfWeek(String dayOfWeek) {
@@ -62,6 +62,14 @@ public class HospitalDetailUtil {
 
 	public void setDayOfWeek(String dayOfWeek) {
 		this.dayOfWeek = dayOfWeek;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 }

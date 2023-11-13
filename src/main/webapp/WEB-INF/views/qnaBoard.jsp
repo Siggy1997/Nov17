@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <link rel="stylesheet" href="./css/qnaBoard.css">
 <script src="./js/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet"
@@ -43,7 +44,6 @@
 			placeholder="검색 할 내용을 입력하세요">		
 		<button type="submit" class="xi-search xi-x"></button>
 	</form>
-
 
 
 
@@ -150,18 +150,18 @@
 </script>
 <script>
 $(document).ready(function () {
-    // select 요소의 변경이 감지되면 실행되는 함수
+   
     $("#selectDepartment").change(function () {
         // 선택된 부서 값을 가져옴
         var selectedDepartment = $(this).val();
 
-        // AJAX를 사용하여 서버에 데이터 요청
+      
         $.ajax({
             type: "GET",
             url: "/selectDepartment",
             data: { department: selectedDepartment },
             success: function (response) {
-                // 서버로부터 받은 응답을 사용하여 게시글을 업데이트
+               
                 updateQnaList(response);
             },
             error: function (error) {
@@ -174,7 +174,7 @@ $(document).ready(function () {
 <script>
     function updateQnaList(filteredQnaList) {
         var qnaListContainer = document.getElementById("qnaListContainer");
-        qnaListContainer.innerHTML = ""; // 기존 목록 초기화
+        qnaListContainer.innerHTML = "";
 
         for (var i = 0; i < filteredQnaList.length; i++) {
             var qna = filteredQnaList[i];
@@ -190,7 +190,6 @@ $(document).ready(function () {
         }
     }
 </script>
-
 <script>
 function confirmWriteQna() {
     const mno = "${mno}";
@@ -206,7 +205,7 @@ function confirmWriteQna() {
 
 
 function toggleBoardLogic(boardType) {
-    // 여기에 실제 게시판 전환 로직을 구현
+   
     var qnaBoard = document.getElementById("qnaBoard");
     var freeBoard = document.getElementById("freeBoard");
 
@@ -236,7 +235,6 @@ function toggleBoard(boardType) {
       document.getElementById("freeBoardBoldButton").style.display = "block";
     }
     
-    // 여기에서 게시판 전환 로직 수행
     toggleBoardLogic(boardType);
 
   }

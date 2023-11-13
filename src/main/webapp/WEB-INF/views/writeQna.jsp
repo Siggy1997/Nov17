@@ -64,7 +64,6 @@
   </div>
   <div id="progress"></div>
   <div id="upload-box"></div> -->
-
 </main>
 
 <footer></footer>

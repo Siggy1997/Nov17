@@ -46,5 +46,7 @@ public interface QnaBoardDAO {
 
 	void editQna(Map<String, Object> editQnaData);
 
+	List<Map<String, Object>> getQnaListByDepartment(String department);
+
 
 }

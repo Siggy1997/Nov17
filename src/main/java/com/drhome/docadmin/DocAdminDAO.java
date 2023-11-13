@@ -28,4 +28,6 @@ public interface DocAdminDAO {
 
 	Map<String, Object> findHospitalByHno(Map<String, Object> map);
 
+	Map<String, Object> findHospitalImg(int dno);
+
 }

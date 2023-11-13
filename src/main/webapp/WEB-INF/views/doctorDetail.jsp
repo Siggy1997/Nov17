@@ -2,19 +2,16 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
 <%@ page import="java.util.Calendar, java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-
-
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="../css/hospital.css">
+<link rel="stylesheet" href="../css/doctorDetail.css">
 <script src="../js/jquery-3.7.0.min.js"></script> 
 <!-- <script src="./js/wnInterface.js"></script> 
 <script src="./js/mcore.min.js"></script> 
@@ -127,7 +124,6 @@
 		/* 내 글 삭제하기 */
 		$(document).on("click", ".delete", function(){
 			let currentDelete = $(this);
-			
 			if(confirm("리뷰를 삭제하시겠습니까?")) {
 				let rno = $(this).siblings(".rno").val();
 				$.ajax({
@@ -145,6 +141,35 @@
 			}
 		});
 		
+		/* 내 리뷰 수정하기 */
+		$(document).on("click", ".edit", function(){
+			if(confirm("리뷰를 수정하시겠습니까?")) {
+				$(this).siblings(".reviewEdit").show();
+				$(this).siblings(".reviewContent").hide();
+			}
+		});
+		
+		/* 내 리뷰 수정해서 보여주기 */
+		$(document).on("click", ".editButton", function(){
+			let currentEdit = $(this).parent(".reviewEdit");
+			let rno = currentEdit.siblings(".rno").val();
+			let rcontent = $(this).siblings(".reviewEditWrite").val();
+			$.ajax({
+		         url: "../reviewEdit",
+		         type: "post",
+		         dataType: "json",
+		         data: {rno:rno, rcontent:rcontent},
+		         success: function(data){
+		        	 currentEdit.siblings(".reviewContent").text(rcontent);
+		        	 currentEdit.hide();
+		        	 currentEdit.siblings(".reviewContent").show();
+		         },
+		         error: function(error){
+		            alert("Error");
+		         }
+		      });
+		});
+		
 		/* 비대면 진료 신청할 때 로그인 체크 */
 		$(document).on("submit", "#telehealthApply", function(event){
 			if (!loginCheck()) {
@@ -152,14 +177,13 @@
 		    }
 		});
  		
-		
 		/* Collection of functions */
 		
 		/* 로그인 체크 */
 		function loginCheck(){
 			if( sessionId == 'null' || sessionId == '' ) {
 				if (confirm("로그인을 해야 이용할 수 있는 서비스입니다. 로그인 하시겠습니까?")) {
-					return location.href= '/login';
+					return location.href= './login';
 				} else {
 					return false;
 				}
@@ -171,13 +195,10 @@
 		/* 이름 익명 처리하기 */
 		function anonymous(name) {
 		    let lastName = name.charAt(0);
-		    let firstName = '*'.repeat(name.length - 1);
+		    let firstName = '○'.repeat(name.length - 1);
 		    return lastName + firstName;
 		}
-		
 	});
-
-
 </script>
 
 </head>
@@ -350,15 +371,20 @@ mname=송화진, rkeyword=효과좋아요,친절해요, mno=1} -->
 							<span class="xi-star-o"></span>
 						</c:forEach>
 					</div>
-					<div class="delete">
-						<c:if test="${sessionScope.mno == row.mno}"><img src="../img/trash.png" style="width: 5%"></c:if>
-					</div>
+					<c:if test="${sessionScope.mno == row.mno}">
+					<div class="delete"><img src="../img/trash.png" style="width: 5%"></div>
+					<div class="edit"><img src="../img/edit.png" style="width: 5%"></div>
+					</c:if>
 					<div class="reviewKeyword">
 						<c:forEach items="${row.rkeyword.split(',')}" var="keyword">
 							<div>${keyword}</div>
 						</c:forEach>
 					</div>
 					<div class="reviewContent">${row.rcontent}</div>
+					<div class="reviewEdit">
+						<input value="${row.rcontent}" class="reviewEditWrite">
+						<button type="button" class="editButton">수정</button>
+					</div>
 					<div class="reviewDate">${row.rdate}</div>
 					<input class="dateTime" type="hidden" value="${row.rdate}">
 					<div class="reviewName">${row.mname}</div>

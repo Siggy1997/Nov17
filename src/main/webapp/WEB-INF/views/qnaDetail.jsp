@@ -40,7 +40,6 @@
 		
 		<div class="bdetail">${qnaQuestion.bcontent}</div>
 		
-		
 		<br>
 		
 		 <c:if test="${qnaQuestion.dpkind ne 'unknown'}">
@@ -245,14 +244,14 @@
 
 		// 버튼 클릭 시 모달 열기
 		document.getElementById("reportButton").addEventListener("click", function() {
-		    const mno = "${mno}"; // mno 값을 가져오는 방식에 맞게 수정
+		    const mno = "${mno}"; 
 		    
 		    
 		    
 		    if (mno === null || mno === undefined || mno === "") {
 		        // 로그인 창으로 이동
 		        if (confirm("로그인 한 사용자만 이용할 수 있습니다. 로그인 하시겠습니까?")) {
-		            window.location.href = "/login"; // 로그인 페이지 경로로 변경
+		            window.location.href = "/login"; 
 		        }
 		        } else {
 		        const reportCount = ${reportCount};
@@ -308,7 +307,7 @@
 		    }
 		});
 		
-		/* 뒤로가기 버튼 */
+		// 뒤로가기 버튼
 		$(document).on("click", ".xi-angle-left", function(){
 			history.back();
 		});

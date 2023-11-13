@@ -63,9 +63,7 @@ public class QnaBoardController {
 	@GetMapping("/qnaDetail")
 	public String qnaDetail(@RequestParam("bno") int bno, Model model, HttpSession session) {
 		
-		//Integer mno = (Integer) session.getAttribute("mno");
-
-		Integer mno = 4;
+		Integer mno = (Integer) session.getAttribute("mno");
 		
 		// 로그인이 되어있지 않을 때 mno를 null로 처리
 		if (mno == null) {
@@ -73,6 +71,7 @@ public class QnaBoardController {
 		}
 
 		//int mno = 1;
+
 		int dno = 2; // 추후 세션값으로 변경 예정 // 답변 삭제, 수정
 		
 		model.addAttribute("dno", dno);
@@ -95,7 +94,7 @@ public class QnaBoardController {
 		model.addAttribute("qnaAnswer", qnaAnswer);
 
 		Map<String, Object> reportCountData = new HashMap<>();
-		reportCountData.put("mno", mno);
+		reportCountData.put("mno", 1);
 		reportCountData.put("bno", bno);
 
 		int reportCount = qnaBoardService.reportCount(reportCountData);
@@ -153,13 +152,14 @@ public class QnaBoardController {
 			,HttpSession session) throws IOException {
 
 		 int mno = (int) session.getAttribute("mno");
-		
+
 		Map<String, Object> qnaData = new HashMap<>();
 		qnaData.put("btitle", btitle);
 		qnaData.put("bcontent", bcontent);
 		qnaData.put("bdate", bdate);
 		qnaData.put("btype", 0);
 		qnaData.put("mno", mno);
+
 		qnaData.put("selectDepartment", selectDepartment);
 		// 파일 데이터를 바이트 배열로 변환
 		//byte[] fileBytes = file.getBytes();
@@ -233,7 +233,6 @@ public class QnaBoardController {
 
 		Map<String, Object> qnaCallDibsData = new HashMap<>();
 
-
 		Integer mno = (Integer) session.getAttribute("mno");
 
 		// 로그인이 되어있지 않을 때 mno를 null로 처리
@@ -242,8 +241,9 @@ public class QnaBoardController {
 		}
 
 
+
 		qnaCallDibsData.put("bno", bno);
-		qnaCallDibsData.put("mno", mno);
+		qnaCallDibsData.put("mno", 1);
 
 		if (callDibsInput == true) {
 

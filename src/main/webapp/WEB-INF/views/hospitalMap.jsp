@@ -7,7 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <link rel="stylesheet" href="./css/hospitalMap.css">
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="./js/wnInterface.js"></script>
 <script src="./js/mcore.min.js"></script>
@@ -22,6 +24,62 @@
 
   <style>
 
+.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap {
+    position: relative;
+    width: 100%;
+    height: 100%; 
+    margin-top: 20%;
+  }
+
+     .wrap {overflow: hidden;}
+  .info .desc {position: absolute;margin: 5px 0 0 100px; bottom:50px;}
+      .info .img {position: absolute; left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden; bottom:50px;}
+  
+#searchInput {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    padding: 5px;
+    z-index: 1000; /* 높은 z-index로 설정 */
+}
+
+#searchButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 10%;
+    padding: 5px;
+    z-index: 1000; /* 높은 z-index로 설정 */
+}
+
+#searchResults {
+    position: absolute;
+    top: 0px;
+    left: 2%;
+    width: 80%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000; /* 높은 z-index로 설정 */
+}
+
+ 
+     #map {
+    width: 100%;
+    height: 700px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* 기본 z-index 설정 */
+}
+        
 </style>
 
 </head>
@@ -66,6 +124,8 @@
     newDiv.style.width = "100%"; 
     newDiv.style.height = "150px";
 
+
+    
     // body의 맨 뒤에 동적으로 생성한 div 추가
     document.body.appendChild(newDiv);
 </script>
@@ -214,9 +274,9 @@ document.addEventListener("DOMContentLoaded", function () {
         </c:forEach>
         
         
+
      // 클릭 이벤트
         document.addEventListener('click', function (event) {
-
             if (event.target.closest('#searchResults') || event.target.closest('#searchButton')) {
                 return;
             }
@@ -229,6 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         
         
+
         var searchButton = document.getElementById('searchButton');
 
      // 검색 버튼 클릭
@@ -380,6 +441,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 '    </a></div>' +
                 '</div>';
 
+
             // 컨테이너를 표시
             dynamicContainer.style.display = 'block';
         }
@@ -390,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (hospitalMarker.title === hospital.title) {
                     // 마커 클릭 이벤트를 트리거
                     kakao.maps.event.trigger(hospitalMarker.marker, 'click');
-                    
+
                     handleMarkerClick(hospital);
                 }
             });
@@ -411,10 +473,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     
+
                     // 마커 클릭
                     kakao.maps.event.addListener(marker, 'click', function () {
                         handleMarkerClick(position);
                     });
+
 
                     // 지도를 클릭했을 때 컨테이너 숨김
                     kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
