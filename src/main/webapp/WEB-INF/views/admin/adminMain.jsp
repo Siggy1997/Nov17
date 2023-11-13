@@ -46,6 +46,7 @@
 				<div class="box" style="background-color: #2EFEF7;" onclick="url('newHospital')">
 					병원 개설 관리
 					<div id="comment">병원의 개설을 관리합니다</div>
+					테스트
 				</div>
 			</div>
 		</div>
