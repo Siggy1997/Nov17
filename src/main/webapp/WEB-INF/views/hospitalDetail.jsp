@@ -472,6 +472,7 @@ $(function() {
 					<div class="dayTitle">오늘</div>
 					<span id="todayHours"></span>
 				</div>
+				
 				<div class="today todayBreakInfo">
 					<div class="dayTitle">점심시간</div>
 					<span id="todayBreak"> <c:if

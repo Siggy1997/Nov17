@@ -240,6 +240,12 @@
 				
 			<div class="joinHospital-area">
 				<div class="joinHospital">병원 개설이 필요하신가요? <a href="./joinHospital" class="joinHospital">&nbsp;&nbsp;병원 등록하러 가기</a></div>
+				<div>비대면 진료 페이지<a href="/docReception/${sessionScope.mno}/${sessionScope.dno}">&nbsp;&nbsp;바로가기</a></div>
+				<div>건강기록<a href="/healthRecord/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
+				<div>내정보<a href="/myInfo/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
+				<div>내글보기<a href="/myWriting/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
+				<div>결제<a href="/pay/${sessionScope.mno}?tno=1">&nbsp;&nbsp;바로가기</a></div>
+				<div>결제완료<a href="/completePay/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 			</div>
 	</main>
 </body>

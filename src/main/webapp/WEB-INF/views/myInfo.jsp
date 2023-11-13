@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>MyInfo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link href="/css/modal.css" rel="stylesheet" />
 <link href="/css/myInfo.css" rel="stylesheet" />
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -159,16 +161,25 @@ new daum.Postcode({
 
 </head>
 <body>
-	<a href="../main">&nbsp;&nbsp;←뒤로가기</a>
-	<h1>MyInfo</h1>
-	<h3>내 정보 확인하기</h3>
-	<br>
-	<h4>이름</h4>
-	${myInfo.mname }
-	<h4>닉네임</h4>
-	${myInfo.mnickname }
-	<h4>아이디</h4>
-	${myInfo.mid }
+	<header>
+		<a href="/main"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">건강기록</div>
+		<div class="blank"></div>
+	</header>
+	
+	<main>
+		<div class="health-area">
+			<p>이름</p>
+			<p>${myInfo.mname}</p>
+		</div>
+		<div class="health-area">
+			<p>닉네임</p>
+			<p>${myInfo.mnickname}</p>
+		</div>
+		<div class="health-area">
+			<h4>아이디</h4>
+			${myInfo.mid }
+		</div>
 	<div class="main">
 	<form action="../changePW/${sessionScope.mno}" method="post" id="changePW">
 	<h4>패스워드</h4>
@@ -209,6 +220,7 @@ new daum.Postcode({
 	<span id="phoneInfo"></span>
 	<button id="changePhoneNumber">전화번호 변경</button>
 	</form>
+	</main>
 	
 		<!-- 모달1 start -->
 	<div class="modal" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">

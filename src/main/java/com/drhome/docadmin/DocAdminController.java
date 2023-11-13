@@ -64,11 +64,12 @@ public class DocAdminController {
 		model.addAttribute("dpCount", dpCount);
 		
 		//진료시간 점심시간 뽑기
-		Map<String, Object> now = new HashMap<>();
 		Map<String, Object> hospital = docAdminService.findHospitalByHno(map);
+		Map<String, Object> now = new HashMap<>();
 		now.put("dayOfWeek", util.getDayOfWeek(util.getDayOfWeek()));
-		model.addAttribute("now", now);
+		now.put("time", util.getTime());
 		model.addAttribute("hospital", hospital);
+		model.addAttribute("now", now);
 		
 		System.out.println(hospital);
 		

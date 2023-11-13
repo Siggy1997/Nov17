@@ -40,7 +40,7 @@ public class HospitalDetailController {
 
 		Map<String, Object> now = new HashMap<>();
 		now.put("dayOfWeek", util.getDayOfWeek(util.getDayOfWeek()));
-		now.put("time", util.time);
+		now.put("time", util.getTime());
 
 		model.addAttribute("hospital", hospital);
 		model.addAttribute("doctorList", doctorList);
@@ -48,6 +48,7 @@ public class HospitalDetailController {
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("averageHospitalRate", averageHospitalRate);
 		model.addAttribute("reviewCount", reviewCount);
+		System.out.println(hospital);
 
 		return "/hospitalDetail";
 	}
