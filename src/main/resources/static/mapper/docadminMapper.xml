@@ -41,7 +41,7 @@
 	</select>
 	
 	<select id="dpKind" parameterType="Map" resultType="Map">
-	    SELECT DISTINCT dp.dpkind
+	    SELECT DISTINCT dp.dpkind, dp.dpno
 	    FROM doctor d
 	    JOIN department dp ON d.dpno = dp.dpno
 	    WHERE d.hno=#{hno};
@@ -86,7 +86,8 @@
       	TIME_FORMAT(hnightendtime, '%H:%i') as hnightendtime,
       	TIME_FORMAT(hbreaktime, '%H:%i') as hbreaktime,
      	TIME_FORMAT(hbreakendtime, '%H:%i') as hbreakendtime,
-      	TIME_FORMAT(hholidayendtime, '%H:%i') as hholidayendtime
+      	TIME_FORMAT(hholidayendtime, '%H:%i') as hholidayendtime,
+      	hholiday
 	    FROM hospitalList_view 
 	    WHERE hno=#{hno}
 	    GROUP BY hno;

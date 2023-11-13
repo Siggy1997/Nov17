@@ -7,7 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>HealthRecord</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" href="/css/healthRecord.css">
 <script src="../js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
 $(function(){
@@ -57,30 +59,43 @@ $(function(){
 
 </head>
 <body>
-	<a href="../main">&nbsp;&nbsp;←뒤로가기</a>
-	<h1>HealthRecord</h1>
-	<h3>내 건강기록 확인하기</h3>
-	<form action="../changeHealthRecord/${sessionScope.mno}" method="post">
-	<h4>키</h4>
-	<input type="text" id="hrheight" name="hrheight" placeholder="ex)155" maxlength="3" value="${healthRecord.hrheight}">cm
-	<br>
-	<span id="heightInfo"></span>
-	<h4>몸무게</h4>
-	<input type="text" id="hrweight" name="hrweight" placeholder="ex)47" maxlength="3" value="${healthRecord.hrweight}">kg
-	<br>
-	<span id="weightInfo"></span>
-	<h4>수축 혈압</h4>
-	<input type="text" id="hrsystolicpressure" name="hrsystolicpressure" placeholder="ex)100" maxlength="3" value="${healthRecord.hrsystolicpressure}">mmHg
-	<br>
-	<span id="systolicPressureInfo"></span>
-	<h4>이완 혈압</h4>
-	<input type="text" id="hrdiastolicpressure" name="hrdiastolicpressure" placeholder="ex)100" maxlength="3" value="${healthRecord.hrdiastolicpressure}">mmHg
-	<br>
-	<span id="diastolicPressureInfo"></span>
-	<h4>기타 특이사항</h4>
-	<input type="text" id="hrissue" name="hrissue" placeholder="특이사항을 적어주세요." maxlength="30" value="${healthRecord.hrissue}">
-	<br>
-	<button id="changeHealthRecordBtn">내 건강기록 변경</button>
-	</form>
+	<header>
+		<a href="/main"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">건강기록</div>
+		<div class="blank"></div>
+	</header>
+	
+	<main>
+		<div class="main-area">
+		<p class="top-title">내 건강기록을 확인하기🏃‍♂️</p>
+		<form action="../changeHealthRecord/${sessionScope.mno}" method="post">
+		<div class="input-area">
+			<p>키</p>
+			<input type="text" id="hrheight" name="hrheight" placeholder="ex)155" maxlength="3" value="${healthRecord.hrheight}">cm
+			<p id="heightInfo" class="info"></p>
+		</div>
+		<div class="input-area">
+			<p>몸무게</p>
+			<input type="text" id="hrweight" name="hrweight" placeholder="ex)47" maxlength="3" value="${healthRecord.hrweight}">kg
+			<p id="weightInfo" class="info"></p>
+		</div>
+		<div class="input-area">
+			<p>수축 혈압</p>
+			<input type="text" id="hrsystolicpressure" name="hrsystolicpressure" placeholder="ex)100" maxlength="3" value="${healthRecord.hrsystolicpressure}">mmHg
+			<p id="systolicPressureInfo" class="info"></p>
+		</div>
+		<div class="input-area">
+			<p>이완 혈압</p>
+			<input type="text" id="hrdiastolicpressure" name="hrdiastolicpressure" placeholder="ex)100" maxlength="3" value="${healthRecord.hrdiastolicpressure}">mmHg
+			<p id="diastolicPressureInfo" class="info"></p>
+		</div>
+		<div class="input-area">
+			<p>기타 특이사항</p>
+			<input type="text" id="hrissue" name="hrissue" placeholder="특이사항을 적어주세요." maxlength="30" value="${healthRecord.hrissue}">
+			<button id="changeHealthRecordBtn">변경하기</button>
+		</div>
+		</form>
+		</div>
+	</main>
 </body>
 </html>
