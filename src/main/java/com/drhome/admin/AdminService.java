@@ -109,12 +109,16 @@ public class AdminService {
 		return adminDAO.search(map);
 	}
 
-	public List<Map<String, Object>> viewDoctor(int hno) {
-		return adminDAO.viewDoctor(hno);
+	public List<Map<String, Object>> viewDoctor(int dno) {
+		return adminDAO.viewDoctor(dno);
 	}
 
 	public List<Map<String, Object>> searchHos(Map<String, Object> map) {
 		return adminDAO.searchHos(map);
+	}
+
+	public int deleteHos(int rhno) {
+		return adminDAO.deleteHos(rhno);
 	}
 
 	/*

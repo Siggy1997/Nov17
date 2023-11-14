@@ -3,8 +3,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>병원 등록</title>
 <link rel="stylesheet" href="../css/hosDoc.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -63,61 +65,25 @@
 		});
 	});
 </script>
-<style type="text/css">
-* {
-	font-family: "Pretendard Variable";
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-
-body {
-	background-color: white;
-}
-
-main {
-	padding-top: 9vh;
-	width : 90%;
-	margin: 0 auto;
-}
-
-header {
-	position: fixed;
-	height: 8vh;
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	align-items: center;
-	z-index: 1000;
-	background-color: white;
-	padding-inline-end: 22px;
-	padding-inline-start: 24px;
-}
-
-.xi-angle-left, .xi-angle-right {
-	color: #757575;
-}
-
-.headerTitle {
-	font-family: "NanumSquare" !important;
-	font-size: 18px;
-}	
-</style>
 </head>
 <body>
+
 <header>
-    <div class="xi-arrow x"></div>
-    <div class="header title">병원 예약</div>
-    <div class="blank"></div>
+    <i class="xi-angle-left xi-x" onclick="history.back()"></i>
+
+	<div class="headerTitle"><i></i></div>
+	
+	<div class="headerTitle"><i class="xi-hospital xi-3x"></i></div>
 </header>
 
 <main>
 	<div class="article">
-		<h1>DR.Home</h1>
-		<div class="content" style="font-weight: bold">
+		<h1 style="text-align: left; margin-left: 20px;">Dr.Home<i class="xi-medicine xi-x"></i></h1>
+		<div class="content" style="font-weight: bold; text-align: left; margin-left: 20px;">
 			닥터홈에 오신것을 환영합니다!<br> 
 			병원 개설을 위해 아래 내용을 입력해주세요.
 		</div>
+		<div class="tab">
 		<form action="/admin/hospitalOpen" method="POST">
 			<div class="Group">
 				<input class="vector" type="text" placeholder="병원명" name="rhname">
@@ -170,8 +136,12 @@ header {
 			</div>
 			<button class="btn" type="submit">병원 개설하기 ▷</button>
 		</form>
+		</div>
 	</div>
-</main>	
-<footer></footer>
+	<div style="height: 9vh"></div>
+</main>
+<footer>
+css 테스트
+</footer>
 </body>
 </html>

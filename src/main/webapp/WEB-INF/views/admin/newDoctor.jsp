@@ -5,8 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>의사 영입</title>
-<link rel="stylesheet" href="../css/hosDoc.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>의사 등록</title>
+<link rel="stylesheet" href="../css/newDoctor.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -49,55 +51,25 @@ $(document).ready(function () {
 	
 }
 </script>
-<style type="text/css">
-body {
-	margin-top: 90px;
-}
-
-.article {
-	width: 800px;
-	height: 600px;
-}
-
-.Group {
-	width: 430px;
-	height: 40px;
-	margin: 0 auto; display : flex;
-	flex-direction: column;
-	justify-content: space-between;
-	display: flex;
-}
-
-.btn {
-	margin-top: 30px;
-}
-
-.man {
-	margin-left: -180px;
-	margin-block: -18px;
-}
-
-.woman {
-	margin-left: 45px;
-}
-
-.gender {
-	margin-bottom: 30px;
-	color: gray;
-	font-size: 14px;
-}
-
-.content {
-	margin-bottom: 50px;
-}
-</style>
 </head>
+
+<header>
+    <div class="xi-arrow x"></div>
+    
+    <i class="xi-angle-left xi-x" onclick="history.back()"></i>
+
+	<div><h3 style="width: 110px; text-align: center; margin-left: 80px;">의사 등록</h3></div>
+	
+	<div class="headerTitle"><i class="xi-user xi-2x"></i></div>
+</header>
+
 <body>
+	<main>
 	<div class="article">
 		<h1>DR.Home</h1>
 		<div class="content" style="font-weight: bold">${hnoDoctor.hname }의
-			의사 등록을 위해 아래 내용을 입력해주세요.</div>
-		<form action="/admin/newDoctor" method="post">
+			의사 등록을 위해 <br>아래 내용을 입력해주세요.</div>
+		<form action="/admin/newDoctor" class="GroupCenter" method="post">
 			<div class="Group">
 				<input class="vector" type="text" placeholder="성명" name="dname">
 			</div>
@@ -157,8 +129,15 @@ body {
 				<!-- <input class="vector" type="text" placeholder="비대면진료 여부(0:진료x / 1:진료o)" name="dtelehealth"> -->
 			</div>
 			<button class="btn" id="btnAdd" type="submit">등록 ▷</button>
-			<a class="btn" onclick="location.href='/admin/newHosDoc?hno=${param.hno}'">등록된 의사 확인 하기</a>
+			<div class="btn2">
+				<a onclick="location.href='/admin/newHosDoc?hno=${param.hno}'">등록된 의사 확인 하기 ▷</a>
+			</div>
 		</form>
 	</div>
+	<div style="height: 9vh"></div>
+	</main>
+	<footer>
+	css 테스트
+	</footer>
 </body>
 </html>

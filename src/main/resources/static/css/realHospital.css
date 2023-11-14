@@ -51,19 +51,41 @@ footer {
 	background-color: white;
 }
 
-.btn {
-	border: 0;
-	background-color: #00C9FF;
-	border-radius: 15px;
-	color: white;
-	width: 250px;
-	height: 30px;
-	margin-bottom: 30px;
-	margin-left: 6px;
+.modal {
+   display: none;
+   position: fixed;
+   padding-top: 50px;
+   top: calc(20vh - 30px);
+   left: calc(26vw - 190px);
+   width: 510px;
+   height: 400px;
+   background-color: white;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   border-radius: 15px;
+   border: 0;
+   box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 9999px;
 }
 
-h1 {
-	margin-top: 30px;
+
+
+#closeBtn {
+	margin: 0 auto;
+}
+
+#confirm {
+	margin-right: -100px;
+	margin-left: 122px;
+}
+
+#searchTable {
+	width: 700px;
+	
+}
+
+#searchHos {
+	margin-bottom: 30px;
 }
 
 .article {
@@ -74,7 +96,6 @@ h1 {
 
 input {
 	text-align: left;
-	margin-left: 100px;
 }
 
 .Group {
@@ -92,7 +113,7 @@ input {
 }
 
 .content {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .tab {
