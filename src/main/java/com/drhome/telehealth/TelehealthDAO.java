@@ -36,4 +36,6 @@ public interface TelehealthDAO {
 
 	void apply(Map<String, Object> map);
 
+	Map<String, Object> userInfo(Object mno);
+
 }

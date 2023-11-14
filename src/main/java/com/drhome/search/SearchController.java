@@ -4,9 +4,11 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,8 +43,13 @@ public class SearchController {
 		// 증상 랜덤으로 8개 뽑아서 모델에 담기
 		List<String> randomKeyword = new ArrayList<>();
 		Random random = new Random();
+		Set<Integer> seletedKeyword = new HashSet<>();
 		for (int i = 0; i < 8; i++) {
-			int randomIndex = random.nextInt(allKeyword.size());
+			int randomIndex;
+			do {
+				randomIndex = random.nextInt(allKeyword.size());
+			} while (seletedKeyword.contains(randomIndex));
+			seletedKeyword.add(randomIndex);
 			randomKeyword.add(allKeyword.get(randomIndex));
 		}
 		model.addAttribute("randomKeyword",randomKeyword);

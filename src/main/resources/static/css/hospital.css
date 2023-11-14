@@ -93,7 +93,7 @@ main {
 	border: none;
 	background-color: white;
 	font-size: 14px;
-	font-weight: 600;
+	font-weight: 400;
 	border: none;
 }
 
@@ -140,6 +140,19 @@ main {
 	align-items: center;
 }
 
+.doctorfilter {
+	width: 90%;
+	margin: 2% auto;
+	height: 40px;
+	margin-top: 2%;
+	justify-content: space-between;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+}
+
 .select {
 	padding: 0px 7px;
 	margin: 0 8px;
@@ -165,6 +178,10 @@ main {
 
 .margin-right {
 	margin-right: 4px;
+}
+
+.margin-left {
+	margin-left: 4px;
 }
 
 .deleteKeyword {
@@ -411,22 +428,28 @@ main {
 }
 
 .hospitalListContainer, .doctorListContainer {
+	height: 165px;
+}
+
+.listContainer {
+	padding: 12px 0;
 	width: 90%;
 	margin: 0 auto;
-	padding: 12px 0;
 	height: 150px;
+	display: flex;
+	justify-content: center;
 }
 
 .hospitalList {
+	width: 90%;
 	display: flex;
 	float: left;
-	width: 90%;
-	height: 100%;
 	flex-direction: column;
 	justify-content: space-evenly;
 }
 
 .hospitalStatus {
+	width: 90%;
 	font-size: 13px;
 	font-weight: 300;
 }
@@ -440,6 +463,7 @@ main {
 }
 
 .hospitalHeader {
+	width: 90%;
 	display: flex;
 	align-items: flex-end;
 	margin: 2px 0;
@@ -457,15 +481,24 @@ main {
 	font-size: 14px;
 }
 
+.hospitalBody {
+	width: 90%;
+}
+
 .hospitalAddress {
 	font-size: 13px;
 	padding: 2px 0;
 }
 
 .hospitalReview {
+	width: 90%;
 	display: flex;
 	font-size: 13px;
 	align-items: flex-end;
+}
+
+.hospitalReserve {
+	width: 90%;
 }
 
 .reviewScore {
@@ -501,16 +534,107 @@ main {
 	color: #00C9FF;
 }
 
-.xi-heart-o {
+.hospitalLike {
 	margin-top: 30px;
 	font-size: 20px;
+}
+
+.xi-heart-o {
 	color: #5c5c5c;
 }
 
 .xi-heart {
 	color: red;
 }
+
 .graySeperate {
 	height: 15px;
 	background-color: #F5F5F5;
+}
+
+/* telehealth */
+.doctorListContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.doctorHeader {
+	width: 90%;
+	margin: 0 auto;
+	padding: 8px 0;
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.doctorImg {
+	width: 90px;
+	height: 90px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50px;
+	border: 1px solid #F5F5F5;
+	overflow: hidden;
+}
+
+.doctorImg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.doctorInfo {
+	display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 60%;
+    padding: 10px;
+    justify-content: space-between;
+    height: 90px;
+}
+
+.doctorInfoHeader {
+	    display: flex;
+    align-items: flex-end;
+}
+
+.doctorName {
+	font-size: 20px;
+	font-weight: 500;
+	margin-right: 10px;
+}
+
+.doctorStatus {
+	font-size: 11px;
+}
+
+.doctorInfoBody {
+	display: flex;
+	font-size: 14px;
+	color: #5c5c5c;
+}
+
+.doctorNext {
+	display: flex;
+	align-items: center;
+	color: #757575;
+}
+
+.doctorFooter {
+	width: 90%;
+	margin: 0 auto;
+	padding: 5px 0;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 13px;
+	padding-bottom: 10px;
+	color: #5c5c5c;
+}
+
+.dotorSpecialist, .dotorTelehealth {
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
 }

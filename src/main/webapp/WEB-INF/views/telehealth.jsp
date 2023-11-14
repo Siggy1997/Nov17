@@ -228,11 +228,6 @@
 		
 		/* Collection of functions */
 		
-		/* 의사 상세보기 페이지 이동 */
-		function doctorDetail(dno) {
-			location.href= '/doctorDetail/' + dno;
-		}
-		
 		/* 모달에서 증상별 토글 효과 */
 		function toggleClass(keyword) {
 			let otherKeyword = $(".symptomKindButton").not(keyword);
@@ -287,6 +282,11 @@
 			location.href= "telehealth?"+urlString;
 		}
 	});
+	
+	/* 의사 상세보기 페이지 이동 */
+	function doctorDetail(dno) {
+		location.href= '/doctorDetail/' + dno;
+	}
 
 	
 </script>
@@ -313,17 +313,15 @@
 		</div>
 		
 		<!-- filter -->
-		<div class="filter">
-			<div class="filterGroup">
-				<button type="button" class="selectByAvailable select"><span class="xi-time-o margin-right"></span> 진료중</button>
-				<button type="button" class="selectBySpecialist select"><span class="xi-school margin-right"></span> 전문의</button>
-				<button type="button" class="selectByFemale select"><span class="xi-woman margin-right"></span> 여의사</button>
-				<button type="button" class="selectByDepartment select">
-					<div class="xi-plus-square-o margin-right"></div> 
-					<div class="selectByDepartmentText"> 진료과/증상</div>
-					<div class="xi-angle-down-min deleteKeyword"></div>
-				</button>
-			</div>
+		<div class="doctorfilter">
+			<button type="button" class="selectByAvailable select"><span class="xi-time-o margin-right"></span> 진료중</button>
+			<button type="button" class="selectBySpecialist select"><span class="xi-school margin-right"></span> 전문의</button>
+			<button type="button" class="selectByFemale select"><span class="xi-woman margin-right"></span> 여의사</button>
+			<button type="button" class="selectByDepartment select">
+				<div class="xi-plus-square-o margin-right"></div> 
+				<div class="selectByDepartmentText"> 진료과/증상</div>
+				<div class="xi-angle-down-min deleteKeyword"></div>
+			</button>
 		</div>
 		
 		<!-- title -->
@@ -344,11 +342,11 @@
 			 	<div class="doctorListContainer" onclick="doctorDetail(${row.dno})">
 				 <input type="hidden" class="femaleDoctor" value="${row.dgender}">
 					<div class="doctorHeader">
-						<div class="doctorImg"><img src="${row.dimg}" style="width:10%"></div>
+						<div class="doctorImg margin-right"><img src="${row.dimg}"></div>
 						<input type="hidden" class="dno" value="${row.dno}">
 						<div class="doctorInfo">
 							<div class="doctorInfoHeader">
-								<div class="dotorName">
+								<div class="doctorName">
 									<c:choose>
 										<c:when test="${row.dpno == 9}">${row.dname} 한의사</c:when>
 										<c:otherwise>${row.dname} 의사</c:otherwise>
@@ -401,10 +399,10 @@
 								</div>
 							</div>
 							<div class="doctorInfoBody">
-								<div class="doctorHospitalName">${row.hname}</div> | 
-								<div class="doctorDepartment">${row.dpkind}</div>								
+								<div class="doctorHospitalName margin-right">${row.hname}</div> | 
+								<div class="doctorDepartment margin-left">${row.dpkind}</div>								
 							</div>
-							<div class="doctorInfoFooter">
+							<div class="doctorInfoFooter hospitalReview">
 								<img src="./img/star.png" style="width: 18px;">
 								<div class="reviewScore">${row.dReviewAverage}</div>
 								<div class="reviewCount">(${row.dReviewCount})</div>
@@ -413,10 +411,10 @@
 						<div class="doctorNext"><span class="xi-angle-right"></span></div>
 					</div>
 					<div class="doctorFooter">
-						<div class="dotorSpecialist">
+						<div class="dotorSpecialist margin-right">
 							<c:choose>
 								<c:when test="${row.dspecialist == 1 }">
-									<img src="./img/specialist.png" style="width:5%">${row.dpkind} 전문의
+									<img src="./img/specialist.png" style="width: 18px;">${row.dpkind} 전문의
 								</c:when>
 								<c:otherwise>
 									일반의
@@ -424,11 +422,11 @@
 							</c:choose>
 						</div>
 						<div class="dotorTelehealth">
-							<img src="./img/telehealth.png" style="width:5%"> 비대면 진료 가능
+							<img src="./img/telehealth.png" style="width: 18px;"> 비대면 진료 가능
 						</div>
 					</div>
-				</div>
 				<div class="graySeperate"></div>
+				</div>
 			</c:forEach>
 			
 		</div>

@@ -11,10 +11,18 @@
 <meta charset="UTF-8">
 <title>telehealthSearch</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/hospital.css">
+<link rel="stylesheet" href="./css/telehealthSearch.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
 	$(function(){
+		
+		/* 뒤로가기 버튼 */
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
+		
+		$(".seletedDepartmentBox").show();
+		$(".seletedSymptomBox").hide();
 		
 		/* 입력할 때 내용 지우기 */
 		if ($("#keyword").val() !== '') {
@@ -36,6 +44,8 @@
 		
 		/* 진료과 선택했을 때 */
 		$(document).on("click", ".optionDepartment", function(){
+			$(this).addClass("selectOption");
+			$(".optionSymptom").removeClass("selectOption");
 			$(".seletedDepartmentBox").show();
 			$(".seletedSymptomBox").hide();
 		});
@@ -49,11 +59,15 @@
 		
 		/* 증상 선택했을 때 */
 		$(document).on("click", ".optionSymptom", function(){
+			$(this).addClass("selectOption");
+			$(".optionDepartment").removeClass("selectOption");
 			$(".seletedDepartmentBox").hide();
 			$(".seletedSymptomBox").show();
 		});
 		
 		/* 증상 그룹별로 보여주기 */
+		let keywordClass = $(".symptomBox:first .symptomText").nextAll();
+		toggleClass(keywordClass);
 		$(document).on("click", ".symptomText", function(){
 			let togglKeyword = $(this).siblings();
 			toggleClass(togglKeyword);
@@ -107,6 +121,7 @@
 </head>
 <body>
 	<form id="searchForm" action="telehealthSearch" method="post">
+	<!-- header -->
 	<header>
 		<i class="xi-angle-left xi-x"></i>
 		<div class="headerTitle">비대면 진료 검색</div>
@@ -125,9 +140,10 @@
 				</div>
 				<button class="searchButton"><img src="./img/search.png"></button>
 			</div>
-		
+			
+			<!-- menu bar -->
 			<div class="selectedOption">
-				<div class="optionDepartment">과목</div>
+				<div class="optionDepartment selectOption">과목</div>
 				<div class="optionSymptom">증상</div>
 			</div>
 			<!-- 진료과 -->
@@ -139,14 +155,16 @@
 							<button class="randomKeyword">${row}</button>
 						</c:forEach>
 					</div>
+					<div class="grayLine"></div>
 					<c:forEach items="${departmentKeyword}" var="row">
 					<div class="departmentBox">
 						<div class="departmentText">
 							<div class="departmentKeyword">${row.dpkind}</div>
 							<div class="departmentExample">${row.dpexample}</div>
 						</div>
-						<div class="departmentImg"><img src="./img/dp${row.dpno}.png" style="width: 10%;"></div>
+						<div class="departmentImg"><img src="./img/dp${row.dpno}.png"></div>
 					</div>
+					<div class="grayLine"></div>
 					</c:forEach>
 				</div>
 			</div>
@@ -159,11 +177,12 @@
 							<button class="randomKeyword">${row}</button>
 						</c:forEach>
 					</div>
+					<div class="grayLine"></div>
 					<c:forEach items="${departmentKeyword}" var="row">
 					<div class="symptomBox">
 						<div class="symptomText">
-							<div class="departmentImg"><img src="./img/dp${row.dpno}.png" style="width: 10%;"></div>
-							<div class="departmentKeyword">${row.dpsymptom}</div>
+							<div class="symptomImg"><img src="./img/dp${row.dpno}.png"></div>
+							<div class="symptomKeyword">${row.dpsymptom}</div>
 							<div class="xi-angle-down-thin"></div>
 						</div>
 						<div class="symptomExample">

@@ -9,7 +9,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>doctorDetail</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="../css/doctorDetail.css">
 <script src="../js/jquery-3.7.0.min.js"></script> 
@@ -19,6 +19,11 @@
 <script type="text/javascript">
 	$(function(){
 		let sessionId = "<%=session.getAttribute("mno") %>"
+		
+		/* 뒤로가기 버튼 */
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
 		
 		/* 병원 상세보기 이동 */
 		$(document).on("click", ".doctorHospital", function(){
@@ -176,6 +181,20 @@
 		        event.preventDefault();
 		    }
 		});
+		
+		/* 진료 중일 때만 비대면 진료하기 */
+		if ( $(".doctocFooter").hasClass("application") ) {
+		alert("!");
+		
+		if ($(".doctorStatus_text").text() == '진료 중') {
+			$(".application").addClass("btn-color-css");
+		} else {
+			$(".application").removeClass("btn-color-css").text("비대면 진료 종료");
+			
+		}
+		
+	}
+		
  		
 		/* Collection of functions */
 		
@@ -204,16 +223,20 @@
 </head>
 <body>
 
-	<h1>doctor</h1>
-	
-	<div class="doctorContainerBox">
+	<!-- header -->
+	<header>
+		<i class="xi-angle-left xi-x"></i>
+		<div class="headerTitle">의사 정보</div>
+		<div class="blank"></div>
+	</header>
+
+	<!-- main -->
+	<main class="doctorContainerBox container">
 	<div class="doctorHeader">
-		<div class="doctorHeaderLeft">
-			<div class="doctorImg"><img src="${doctor.dimg}" style="width:10%"></div>
-		</div>
-		<div class="doctorHeaderRight">
+		<div class="doctorImg margin-right"><img src="${doctor.dimg}"></div>
+		<div class="doctorInfo">
 			<!-- 의사 정보 -->
-			<div class="doctorNameBox">
+			<div class="doctorInfoHeader">
 				<div class="doctorName">
 					<c:choose>
 						<c:when test="${doctor.dpno == 9}">한의사 ${doctor.dname}</c:when>
@@ -265,36 +288,32 @@
 					</c:choose>
 				</c:if>
 				</div>
-				<!-- { dReviewCount=6, dpsymptom=치아 질환, dtelehealth=1, dspecialist=0, dgender=0, 
-	hReviewCount=11, dReviewAverage=4.2, dname=이국종, dinfo=환자분들의 건강을 위해 최선의 진료를 다하고 있습니다., 
-	dpkind=치과,hparking=1, dpno=2, dno=1, hno=1, dpkeyword=치아교정,충치치료,치아미백,치통, 
-	hReviewAverage=3.5, hbreaktime, hbreakendtime
-	hopentime=09:00:00, hnightendtime=23:00:00, haddr=서울 강남구 언주로 211, hclosetime=13:00:00, hholiday=1} -->
-				<div class="doctorDepartmentBox">
-					<div class="doctorHospitalName">${doctor.hname}</div>
-					<div class="doctorDepartment">${doctor.dpkind}</div>
 				</div>
-				<div class="doctorReviewBox">
-					<img src="../img/star.png" style="width: 4%">
+				<div class="doctorInfoBody">
+					<div class="doctorHospitalName margin-right">${doctor.hname}</div> | 
+					<div class="doctorDepartment margin-left">${doctor.dpkind}</div>
+				</div>
+				<div class="doctorInfoFooter">
+					<img src="../img/star.png" style="width: 18px;">
 					<div class="reviewScore">${doctor.dReviewAverage}</div>
-					<div class="telehealthCount">
+					<div class="reviewCount margin-left">
 						<c:choose>
 							<c:when test="${doctor.count == 0}">신규</c:when>
 							<c:otherwise>${doctor.count}회 진료</c:otherwise>
 						</c:choose>
 					</div>
 				</div>
-			</div>
 			<div class="dotorSpecialist">
 				<c:choose>
 					<c:when test="${doctor.dspecialist == 1}">
-						<img src="../img/specialist.png" style="width:5%">${doctor.dpkind} 전문의
+						<img src="../img/specialist.png" style="width:18px">${doctor.dpkind} 전문의
 					</c:when>
 					<c:otherwise>일반의</c:otherwise>
 				</c:choose>
 			</div>
 		</div>
 	</div>
+	<div class="graySeperate"></div>
 	<!-- 의사 소개 -->
 	<div class="doctorBody">
 		<div class="doctorBar">
@@ -303,22 +322,25 @@
 		</div>
 		<div class="doctorInfoBox">
 			<div class="doctorTitle">의사 소개</div>
-			<div class="doctorInfo"><h3>안녕하세요. 
+			<div class="doctorIntroduce">
+				<h3>안녕하세요. 
 				<c:choose>
 						<c:when test="${doctor.dpno == 9}">한의사 <span style="font-size: large; color: #00C9FF;">${doctor.dname}</span>입니다.</c:when>
-						<c:otherwise>의사 <span style="font-size: x-large; color: #00C9FF;">${doctor.dname}</span>입니다.</c:otherwise>
+						<c:otherwise>의사 <span style="font-size: 17px; color: #00C9FF;">${doctor.dname}</span>입니다.</c:otherwise>
 					</c:choose></h3>
 				<p>${doctor.dinfo}</p>
 			</div>
 		</div>
-		<div class="doctorCareerBox">
+		<div class="graySeperate"></div>
+		<div class="doctorInfoBox">
 			<div class="doctorTitle">경력 및 약력</div>
 			<div class="doctorCareer">${doctor.dcareer}</div>
 		</div>
-		<div class="doctorHospitalBox">
+		<div class="graySeperate"></div>
+		<div class="doctorInfoBox">
 			<div class="doctorTitle">소속 병원</div>
 			<div class="doctorHospital">
-				<div class="hospitalImg"><img src="${doctor.himg}" style="width: 5%;"></div>
+				<div class="hospitalImg"><img src="${doctor.himg}" style="width: 70px;"></div>
 				<div class="hospitalBox">
 					<div class="hospitalName">${doctor.hname}</div>
 					<div class="hospitalAddr">${doctor.haddr}</div>
@@ -326,6 +348,7 @@
 				<div class="hospitalNext"><span class="xi-angle-right"></span></div>
 			</div>
 		</div>
+		<div class="graySeperate"></div>
 		
 		<!-- 의사 리뷰 -->		
 		<div class="doctorReviewBox">
@@ -397,7 +420,8 @@ mname=송화진, rkeyword=효과좋아요,친절해요, mno=1} -->
 			</div>
 		</div>
 	</div>
-	<div class="doctocFooter">
+	
+	<footer class="doctocFooter">
 		<c:choose>
 			<c:when test="${doctor.dtelehealth == 0 }">
 				<button type="button">비대면 진료 불가</button>
@@ -405,12 +429,11 @@ mname=송화진, rkeyword=효과좋아요,친절해요, mno=1} -->
 			<c:otherwise>
 				<form id="telehealthApply" action="/telehealthApply" method="get">
 				<input name="dno" type="hidden" value="${doctor.dno}">
-				<button>비대면 진료 신청</button>
+				<button class="application">비대면 진료 신청</button>
 				</form>
 			</c:otherwise>
 		</c:choose>
-	</div>
-	</div>
+	</footer>
 
 </body>
 </html>

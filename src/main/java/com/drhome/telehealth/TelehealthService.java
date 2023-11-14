@@ -68,5 +68,9 @@ public class TelehealthService {
 	public void apply(Map<String, Object> map) {
 		telehealthDAO.apply(map);
 	}
+
+	public Map<String, Object> userInfo(Object mno) {
+		return telehealthDAO.userInfo(mno);
+	}
 	
 }
