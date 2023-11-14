@@ -368,16 +368,6 @@
 		
 		/* Collection of functions */
 		
-		/* 병원 상세보기 페이지 이동 */
-		function hospitalDetail(hno) {
-			location.href= '/hospitalDetail/' + hno;
-		}
-		
-		/* 예약 상세보기 페이지 이동 */
-		function hospitalAppointment(hno) {
-			location.href= '/appointment/' + hno;
-		}
-		
 		/* 모달에서 증상별 토글 효과 */
 		function toggleClass(keyword) {
 			let otherKeyword = $(".symptomKindButton").not(keyword);
@@ -481,21 +471,25 @@
 			  }
 			location.href = "hospital?" + urlParams.toString();
 		}
-		
-		
-
 	});
 	
+	/* 병원 상세보기 페이지 이동 */
+	function hospitalDetail(hno) {
+		location.href= '/hospitalDetail/' + hno;
+	}
 	
-
-
+	/* 예약 상세보기 페이지 이동 */
+	function hospitalAppointment(hno) {
+		location.href= '/appointment/' + hno;
+	}
 	
-
 </script>
 
 </head>
 <body>
 	<form id="searchForm" action="/search" method="post">
+	
+	<!-- header -->
 	<header>
 		<i class="xi-angle-left xi-x"></i>
 		<div class="headerTitle">병원 검색</div>
@@ -548,6 +542,7 @@
 	<div class="hospitalListContainerBox">
 		 <c:forEach items="${hospitalList}" var="row">
 		 	<div class="hospitalListContainer">
+		 		<div class="listContainer">
 				<div class="hospitalList">
 					<div class="hospitalStatus">
 					
@@ -631,6 +626,7 @@
 				</c:choose>
 			</div>
 			<div class="graySeperate"></div>
+			</div>
 		</c:forEach>
 		
 		<c:if test="${notTodayNightHospital.size() gt 0 }">
@@ -638,6 +634,7 @@
 			<c:forEach items="${notTodayNightHospital}" var="row">
 				<div class="hospitalListContainer">
 					<div class="hospitalList">
+						<div class="listContainer">
 						<div class="hospitalStatus">
 						
 							<!-- 공휴일 -->
@@ -718,6 +715,7 @@
 				</c:choose>
 				</div>
 				<div class="graySeperate"></div>
+				</div>
 			</c:forEach>
 		</c:if>
 	</div>

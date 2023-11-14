@@ -1,0 +1,199 @@
+@charset "UTF-8";
+
+@import
+	url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css")
+	;
+
+@import
+	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
+	;
+
+/* 기본 틀 */
+* {
+	font-family: "Pretendard Variable";
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: white;
+}
+
+header {
+	position: fixed;
+	height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	z-index: 1000;
+	background-color: white;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
+}
+
+.xi-close-thin, .xi-angle-right {
+	color: #757575;
+}
+
+.headerTitle {
+	font-family: "NanumSquare" !important;
+	font-size: 18px;
+	text-align: center;
+	font-weight: 900;
+	margin: 20px 50px;
+}
+
+footer {
+	bottom: 0;
+	position: fixed;
+	height: 9vh;
+	width: 100%;
+	z-index: 1000;
+	background-color: white;
+}
+
+main {
+	padding-top: 9vh;
+}
+
+.blank {
+	width: 21px;
+}
+
+.graySeperate {
+	height: 15px;
+	background-color: #F5F5F5;
+}
+
+/* 메뉴 */
+.menuHeader {
+	width: 90%;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.userImg {
+	width: 20%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50px;
+	overflow: hidden;
+	padding: 6px;
+}
+
+.userImg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.userInfo {
+	width: 50%;
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.userName {
+	font-size: 20px;
+	font-weight: 600;
+	margin-bottom: 2px;
+}
+
+.userNickname {
+	font-size: 15px;
+	color: #5c5c5c;
+}
+
+.userBirth {
+	font-size: 12px;
+}
+
+.userEdit {
+	border-radius: 18px;
+	background-color: #f0f0f0;
+	font-size: 15px;
+	padding: 5px 13px;
+	color: #5c5c5c;
+}
+
+.menuButton {
+	width: 90%;
+	margin: 15px auto;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+}
+
+.buttonSubItem {
+	width: 25%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.buttonImg {
+	border-radius: 8px;
+	padding: 5px;
+}
+
+.buttonImg img {
+	width: 35px;
+}
+
+.buttonText {
+	font-size: 13px;
+}
+
+.menuSection {
+	width: 90%;
+	margin: 17px auto;
+	border-bottom: 2px solid #F5F5F5;
+}
+
+.sectionTitle {
+	font-size: 18px;
+	font-weight: 500;
+	margin: 10px 0 15px 0;
+	display: flex;
+	align-items: center;
+}
+
+.listRow {
+	display: flex;
+	justify-content: space-between;
+	margin: 8px;
+	color: #5c5c5c;
+	height: 25px;
+}
+
+/* 로그인 안했을 때 */
+.noUser {
+	width: 65%;
+	display: flex;
+	justify-content: space-around;
+	height: 60px;
+	border-radius: 10px;
+	align-items: center;
+}
+
+.noUser button {
+	padding: 8px 20px;
+	background-color: #5adcff;
+	border: none;
+	border-radius: 10px;
+	color: white;
+}
+
+.noLogin {
+	background: radial-gradient(circle at 60% 40%, rgba(131, 247, 146, 20%),
+		rgb(0 201 255/ 20%));
+	border-radius: 20px;
+}

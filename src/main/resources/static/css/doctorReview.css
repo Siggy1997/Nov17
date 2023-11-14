@@ -1,8 +1,185 @@
 @charset "UTF-8";
 
+/* 기본 틀 */
+* {
+	font-family: "Pretendard Variable";
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: white;
+}
+
+header {
+	position: fixed;
+	height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	z-index: 1000;
+	background-color: white;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
+}
+
+.xi-angle-left, .xi-angle-right {
+	color: #757575;
+}
+
+.headerTitle {
+	font-family: "NanumSquare" !important;
+	font-size: 18px;
+	text-align: center;
+	font-weight: 900;
+	margin: 20px 50px;
+}
+
+footer {
+	bottom: 0;
+	position: fixed;
+	height: 9vh;
+	margin: 0 auto;
+	z-index: 1000;
+	background-color: white;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+main {
+	padding-top: 9vh;
+}
+
+.blank {
+	width: 21px;
+}
+
+/* 닥터 리뷰 */
+.doctorContainer {
+	width: 90%;
+	margin: 0 auto;
+	display: flex;
+	height: 100px;
+}
+
+.doctorImg {
+	width: 25%;
+	border-radius: 50px;
+	border: 1px solid #F5F5F5;
+	overflow: hidden;
+	margin: 5px;
+}
+
+.doctorImg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.doctorInfo {
+	width: 75%;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.doctorHospitalName {
+	font-size: 13px;
+	color: #5c5c5c;
+}
+
+.doctorSection {
+	display: flex;
+	align-items: center;
+}
+
+.doctorName {
+	font-size: 16px;
+	margin-right: 5px;
+	font-weight: 700;
+}
+
+.doctorDepartment {
+	font-size: 13px;
+}
+
+.reviewStar button {
+	background: white;
+	border: none;
+	font-size: 20px;
+}
+
+.xi-star-o {
+	color: #F5F5F5;
+}
+
+.xi-star {
+	color: #00C9FF;
+}
+
+.grayLine {
+	border-bottom: 1px solid #dedcdc;
+	height: 20px;
+}
+
+.reviewContainer {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.questionBox {
+	margin: 25px 0;
+}
+
+.reviewQuestion {
+	font-size: 15px;
+	font-weight: 500;
+	height: 25px;
+}
+
+.reviewAnswerBox {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.reviewAnswerBox button {
+	width: 100px;
+	height: 40px;
+	margin: 7px;
+	background-color: white;
+	border: 1px solid #F5F5F5;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+	color: #5c5c5c;
+}
+
+.reviewAnswerBox img {
+	width: 17px;
+	margin-right: 5px;
+}
+
+#rcontent {
+	width: 100%;
+	height: 180px;
+	margin: 8px 0;
+	border-radius: 5px;
+	border: 1px solid #e3dcdc;
+	padding: 15px;
+}
+
 .btn-color-css {
-	background-color: #00C9FF;
-	color: white;
+	background-color: rgba(0, 201, 255, 0.11) !important;
+	border: 1px solid #00C9FF !important;
+	color: black !important;
 }
 
 .reviewQuestion1Box {
@@ -19,4 +196,84 @@
 
 .reviewWriteSubmit {
 	display: none;
+	width: 90%;
+	height: 80%;
+	border-radius: 7px;
+	color: #787878;
+	background-color: #ebebeb;
+	border: none;
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.submit-btn-css {
+	background-color: #00C9FF;
+	color: white;
+}
+
+/* 알림 모달 */
+#dh-modal-alert {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 1s ease-in-out;
+	background: rgba(0, 0, 0, 0.2);
+	justify-content: flex-end;
+	flex-direction: column;
+	z-index: 1499;
+	transition: opacity 1s ease-in-out;
+}
+
+#dh-modal-alert.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+.dh-modal {
+	padding: 20px;
+	width: 90%;
+	border-radius: 15px;
+	background-color: #F4F4F4;
+	height: 90px;
+	display: flex;
+	align-items: center;
+	margin: 18px auto;
+	z-index: 1500;
+}
+
+.dh-modal-title {
+	font-size: 18px;
+	font-weight: 700;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 7px;
+	align-items: center;
+}
+
+.dh-modal-content {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+}
+
+.dh-alert-img {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+}
+
+.dh-modal-text {
+	color: #313131;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.dh-modal-blank {
+	height: 9vh;
 }
