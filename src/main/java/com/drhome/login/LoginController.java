@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
 
+
    @Autowired
    private LoginService loginService;
 
@@ -49,6 +50,7 @@ public class LoginController {
             session.setAttribute("mname", loginCheck.get("mname"));
             session.setAttribute("mhospitallike", loginCheck.get("mhospitallike"));
             session.setAttribute("mgrade", loginCheck.get("mgrade"));
+            session.setAttribute("dno", loginCheck.get("dno"));
 
             int mgrade = (int) loginCheck.get("mgrade");
             int getMno = loginService.getMno(map);
@@ -91,7 +93,7 @@ public class LoginController {
 
       session.invalidate();
 
-      return "redirect:/login";
+      return "redirect:/main";
    }
 
    @GetMapping("/findID")
@@ -130,3 +132,4 @@ public class LoginController {
       return json.toString();
    }
 }
+

@@ -34,5 +34,7 @@ public interface FreeBoardDAO {
 	void reportFreeComment(Map<String, Object> commentReportData);
 
 	int reportCount(Map<String, Object> reportCountData);
+	
+	void editBoard(Map<String, Object> editBoardData);
 
 }

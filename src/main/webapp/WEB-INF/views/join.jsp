@@ -5,14 +5,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Join</title>
+<link href="./css/join.css" rel="stylesheet" />
 <link href="/css/modal.css" rel="stylesheet" />
 <script src="./js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
 
 $(function(){
-       $("#joinMemberBtn").attr('disabled', true);
+	
+    $("#joinMemberBtn").click(function(){
+    	let mid = $("#mid").val();
+    	
+        let isIdDuplicated = mid === "";
+        
+        if (isIdDuplicated) {
+            alert("아이디 중복확인 후 회원가입이 가능합니다.");
+            $("#joinMemberBtn").attr('disabled', true);
+        } 
+    });
 	
 	   $("#midCheck").click(function(){
 		   		
@@ -73,7 +85,6 @@ $(function(){
     			let mpwDuplication = $("#mpwDuplication").val();
 				
 				if(mpw != mpwDuplication) {
-    		           $("#mpwDuplication").focus();
     		           $("#pwInfo2").text("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
     		           $("#pwInfo2").css("color", "red");
     		           return false;
@@ -132,9 +143,8 @@ $(function(){
 				            	$("#firstMrrn").focus();
 				                $("#mrrnInfo").html("이미 등록된 주민등록번호입니다.<br>");
 				                $("#mrrnInfo").css("color","red");
-	                    	    $("#mrrnInfo2").css("color","blue");
-	                    	    $("#mrrnInfo2").text("아이디 찾기가 필요하신가요? -> ");
-	                    	    $("#mrrnInfo3").html("<a href='./findID'>아이디 찾으러 가기</a>");
+	                    	    $("#mrrnInfo2").css("color","black");
+	                    	    $("#mrrnInfo2").html("<div class='form-area'><div class='form'><span>아이디 찾기가 필요하신가요? </span><a href='./findID'>&nbsp;&nbsp;아이디 찾으러 가기</a></div></div>");
 	            				$("#idInfo").text("");
 	            				$("#pwInfo").text("");
 	            				$("#pwInfo2").text("");
@@ -213,7 +223,6 @@ $(function(){
 				    		        } 
 				    		       
 				    		       if (mpw != mpwDuplication) {
-				    		           $("#mpwDuplication").focus();
 				    		           $("#pwInfo2").text("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
 				    		           $("#pwInfo2").css("color", "red");
 				    		           return false;
@@ -359,77 +368,108 @@ function searchComAddr() {
 </script>
 </head>
 <body>
-	<h1>DR.Home 💊</h1>
-	<h2>닥터홈에 오신 것을 환영합니다!<br>계정 생성을 위해 아래 내용을 입력해주세요.</h2>
-	<form action="./join" method="post" id="join">
-	<h5>아이디</h5>
-	<input type="text" id="mid" name="mid" placeholder="아이디를 입력해주세요." maxlength="11">
-	<button type="button" id="midCheck"> 중복확인</button>
-    <br>
-    <span id="idInfo"></span>
-	<h5>비밀번호</h5>
-	<input type="password" id="mpw" name="mpw" placeholder="비밀번호를 입력해주세요." maxlength="8">
+	<header></header>
+
+	<!-- 본문내용 -->
+	<main>
+		<div class="center-circle-area">
+			<div class="center-circle">
+				<div class="center-img">
+					<img alt="없음" src="/img/hospital2.png" onclick="location.href='/main'">
+				</div>
+			</div>
+		</div>
 	
-	<br>
-	<span id="pwInfo"></span>
-    <br>
-   	<h5>비밀번호 중복확인</h5>
-	<input type="password" id="mpwDuplication" name="mpwDuplication" placeholder="비밀번호를 입력해주세요." maxlength="8">
-    <br>
-    <span id="pwInfo2"></span>
-    <h5>이름</h5>
-	<input type="text" id="mname" name="mname" placeholder="이름을 입력해주세요." maxlength="11">
-    <br>
-    <span id="nameInfo"></span>
-    <h5>주민등록번호</h5>
-	<input type="text" id="firstMrrn" name="firstMrrn" maxlength="6"> -
-	<input type="text" id="lastMrrn" name="lastMrrn" maxlength="7">
-	<br>
-	<span id="mrrnInfo"></span>
-	<span id="mrrnInfo2"></span>
-	<span id="mrrnInfo3"></span>
-	<h5>이메일 주소</h5>
-	<input type="text" id="memail" name="memail" placeholder="이메일 주소를 입력해주세요." maxlength="40">
-    <br>
-    <span id="emailInfo"></span>
-    <h5>성별</h5>
-    <select name="mgender" id="mgender">
-	<option value="0">남자</option>
-	<option value="1">여자</option>
-    </select>
-    <br>
-    <span id="genderInfo"></span>    
-    <h5>집주소</h5>
-	<input type="text" id="mhomeaddr" name="mhomeaddr" placeholder="집주소를 입력해주세요." onclick="searchAddr()">
-	<input type="text" id="mhomeaddr2" name="mhomeaddr2" placeholder="상세주소를 입력해주세요.">
-    <br>
-    <span id="homeAddrInfo"></span>
-    <h5>회사주소(선택)</h5>
-	<input type="text" id="mcompanyaddr" name="mcompanyaddr" placeholder="회사 주소를 입력해주세요." onclick="searchComAddr()">
-	<input type="text" id="mcompanyaddr2" name="mcompanyaddr2" placeholder="상세주소를 입력해주세요.">
-    <br>
-    <span id="companyAddrInfo"></span>
-    <h5>생일</h5>
-    <input type="date" id="mbirth" name="mbirth">
-    <br>
-    <span id="birthInfo"></span> 
-    <h5>전화번호</h5>
-	<input type="text" id="firstNumber" name="firstNumber" maxlength="3" placeholder="010">-
-	<input type="text" id="MiddleNumber" name="MiddleNumber" maxlength="4" placeholder="xxxx">
-	<input type="text" id="lastNumber" name="lastNumber" maxlength="4" placeholder="xxxx">
-	<br>
-	<span id="phoneInfo"></span>
-	<span id="joinInfo"></span>
-	<br>
-	<button type="submit" id="joinMemberBtn">회원가입 -></button>
+	<div class="top-area">
+		<p class="top-title">DR.Home 💊</p>
+		<p class="top-introduce">닥터홈에 오신 것을 환영합니다!</p>
+		<p class="top-introduce">계정 생성을 위해 아래 내용을 입력해주세요.</p>
+	</div>
+	
+	<form action="./join" method="post" id="join">
+	<div class="middle-area">
+	<div class="input-area">
+		<div class="id-p">
+			<span>아이디</span><button class="button" type="button" id="midCheck"> 중복확인</button>
+		</div>
+		<input type="text" id="mid" name="mid" placeholder="아이디를 입력해주세요." maxlength="11">
+	    <p id="idInfo" class="info"></p>
+	</div>
+	<div class="input-area">
+		<p>비밀번호</p>
+		<input type="password" id="mpw" name="mpw" placeholder="비밀번호를 입력해주세요." maxlength="8">
+		<p id="pwInfo" class="info"></p>
+    </div>
+	    <div class="input-area">
+	   	<p>비밀번호 중복확인</p>
+		<input type="password" id="mpwDuplication" name="mpwDuplication" placeholder="비밀번호를 입력해주세요." maxlength="8">
+	    <p id="pwInfo2" class="info"></p>
+    </div>
+    <div class="input-area">
+	    <p>이름</p>
+		<input type="text" id="mname" name="mname" placeholder="이름을 입력해주세요." maxlength="11">
+	    <p id="nameInfo" class="info"></p>
+    </div>
+    <div class="input-area">
+	    <p>주민등록번호</p>
+		<input type="text" id="firstMrrn" name="firstMrrn" maxlength="6" placeholder="960614"> -
+		<input type="text" id="lastMrrn" name="lastMrrn" maxlength="7" placeholder="2XXXXXX">
+		<p id="mrrnInfo" class="info"></p>
+		<p id="mrrnInfo2" class="info"></p>
+		<p id="mrrnInfo3" class="info"></p>
+	</div>
+	<div class="input-area">
+		<p>이메일 주소</p>
+		<input type="text" id="memail" name="memail" placeholder="이메일 주소를 입력해주세요." maxlength="40">
+	    <p id="emailInfo" class="info"></p>
+	    </div>
+    <div class="input-area">
+	    <p>성별</p>
+	    <select class="select" name="mgender" id="mgender">
+		<option class="option" value="0">남자</option>
+		<option class="option" value="1">여자</option>
+	    </select>
+	    <p id="genderInfo" class="info"></p>
+    </div>
+    <div class="input-area">
+	    <p>집주소</p>
+		<input type="text" id="mhomeaddr" name="mhomeaddr" placeholder="집주소를 입력해주세요." onclick="searchAddr()">
+		<input type="text" id="mhomeaddr2" name="mhomeaddr2" placeholder="상세주소를 입력해주세요.">
+	    <p id="homeAddrInfo" class="info"></p>
+    </div>
+    <div class="input-area">
+	    <p>회사주소(선택)</p>
+		<input type="text" id="mcompanyaddr" name="mcompanyaddr" placeholder="회사 주소를 입력해주세요." onclick="searchComAddr()">
+		<input type="text" id="mcompanyaddr2" name="mcompanyaddr2" placeholder="상세주소를 입력해주세요.">
+	    <p id="companyAddrInfo" class="info"></p>
+    </div>
+    <div class="input-area">
+	    <p>생일</p>
+	    <input type="date" id="mbirth" name="mbirth">
+	    <p id="birthInfo" class="info"></p> 
+    </div>
+    <div class="input-area">
+    	<p>전화번호</p>
+		<input type="text" id="firstNumber" name="firstNumber" maxlength="3" placeholder="010"> -
+		<input type="text" id="MiddleNumber" name="MiddleNumber" maxlength="4" placeholder="xxxx"> -
+		<input type="text" id="lastNumber" name="lastNumber" maxlength="4" placeholder="xxxx">
+		<p id="phoneInfo" class="info"></p>
+	</div>
+	<div class="input-area">
+		<p id="joinInfo" class="info"></p>
+	</div>
+		<button type="submit" id="joinMemberBtn">회원가입</button>
+	</div> 
 	</form>
-	<br>
-	<span>이미 닥터홈 회원이신가요?</span>
-    <a href="./login">&nbsp;&nbsp;로그인 하러 가기</a>
+	<div class="bottom-area">
+		<div class="bottom"><span>이미 닥터홈 회원이신가요?</span><a href="./login">&nbsp;&nbsp;로그인 하러 가기</a></div>
+	</div>
+    </main> <!-- 컨테이너 끝 -->
+  
     
 	<!-- 모달1 start -->
 	<div class="modal" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
 	<div class="modal-content">
 	<div class="header">
 	<h5 class="title" id="exampleModalLabel"></h5>
@@ -437,18 +477,18 @@ function searchComAddr() {
 	<div class="modal-body">
 	<!-- 내용 start -->
 	<div class="card-body">
-	<h5 class="card-title">우편번호 찾기</h5>
+	<p class="card-title">우편번호 찾기</p>
 	</div>
 	<!-- 내용 end -->
 	</div>
 	<div>
 		<input type="text" id="sample2_postcode" placeholder="우편번호">
-		<input type="button" onclick="sample2_execDaumPostcode()" value="주소 찾기"><br>
-		<input type="text" id="sample2_address" placeholder="주소"><br>
-		<input type="text" id="sample2_detailAddress" placeholder="상세주소">
-		<input type="text" id="sample2_extraAddress" placeholder="참고항목">
+		<input type="button" onclick="sample2_execDaumPostcode()" value="주소 찾기" class="addrBtn"><br>
+		<input type="text" id="sample2_address" placeholder="주소" class="modal-input"><br>
+		<input type="text" id="sample2_detailAddress" placeholder="상세주소" class="modal-input">
+		<input type="text" id="sample2_extraAddress" placeholder="참고항목" class="modal-input">
 		</div>
-		<button type="button" class="btn btn-info" data-bs-dismiss="modal" aria-label="Close">X 닫기</button>
+		<button type="button" class="btn btn-info close" data-bs-dismiss="modal" aria-label="Close">X 닫기</button>
 		<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 		<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
 		</div>
@@ -474,12 +514,12 @@ function searchComAddr() {
 	</div>
 	<div>
 		<input type="text" id="sample2_postcode2" placeholder="우편번호">
-		<input type="button" onclick="sample2_execDaumPostcode2()" value="주소 찾기"><br>
-		<input type="text" id="sample2_address2" placeholder="주소"><br>
-		<input type="text" id="sample2_detailAddress2" placeholder="상세주소">
-		<input type="text" id="sample2_extraAddress2" placeholder="참고항목">
+		<input type="button" onclick="sample2_execDaumPostcode2()" value="주소 찾기" class="addrBtn"><br>
+		<input type="text" id="sample2_address2" placeholder="주소" class="modal-input"><br>
+		<input type="text" id="sample2_detailAddress2" placeholder="상세주소" class="modal-input">
+		<input type="text" id="sample2_extraAddress2" placeholder="참고항목" class="modal-input">
 		</div>
-		<button type="button" class="btn btn-info" data-bs-dismiss="modal" aria-label="Close">X 닫기</button>
+		<button type="button" class="btn btn-info close" data-bs-dismiss="modal" aria-label="Close">X 닫기</button>
 		<div id="layer2" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 		<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode2()" alt="닫기 버튼">
 		</div>

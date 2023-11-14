@@ -24,11 +24,19 @@
 	</update>
 	
 	<select id="myWriting" parameterType="Integer" resultType="Map">
-		SELECT b.*, m.mnickname FROM board b JOIN member m ON b.mno=m.mno WHERE m.mno=#{mno} ORDER BY bdate DESC;
+		SELECT b.bno, b.btype, b.btitle, 
+		DATE_FORMAT(b.bdate, '%Y-%m-%d') as bdate,
+		m.mnickname FROM board b JOIN member m ON b.mno=m.mno WHERE m.mno=#{mno} ORDER BY bdate DESC;
 	</select>
 	
 	<select id="myComment" parameterType="Integer" resultType="Map">
-		SELECT c.*, m.mnickname FROM comment c JOIN member m ON c.mno=m.mno WHERE m.mno=#{mno} ORDER BY cdate DESC;
+		SELECT c.cno, c.ccontent,
+		DATE_FORMAT(c.cdate, '%Y-%m-%d') as cdate, 
+		m.mnickname, b.btype
+		FROM comment c 
+		JOIN member m ON c.mno=m.mno 
+		JOIN board b ON c.bno= b.bno
+		WHERE m.mno=#{mno} ORDER BY cdate DESC;
 	</select>
 	
 	<select id="healthRecord" parameterType="Integer" resultType="Map">
@@ -48,13 +56,17 @@
 	</select>
 	
 	<select id="callDibs" parameterType="Integer" resultType="Map">
-	    SELECT b.*, m.mnickname FROM board b 
+		SELECT b.bno, b.btype, b.btitle, 
+		DATE_FORMAT(b.bdate, '%Y-%m-%d') as bdate,
+	    m.mnickname FROM board b 
 	    JOIN member m ON b.mno = m.mno
 	    WHERE FIND_IN_SET(#{mno}, bcalldibs) > 0 ORDER BY bdate DESC;
 	</select>
 	
 	<select id="appointmentHistory" parameterType="Integer" resultType="Map">
-	    SELECT a.*, h.hname, d.dname, dp.dpkind
+	    SELECT  
+	    DATE_FORMAT(a.adate, '%Y-%m') as adate,
+	    a.asymptomInfo, h.hname, d.dname, dp.dpkind
 	    FROM appointment a
 	    JOIN hospital h ON a.hno = h.hno
 	    JOIN doctor d ON a.dno = d.dno
@@ -64,7 +76,10 @@
 	</select>
 	
 	<select id="telehealthHistory" parameterType="Integer" resultType="Map">
-	    SELECT t.*, h.hname, d.dname, dp.dpkind
+	    SELECT 
+	    DATE_FORMAT(t.tdate, '%Y-%m') as tdate,
+	    t.tdiagnosisdetail,
+	    h.hname, d.dname, dp.dpkind
 	    FROM telehealth t
 	    JOIN hospital h ON t.hno = h.hno
 	    JOIN doctor d ON t.dno = d.dno

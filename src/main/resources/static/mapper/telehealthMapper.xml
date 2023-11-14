@@ -67,14 +67,28 @@
 	</select>
 	
 	<delete id="reviewDelete" parameterType="Integer">
-		DELETE FROM review
+		DELETE FROM review r
 		WHERE r.rno = #{rno}
 	</delete>
+	
+	<update id="reviewEdit" parameterType="Map">
+		UPDATE review r
+		SET r.rcontent = #{rcontent}
+		WHERE r.rno = #{rno}
+	</update>
 	
 	<select id="telehealthApply" parameterType="Integer" resultType="Map">
 		SELECT h.hno, h.dno, h.dspecialist, h.dpno, h.dpkind, h.dpkeyword
 		FROM hospitalList_view h
 		WHERE h.dno = #{dno}
 	</select>
+	
+	<insert id="apply">
+		INSERT INTO telehealth (tdate, tsymptomdetail, tprice, hno, dno, dpno, mno)
+		VALUES (#{date}, #{tsymptomdetail}, #{pay}, #{hno}, #{dno}, #{dpno}, #{mno})
+		<selectKey keyProperty="tno" resultType="int" order="AFTER">
+	        SELECT LAST_INSERT_ID() AS tno
+	    </selectKey>
+	</insert>
 	
 </mapper>
