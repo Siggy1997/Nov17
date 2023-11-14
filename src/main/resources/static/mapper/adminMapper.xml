@@ -126,6 +126,7 @@
 	
 	<select id="finalHospital" resultType="Map">
 		SELECT * FROM hospital
+		ORDER BY hopendate DESC
 	</select>
 	
 	<select id="newHospital" resultType="Map">
@@ -150,7 +151,24 @@
 	<select id="viewDoctor" parameterType="Integer" resultType="Map">
 		SELECT *
 		FROM hospitalList_view
-		Where hno=#{hno}
+		WHERE dno=#{dno}
 	</select>
 	
+	
+	<select id="searchHos" parameterType="Map" resultType="Map">
+		SELECT *
+		FROM registerhospital
+		<where>
+			<choose>
+				<when test="searchN == 'rhname'">rhname LIKE CONCAT('%', #{searchV}, '%')</when>
+				<when test="searchN == 'rhaddr'">rhaddr LIKE CONCAT('%', #{searchV}, '%')</when>
+			</choose>
+		</where>
+		ORDER BY rhopendate DESC
+	</select>
+	
+	<delete id="deleteHos" parameterType="Integer" >
+		DELETE FROM registerhospital WHERE rhno = #{rhno}
+	</delete>
+
 </mapper>

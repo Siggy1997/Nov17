@@ -59,7 +59,11 @@ public interface AdminDAO {
 
 	List<Map<String, Object>> search(Map<String, Object> map);
 
-	List<Map<String, Object>> viewDoctor(int hno);
+	List<Map<String, Object>> viewDoctor(int dno);
+
+	List<Map<String, Object>> searchHos(Map<String, Object> map);
+
+	int deleteHos(int rhno);
 
 	/* List<Map<String, Object>> hospitalList(int rhno); */
 

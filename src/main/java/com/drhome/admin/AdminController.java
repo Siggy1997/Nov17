@@ -262,13 +262,40 @@ public class AdminController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/doctorView")
-	public String doctorView(@RequestParam("hno") int hno) {
+	@PostMapping("/searchHos")
+	public String searchHos(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
 		
-		List<Map<String, Object>> viewDoctor = adminService.viewDoctor(hno);
+		List<Map<String, Object>> searchHos = adminService.searchHos(map);
+
+		JSONObject json = new JSONObject();
+		json.put("searchHos", searchHos);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
+	
+	@ResponseBody
+	@PostMapping("/doctorView")
+	public String doctorView(@RequestParam("dno") int dno) {
+		
+		List<Map<String, Object>> viewDoctor = adminService.viewDoctor(dno);
 
 		JSONObject json = new JSONObject();
 		json.put("viewDoctor", viewDoctor);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
+	
+	@ResponseBody
+	@PostMapping("/deleteHos")
+	public String deleteHos(@RequestParam("rhno") int rhno) {
+		
+		int deleteHos = adminService.deleteHos(rhno);
+
+		JSONObject json = new JSONObject();
+		json.put("deleteHos", deleteHos);
 		System.out.println(json.toString());
 		
 		return json.toString();

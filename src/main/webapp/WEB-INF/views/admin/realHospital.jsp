@@ -5,7 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>realHospital</title>
+<link rel="stylesheet" href="../css/realHospital.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
@@ -83,51 +86,41 @@ $(document).ready(function () {
 	height: 30px;
 	margin-bottom: 30px;
 }
+
+.btnCenter {
+	margin: 0 auto;
+}
 </style>
 </head>
+
+<header>
+    <div class="xi-arrow x"></div>
+    
+    <i class="xi-angle-left xi-x" onclick="history.back()"></i>
+
+	<div><h3 style="width: 110px; text-align: center; margin-left: 80px;">신규 병원 관리</h3></div>
+	
+	<div class="headerTitle"><i class="xi-hospital xi-3x"></i></div>
+</header>
+
 <body>
-	<h1 style="text-align: center;">신규 병원 관리</h1>
+	<main>
 	<div class="content">
 		<div style="text-align: center;">
-			<table border="1" style="margin: 0 auto;">
-				<tr>
-					<th style="width: 7%;">병원번호</th>
-					<th style="width: 7%;">병원명</th>
-					<th style="width: 7%;">개원일</th>
-					<th style="width: 7%;">주소</th>
-					<th style="width: 15%;">전화번호</th>
-					<th style="width: 7%;">시작시간</th>
-					<th style="width: 7%;">종료시간</th>
-					<th style="width: 7%;">야간 진료 요일</th>
-					<th style="width: 7%;">야간 종료시간</th>
-					<th style="width: 7%;">브레이크타임</th>
-					<th style="width: 7%;">브레이크 종료시간</th>
-					<th style="width: 7%;">공휴일 진료여부</th>
-					<th style="width: 7%;">공휴일 종료시간</th>
-				</tr>
+			<div id="searchDiv">
 				<c:forEach items="${finalHospital}" var="fh">
-					<tr class="chkData" >
-						<td class="div-cell">${fh.hno }</td>
-						<td class="div-cell">${fh.hname }</td>
-						<td class="div-cell">${fh.hopendate}</td>
-						<td class="div-cell">${fh.haddr}</td>
-						<td class="div-cell">${fh.htelnumber}</td>
-						<td class="div-cell">${fh.hopentime}</td>
-						<td class="div-cell">${fh.hclosetime}</td>
-						<td class="div-cell">${fh.hnightday}</td>
-						<td class="div-cell">${fh.hnightendtime}</td>
-						<td class="div-cell">${fh.hbreaktime}</td>
-						<td class="div-cell">${fh.hbreakendtime}</td>
-						<td class="div-cell">${fh.hholiday}</td>
-						<td class="div-cell">${fh.hholidayendtime}</td>
-					</tr>
+					<div class="chkData" id="searchTable">
+						<div style="text-align: left; margin-left: 10px;">${fh.hno }</div>
+						<div style="text-align: left; margin-left: 10px; font-weight: bold;">${fh.hname }</div>
+						<div style="text-align: left; margin-left: 10px; font-size: 12px;">${fh.haddr}</div>
+						<div style="text-align: left; margin-left: 10px; font-size: 12px;">${fh.htelnumber}
+							<span style="text-align: right; margin-left: 220px; ">${fh.hopendate}</span>
+						</div>
+						<hr style="height: 2px; background-color: #00C9FF; margin-top: 5px;">
+					</div>
 				</c:forEach>
-			</table>
+			</div>
 		</div>
-	</div>
-	<br>
-	<div>
-		<button onclick="location.href='./adminMain'">돌아가기</button>
 	</div>
 
 	
@@ -192,6 +185,10 @@ $(document).ready(function () {
 			</form>
 		</div>
 	</div>
-
+	<div style="height: 9vh"></div>
+	</main>
+	<footer>
+		css 테스트
+	</footer>	
 </body>
 </html>
