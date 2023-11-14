@@ -2,21 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.drhome.free.FreeBoardDAO">
 
-<select id="freeList" resultType="Map">
-    SELECT
-        board.bno,
-        board.btitle,
-        board.bcontent,
-        IFNULL((CHAR_LENGTH(board.bcalldibs) - CHAR_LENGTH(REPLACE(board.bcalldibs, ',', ''))), 0) + 1 AS bcalldibsCount,
-        COUNT(comment.cno) AS comment_count,
-        member.mnickname
-    FROM board
-    LEFT JOIN comment ON board.bno = comment.bno
-    LEFT JOIN member ON board.mno = member.mno 
-    WHERE board.btype = 1
-    GROUP BY board.bno, board.btitle, board.bcontent, member.mnickname
-    ORDER BY board.bno DESC;
-</select>
+	<select id="freeList" resultType="Map">
+		SELECT
+		board.bno,
+		board.btitle,
+		board.bcontent,
+		IFNULL((CHAR_LENGTH(board.bcalldibs) - CHAR_LENGTH(REPLACE(board.bcalldibs, ',', ''))), 0) + 1 AS
+		bcalldibsCount,
+		COUNT(comment.cno) AS comment_count,
+		member.mnickname
+		FROM board
+		LEFT JOIN comment ON board.bno = comment.bno
+		LEFT JOIN member ON board.mno = member.mno
+		WHERE board.btype = 1
+		GROUP BY board.bno, board.btitle, board.bcontent, member.mnickname
+		ORDER BY board.bno DESC;
+	</select>
 
 
 	<select id="freePosting" parameterType="Integer"
@@ -28,7 +29,8 @@
 		FROM
 		board
 		JOIN
-		member ON board.mno =
+		member ON
+		board.mno =
 		member.mno
 		WHERE
 		board.bno = #{bno};
@@ -37,16 +39,26 @@
 
 	<select id="freeComment" parameterType="Integer"
 		resultType="Map">
-		SELECT comment.mno, comment.cno, comment.cdate,
-		comment.ccontent
+		SELECT
+		comment.mno,
+		comment.cno,
+		comment.cdate,
+		comment.ccontent,
+		member.mnickname
 		FROM
 		comment
-		LEFT JOIN board ON comment.bno = board.bno
-		WHERE board.bno = #{bno}
+		LEFT JOIN
+		board ON comment.bno = board.bno
+		LEFT JOIN
+		member ON comment.mno = member.mno
+		WHERE
+		board.bno = #{bno}
 		GROUP BY
 		comment.mno,
+		comment.cno,
 		comment.cdate,
-		comment.ccontent
+		comment.ccontent,
+		member.mname
 		ORDER BY
 		comment.cno ASC;
 	</select>
@@ -57,7 +69,7 @@
 		VALUES (#{btitle}, #{bcontent}, #{bdate},
 		#{btype}, #{mno})
 	</insert>
-	
+
 	<update id="addFreePostLike" parameterType="Map">
 		UPDATE board
 		SET
@@ -103,36 +115,41 @@
 		WHERE bno = #{bno} AND cno = #{cno}
 	</delete>
 
-<select id="reportCount" parameterType="Map"
+	<select id="reportCount" parameterType="Map"
 		resultType="Integer">
 		SELECT COUNT(rpno) FROM report WHERE bno = #{bno} AND
 		rpreporterno = #{mno}
 	</select>
 
-<insert id="reportFreePost" parameterType="Map">
-	INSERT INTO report
-		(rpreporterno, bno, rpcontent, rpurl, rpdate, mno) VALUES (#{mno},
-		#{bno}, #{rpcontent}, #{rpurl}, #{rpdate}, (SELECT mno FROM board
+	<insert id="reportFreePost" parameterType="Map">
+		INSERT INTO report
+		(rpreporterno, bno, rpcontent, rpurl, rpdate, mno) VALUES
+		(#{mno},
+		#{bno}, #{rpcontent}, #{rpurl}, #{rpdate}, (SELECT mno FROM
+		board
 		WHERE bno = #{bno}))
 	</insert>
 
-<select id="commentReportCount" parameterType="Integer"
+	<select id="commentReportCount" parameterType="Integer"
 		resultType="Integer">
 		SELECT COUNT(rpno) FROM report WHERE cno = #{cno} AND
 		rpreporterno = #{mno}
 	</select>
 
 	<insert id="reportFreeComment" parameterType="Map">
-INSERT INTO report
-		(rpreporterno, rpcontent, rpurl, rpdate, cno, mno) VALUES (#{mno},
-		 #{rpcontent}, #{rpurl}, #{rpdate}, #{cno}, (SELECT mno FROM comment
-		WHERE cno = #{cno}))
+		INSERT INTO report
+		(rpreporterno, rpcontent, rpurl, rpdate, cno, mno) VALUES
+		(#{mno},
+		#{rpcontent}, #{rpurl}, #{rpdate}, #{cno}, (SELECT mno FROM comment
+		WHERE cno =
+		#{cno}))
 	</insert>
-	
+
 	<update id="editBoard" parameterType="Map">
 		UPDATE board
 		SET
-		btitle = #{btitle},
+		btitle =
+		#{btitle},
 		bcontent = #{bcontent},
 		WHERE bno=#{bno}
 	</update>

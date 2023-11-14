@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="./js/jquery-3.7.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="./css/qnaDetail.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -46,8 +47,6 @@
 		<div class="dpkind">${qnaQuestion.dpkind}</div>
 		 </c:if>
 	</div>
-
-
 
 
 
@@ -129,8 +128,8 @@
 	<br><div class="answerTitle">의료인 답변</div>
 	<br>
 	<br>
-	<div class="answer">
 		<c:forEach items="${qnaAnswer}" var="answer">
+	<div class="answer">
 			<input type="hidden" name="hospitalNum" value="${answer.hno}">
 			<input type="hidden" name="doctorNum" value="${answer.dno}">
 			
@@ -143,10 +142,12 @@
 					<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
 					<button class="cdelete" onclick="deleteConfirm()">삭제하기</button>
 				</form>
-		
 			</c:if>
+	</div>
+	
 			<c:forEach items="${doctorInfo}" var="doctor">
 			   <c:if test="${doctor.dno eq answer.dno}">
+	<div class="doctor">
 			   			<div class="cinfoLine_top"></div>
 				<img class="doctorImg" src="${doctor.dimg}" alt="의사 이미지" height="75">
 			   <div class="doctorInfo">
@@ -154,11 +155,11 @@
 				<div class="doctorDpkind">${doctor.dpkind}</div>
 				<div class="hospital">${doctor.hname}</div>
 				</div>
+				</div>
 				<div class="cinfoLine_bottom"></div>
 				 </c:if>
 			</c:forEach>
 		</c:forEach>
-	</div>
 
 
 
@@ -203,26 +204,25 @@
 		});
 
 		
-		
+		 const answerToggleButton = document.getElementById('answerToggleButton');
 
-		// "답변 작성하기" 버튼 클릭 시 답변 입력창 나타내기
-		document.getElementById('answerToggleButton').addEventListener(
-				'click',
-				function() {
+		    if (answerToggleButton) { // 버튼이 존재하는 경우에만 이벤트 리스너 추가
+		        answerToggleButton.addEventListener('click', function () {
+		            const textarea = document.getElementById('ccontent');
+		            const formContainer = document.getElementById('formContainer');
 
-					const textarea = document.getElementById('ccontent');
-					const formContainer = document
-							.getElementById('formContainer');
+		            if (textarea && formContainer) { // 요소가 존재하는 경우에만 동작
+		                if (textarea.style.display === 'none') {
+		                    textarea.style.display = 'block';
+		                    formContainer.style.display = 'block';
+		                } else {
+		                    textarea.style.display = 'none';
+		                    formContainer.style.display = 'none';
+		                }
+		            }
+		        });
+		    }
 
-					if (textarea.style.display === 'none') {
-						textarea.style.display = 'block';
-						formContainer.style.display = 'block';
-					} else {
-						textarea.style.display = 'none';
-						formContainer.style.display = 'none';
-					}
-				});
-		
 
 		// "취소" 버튼 클릭 시 답변 입력창 가리기 
 		document
@@ -244,8 +244,8 @@
 
 		// 버튼 클릭 시 모달 열기
 		document.getElementById("reportButton").addEventListener("click", function() {
-		    const mno = "${mno}"; 
-		    
+		   
+			const mno = "${mno}"; 
 		    
 		    
 		    if (mno === null || mno === undefined || mno === "") {
@@ -291,7 +291,6 @@
         }
     }
 });
-		
 		
 		document.addEventListener('DOMContentLoaded', function() {
 		    var mnameElements = document.getElementsByClassName('mname');

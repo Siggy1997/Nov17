@@ -40,13 +40,10 @@ public interface QnaBoardDAO {
 
 	int reportCount(Map<String, Object> reportCountData);
 
-
-
 	List<Map<String, Object>> getQnaListByDepartment(String department);
 
 	void editQna(Map<String, Object> editQnaData);
 
-	List<Map<String, Object>> getQnaListByDepartment(String department);
 
 
 }
