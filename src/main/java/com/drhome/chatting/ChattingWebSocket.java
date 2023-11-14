@@ -1,4 +1,4 @@
-package com.drhome.chatt;
+package com.drhome.chatting;
 
 import java.io.IOException;
 import java.util.Collections;
