@@ -1,8 +1,12 @@
 @charset "UTF-8";
 
+
+
+/* 컨텐츠 */
+
 .info-title {
     display: block;
-    background: #50627F;
+    background: #50627F;  
     color: #fff;
     text-align: center;
     height: 24px;
@@ -11,9 +15,3 @@
     padding:0px 10px;
 }
 
-
-.map_wrap {
-    position: relative;
-    width: 100%;
-    height: 50vh;
-}

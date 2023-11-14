@@ -64,18 +64,24 @@ public class QnaBoardController {
 	public String qnaDetail(@RequestParam("bno") int bno, Model model, HttpSession session) {
 		
 		Integer mno = (Integer) session.getAttribute("mno");
+		 Integer dno = (Integer) session.getAttribute("dno");
 		
 		// 로그인이 되어있지 않을 때 mno를 null로 처리
-		if (mno == null) {
-		    mno = null;
+		if (mno != null) {
+			model.addAttribute("mno", mno);
+		}
+		
+
+		if (dno != null) {
+			model.addAttribute("dno", dno);
 		}
 
 		//int mno = 1;
 
-		int dno = 2; // 추후 세션값으로 변경 예정 // 답변 삭제, 수정
+		//int dno = 2; // 추후 세션값으로 변경 예정 // 답변 삭제, 수정
 		
-		model.addAttribute("dno", dno);
-		model.addAttribute("mno", mno);
+		
+		
 
 		Map<String, Object> qnaQuestion = qnaBoardService.qnaQuestion(bno);
 		model.addAttribute("qnaQuestion", qnaQuestion);
@@ -178,6 +184,9 @@ public class QnaBoardController {
 			@RequestParam("cdate") String cdate, HttpSession session) {
 
 		int mno = (int) session.getAttribute("mno");
+
+		int dno = (int) session.getAttribute("dno");
+
 		
 		// 게시물당 댓글 수 조회
 		int commentCount = qnaBoardService.commentCount(bno);
@@ -190,8 +199,9 @@ public class QnaBoardController {
 		  LocalDateTime currentDatetime = LocalDateTime.now();
 
 		qnaAnswerData.put("bno", bno);
-		qnaAnswerData.put("dno", 2); // 추후 세션값으로 변경 예정
-		qnaAnswerData.put("hno", 1); // 추후 세션값으로 변경 예정
+		qnaAnswerData.put("mno", mno);
+		qnaAnswerData.put("dno", dno); // 추후 세션값으로 변경 예정
+		//qnaAnswerData.put("hno", 1); // 추후 세션값으로 변경 예정
 		qnaAnswerData.put("cno", cno);
 		qnaAnswerData.put("ccontent", ccontent);
 		qnaAnswerData.put("cdate", currentDatetime);
@@ -240,10 +250,8 @@ public class QnaBoardController {
 		    mno = null;
 		}
 
-
-
 		qnaCallDibsData.put("bno", bno);
-		qnaCallDibsData.put("mno", 1);
+		qnaCallDibsData.put("mno", mno);
 
 		if (callDibsInput == true) {
 
@@ -272,7 +280,7 @@ public class QnaBoardController {
 		reportData.put("bno", bno);
 		reportData.put("mno", mno);
 		reportData.put("rpcontent", rpcontent);
-		reportData.put("rpurl", "http://localhost:8080/qnaDetail?bno=" + bno);
+		reportData.put("rpurl", "http://localhost/qnaDetail?bno=" + bno);
 		reportData.put("rpdate", currentDatetime);
 
 		qnaBoardService.reportPost(reportData);

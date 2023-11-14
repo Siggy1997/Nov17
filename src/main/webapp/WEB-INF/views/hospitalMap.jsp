@@ -24,60 +24,174 @@
 
   <style>
 
+/* 기본 틀 */
+* {
+	font-family: "Pretendard Variable";
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: white;
+	overflow: auto
+}
+
+header {
+	position: fixed;
+	height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	z-index: 1000;
+	background-color: white;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
+}
+
+.xi-angle-left, .xi-angle-right {
+	color: #757575;
+}
+
+.headerTitle {
+	font-family: "NanumSquare" !important;
+	font-size: 18px;
+	text-align: center;
+	font-weight: 900;
+	margin: 20px 50px;
+}
+
+footer {
+	bottom: 0;
+	position: fixed;
+	height: 9vh;
+	width: 100%;
+	z-index: 1000;
+	background-color: white;
+}
+
+main {
+	padding-top: 9vh;
+}
+
+.blank {
+	width: 21px;
+}
+
 .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap {
     position: relative;
     width: 100%;
     height: 100%; 
-    margin-top: 20%;
+    
   }
 
+#infoDiv a {
+    color: black;
+}
+
+/* 애니메이션 정의 */
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 애니메이션 적용 */
+#infoDiv {
+    /* 기본 스타일 설정 */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    background-color: white;
+    z-index: 1000;
+    overflow: hidden;
+    
+    /* 애니메이션 설정 */
+    animation: slideInFromBottom 0.3s ease-in-out;
+}
+
+
      .wrap {overflow: hidden;}
-  .info .desc {position: absolute;margin: 5px 0 0 100px; bottom:50px;}
-      .info .img {position: absolute; left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden; bottom:50px;}
+     .info .title {position: absolute;margin: 5px 0 0 100px; bottom:62%;}
+  .info .desc {position: absolute;margin: 5px 0 0 100px; bottom:30%;}
+      .info .img {position: absolute; left: 5%;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden; bottom:30%;}
+  .info .status {position: absolute;margin: 10px 10px 0 250px; bottom:30%;}
   
 #searchInput {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 200px;
+  position: absolute;
+    top: 22%;
+    left: 13%;
+    width: 255px;
+    height: 37px;
     padding: 5px;
-    z-index: 1000; /* 높은 z-index로 설정 */
+    z-index: 1000; 
+    	background: rgba(217, 217, 217, 0.3);
+	border-radius: 5px;
+		border: none;
+	box-shadow: none;
 }
 
 #searchButton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 10%;
-    padding: 5px;
-    z-index: 1000; /* 높은 z-index로 설정 */
+	float: right;
+    width: 50px;
+    height: 37px;
+    padding: 2%;
+    margin: 2%;
+    	background-color: #00C9FF;
+	color: white;
+	border-radius: 5px;
+	border: none;
+	box-shadow: none;
+	font-weight: bold;
+  
 }
 
 #searchResults {
     position: absolute;
-    top: 0px;
-    left: 2%;
-    width: 80%;
+    top: -5px;
+    left: 0px;
+    width: 100%;
     list-style: none;
     padding: 0;
     margin: 0;
     background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid lightgrey;
     display: none;
     max-height: 200px;
     overflow-y: auto;
-    z-index: 1000; /* 높은 z-index로 설정 */
+    z-index: 1000; 
 }
 
  
      #map {
     width: 100%;
-    height: 700px;
+    height: 800px;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1; /* 기본 z-index 설정 */
+    z-index: 1; 
+}
+
+#currentLocation {
+ position: absolute;
+    bottom: 30px;
+    left: 3%;
+    z-index: 1000;
+width: 50px;
+height: 50px;
+background: #FFFFFF;
+box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+border-radius: 50%; 
+border-color: lightgrey;
 }
         
 </style>
@@ -86,45 +200,54 @@
 <body>
 
 <header>
-    <div class="xi-angle-left"></div>
-    <div class="header title"></title>
-    <!-- 검색창과 검색 버튼 추가 -->
+    <div class="xi-angle-left xi-x"></div>
+ 
     <div id="searchContainer">
         <input type="text" id="searchInput" placeholder="병원 이름 검색">
         <button id="searchButton">검색</button>
     </div>
 </header>
+<main>
 
- <div class="container">
+
  
 
-
+ <button onclick="refreshPage()" id="currentLocation" class="xi-gps xi-x"></button>
+ 
 <div class="map_wrap">
     <div id="map"></div>
-    
-    
-<ul id="searchResults"></ul>
-    
+<ul id="searchResults"></ul>   
 </div>
-</div>
+
+</main>
 </body>
 
 <script>
+
+function refreshPage() {
+   
+    location.reload();
+    var currentLocationButton = document.getElementById('currentLocation');
+    currentLocationButton.style.bottom = '30px'; 
+}
+
     var newDiv = document.createElement("div");
 
-    newDiv.id = "myDynamicDiv";
+    newDiv.id = "infoDiv";
     newDiv.textContent = "";
-    newDiv.style.border = "1px solid black";
+    newDiv.style.border = "1px solid lightgrey";
     newDiv.style.padding = "10px";
-    newDiv.style.position = "absolute"; // 위치를 절대값으로 설정
-    newDiv.style.bottom = "0px"; 
+    newDiv.style.position = "absolute";
+    newDiv.style.bottom = "-7px"; 
     newDiv.style.left = "0px"; 
     newDiv.style.zIndex = "1000"; // 맵보다 위에 위치하도록 설정
     newDiv.style.backgroundColor = "#fff"; 
     newDiv.style.width = "100%"; 
     newDiv.style.height = "150px";
-
-
+    newDiv.style.boxShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)";
+    newDiv.style.borderRadius = "20px";
+ 
+    
     
     // body의 맨 뒤에 동적으로 생성한 div 추가
     document.body.appendChild(newDiv);
@@ -132,7 +255,6 @@
 
 
 	
-	<!--실제 지도를 그리는 javascript API를 불러오기-->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485&libraries=services"></script>
 		<script type="text/javascript"
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485"></script>
@@ -145,7 +267,7 @@
 var map; // map 변수를 전역 범위에서 정의
 
 document.addEventListener("DOMContentLoaded", function () {
-    var dynamicContainer = document.getElementById("myDynamicDiv");
+    var dynamicContainer = document.getElementById("infoDiv");
     dynamicContainer.style.display = 'none';
 });
 
@@ -180,12 +302,12 @@ document.addEventListener("DOMContentLoaded", function () {
            
             var circle;
 
-            // 지도의 확대 수준이 변경될 때마다 원의 크기를 조절
-            kakao.maps.event.addListener(map, 'zoom_changed', function() {
+         // 원을 그리는 함수
+            function drawCircle() {
                 var currentLevel = map.getLevel();
                 // 확대 레벨에 따라 반지름을 조절
-                var radius = Math.pow(2, currentLevel - 3) * 10;
- 
+                var radius = Math.pow(2, currentLevel - 2) * 10;
+
                 if (circle) {
                     circle.setMap(null);
                 }
@@ -193,16 +315,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 circle = new kakao.maps.Circle({
                     center: new kakao.maps.LatLng(lat, lon),
                     radius: radius,
-                    strokeWeight: 5,
-                    strokeColor: '#FF0000',
+                    strokeWeight: 2,
+                    strokeColor: 'skyblue',
                     strokeOpacity: 0.7,
-                    fillColor: '#FF0000',
+                    fillColor: 'skyblue',
                     fillOpacity: 0.3
                 });
 
                 circle.setMap(map);
-            });
+            }
+
            
+            drawCircle();
+
+            kakao.maps.event.addListener(map, 'zoom_changed', function() {
+                drawCircle();
+            });
            
           } else {
             console.log("It cann't get GPS Coords.");
@@ -213,27 +341,27 @@ document.addEventListener("DOMContentLoaded", function () {
    
    
    
- // 지도 초기화 함수
+ // 지도 초기화
     function initializeMap(centerLat, centerLon) {
-        var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+        var mapContainer = document.getElementById('map'); 
         var mapOption = {
             center: new kakao.maps.LatLng(centerLat, centerLon), // 지도의 중심좌표
-            level: 5 // 지도의 확대 레벨
+            level: 5 
         };
 
         // 지도
         map = new kakao.maps.Map(mapContainer, mapOption);
 
 
-        //마커를 클릭했을 때 장소의 상세정보
+        // 장소의 상세정보
         var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
-            contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠
+            contentNode = document.createElement('div'),
             markers = [],
-            currCategory = ''; // 현재 선택된 카테고리
+            currCategory = ''; 
 
         // 주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
-        var hospitals = []; // 병원 데이터
+        var hospitals = [];
 
         var overlay = new kakao.maps.CustomOverlay({
             content: contentNode,
@@ -328,6 +456,15 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         });
                     });
+                 
+                 // 리스트 아이템에 간격 추가
+                   listItem.style.marginTop = '5px';
+                   listItem.style.marginBottom = '5px';
+                    listItem.style.fontSize = '16px';
+                    listItem.style.borderBottom = '1px solid lightgray'; 
+                    listItem.style.padding = '2%';
+
+                 
                     // 리스트 아이템을 결과 리스트에 추가
                     searchResults.appendChild(listItem);
                 }
@@ -421,10 +558,10 @@ document.addEventListener("DOMContentLoaded", function () {
             var status = checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime);
 
             // 컨테이너에 정보 추가
-            var dynamicContainer = document.getElementById("myDynamicDiv");
+            var dynamicContainer = document.getElementById("infoDiv");
             dynamicContainer.innerHTML =
                 '<div class="wrap">' +
-                '    <div class="info"><a href="http://192.168.0.157:80/hospitalDetail/' + hospitalNumber + '" target="_blank" class="link">' +
+                '    <div class="info"><a href="http://172.30.1.61/hospitalDetail/' + hospitalNumber + '" target="_blank" class="link">' +
                 '        <div class="title">' +
                 '            ' + title +
                 '        </div>' +
@@ -435,8 +572,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 '            <div class="desc">' +
                 '                <div class="ellipsis">' + address + '</div>' +
                 '                <div class="time">' + opentime + "~" + (nightday == currentDay ? nightendtime : closetime) + '</div>' +
-                '                <div class="status">' + status + '</div>' +
                 '            </div>' +
+                '                <div class="status">' + status + '</div>' +
                 '        </div>' +
                 '    </a></div>' +
                 '</div>';
@@ -444,6 +581,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // 컨테이너를 표시
             dynamicContainer.style.display = 'block';
+            
+            var currentLocationButton = document.getElementById('currentLocation');
+            currentLocationButton.style.bottom = '160px';
         }
         
      // 해당 병원에 대한 마커를 찾아서 클릭한 것처럼 보이도록 설정하는 부분
@@ -466,10 +606,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (status === kakao.maps.services.Status.OK) {
                     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
+                    
+
+                    var imageSrc = '/img/hospitalMarker.png', // 마커이미지의 주소입니다    
+                        imageSize = new kakao.maps.Size(32, 34.5), // 마커이미지의 크기입니다
+                        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+           
+                    
+                 // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+                 
+                    
                     // 위치 마커로 표시
                     var marker = new kakao.maps.Marker({
                         map: map,
-                        position: coords
+                        position: coords,
+                        image: markerImage
                     });
 
                     
@@ -484,8 +636,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
                         
                         if (!mouseEvent.target || !mouseEvent.target.toString().includes('Marker')) {
-                            var dynamicContainer = document.getElementById("myDynamicDiv");
+                            var dynamicContainer = document.getElementById("infoDiv");
                             dynamicContainer.style.display = 'none';
+                            
+                            var currentLocationButton = document.getElementById('currentLocation');
+                            currentLocationButton.style.bottom = '30px'; 
                         }
                     });
                     

@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="./css/freeBoard.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -17,7 +18,7 @@
 
 <!-- <h1>자유 게시판</h1> -->
 
-<button class="writeButton" onclick="location.href='writeFree'">작성하기</button>
+<button class="freeWriteButton" onclick="location.href='writeFree'">작성하기</button>
 
 	<c:forEach items="${requestScope.freeList}" var="free">
 		<a href="<c:url value='/freeDetail'>
@@ -27,8 +28,12 @@
 				<div class="title">${free.btitle}</div>
 				<div class="content">${free.bcontent}</div>
 				<div class="nickname">${free.mnickname}</div>
+				<div class= "rightSide">
+				<div class="xi-comment-o xi-x"></div>
 				<div class="countComment">${free.comment_count}</div>
+				<div class="xi-heart-o xi-x"></div>
 				<div class="countCalldibs">${free.bcalldibsCount}</div>
+				</div>
 			</div>
 		</a>
 	</c:forEach>

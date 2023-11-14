@@ -55,8 +55,9 @@ main {
 	width: 21px;
 }
 
+
 /* 컨텐츠 */
-.writeButton {
+.freeWriteButton {
 	margin: 5%;
 	padding: 1%;
 	background-color: #00C9FF;
@@ -66,6 +67,46 @@ main {
 	box-shadow: none;
 	font-weight: bold;
 	font-size: medium;
-	position: relative;
-	bottom: 10%;
+	position: absolute;
+	top: 20%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.rightSide {
+	 display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin : 3%;
+  color: black;
+}
+
+.rightSide > div {
+  margin-right: 3%; /* 각 요소 사이의 간격 조절 */
+}
+
+
+.title, .content {
+	margin: 2%;
+	padding: 2% 2% 2% 1%;
+	color: black;
+}
+
+.title {
+	font-size: large;
+	font-weight: bold;
+	padding-top: 3%;
+}
+
+.nickname {
+	margin: 2%;
+	color: grey;
+}
+
+.xi-comment-o,
+.xi-heart-o {
+  font-size: 20px; /* 아이콘 크기 조절 */
+  margin-right: 5px; /* 아이콘과 텍스트 사이 간격 조절 */
 }

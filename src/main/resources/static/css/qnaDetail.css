@@ -208,6 +208,11 @@ main {
 	padding: 1%;
 }
 
+.doctor {
+	margin: 3% 3% 0% 0%;
+	padding: 1%;
+}
+
 .cdate {
 	color: gray;
 }
@@ -219,6 +224,7 @@ main {
 
 .doctorName {
 	float: right;
+	font-weight: bold;
 }
 
 .doctorDpkind, .hospital {
@@ -290,7 +296,8 @@ border-radius: 5px;
 
 #cancelAnswerButton {
   margin-left: 5%; /* 두 번째 버튼을 오른쪽으로 정렬 */
-=======
+}
+
 /* 모달 스타일 */
 .modal {
     display: none; /* 모달 숨김 */
