@@ -4,8 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
-
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
@@ -472,6 +472,7 @@ $(function() {
 					<div class="dayTitle">오늘</div>
 					<span id="todayHours"></span>
 				</div>
+				
 				<div class="today todayBreakInfo">
 					<div class="dayTitle">점심시간</div>
 					<span id="todayBreak"> <c:if

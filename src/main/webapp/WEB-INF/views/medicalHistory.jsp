@@ -7,7 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>MedicalHistory</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/css/medicalHistory.css" rel="stylesheet" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
 
 <script type="text/javascript">
@@ -21,53 +23,65 @@ th, td {
 
 </head>
 <body>
-	<a href="../main">&nbsp;&nbsp;←뒤로가기</a>
-	<h1>MedicalHistory</h1>
-	<h3>내 예약 진료내역 확인하기</h3>
-        <table class="table">
-      <thead>
-        <tr>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">날짜</th>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">병원</th>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">진료과</th>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">담당의사</th>
-          <th style="width:150px; min-width: 150px; max-width: 150px;">진단내용</th>
-        </tr>
-      </thead>
-      <tbody>
-        <c:forEach items="${appointmentHistory}" var="row">
-          <tr>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.adate}</td>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.hname}</td>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.dpkind}</td>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.dname}</td>
-            <td style="width:150px; min-width: 150px; max-width: 150px;">${row.asymptomInfo}</td>
-          </tr>
-        </c:forEach>
-      </tbody>
-    </table>
-    	<h3>내 비대면 진료내역 확인하기</h3>
-        <table class="table">
-      <thead>
-        <tr>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">날짜</th>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">병원</th>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">진료과</th>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">담당의사</th>
-          <th style="width:150px; min-width: 150px; max-width: 150px;">진단내용</th>
-        </tr>
-      </thead>
-      <tbody>
-        <c:forEach items="${telehealthHistory}" var="row">
-          <tr>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.tdate}</td>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.hname}</td>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.dpkind}</td>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.dname}</td>
-            <td style="width:150px; min-width: 150px; max-width: 150px;">${row.tdiagnosisdetail}</td>
-          </tr>
-        </c:forEach>
-      </tbody>
-    </table>
+	<header>
+		<a href="/main"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">내 글 관리</div>
+		<div class="blank"></div>
+	</header>
+	
+	<main>
+	<div class="main-area">
+	<p class="top-title">내 예약 진료내역 🏥</p>
+	    <div class="table-area">
+	    	<div class="table">
+		    	<div class="table-head">
+		        	<div class="tr">
+			         	 <div class="th">날짜</div>
+			          	 <div class="th" id="hospital-name">병원</div>
+			         	 <div class="th" id="hospital-dpkind">진료과</div>
+			         	 <div class="th" id="hospital-dname">담당의사</div>
+			         	 <div class="th" id="hospital-asymptomInfo">진단내용</div>
+		        	</div>
+		        </div>
+      			<div class="table-body">
+        			<c:forEach items="${appointmentHistory}" var="row">
+			        <div class="tr">
+			            <div class="td" >${row.adate}</div>
+			            <div class="td" id="hospital-name">${row.hname}</div>
+			            <div class="td" id="hospital-dpkind">${row.dpkind}</div>
+			            <div class="td" id="hospital-dname">${row.dname}</div>
+			            <div class="td" id="hospital-asymptomInfo">${row.asymptomInfo}</div>
+			        </div>
+			        </c:forEach>
+			    </div>
+			</div>
+		</div> <!-- 예약진료 끝 -->
+	<p class="top-title">내 비대면 진료내역 💉</p>
+	    <div class="table-area">
+	    	<div class="table">
+		    	<div class="table-head">
+		        	<div class="tr">
+			         	 <div class="th">날짜</div>
+			          	 <div class="th" id="hospital-name">병원</div>
+			         	 <div class="th">진료과</div>
+			         	 <div class="th">담당의사</div>
+			         	 <div class="th">진단내용</div>
+		        	</div>
+		        </div>
+      			<div class="table-body">
+			        <c:forEach items="${telehealthHistory}" var="row">
+			        <div class="tr">
+			            <div class="td" >${row.tdate}</div>
+			            <div class="td" >${row.hname}</div>
+			            <div class="td" >${row.dpkind}</div>
+			            <div class="td" >${row.dname}</div>
+			            <div class="td" >${row.tdiagnosisdetail}</div>
+			        </div>
+			        </c:forEach>
+			    </div>
+			</div>
+		</div> <!-- 비대면 진료 끝 -->
+    </div>
+    </main>
 </body>
 </html>
