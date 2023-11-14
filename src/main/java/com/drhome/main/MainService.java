@@ -23,7 +23,20 @@ public class MainService {
 
 	public void raisePointByQuiz(Map<String, Object> data) {
 		mainDAO.raisePointByQuiz(data);
+		mainDAO.raisePointByQuizToPoint(data);
 		
+	}
+
+	public List<Map<String, Object>> getNotification(Object mno) {
+		return mainDAO.getNotification(mno);
+	}
+
+	public Map<String, Object> countNotification(Object mno) {
+		return mainDAO.countNotification(mno);
+	}
+
+	public void updateNotificationNum(int nno) {
+		mainDAO.updateNotificationNum(nno);
 	}
 
 

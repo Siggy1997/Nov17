@@ -14,5 +14,13 @@ public interface MainDAO {
 
 	void raisePointByQuiz(Map<String, Object> data);
 
+	List<Map<String, Object>> getNotification(Object mno);
+
+	Map<String, Object> countNotification(Object mnomno);
+
+	void updateNotificationNum(int nno);
+
+	void raisePointByQuizToPoint(Map<String, Object> data);
+
 
 }

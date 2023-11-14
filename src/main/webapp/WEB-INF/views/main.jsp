@@ -46,7 +46,7 @@
 		}
 		
 		
-		
+		//퀴즈 올리기
 		$('#todayQuizAnswer>button').click(function() {
 			if($(this).val() == ${quiz.qanswer}){
 
@@ -55,7 +55,8 @@
 			}
 		})
 
-		 $('#navigationIcon').click(function() { 
+		//네비게이션 열기
+		 $('#navigationIcon, .mainTopChatBot').click(function() { 
 		        $('#navigationBackGround').toggleClass('max');
 		        $('#introduction').toggle();
 		      });
@@ -137,8 +138,31 @@
 				}
 			});
 		}
+		//알림창 열고 닫기
+		$('#notificationIcon').click(function(){
+			 $('#notificationContainer').toggle();
+		});
 		
-	
+		//알림차 숫자 줄이기
+		$('.messageAlert').click(function(){
+			let nno = $(this).children('.nno').val()
+			
+			 $.ajax({
+			        url: "./updateNotificationNum",
+			        type: "post", 
+			        data: {"nno" : nno},
+			        dataType: "json",
+			        success: function(response) {
+			            $("#result").text("서버 응답: " + response);
+			        },
+			        error: function(xhr, status, error) {
+			            console.error("오류 발생: " + status, error);
+			        }
+			    });
+			
+		})
+		
+		
 	});
 </script>
 </head>
@@ -146,8 +170,8 @@
 
 
 	<header>
-		<img alt="" src="./img/mainNotification.png"> <img alt=""
-			src="./img/mainHamburger.png">
+		<img id="notificationIcon" alt="" src="./img/mainNotification.png">
+		<img id="hamburgerIcon" alt="" src="./img/mainHamburger.png">
 	</header>
 
 
@@ -178,7 +202,7 @@
 			</a> <a class="mainTop" href="./telehealthSearch"> <img alt="비대면 사진"
 				src="https://cdn2.iconfinder.com/data/icons/coronavirus-information/128/coronovirus_call_doctor_hospital-512.png">
 				<p>비대면 진료</p>
-			</a> <a class="mainTop" href="./navigation"> <img alt="챗봇"
+			</a> <a class="mainTop mainTopChatBot"> <img alt="챗봇"
 				src="./img/mainChatbot.png">
 				<p>챗봇</p>
 			</a> <a class="mainTop" href="./hospital"> <img alt="커뮤니티"
@@ -197,12 +221,12 @@
 			<div id="departmentWrapper">
 				<a id="dp1" href="./hospital?kindKeyword=소아과"> <img alt="소아과"
 					src="./img/dp1.png"> <span>소아과</span>
-				</a> <a id="dp2" href="./hospital?kindKeyword=이비인후과"> <img
-					alt="이비인후과" src="./img/dp2.png"> <span>치과</span>
-				</a> <a id="dp3" href="./hospital?kindKeyword=피부과"> <img alt="피부과"
+				</a> <a id="dp2" href="./hospital?kindKeyword=치과"> <img alt="이비인후과"
+					src="./img/dp2.png"> <span>치과</span>
+				</a> <a id="dp3" href="./hospital?kindKeyword=내과"> <img alt="내과"
 					src="./img/dp3.png"> <span>내과</span>
-				</a> <a id="dp4" href="./hospital?kindKeyword=산부인과"> <img alt="산부인과"
-					src="./img/dp5.png"> <span>피부과</span>
+				</a> <a id="dp4" href="./hospital?kindKeyword=이비인후과"> <img
+					alt="이비인후과" src="./img/dp4.png"> <span>이비인후과</span>
 				</a>
 			</div>
 		</div>
@@ -270,7 +294,7 @@
 				<img alt="챗봇사진2" src="./img/sectionChatbot.png">
 				<div>
 					<span><strong style="color: #00c9ff; font-size: 18px;">네비게이션</strong>을<br>
-						통해 빠르게 검색해보세요</span><br> <a href="./navigation">지금 검색하러가기 <i
+						통해 빠르게 검색해보세요</span><br> <a class="mainTopChatBot">지금 검색하러가기 <i
 						class="xi-angle-right xi-x"></i></a>
 				</div>
 
@@ -286,26 +310,93 @@
 			</div>
 
 		</div>
+		<div class="graySeperate"></div>
+		<div style="height: 11vh; width: 100%;"></div>
 
-		<div style="height: 9vh; width: 100%;"></div>
 
 
-	</main>
-	<div id="navigationBackGround">
-		<div id="introduction" style="display: none">
-			<div id="navigationHeader">
-				<span>DR.HOME</span>
-				<div id="startNavigation">시작</div>
-				<div id="resetQuestions" style="display: none;">
-					<img alt="초기화" src="./img/mainReset.png">
+		<!-- 네비게이션 -->
+		<div id="navigationBackGround">
+			<div id="introduction" style="display: none">
+				<div id="navigationHeader">
+					<span>DR.HOME</span>
+					<div id="startNavigation">시작</div>
+					<div id="resetQuestions" style="display: none;">
+						<img alt="초기화" src="./img/mainReset.png">
+					</div>
 				</div>
+				<div id="navigationContainer"></div>
 			</div>
-			<div id="navigationContainer"></div>
+		</div>
+		<img id="navigationIcon" alt="" src="./img/mainChatbotIcon.png">
+
+
+
+		<!-- 알람 -->
+		<div id="notificationContainer">
+			<div class="triangle"></div>
+			<div id="notificationContent">
+				<c:forEach var="noti" items="${notification }">
+					<div class="notiItems ${noti.nread eq 0 ? 'blue' : ''}">
+						<c:choose>
+
+							<c:when test="${noti.nchattingNoti ne null }">
+								<a class="messageAlert" href="./chatting"><div
+										class="message">회원님에게 메세지를 요청합니다.</div>
+									<div class="notiDate">${noti.ndate }</div> <input class="nno"
+									type="hidden" name="nno" value="${noti.nno }"> </a>
+							</c:when>
+
+							<c:when test="${noti.nqnaboardNoti ne null }">
+								<a class="messageAlert"
+									href="./qnaDetail?bno=${noti.nqnaboardNoti }"><div
+										class="message">질문 게시글에 댓글이 달렸습니다.</div>
+									<div class="notiDate">${noti.ndate }</div> <input class="nno"
+									type="hidden" name="nno" value="${noti.nno }"> </a>
+							</c:when>
+							<c:when test="${noti.nfreeboardNoti ne null }">
+								<a class="messageAlert"
+									href="./freeDetail?bno=${noti.nfreeboardNoti }"><div
+										class="message">자유계시판 게시글에 댓글이 달렸습니다.</div>
+									<div class="notiDate">${noti.ndate }</div> <input class="nno"
+									type="hidden" name="nno" value="${noti.nno }"></a>
+							</c:when>
+
+							<c:when test="${noti.napoointmentNoti ne null }">
+								<a class="messageAlert"
+									href="./medicalHistory/${sessionScope.mno }">
+									<div class="message">진료예약이 완료되었습니다.</div>
+									<div class="notiDate">${noti.ndate }</div> <input class="nno"
+									type="hidden" name="nno" value="${noti.nno }">
+								</a>
+							</c:when>
+
+							<c:when test="${noti.ntelehealthNoti ne null }">
+								<a class="messageAlert"
+									href="./medicalHistory/${sessionScope.mno }"><div>비대면
+										진료가 완료되었습니다</div>
+									<div class="notiDate">${noti.ndate }</div> <input class="nno"
+									type="hidden" name="nno" value="${noti.nno }"> </a>
+							</c:when>
+						</c:choose>
+
+					</div>
+					<div class="seperate"></div>
+				</c:forEach>
+			</div>
 		</div>
 
 
-	</div>
-	<img id="navigationIcon" alt="" src="./img/mainChatbotIcon.png">
+		<!-- 알림 갯수 -->
+		<c:if
+			test="${not empty countNotification and countNotification.countNoti ne 0}">
+			<div id="countNotification">${countNotification.countNoti}</div>
+		</c:if>
+
+
+
+	</main>
+
 
 
 

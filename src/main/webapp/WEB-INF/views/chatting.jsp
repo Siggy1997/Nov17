@@ -12,6 +12,7 @@
 <script src="../js/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+
 </head>
 <body>
 	<header>
@@ -19,22 +20,44 @@
 		<div class="headerTitle">실시간 채팅</div>
 		<div id="blank"></div>
 	</header>
-	
+
 	<main>
+		<!-- 의사 선택 하는 모달 -->
+		<div class="modal-wrapper">
+			<div class="modal">
+				<div id="modalHeader">
+					<div>의사를 선택해주세요.</div>
+					<div href="../main">닫기</div>
+				</div>
+				<div id="doctorWrapper">
+					<div style="height: 4vh;"></div>
+					<c:forEach var="doctor" items="${doctor }">
+						<div class="selectDoctor">
+							<div class="doctorName">의사 ${doctor.mname }</div>
+							<span class="dpKind">${doctor.dpkind }</span> <input
+								id="doctorRoomNum" type="hidden" value="${doctor.mno }">
+
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+
+
 		<div id='chatt'>
 			<c:choose>
 				<c:when test="${sessionScope.mgrade gt 4 }">
 					<input type='hidden' id='mid' value="의사 ${sessionScope.mname}">
 				</c:when>
 				<c:otherwise>
-					<input type='hidden' id='mid' value="${sessionScope.mname}님">
+					<input type='hidden' id='mid' value="${sessionScope.mname}">
 				</c:otherwise>
 			</c:choose>
 			<input type='hidden' id='mgrade' value="${sessionScope.mgrade}">
 			<div id='talk'></div>
 		</div>
 	</main>
-	
+
 	<footer>
 		<div id='sendZone'>
 			<textarea id='msg'></textarea>
@@ -53,35 +76,84 @@
 			let data = {};//전송 데이터(JSON)
 			let mgrade = $('#mgrade').val();
 
-			let mno = "${sessionScope.mno}";
 			//mgrade로 의사인지 판별하기, 
-			if (mgrade == 6) {
-				ws = new WebSocket("ws://" + location.host + "/chatt/60");
+			if (mgrade == 5 || mgrade == 6) {
+				let mno = "${sessionScope.mno}";
+				$('.modal-wrapper').hide();
+				//의사는 자기 방 mno로 들어가기
+				ws = new WebSocket("ws://" + location.host + "/chatting/" + mno);
 
-				//의사가 아니면 새로운 방 오픈하기
-			} else {
-				ws = new WebSocket("ws://" + location.host + "/chatt/" + mno);
+				ws.onmessage = function(msg) {
+					let data = JSON.parse(msg.data);
+					//누가 보냈는지 구분하기
+					let className = data.mid == mid.value ? 'me' : 'other'
 
-			}
+					//메세지 띄워주기
+					let item = "<div class='" + className + "'><div class='date'>"
+							+ data.date + "</div>";
+					item += "<div class='message'>";
+					if (data.mid != mid.value) {
+						item += "<span><b>" + data.mid + "</b></span><br>";
+					}
+					item += "<div id='content'>" + data.msg
+							+ "</div></div></div>";
 
-			ws.onmessage = function(msg) {
-				let data = JSON.parse(msg.data);
-				//누가 보냈는지 구분하기
-				let className = data.mid == mid.value ? 'me' : 'other'
+					talk.innerHTML += item;
 
-				//메세지 띄워주기
-				let item = "<div class='" + className + "'><div class='date'>"
-						+ data.date + "</div>";
-				item += "<div class='message'>";
-				if (data.mid != mid.value) {
-					item += "<span><b>" + data.mid + "</b></span><br>";
+					// 스크롤바 하단으로 이동
+					talk.scrollTop = talk.scrollHeight;
 				}
-				item += "<div id='content'>" + data.msg + "</div></div></div>";
 
-				talk.innerHTML += item;
+			} else {
 
-				// 스크롤바 하단으로 이동
-				talk.scrollTop = talk.scrollHeight;
+				//의사 선택후 채팅방 들어가기
+				$(document).on('click','.selectDoctor',function() {
+					//의사 mno값
+					let roomNum = $(this).children('#doctorRoomNum').val();
+					 $.ajax({
+					        type: "POST",
+					        url: "./alertDoctor",
+					        //방번호 & 요청하는 사람이름 보내주기
+					        data: {"roomNum": roomNum, "manme" : mid.value},
+					        success: function(response) {
+					            console.log("Data sent successfully:", response);
+					        },
+					        error: function(error) {
+					            console.error("Error sending data:", error);
+					        }
+					    });
+					
+					
+					ws = new WebSocket("ws://" + location.host + "/chatting/" + roomNum);
+					
+					//의사 에게 알림 보내주기
+					  
+					
+					$('.modal-wrapper').hide();
+
+					ws.onmessage = function(msg) {
+						let data = JSON.parse(msg.data);
+						//누가 보냈는지 구분하기
+						let className = data.mid == mid.value ? 'me'
+								: 'other'
+
+						//메세지 띄워주기
+						let item = "<div class='" + className + "'><div class='date'>"
+								+ data.date + "</div>";
+						item += "<div class='message'>";
+						if (data.mid != mid.value) {
+							item += "<span><b>" + data.mid
+									+ "</b></span><br>";
+						}
+						item += "<div id='content'>" + data.msg
+								+ "</div></div></div>";
+
+						talk.innerHTML += item;
+
+						// 스크롤바 하단으로 이동
+						talk.scrollTop = talk.scrollHeight;
+					}
+				});
 			}
 
 			//enter눌러도 메세지 보내기

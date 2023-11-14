@@ -29,6 +29,7 @@ header {
 	z-index: 900;
 	padding-inline-end: 22px;
 	padding-inline-start: 24px;
+	z-index: 1000;
 }
 
 footer {
@@ -109,7 +110,7 @@ header img {
 	border: none;
 	font-size: 13px;
 	font-weight: 500;
-	width: 50%;
+	width: 70%;
 }
 
 input::placeholder {
@@ -536,9 +537,9 @@ input:focus {
 }
 
 .hospitalWrapper .hospitalRate {
-    font-size: 10px;
-    font-weight: 500;
-    margin-top: 6px;
+	font-size: 10px;
+	font-weight: 500;
+	margin-top: 6px;
 }
 
 .hospitalWrapper .xi-star {
@@ -549,4 +550,62 @@ input:focus {
 .hospitalWrapper .goto {
 	background-color: white;
 	border: none;
+}
+
+#notificationContainer {
+	position: fixed;
+	left: 146px;
+	top: 61px;
+	height: 344px;
+	width: 232px;
+	z-index: 1000;
+	background-color: rgba(255, 255, 255, 0.8);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 1.5);
+	overflow: scroll;
+	padding: 15px 0;
+	display: none;
+}
+
+.triangle {
+	position: fixed;
+	left: 310px;
+	top: 47px;
+	width: 0;
+	height: 0;
+	border-left: 14px solid transparent;
+	border-right: 14px solid transparent;
+	border-bottom: 14.6px solid rgba(255, 255, 255, 0.8);
+	z-index: 1001;
+}
+
+.notiItems {
+	width: 90%;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: 500;
+	margin: 0 auto;
+	background-color: rgb(225 224 224/ 90%);
+	border-radius: 7px;
+	margin-bottom: 4px;
+}
+
+.blue {
+	background-color: rgb(0 201 255/ 30%);
+}
+
+#countNotification {
+	position: fixed;
+	left: 326px;
+	top: 16px;
+	z-index: 1004;
+	background-color: red;
+	width: 14px;
+	height: 14px;
+	border-radius: 50px;
+	display: flex;
+	align-items: center;
+	font-size: 11px;
+	font-weight: 800;
+	justify-content: center;
+	color: white;
 }

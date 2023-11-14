@@ -334,17 +334,24 @@ $(function() {
 		});
 		
 	
-			
-			$('.footerButton').click(function(){
-				if(${sessionScope.mno == null || sessionScope.mno == ''}){
-					alertModal()
-				}else{
-					location.href='../appointment/'+${hno};
-				}
-			});
+		//예약하기
+		$('.appointmentButton').click(function(){
+			if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				alertModal()
+			}else{
+				location.href='../appointment/'+${hno};
+			}
+		});
 		
-		
-			});
+		//진료하기
+		$('.appointmentTodayButton').click(function(){
+			if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				alertModal()
+			}else{
+				location.href='../appointmentToday/'+${hno};
+			}
+		});
+	});
 			
 
 
@@ -756,8 +763,8 @@ $(function() {
 	</main>
 	
 	<footer>
-		<button class="footerButton">진료하기</button>
-		<button class="footerButton">예약하기</button>
+		<button class="appointmentTodayButton">접수하기</button>
+		<button class="appointmentButton">예약하기</button>
 	</footer>
 
 

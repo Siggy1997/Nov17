@@ -1,4 +1,4 @@
-package com.drhome.chatt;
+package com.drhome.chatting;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
