@@ -26,7 +26,7 @@ body {
 }
 
 main{
-	padding: 15px;
+	padding: 20px;
     height: 1465px;
 }
 
@@ -201,7 +201,25 @@ button{
   	font-weight: bold;
 }
 
+#mid::placeholder,
+#mpw::placeholder,
+#mpwDuplication::placeholder,
+#mname::placeholder,
+#firstMrrn::placeholder,
+#lastMrrn::placeholder,
+#memail::placeholder,
+#mhomeaddr::placeholder,
+#mhomeaddr2::placeholder,
+#mcompanyaddr::placeholder,
+#mcompanyaddr2::placeholder,
+#mbirth::placeholder,
+#firstNumber::placeholder,
+#MiddleNumber::placeholder,
+#lastNumber::placeholder
 
+ {
+	color:#BDBDBD;
+    }
 
 
 

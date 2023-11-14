@@ -73,10 +73,24 @@ main {
     margin: auto;
 }
 
+div.login-save{
+    position: relative;
+}
+
+div.login-save i{
+    position: absolute;
+    left: 85%;
+    top: 56%;
+    color: #cdcdcd;
+    z-index: 1000;
+}
+
+div.password-area input{
+    box-sizing: border-box;
+}
 
 .cm-toggle{
 	z-index: 1000;	
-	
 }
 
 .find-form {
@@ -230,6 +244,12 @@ main {
   	color: #00c9ff;
   	font-weight: bold;
 }
+
+#mid::placeholder,
+#mpw::placeholder
+ {
+    color:#BDBDBD;
+    }
 
 
 

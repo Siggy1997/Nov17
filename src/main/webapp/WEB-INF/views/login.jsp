@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Login</title>
-
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link href="./css/login.css" rel="stylesheet" />
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
@@ -24,6 +24,20 @@
 <script src="/js/mcore.extends.js"></script>
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+    $('.login-save i').on('click',function(){
+        $('input').toggleClass('active');
+        if($('input').hasClass('active')){
+            $(this).attr('class',"xi-eye-off xi-2x")
+            .prev('input').attr('type',"password");
+        }else{
+            $(this).attr('class',"xi-eye xi-2x")
+            .prev('input').attr('type','text');
+        }
+    });
+});
+
 	//getCookie() 사용 전 미리 로드할 수 있도록 배치 필요!!
 	function getCookie(cookieName) {
 		let x, y;
@@ -223,6 +237,7 @@
 			<div class="login-save">
 				<input class="login-input" type="text" id="mid" name="mid" placeholder="아이디" maxlength="11">
 				<input class="login-input" type="password" id="mpw" name="mpw" placeholder="패스워드" maxlength="8">
+				<i class="xi-eye-off xi-2x"></i>
 				<input id="saveID" type="checkbox" class="cm-toggle">
 			</div>
 		</div>
@@ -244,6 +259,7 @@
 				<div>건강기록<a href="/healthRecord/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>내정보<a href="/myInfo/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>내글보기<a href="/myWriting/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
+				<div>예약내역확인<a href="/medicalHistory/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>결제<a href="/pay/${sessionScope.mno}?tno=1">&nbsp;&nbsp;바로가기</a></div>
 				<div>결제완료<a href="/completePay/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 			</div>

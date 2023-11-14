@@ -177,6 +177,20 @@ textarea {
     margin: 0px 20px 20px 20px;
 }
 
+.write{
+	display: inline-block;
+    width: 350px; 
+    height: 350px; 
+    font-size: 15px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding: 18px;
+    background-color: rgb(233, 233, 233);
+    margin: 0px 20px 20px 20px;
+    
+}
+
 .diagnosisInfo-area{
     display: flex;
     flex-direction: column;
@@ -185,7 +199,7 @@ textarea {
 
 .bottom{
 	height: 195px;
-    margin: 0px 20px 13px 20px;
+    margin: 0px 0px 13px 20px;
 }
 
 .bottom-title{

@@ -30,6 +30,7 @@ header {
 	background-color: white;
 	padding-inline-end: 22px;
 	padding-inline-start: 24px;
+	border-bottom: 1px solid #E0E0E0;
 }
 
 .xi-angle-left, .xi-angle-right {
@@ -108,41 +109,24 @@ a {
     box-sizing: border-box;
 }
 
-div.password-area{
-    position: relative;
-}
-
-div.password-area input{
-	height: 50px;
-    width: 100%;
-    border-width: 0px 0 1.1px;
-    box-sizing: border-box;
-	color: #757575;
-}
-
-div.password-area i{
-    position: absolute;
-    left: 90%;
-    top: 40%;
-    color: #cdcdcd;
-}
-
 .id-p {
     line-height: 25px;
 }
 
-.info {
+#cardInfo, #pointInfo{
 	margin: 7px 0px;
-}
+	font-weight: bold;
+	font-size: 14px;
+} 
 
 .p-title{
 	height: 30px;
     font-size: 15px;
     font-weight: bold;
+    margin: 24px 0px 0px 0px;
 }
 
 .p-detail{
-	height: 30px;
     font-size: 15px;
     font-weight: normal;
     margin: 1px 0px;
@@ -155,44 +139,56 @@ button{
     border: none;
     border-radius: 7px;
     line-height: 24px;
+    width: 55px;
 }
 
-.input-button{
-	border: none;
-    background-color: #00c9ff;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    line-height: 24px;
-    text-align: center;
-    
+#cardCheck, #useAllPoint{
+	margin: 0px 0px 0px 5px;
 }
 
-.btn{
-	border: none;
-	background-color: #00c9ff;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    line-height: 24px;
-    text-align: center;
-    width: 100%;
-    margin-top: 289px;
-    height: 30px;
+#payBtn:disabled {
+    background-color: #E0E0E0;
+    cursor: not-allowed;
 }
 
-.title-button button{
-	margin: 0px 6px;
-	background-color: #00c9ff;
-	width: 83px;
+
+#firstNum, #secondNum, #thirdNum, #lastNum {
+	width: 21.8%;
 }
 
-.title-button span{
-	line-height: 25px;
+#svc{
+	width: 100%;
 }
 
-#changeHomeAddr{
-	width: 75px;
+#myPoint{
+	width: 38%;
+}
+
+#usePoint{
+	width: 43%;
+}
+
+.graySeperate {
+	height: 15px;
+	background-color: #F5F5F5;
+}
+
+.title {
+    font-size: 19px;
+    font-weight: 700;
+    width: 90%;
+    margin: 16px 0px;
+}
+
+.middle-area{
+	margin: 14px 20px 25px 20px;
+}
+
+.middle-area input {
+    height: 50px;
+    border-width: 0 0 0.1px;
+    color: #757575;
+    box-sizing: border-box;
 }
 
 #changeHealthRecordBtn {
@@ -208,8 +204,53 @@ button{
 	margin: 36px 0px;
 }
 
-
-#firstNumber, #MiddleNumber, #lastNumber {
-    width: 30%;
+#totalPay, #totalPoint, #finalPay{
+	width: 28%;
 }
 
+#totalPay:focus, #totalPoint:focus, #finalPay:focus {
+    outline: none;
+}
+
+#totalPay::placeholder,
+#totalPoint::placeholder,
+#finalPay::placeholder,
+#firstNum::placeholder, 
+#secondNum::placeholder, 
+#thirdNum::placeholder, 
+#lastNum::placeholder,
+#svc::placeholder,
+#usePoint::placeholder
+ {
+    color:#BDBDBD;
+    }
+    
+#payBtn{
+	font-weight: 700;
+    background-color: #00c9ff;
+    color: white;
+    width: 90%;
+    height: 61px;
+    border: none;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 14px;
+}
+
+.bottom-area{
+    margin-bottom: 100px;
+}
+
+.pay-span{
+	display: inline-block;
+    width: 28%;
+    border-bottom: 1px solid #757575;
+    box-sizing: border-box;
+    color: #757575;
+    height: 32px;
+    font-size: 13px;
+}
+
+.calculate{
+    margin: 22px 0px;
+}

@@ -94,58 +94,60 @@ a {
     margin-bottom: 28px;
 }
 
-.health-area{
+.table-area {
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
-    height: 30%;
-    margin: 0px 0px 15px 0px;
+    height: 266px;
+    margin: 28px auto;
+    padding: 20px 0;
+    background-color: #F5F5F5;
+    border-radius: 18px;
+    overflow-y: scroll;
+    max-height: 300px;
+    overflow-x: hidden;
 }
 
-.health-area input{
-    height: 50px;
-    width: 100%;
-    border-width: 0 0 0.1px;
-    color: #757575;
-    box-sizing: border-box;
+.table{
+	width: 90%;
+    margin: -10px 10px;
 }
 
-div.password-area{
-    position: relative;
-}
-
-div.password-area input{
-	height: 50px;
-    width: 100%;
-    border-width: 0px 0 1.1px;
-    box-sizing: border-box;
-	color: #757575;
-}
-
-div.password-area i{
-    position: absolute;
-    left: 90%;
-    top: 40%;
-    color: #cdcdcd;
-}
-
-.id-p {
-    line-height: 25px;
-}
-
-.info {
-	margin: 7px 0px;
-}
-
-.p-title{
-	height: 30px;
-    font-size: 15px;
+.th{
     font-weight: bold;
+    font-size: 13px;
+    width: 20%;
+    padding: 3px 0px;
+    margin: 0px 0px 4px 0px;
 }
 
-.p-detail{
-	height: 30px;
-    font-size: 15px;
-    font-weight: normal;
-    margin: 1px 0px;
+
+.tr{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 334px;
+}
+
+.td {
+    font-size: 12px;
+    width: 18%;
+    padding: 3px 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 5px 0px;
+}
+
+.table-head{
+	margin-left: 2px;
+}
+
+.graySeperate {
+	width: 100%;
+	height: 15px;
+	background-color: #F5F5F5;
 }
 
 button{
@@ -155,61 +157,5 @@ button{
     border: none;
     border-radius: 7px;
     line-height: 24px;
-}
-
-.input-button{
-	border: none;
-    background-color: #00c9ff;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    line-height: 24px;
-    text-align: center;
-    
-}
-
-.btn{
-	border: none;
-	background-color: #00c9ff;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    line-height: 24px;
-    text-align: center;
-    width: 100%;
-    margin-top: 289px;
-    height: 30px;
-}
-
-.title-button button{
-	margin: 0px 6px;
-	background-color: #00c9ff;
-	width: 83px;
-}
-
-.title-button span{
-	line-height: 25px;
-}
-
-#changeHomeAddr{
-	width: 75px;
-}
-
-#changeHealthRecordBtn {
-	font-weight: 700;
-	background-color: #00c9ff;
-	color: white;
-	width: 333px;
-	height: 61px;
-	border: none;
-	text-align: center;
-	font-size: 15px;
-	border-radius: 14px;
-	margin: 36px 0px;
-}
-
-
-#firstNumber, #MiddleNumber, #lastNumber {
-    width: 30%;
 }
 

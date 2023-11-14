@@ -226,11 +226,14 @@
 	</div>
 	
 		<c:forEach items="${dpKind}" var="row">
+		<div class="dpname-area">
 			<div class="dpname">
-				<div class="img"><img src="/img/dp${row.dpno}.png"></div>
+				<img src="/img/dp${row.dpno}.png">
 				<div class="comment">${row.dpkind}</div>
 			</div>
+		</div>
 		</c:forEach>
+		
 	</main>
 	
 	<footer>

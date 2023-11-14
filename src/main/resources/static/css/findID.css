@@ -197,6 +197,14 @@ button{
   	font-weight: bold;
 }
 
+#mname::placeholder,
+#firstNumber::placeholder,
+#MiddleNumber::placeholder,
+#lastNumber::placeholder
+ {
+	color:#BDBDBD;
+    }
+
 
 
 

@@ -92,8 +92,8 @@ $(function(){
 		<div class="input-area">
 			<p>기타 특이사항</p>
 			<input type="text" id="hrissue" name="hrissue" placeholder="특이사항을 적어주세요." maxlength="30" value="${healthRecord.hrissue}">
-			<button id="changeHealthRecordBtn">변경하기</button>
 		</div>
+			<button id="changeHealthRecordBtn">변경하기</button>
 		</form>
 		</div>
 	</main>
