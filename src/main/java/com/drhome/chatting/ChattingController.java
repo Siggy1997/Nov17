@@ -1,4 +1,4 @@
-package com.drhome.chatt;
+package com.drhome.chatting;
 
 import java.util.List;
 import java.util.Map;
