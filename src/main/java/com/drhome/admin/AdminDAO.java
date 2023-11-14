@@ -35,10 +35,36 @@ public interface AdminDAO {
 
 	List<Map<String, Object>> hospitalOpen(Map<String, Object> map);
 
-	int insertHospital(Map<String, Object> map);
+	int insertRegister(Map<String, Object> map);
 
 	List<Map<String, Object>> hList();
 
 	int insertDoctor(Map<String, Object> map);
+
+	int resultCh(Map<String, String> map);
+
+	Map<String, Object> detail(int rhno);
+
+	List<Map<String, Object>> approvalHospital(Map<String, Object> map);
+
+	int deleteHospital(int rhno);
+
+	int insertHospital(Map<String, Object> map);
+
+	List<Map<String, Object>> finalHospital();
+
+	List<Map<String, Object>> newHospital(int hno);
+
+	Map<String, Object> realDetail(int hno);
+
+	List<Map<String, Object>> search(Map<String, Object> map);
+
+	List<Map<String, Object>> viewDoctor(int dno);
+
+	List<Map<String, Object>> searchHos(Map<String, Object> map);
+
+	int deleteHos(int rhno);
+
+	/* List<Map<String, Object>> hospitalList(int rhno); */
 
 }

@@ -8,9 +8,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/writeFree.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <title>Insert title here</title>
 </head>
 <body>
+
+<header>
+    <i class="xi-angle-left xi-x"></i>
+    <div class="header title">상담하기</div>
+    <div class="blank"></div>
+</header>
+
+<main>
+
 	<h2>[자유 게시판 글쓰기]</h2>
 	<form action='<c:url value='/postFree'/>' method="post" id="freeForm">
 		<div>
@@ -22,10 +34,15 @@
 		</div>
 		<input type="hidden" name="bdate" id="bdate">
 		<button type="submit">완료</button>
-		<button type="button" onclick="location.href='freeBoard'">목록</button>
+		<button type="button" onclick="location.href='qnaBoard'">목록</button>
 	</form>
 
 	<div id="imagePreview"></div>
+
+</main>
+
+<footer></footer>
+
 
 	<script>
 		// 폼이 제출될 때 현재 날짜와 시간을 입력란에 추가

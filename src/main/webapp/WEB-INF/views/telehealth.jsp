@@ -7,16 +7,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>doctorList</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/hospital.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
-<!-- <script src="./js/wnInterface.js"></script> 
-<script src="./js/mcore.min.js"></script> 
-<script src="./js/mcore.extends.js"></script>  -->
 <script type="text/javascript">
 	$(function(){
+		
+		/* 뒤로가기 버튼 */
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
 		
 		$("#keyword").val('비대면 진료');
 		let urlString = location.search;
@@ -38,11 +41,22 @@
 			}).addClass("btn-color-css");
 		} 
 		
-		
-		
-		/* 검색하기 */
-		$(document).on("click", "#keyword", function(){
-			$("#keyword").val('');
+		/* 입력할 때 내용 지우기 */
+		if ($("#keyword").val() !== '') {
+			$(".icon").addClass("xi-close-circle");
+		} else {
+			$(".icon").removeClass("xi-close-circle");
+		}
+		$(document).on("input", "#keyword", function(){
+			if ($("#keyword").val() !== '') {
+				$(".icon").addClass("xi-close-circle");
+			} else {
+				$(".icon").removeClass("xi-close-circle");
+			}
+		});
+		$(document).on("click", ".deleteSearch", function(){
+			$(".icon").removeClass("xi-close-circle");
+			$("#keyword").val('').focus();
 		});
 		
 		/* 의사 수 세기 */
@@ -98,10 +112,14 @@
 		
 		/* 진료과, 증상 모달 */
 		$(document).on("click", ".selectByDepartmentText", function(){
-			if( symptomKeyword != null ) {
+	    	if( symptomKeyword != null ) {
+	    		$(".modalSymptom").addClass("modal-title-css");
+				$(".modalDepartment").removeClass("modal-title-css");
 				$(".departmentGroup").hide();
 				$(".symptomContainer").show();
 			} else {
+				$(".modalDepartment").addClass("modal-title-css");
+				$(".modalSymptom").removeClass("modal-title-css");
 				$(".departmentGroup").show();
 				$(".symptomContainer").hide();
 			}
@@ -200,130 +218,135 @@
 		}
 		
 		/* 카테고리 지웠을 때 삭제하기 */
-		$(document).on("click", ".xi-close-circle", function(){
+		$(document).on("click", ".deleteKeyword", function(){
 			if(kindKeyword != null) {
-				changeURL("kindKeyword");
+				deleteURL("kindKeyword");
 			} else {
-				changeURL("symptomKeyword");
+				deleteURL("symptomKeyword");
 			}
 		});
 		
-
+		/* Collection of functions */
+		
+		/* 모달에서 증상별 토글 효과 */
+		function toggleClass(keyword) {
+			let otherKeyword = $(".symptomKindButton").not(keyword);
+			if (otherKeyword.is(":visible")) {
+				otherKeyword.slideUp();
+				toggleIcon(otherKeyword);
+			}
+			if (keyword.is(":visible")) {
+		        toggleIcon(keyword);
+		        keyword.slideUp();
+		    } else {
+		        toggleIcon(keyword);
+		        keyword.slideDown();
+		    }
+		}
+		
+		/* 모달에서 증상별 토글 아이콘 변경 */
+		function toggleIcon(keyword) {
+			if (keyword.is(":visible")) {
+		        let toggle = keyword.siblings().children(".xi-angle-up-thin");
+		        keyword.siblings().children(".symptomGroupText").removeClass("font-css");
+		        toggle.removeClass("xi-angle-up-thin").addClass("xi-angle-down-thin");
+		    } else {
+		    	let toggle = keyword.siblings().children(".xi-angle-down-thin");
+		    	keyword.siblings().children(".symptomGroupText").addClass("font-css");
+		    	toggle.removeClass("xi-angle-down-thin").addClass("xi-angle-up-thin");
+		    }
+		}
+		
+		/* 의사 수 세기 */
+		function doctorCount() {
+			let divCount = $(".doctorListContainer:visible").length;
+			$(".countNumber").text("총 " + divCount + "명");
+		}
+		
+		/* 카테고리 선택 해제하기 */
+		function deselect(select) {
+			if (select.hasClass("filter-btn-css")) {
+				let toggleDepartment = select.children(".xi-angle-down-min");
+				toggleDepartment.removeClass("xi-angle-down-min").addClass("xi-close-circle");
+			} else {
+				let toggleDepartment = select.children(".xi-angle-down-min");
+				toggleDepartment.removeClass("xi-close-circle").addClass("xi-angle-down-min");
+			}
+		}
+		
+		/* url 지우기 */
+		function deleteURL(deleteParams) {
+			let urlParams = new URLSearchParams(urlString);
+			urlParams.delete(deleteParams);
+			urlString = urlParams.toString();
+			location.href= "telehealth?"+urlString;
+		}
 	});
-
-	/* Collection of functions */
 	
 	/* 의사 상세보기 페이지 이동 */
 	function doctorDetail(dno) {
 		location.href= '/doctorDetail/' + dno;
 	}
-	
-	/* 모달에서 증상별 토글 효과 */
-	function toggleClass(keyword) {
-		let otherKeyword = $(".symptomKindButton").not(keyword);
-		if (otherKeyword.is(":visible")) {
-			otherKeyword.slideUp();
-			toggleIcon(otherKeyword);
-		}
-		if (keyword.is(":visible")) {
-	        toggleIcon(keyword);
-	        keyword.slideUp();
-	    } else {
-	        toggleIcon(keyword);
-	        keyword.slideDown();
-	    }
-	}
-	
-	/* 모달에서 증상별 토글 아이콘 변경 */
-	function toggleIcon(keyword) {
-		if (keyword.is(":visible")) {
-	        let toggle = keyword.siblings().children(".xi-angle-up-thin");
-	        toggle.removeClass("xi-angle-up-thin").addClass("xi-angle-down-thin");
-	    } else {
-	    	let toggle = keyword.siblings().children(".xi-angle-down-thin");
-	    	toggle.removeClass("xi-angle-down-thin").addClass("xi-angle-up-thin");
-	    }
-	}
-	
-	/* 모달에서 옵션 토글 아이콘 변경 */
-	function optionToggleIcon(optionKind) {
-		if ( optionKind.hasClass("xi-check-circle") ) {
-			optionKind.addClass("xi-radiobox-blank").removeClass("xi-check-circle");
-			
-		} else {
-			optionKind.addClass("xi-check-circle").removeClass("xi-radiobox-blank");
-		}
-	}
-	
-	/* 의사 수 세기 */
-	function doctorCount() {
-		let divCount = $(".doctorListContainer:visible").length;
-		$(".countNumber").text("총 " + divCount + "명");
-	}
-	
-	/* 카테고리 선택 해제하기 */
-	function deselect(select) {
-		if (select.hasClass("filter-btn-css")) {
-			let toggleDepartment = select.children(".xi-angle-down-min");
-			toggleDepartment.removeClass("xi-angle-down-min").addClass("xi-close-circle");
-		} else {
-			let toggleDepartment = select.children(".xi-angle-down-min");
-			toggleDepartment.removeClass("xi-close-circle").addClass("xi-angle-down-min");
-		}
-	}
-	
-	/* url 변경하기 */
-	function changeURL(deleteParams) {
-		let urlString = location.search;
-		let urlParams = new URLSearchParams(urlString);
-		urlParams.delete(deleteParams);
-		urlString = urlParams.toString();
-		location.href= "telehealth?"+urlString;
-	}
 
+	
 </script>
 
 </head>
 <body>
-	<h1>Non-face-to-face</h1>
 	<form id="searchForm" action="/telehealthSearch" method="post">
-	<div class="doctorBox">
-		<div class="searchDoctor">
-			<div class="xi-angle-left"></div>
-			<input name="keyword" id="keyword">
-			<button class="xi-search"></button>
-		</div>
+	<header>
+		<i class="xi-angle-left xi-x"></i>
+		<div class="headerTitle">비대면 진료 검색</div>
+		<div class="blank"></div>
+	</header>
+	<main class="doctorBox container">
 	
-		<div class="filterDoctor">
-			<button type="button" class="selectByAvailable"><span class="xi-time"></span> 진료중</button>
-			<button type="button" class="selectBySpecialist"><span class="xi-school"></span> 전문의</button>
-			<button type="button" class="selectByFemale"><span class="xi-woman"></span> 여의사</button>
-			<button type="button" class="selectByDepartment">
-				<span class="xi-plus-square"></span> 
-				<span class="selectByDepartmentText"> 진료과/증상</span>
-				<span class="xi-angle-down-min"></span>
+		<!-- search -->
+		<div class="search">
+			<div class="searchInput">
+				<input placeholder="진료과, 증상, 의사를 검색하세요." name="keyword" id="keyword">
+				<div class="deleteSearch">
+					<i class="icon"></i>
+				</div>
+			</div>
+			<button class="searchButton"><img src="./img/search.png"></button>
+		</div>
+		
+		<!-- filter -->
+		<div class="doctorfilter">
+			<button type="button" class="selectByAvailable select"><span class="xi-time-o margin-right"></span> 진료중</button>
+			<button type="button" class="selectBySpecialist select"><span class="xi-school margin-right"></span> 전문의</button>
+			<button type="button" class="selectByFemale select"><span class="xi-woman margin-right"></span> 여의사</button>
+			<button type="button" class="selectByDepartment select">
+				<div class="xi-plus-square-o margin-right"></div> 
+				<div class="selectByDepartmentText"> 진료과/증상</div>
+				<div class="xi-angle-down-min deleteKeyword"></div>
 			</button>
 		</div>
-		<div class="doctorBar">
-			<div class="doctorCount">
-				의사<span class="countNumber"></span>
+		
+		<!-- title -->
+		<div class="doctorBar bar">
+			<div class="doctorCount count">
+				의사 <span class="countNumber"></span>
 			</div>
-			<select class="sortDoctor">
+			<select class="sortDoctor sortByList">
 				<option class="sortByExact">기본 순</option>
 				<option class="sortByRate">별점 순</option>
 				<option class="sortByReview">리뷰 순</option>
 			</select>
 		</div>
+		
+		<!-- list -->
 		<div class="doctorListContainerBox">
 			 <c:forEach items="${doctorList}" var="row">
 			 	<div class="doctorListContainer" onclick="doctorDetail(${row.dno})">
 				 <input type="hidden" class="femaleDoctor" value="${row.dgender}">
 					<div class="doctorHeader">
-						<div class="doctorImg"><img src="${row.dimg}" style="width:10%"></div>
+						<div class="doctorImg margin-right"><img src="${row.dimg}"></div>
 						<input type="hidden" class="dno" value="${row.dno}">
 						<div class="doctorInfo">
 							<div class="doctorInfoHeader">
-								<div class="dotorName">
+								<div class="doctorName">
 									<c:choose>
 										<c:when test="${row.dpno == 9}">${row.dname} 한의사</c:when>
 										<c:otherwise>${row.dname} 의사</c:otherwise>
@@ -376,11 +399,11 @@
 								</div>
 							</div>
 							<div class="doctorInfoBody">
-								<div class="doctorHospitalName">${row.hname}</div> | 
-								<div class="doctorDepartment">${row.dpkind}</div>								
+								<div class="doctorHospitalName margin-right">${row.hname}</div> | 
+								<div class="doctorDepartment margin-left">${row.dpkind}</div>								
 							</div>
-							<div class="doctorInfoFooter">
-								<img src="./img/star.png" style="width: 4%">
+							<div class="doctorInfoFooter hospitalReview">
+								<img src="./img/star.png" style="width: 18px;">
 								<div class="reviewScore">${row.dReviewAverage}</div>
 								<div class="reviewCount">(${row.dReviewCount})</div>
 							</div>
@@ -388,10 +411,10 @@
 						<div class="doctorNext"><span class="xi-angle-right"></span></div>
 					</div>
 					<div class="doctorFooter">
-						<div class="dotorSpecialist">
+						<div class="dotorSpecialist margin-right">
 							<c:choose>
 								<c:when test="${row.dspecialist == 1 }">
-									<img src="./img/specialist.png" style="width:5%">${row.dpkind} 전문의
+									<img src="./img/specialist.png" style="width: 18px;">${row.dpkind} 전문의
 								</c:when>
 								<c:otherwise>
 									일반의
@@ -399,9 +422,10 @@
 							</c:choose>
 						</div>
 						<div class="dotorTelehealth">
-							<img src="./img/telehealth.png" style="width:5%"> 비대면 진료 가능
+							<img src="./img/telehealth.png" style="width: 18px;"> 비대면 진료 가능
 						</div>
 					</div>
+				<div class="graySeperate"></div>
 				</div>
 			</c:forEach>
 			
@@ -451,7 +475,7 @@
 	         </div>
 	      </div>
 	   </div>
-   </div>
+   </main>
    </form>
 	
 	<!-- Bootstrap core JS -->

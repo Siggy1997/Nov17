@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -14,8 +15,6 @@
 <script src="./js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
 	$(function(){
-		
-
 		/* 내용이 없을 때 막기 */
 		$(document).on("submit", "#telehealthApply", function(event){
 			if ($("#content").val().length < 1) {
@@ -32,15 +31,7 @@
 		    	$(".next").addClass("btn-color-css");
 		    }
 		});
-		
-		    
-		  
- 		
 	});
-
-	/* Collection of functions */
-	
-	
 </script>
 
 </head>

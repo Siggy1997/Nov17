@@ -4,10 +4,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
-
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 <link rel="stylesheet" href="../css/hospitalDetail.css">
 <link rel="stylesheet"
@@ -334,17 +334,24 @@ $(function() {
 		});
 		
 	
-			
-			$('.footerButton').click(function(){
-				if(${sessionScope.mno == null || sessionScope.mno == ''}){
-					alertModal()
-				}else{
-					location.href='../appointment/'+${hno};
-				}
-			});
+		//예약하기
+		$('.appointmentButton').click(function(){
+			if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				alertModal()
+			}else{
+				location.href='../appointment/'+${hno};
+			}
+		});
 		
-		
-			});
+		//진료하기
+		$('.appointmentTodayButton').click(function(){
+			if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				alertModal()
+			}else{
+				location.href='../appointmentToday/'+${hno};
+			}
+		});
+	});
 			
 
 
@@ -380,8 +387,7 @@ $(function() {
 
 
 
-
-	<div class="container">
+	<main>
 		<div class="imageContainer">
 			<!-- 스오이퍼 -->
 			<div class="swiper">
@@ -473,6 +479,7 @@ $(function() {
 					<div class="dayTitle">오늘</div>
 					<span id="todayHours"></span>
 				</div>
+				
 				<div class="today todayBreakInfo">
 					<div class="dayTitle">점심시간</div>
 					<span id="todayBreak"> <c:if
@@ -489,7 +496,7 @@ $(function() {
 				</div>
 			</div>
 
-			<div class="timeInfo"> 
+			<div class="timeInfo">
 				<div class="day monday">
 					<c:choose>
 						<c:when test="${hospital.hnightday == '월요일'}">
@@ -753,13 +760,12 @@ $(function() {
 		</div>
 
 
-		<div style="height: 1000px"></div>
-
-
-	</div>
+		<div style="height: 7vh"></div>
+	</main>
+	
 	<footer>
-		<button class="footerButton">진료하기</button>
-		<button class="footerButton">예약하기</button>
+		<button class="appointmentTodayButton">접수하기</button>
+		<button class="appointmentButton">예약하기</button>
 	</footer>
 
 

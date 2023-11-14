@@ -1,0 +1,241 @@
+@charset "UTF-8";
+
+/* 기본 틀 */
+* {
+	font-family: "Pretendard Variable";
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: white;
+}
+
+header {
+	position: fixed;
+	height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	z-index: 1000;
+	background-color: white;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
+}
+
+.xi-angle-left, .xi-angle-right {
+	color: #757575;
+}
+
+.headerTitle {
+	font-family: "NanumSquare" !important;
+	font-size: 18px;
+	text-align: center;
+	font-weight: 900;
+	margin: 20px 50px;
+}
+
+footer {
+	bottom: 0;
+	position: fixed;
+	height: 9vh;
+	width: 100%;
+	z-index: 1000;
+	background-color: white;
+}
+
+main {
+	padding-top: 9vh;
+}
+
+.blank {
+	width: 21px;
+}
+
+/* 모달 스타일 */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+	background-color: #fff;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 50%;
+}
+
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/*컨텐츠*/
+
+.freePosting {
+	margin: 3%;
+
+}
+
+.btitle {
+	font-weight: bold;
+	font-size: x-large;
+	margin-bottom: 5%;
+}
+
+
+#reportButton {
+	float: right;
+	margin: 3%;
+	padding: 1%;
+}
+
+
+
+.bnickname, .bdate {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.bdate {
+	color: grey;
+}
+
+.bdetail {
+	margin-top: 5%;
+	font-size: large;
+}
+
+#dibsButtonFalse, #dibsButtonTrue {
+	font-size: medium;
+	margin: 3%;
+	padding: 2%;
+	background-color: white;
+	border-radius: 5px;
+	border-color: lightgrey;
+	border-width: 1px;
+	box-shadow: none;
+}
+
+.bdelete, #editButton {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+#dibsButtonFalse, #dibsButtonTrue {
+	float: left;
+}
+
+.bdelete, #editButton {
+	float: right;
+	margin: 3%;
+	padding: 1%;
+}
+
+.formContainer {
+	margin: 2%;
+	padding: 5%;
+}
+
+#ccontent {
+	margin: 3%;
+	padding: 2%;
+	width: 80%;
+	height: 40px;
+	float: left;
+	border: none;
+	border-radius: 5px;
+	background-color: lightgrey;
+	font-size: 16px;
+}
+
+.xi-pen-o {
+	border: none;
+	background-color: white;
+}
+
+#submitCommnetButton {
+	border: none;
+	background-color: white;
+	margin-left: 1%;
+	margin-top: 4%;
+}
+
+.comment {
+	
+	clear: both;
+	margin: 3%;
+	padding: 1%;
+}
+
+.ccommentList {
+	border-top: 1px solid lightgrey;
+	padding-top :5%;
+	
+}
+
+.commentTitle {
+	border-top: 1px solid lightgrey;
+	padding: 5% 0% 5% 0%;
+	font-weight: bold;
+	font-size: large;
+	clear: both;
+
+}
+
+
+
+.cdetail {
+	
+	font-size: large;
+	margin-bottom:2%;
+	font-weight: bold;
+}
+
+.cdate {
+	color:grey;
+	margin-bottom:3%;
+}
+
+
+#commentReportButton {
+	border: none;
+	background-color: white;
+	float: right;
+}
+
+#cdelete {
+	border: none;
+	background-color: white;
+}
+
+.rightSide {
+		 float: right;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right : 3%;
+
+}
+
+.rightSide, .cdate{
+		display: inline-block;
+		
+}

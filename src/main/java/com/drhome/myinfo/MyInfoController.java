@@ -68,6 +68,7 @@ public class MyInfoController {
 		
 		List<Map<String, Object>> myWriting = myInfoService.myWriting(mno);
 		model.addAttribute("myWriting", myWriting);
+		System.out.println(myWriting);
 		
 		List<Map<String, Object>> myComment = myInfoService.myComment(mno);
 		model.addAttribute("myComment", myComment);

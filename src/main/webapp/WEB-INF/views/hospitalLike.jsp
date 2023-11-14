@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -14,6 +15,10 @@
 <script src="./js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
 	$(function(){
+		/* 뒤로가기 버튼 */
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
 		
 		/* 병원 총 개수 세기 */
 	    hospitalCount();
@@ -24,10 +29,10 @@
 	        let text = $this.text().trim();
 	        if (text === '진료 중') {
 	            $this.closest(".hospitalList").find(".receptionStatus").text('접수 가능');
-	            $this.closest(".hospitalList").find(".receptionStatus").addClass('filter-btn-css');
+	            $this.closest(".hospitalList").find(".receptionStatus").addClass('reservationStatus');
 	        } else {
 	            $this.closest(".hospitalList").find(".receptionStatus").text('접수 마감');
-	            $this.closest(".hospitalList").find(".receptionStatus").removeClass('filter-btn-css');
+	            $this.closest(".hospitalList").find(".receptionStatus").removeClass('reservationStatus');
 	        }
 	    });
 
@@ -100,27 +105,32 @@
 
 </head>
 <body>
-	<h1>hospitalLike</h1>
-	<div class="hospitalBox">
-		<div class="hospitalLikeHeader">
-			<div class="xi-angle-left"></div>
-			<div class="hospitalLikeHeaderText">즐겨찾기</div>
-			<button class="hospitalLikeHeaderButton" onclick="location.href='/hospital'">추가하기</button>
-		</div>
+
+	<!-- header -->
+	<header>
+		<i class="xi-angle-left xi-x"></i>
+		<div class="hospitalLikeHeaderText headerTitle">즐겨찾기</div>
+		<div class="blank blankImg" onclick="location.href='/hospital'"><i class="xi-plus xi-x"></i></div>
+	</header>
 	
-		
-		<div class="hospitalLikeBar">
-			<div class="hospitalCount">
-				병원<span class="countNumber"></span>
-			</div>
+	<main class="hospitalBox container">
+	
+	<!-- title -->
+	<div class="hospitalLikeBar bar">
+		<div class="hospitalCount count">
+			병원 <span class="countNumber"></span>
 		</div>
+	</div>
+	
+	<!-- list -->
 	<div class="hospitalListContainerBox">
 		<c:if test="${sessionScope.mno ne null}">
 			<c:forEach items="${hospitalList}" var="row">
 				<c:if test="${fn:contains(hospitalLikeList, row.hname)}">
 					<div class="hospitalListContainer">
+						<div class="listContainer">
 						<div class="hospitalList">
-							<div class="hospitalStatus" style="color:red;">
+							<div class="hospitalStatus"">
 							
 							<!-- 공휴일 -->
 							<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
@@ -173,23 +183,25 @@
 								<div class="hospitalAddress">${row.haddr}</div>
 							</div>
 							<div class="hospitalReview" onclick="hospitalDetail(${row.hno})">
-								<img src="./img/star.png" style="width: 4%">
+								<img src="./img/star.png" style="width: 18px;">
 								<div class="reviewScore">${row.hReviewAverage}</div>
 								<div class="reviewCount">(${row.hReviewCount})</div>
 							</div>
 							<div class="hospitalReserve">
-								<div class="receptionStatus" style="color: blue"></div>
+								<div class="receptionStatus""></div>
 								<input type="hidden" class="hno" value="${row.hno}">
 								<div class="reservationStatus" onclick="hospitalAppointment(${row.hno})">예약 가능</div>
 							</div>
-							<div class="hospitalLike xi-heart"></div>
 						</div>
+						<div class="hospitalLike xi-heart"></div>
 						
+					</div>
+					<div class="graySeperate"></div>
 					</div>
 				</c:if>
 			</c:forEach>
 		</c:if>
 	</div>
-   </div>
+   </main>
 </body>
 </html>

@@ -20,16 +20,16 @@ body {
 }
 
 header {
-    position: fixed;
-    height: 8vh;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-    z-index: 1000;
-    background-color: white;
-    padding-inline-end: 22px;
-    padding-inline-start: 24px;
+	position: fixed;
+	height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	z-index: 1000;
+	background-color: white;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
 }
 
 .headerTitle {
@@ -43,7 +43,7 @@ header {
 footer {
 	bottom: 0;
 	position: fixed;
-	height: 8vh;
+	height: 9vh;
 	display: flex;
 	justify-content: space-evenly;
 	width: 100%;
@@ -67,10 +67,8 @@ footer button {
 	border-radius: 14px;
 }
 
-.container {
-	height: 100vh;
+main{
 	padding-top: 9vh;
-	padding-bottom: 8vh !important;
 }
 
 .section {
@@ -92,6 +90,11 @@ footer button {
 
 .xi-angle-left, .xi-angle-right {
 	color: #757575;
+}
+
+a {
+	color: black;
+	text-decoration: none;
 }
 
 .swiper {
@@ -148,7 +151,7 @@ footer button {
 	font-size: 15px;
 	background-color: white;
 	border-radius: 14px;
-	border: 0.1pt solid #2d2d2d;
+	border: 1px solid #EEEEEE;
 }
 
 .call button i {
@@ -208,7 +211,7 @@ footer button {
 	width: 90%;
 	margin: 0 auto;
 	background-color: rgba(0, 201, 255, 0.15);
-	border-radius: 25px;
+	border-radius: 18px;
 }
 
 .dayTitle {
@@ -230,7 +233,7 @@ footer button {
 	margin: 20px auto;
 	padding: 20px 0;
 	background-color: #F5F5F5;
-	border-radius: 25px;
+	border-radius: 18px;
 }
 
 .day {
@@ -340,7 +343,7 @@ footer button {
 }
 
 .doctorName {
-	margin: 4px 0 0 30px;
+	margin: 7px 0 0 30px;
 }
 
 .doctorDetail span {
@@ -508,3 +511,5 @@ footer button {
 	border: 1px solid black;
 	border-radius: 15px;
 }
+
+/* footer */

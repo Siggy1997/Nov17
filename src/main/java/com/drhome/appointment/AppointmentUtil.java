@@ -12,13 +12,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AppointmentUtil {
+	LocalDate now = LocalDate.now();
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	// 일주일 요일뽑기
 	public List<String> daysOfWeek() {
-		LocalDate now = LocalDate.now();
+
 		List<String> daysOfWeek = new ArrayList<>();
 
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 20; i++) {
 			DayOfWeek day = now.plusDays(i).getDayOfWeek();
 
 			switch (day.name()) {
@@ -56,30 +58,28 @@ public class AppointmentUtil {
 	public List<String> dateOfWeek() {
 		LocalDate now = LocalDate.now();
 		List<String> dateOfWeek = new ArrayList<String>();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		for (int i = 0; i < 30; i++) {
+
+		for (int i = 0; i < 20; i++) {
 			LocalDate date = now.plusDays(i);
 			dateOfWeek.add(date.format(formatter));
 		}
 		return dateOfWeek;
 	}
 
-    public List<String> splitTimeRange(Date startTime, Date endTime) {
-        
-            List<String> timeSlots = new ArrayList<>();
+	public List<String> splitTimeRange(Date startTime, Date endTime) {
 
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            
-            //30분
-            long interval = 30 * 60 * 1000; 
+		List<String> timeSlots = new ArrayList<>();
 
-            for (long time = startTime.getTime(); time < endTime.getTime(); time += interval) {
-                Date slotDate = new Date(time);
-                timeSlots.add(sdf.format(slotDate));
-            } 
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-            return timeSlots;
-        }
-    }
+		// 30분
+		long interval = 30 * 60 * 1000;
 
+		for (long time = startTime.getTime(); time < endTime.getTime(); time += interval) {
+			Date slotDate = new Date(time);
+			timeSlots.add(sdf.format(slotDate));
+		}
 
+		return timeSlots;
+	}
+}

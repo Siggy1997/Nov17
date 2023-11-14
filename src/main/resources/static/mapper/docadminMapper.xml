@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.drhome.docadmin.DocAdminDAO">
+
+	<select id="findHospitalImg" resultType="Map">
+		SELECT h.himg
+		FROM doctor d
+		JOIN hospital h ON d.hno = h.hno
+		WHERE d.dno =#{dno};
+	</select>
 	
 	<select id="telehealthHistory" parameterType="Integer" resultType="Map">
 	    SELECT t.*, m.mname, d.dname, dp.dpkind
@@ -34,7 +41,7 @@
 	</select>
 	
 	<select id="dpKind" parameterType="Map" resultType="Map">
-	    SELECT DISTINCT dp.dpkind
+	    SELECT DISTINCT dp.dpkind, dp.dpno
 	    FROM doctor d
 	    JOIN department dp ON d.dpno = dp.dpno
 	    WHERE d.hno=#{hno};
@@ -79,7 +86,8 @@
       	TIME_FORMAT(hnightendtime, '%H:%i') as hnightendtime,
       	TIME_FORMAT(hbreaktime, '%H:%i') as hbreaktime,
      	TIME_FORMAT(hbreakendtime, '%H:%i') as hbreakendtime,
-      	TIME_FORMAT(hholidayendtime, '%H:%i') as hholidayendtime
+      	TIME_FORMAT(hholidayendtime, '%H:%i') as hholidayendtime,
+      	hholiday
 	    FROM hospitalList_view 
 	    WHERE hno=#{hno}
 	    GROUP BY hno;

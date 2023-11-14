@@ -48,7 +48,6 @@ public class PayController {
 	@GetMapping("/completePay/{mno}")
 	public String completePay(@PathVariable int mno, Map<String, Object> map) {
 		map.put("mno", mno);
-		map.put("tno", 9);
 		
 		return "/completePay";
 	}
@@ -57,7 +56,6 @@ public class PayController {
 	public String completePay(@RequestParam Map<String, Object> map, @PathVariable int mno) {
 		//카드 잔액 차감하기
 		map.put("mno", mno);
-		map.put("tno", 9);
 		System.out.println("map:"+ map);
 		int intCdBalance = Integer.parseInt((String)map.get("cdbalance")) - Integer.parseInt((String)map.get("finalPay"));
 		map.put("intCdBalance", intCdBalance);
