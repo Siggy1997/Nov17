@@ -23,62 +23,77 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentUtil util;
 
+	
+	@GetMapping("/appointmentToday/{hno}")
+	public String appointmentToday(@PathVariable int hno) {
+		System.out.println(hno);
+		return "/appointmentToday";
+	}
+	
+	
 	@GetMapping("/appointment/{hno}")
 	public String appointment(@PathVariable Map<String, Object> hno, Model model) {
+		// 병원 정보 가져오기
 		Map<String, Object> hospital = appointmentService.findHospitalDeatilByHno(hno);
+
+		// 의사 정보 가져오기
 		ArrayList<Map<String, Object>> doctor = appointmentService.findDoctorByHno(hno);
 
-		System.out.println(hospital);
-
 		model.addAttribute("hospital", hospital);
-		model.addAttribute("doctor", doctor); 
+		model.addAttribute("doctor", doctor);
 		model.addAttribute("day", util.daysOfWeek());
 		model.addAttribute("date", util.dateOfWeek());
 
-		return "/appointment"; 
+		return "/appointment";
 	}
 
 	@PostMapping("/appointment")
 	public String appointment(@RequestParam Map<String, Object> data) {
 		appointmentService.appointmentFinish(data);
 		System.out.println(data);
-		return "/main";
+		return "redirect:/main";
 	}
 
 	@ResponseBody
-	@GetMapping("/getTime") 
+	@GetMapping("/getTime")
 	public String getTime(@RequestParam Map<String, Object> data) {
+
+		// 예약 선택 요일 가져오기 "일요일"
 		String day = (String) data.get("day");
+
+		// 병원 시간 가져오기 (야간진료, 공휴일, 평일)
 		Map<String, Object> hospital = appointmentService.findHospitalDeatilByHno(data);
-		System.out.println(hospital);
+
+		// 병원 고유번호,예약 원하는 날짜 넘겨주고 예약된 시간 가져오기
 		List<Map<String, Object>> checkTime = appointmentService.checkTimeStatus(data);
-		System.out.println(data);
-		System.out.println(checkTime);
+
 		JSONObject json = new JSONObject();
+		// 예약된 시간 넣기
 		json.put("checkTime", checkTime);
-
-		if ((day.equals("토요일") || day.equals("일요일")) && (hospital.get("hholiday") + "").equals("1")) {
-			json.put("timeSlots",
-					util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hholidayendtime")));
-			System.out.println("1");
-		} else if ((day.equals("토요일") || day.equals("일요일")) && (hospital.get("hholiday") + "").equals("0")) {
-			json.put("timeSlots", "");
-			System.out.println("2");
-
-		} else if (day.equals(hospital.get("hnightday"))) {
-			json.put("timeSlots",
-					util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hnightendtime")));
-			System.out.println("3");
-
+		System.out.println(data.get("date"));
+		System.out.println(util.now);
+		// 오늘 날짜 클릭시 시간 안보이고 진료 예약 으로 보내기
+		if (data.get("date").equals(util.now.format(util.formatter))) {
+			json.put("timeSlots", "오늘");
 		} else {
-			json.put("timeSlots",
-					util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hclosetime")));
-			System.out.println("4");
+
+			// 선택된 요일 조건문에 넣어서 오픈,엔드 시간 찾기 / util에서 시작 끝 시간을 30분씩 짜르기
+			if ((day.equals("토요일") || day.equals("일요일")) && (hospital.get("hholiday") + "").equals("1")) {
+				json.put("timeSlots",
+						util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hholidayendtime")));
+			} else if ((day.equals("토요일") || day.equals("일요일")) && (hospital.get("hholiday") + "").equals("0")) {
+				json.put("timeSlots", "");
+
+			} else if (day.equals(hospital.get("hnightday"))) {
+				json.put("timeSlots",
+						util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hnightendtime")));
+
+			} else {
+				json.put("timeSlots",
+						util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hclosetime")));
+			}
+
 		}
-
-		System.out.println(util.daysOfWeek().get(0));
-		System.out.println(hospital.get("hnightday"));
-
 		System.out.println(json.toString());
 
 		return json.toString();
