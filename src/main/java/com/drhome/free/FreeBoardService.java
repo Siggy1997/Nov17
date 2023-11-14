@@ -79,7 +79,10 @@ public class FreeBoardService {
 		return freeBoardDAO.reportCount(reportCountData);	
 	}
 
-
+	public void editBoard(Map<String, Object> editBoardData) {
+		freeBoardDAO.editBoard(editBoardData);
+		
+	}
 
 
 

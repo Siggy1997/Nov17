@@ -28,6 +28,10 @@ public class DocAdminController {
 	@GetMapping("/docMain/{mno}/{dno}")
 	public String docMain(@PathVariable int dno, Model model) {
 		
+		Map<String, Object> hospital = docAdminService.findHospitalImg(dno);
+		System.out.println(hospital);
+		model.addAttribute("hospital", hospital);
+		
 		Map<String, Object> docMainDetail = docAdminService.docMainDetail(dno);
 		model.addAttribute("docMainDetail", docMainDetail);
 		System.out.println(docMainDetail);
@@ -60,11 +64,12 @@ public class DocAdminController {
 		model.addAttribute("dpCount", dpCount);
 		
 		//진료시간 점심시간 뽑기
-		Map<String, Object> now = new HashMap<>();
 		Map<String, Object> hospital = docAdminService.findHospitalByHno(map);
+		Map<String, Object> now = new HashMap<>();
 		now.put("dayOfWeek", util.getDayOfWeek(util.getDayOfWeek()));
-		model.addAttribute("now", now);
+		now.put("time", util.getTime());
 		model.addAttribute("hospital", hospital);
+		model.addAttribute("now", now);
 		
 		System.out.println(hospital);
 		

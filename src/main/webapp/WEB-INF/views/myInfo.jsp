@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>MyInfo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link href="/css/modal.css" rel="stylesheet" />
 <link href="/css/myInfo.css" rel="stylesheet" />
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -14,7 +16,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-    $('.main i').on('click',function(){
+    $('.health-area i').on('click',function(){
         $('input').toggleClass('active');
         if($('input').hasClass('active')){
             $(this).attr('class',"xi-eye xi-2x")
@@ -159,56 +161,80 @@ new daum.Postcode({
 
 </head>
 <body>
-	<a href="../main">&nbsp;&nbsp;←뒤로가기</a>
-	<h1>MyInfo</h1>
-	<h3>내 정보 확인하기</h3>
-	<br>
-	<h4>이름</h4>
-	${myInfo.mname }
-	<h4>닉네임</h4>
-	${myInfo.mnickname }
-	<h4>아이디</h4>
-	${myInfo.mid }
-	<div class="main">
-	<form action="../changePW/${sessionScope.mno}" method="post" id="changePW">
-	<h4>패스워드</h4>
-	<input type="password" id="mpw" name="mpw" placeholder="비밀번호를 입력해주세요." maxlength="8" value="${myInfo.mpw }">
-	<i class="xi-eye xi-2x"></i>
-	<br>
-	<span id="pwInfo"></span>
-	<br>
-	<button id="changePWBtn">비밀번호 변경</button>
-	</form>
+	<header>
+		<a href="/main"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">내 정보 관리</div>
+		<div class="blank"></div>
+	</header>
+	
+	<main>
+		<div class="main-area">
+		<p class="top-title">내 정보 확인하기&nbsp;🙆‍♂️</p>
+		<div class="health-area">
+			<p class="p-title">이름</p>
+			<p class="p-detail">${myInfo.mname}</p>
+		</div>
+		<div class="health-area">
+			<p class="p-title">닉네임</p>
+			<p class="p-detail">${myInfo.mnickname}</p>
+		</div>
+		<div class="health-area">
+			<p class="p-title">아이디</p>
+			<p class="p-detail">${myInfo.mid}</p>
+		</div>
+		<div class="health-area">
+			<div class="password-area">
+				<form action="../changePW/${sessionScope.mno}" method="post" id="changePW">
+				<div class="title-button">
+					<span class="p-title">패스워드</span><button class="button" id="changePWBtn">비밀번호 변경</button>
+				</div>
+				<input type="password" id="mpw" name="mpw" placeholder="비밀번호를 입력해주세요." maxlength="8" value="${myInfo.mpw }">
+				<i class="xi-eye-off xi-2x"></i>
+				<p id="pwInfo" class="info"></p>
+				</form>
+			</div>
+		</div>
+		<div class="health-area">
+			<p class="p-title">이메일</p>
+			<p class="p-detail">${myInfo.memail}</p>
+		</div>
+		<div class="health-area">	
+			<form action="../changeHomeAddr/${sessionScope.mno}" method="post">
+			<div class="title-button">
+				<span class="p-title">집주소</span><button class="button" id="changeHomeAddr">집주소 변경</button>
+			</div>
+			<input type="text" id="mhomeaddr" name="mhomeaddr" placeholder="집주소를 입력해주세요." value="${myInfo.mhomeaddr}" onclick="searchAddr()">
+			<input type="text" id="mhomeaddr2" name="mhomeaddr2" placeholder="상세주소를 입력해주세요." value="${myInfo.mhomeaddr2}">
+			<span id="homeAddrInfo"></span>
+			</form>
+		</div>
+		<div class="health-area">
+			<form action="../changeCompanyAddr/${sessionScope.mno}" method="post">
+			<div class="title-button">
+				<span class="p-title">회사주소(선택)</span><button class="button" id="changeCompanyAddr">회사주소 변경</button>
+			</div>
+			<input type="text" id="mcompanyaddr" name="mcompanyaddr" placeholder="회사 주소를 입력해주세요." value="${myInfo.mcompanyaddr}" onclick="searchComAddr()">
+			<input type="text" id="mcompanyaddr2" name="mcompanyaddr2" placeholder="상세주소를 입력해주세요." value="${myInfo.mcompanyaddr2}">
+			<span id="companyAddrInfo"></span>
+			</form>
+		</div>
+		<div class="health-area">
+			<p class="p-title">생년월일</p>
+			<p class="p-detail">${myInfo.mbirth }</p>
+		</div>
+		<div class="health-area">
+			<form action="../changePhoneNumber/${sessionScope.mno}" method="post">
+			<div class="title-button">
+				<span class="p-title">전화번호</span><button id="changePhoneNumber">전화번호 변경</button>
+			</div>
+			<input type="text" id="firstNumber" name="firstNumber" maxlength="3" placeholder="010"> -
+			<input type="text" id="MiddleNumber" name="MiddleNumber" maxlength="4" placeholder="xxxx"> -
+			<input type="text" id="lastNumber" name="lastNumber" maxlength="4" placeholder="xxxx">
+			<span id="phoneInfo"></span>
+			</form>
+		</div>
 	</div>
-	<h4>이메일</h4>
-	${myInfo.memail }
-	<form action="../changeHomeAddr/${sessionScope.mno}" method="post">
-	<h4>집주소</h4>
-	<input type="text" id="mhomeaddr" name="mhomeaddr" placeholder="집주소를 입력해주세요." value="${myInfo.mhomeaddr}" onclick="searchAddr()">
-	<input type="text" id="mhomeaddr2" name="mhomeaddr2" placeholder="상세주소를 입력해주세요." value="${myInfo.mhomeaddr2}">
-	<br>
-	<span id="homeAddrInfo"></span>
-	<button id="changeHomeAddr">집주소 변경</button>
-	</form>
-	<form action="../changeCompanyAddr/${sessionScope.mno}" method="post">
-	<h4>회사주소(선택)</h4>
-	<input type="text" id="mcompanyaddr" name="mcompanyaddr" placeholder="회사 주소를 입력해주세요." value="${myInfo.mcompanyaddr}" onclick="searchComAddr()">
-	<input type="text" id="mcompanyaddr2" name="mcompanyaddr2" placeholder="상세주소를 입력해주세요." value="${myInfo.mcompanyaddr2}">
-	<br>
-	<span id="companyAddrInfo"></span>
-	<button id="changeCompanyAddr">회사주소 변경</button>
-	</form>
-	<h4>생년월일</h4>
-	${myInfo.mbirth }
-	<form action="../changePhoneNumber/${sessionScope.mno}" method="post">
-	<h4>전화번호</h4>
-	<input type="text" id="firstNumber" name="firstNumber" maxlength="3" placeholder="010"> -
-	<input type="text" id="MiddleNumber" name="MiddleNumber" maxlength="4" placeholder="xxxx"> -
-	<input type="text" id="lastNumber" name="lastNumber" maxlength="4" placeholder="xxxx">
-	<br>
-	<span id="phoneInfo"></span>
-	<button id="changePhoneNumber">전화번호 변경</button>
-	</form>
+	</main>
 	
 		<!-- 모달1 start -->
 	<div class="modal" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
@@ -226,7 +252,7 @@ new daum.Postcode({
 	</div>
 	<div>
 		<input type="text" id="sample2_postcode" placeholder="우편번호">
-		<input type="button" onclick="sample2_execDaumPostcode()" value="주소 찾기"><br>
+		<input class="input-button" onclick="sample2_execDaumPostcode()" value="주소 찾기"><br>
 		<input type="text" id="sample2_address" placeholder="주소"><br>
 		<input type="text" id="sample2_detailAddress" placeholder="상세주소">
 		<input type="text" id="sample2_extraAddress" placeholder="참고항목">
@@ -257,7 +283,7 @@ new daum.Postcode({
 	</div>
 	<div>
 		<input type="text" id="sample2_postcode2" placeholder="우편번호">
-		<input type="button" onclick="sample2_execDaumPostcode2()" value="주소 찾기"><br>
+		<input class="input-button" type="button" onclick="sample2_execDaumPostcode2()" value="주소 찾기"><br>
 		<input type="text" id="sample2_address2" placeholder="주소"><br>
 		<input type="text" id="sample2_detailAddress2" placeholder="상세주소">
 		<input type="text" id="sample2_extraAddress2" placeholder="참고항목">

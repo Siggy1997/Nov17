@@ -5,16 +5,34 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>DocMain</title>
-
+<link rel="stylesheet" href="/css/docMain.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="./js/jquery-3.7.0.min.js"></script> 
-
 <script type="text/javascript">
 </script>
 
 </head>
 <body>
+	<header>icon icon</header>
+	
+	<div class="advertisment">
+		<div class="swiper">
+			<!-- Additional required wrapper -->
+			<div class="swiper-wrapper">
+				<!-- Slides -->
+				<c:forEach var="img" items="${hospital.himg.split(',') }">
+					<img class="swiper-slide" alt="" src="${img }">
+				</c:forEach>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 본문내용 -->
+	<main>
 	<h1>DocMain</h1>
 	<h3>${docMainDetail.hname}</h3>
 	<h3>닥터 ${sessionScope.mname} 님 반갑습니다.</h3>
@@ -32,7 +50,6 @@
           <th style="width:100px; min-width: 100px; max-width: 100px;">신청과</th>
           <th style="width:150px; min-width: 150px; max-width: 150px;">증상</th>
           <th style="width:100px; min-width: 100px; max-width: 100px;">대기상태</th>
-          <th style="width:100px; min-width: 100px; max-width: 100px;">담당의</th>
         </tr>
       </thead>
       <tbody>
@@ -55,10 +72,24 @@
 						class="tstatus">진료취소</td>
 					</c:otherwise>
 					</c:choose>
-            <td style="width:100px; min-width: 100px; max-width: 100px;">${row.dname}</td>
           </tr>
         </c:forEach>
       </tbody>
     </table>
+    </main>
+    
+    <script type="text/javascript">
+		//스와이퍼 시작
+		const swiper = new Swiper('.swiper', {
+			// Optional parameters
+			direction : 'horizontal',
+			loop : true,
+			autoplay : {
+				delay : 2000, // 3초마다 변경
+			},
+
+		});
+	</script>
+    
 </body>
 </html>

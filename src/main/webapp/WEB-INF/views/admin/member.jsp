@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>admin || 회원 승인 및 등급</title>
+<title>회원 승인 및 등급</title>
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="../css/admin.css">
@@ -18,6 +18,8 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/sweet-modal/dist/min/jquery.sweet-modal.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function () {	
+	
 	function gradeCh(mno, name, value, count) {
 		$.sweetModal({
 			content : name+'님의 등급을 변경하시겠습니까?',
@@ -41,6 +43,13 @@
 			width : '70%',
 		});
 	}
+
+
+	$("#clickData").click(function() {
+		alert("!");
+	});
+
+});	
 </script>
 <style type="text/css">
 .sweet-modal-content {
@@ -64,7 +73,14 @@
 	background-color: #00C9FF;
 	border-radius: 15px;
 	color: white;
+	width: 130px;
+	height: 30px;
 	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+.btnCenter {
+	margin: 0 auto;
 }
 </style>
 </head>
@@ -81,12 +97,43 @@
 						<div class="div-cell table-head">등급</div>
 					</div>
 					<c:forEach items="${memberList }" var="row">
-						<div
-							class="div-row <c:if test="${row.mgrade gt 6 }">manager</c:if><c:if test="${row.mgrade gt 4 && row.mgrade lt 7}">doctor</c:if><c:if test="${row.mgrade lt 1 }">cancel</c:if>">
-							<div class="div-cell">${row.mno }</div>
+						
+						<div id="clickData" class="div-row <c:if test="${row.mgrade gt 6 }">manager</c:if><c:if test="${row.mgrade gt 4 && row.mgrade lt 7}">doctor</c:if><c:if test="${row.mgrade lt 1 }">cancel</c:if>">
+							<div class="div-cell" style="width: 3%;">${row.mno }</div>
 							<div class="div-cell">${row.mid }</div>
 							<div class="div-cell">${row.mname }</div>
 							<div class="div-cell">
+							<c:choose>
+								<c:when test="${row.mgrade eq 0}">
+									탈퇴 회원
+								</c:when>
+								<c:when test="${row.mgrade eq 1}">
+									휴면계정
+								</c:when>
+								<c:when test="${row.mgrade eq 2}">
+									일반 회원
+								</c:when>
+								<c:when test="${row.mgrade eq 3}">
+									우수 회원
+								</c:when>
+								<c:when test="${row.mgrade eq 4}">
+									VIP 회원
+								</c:when>
+								<c:when test="${row.mgrade eq 5}">
+									일반 의사
+								</c:when>
+								<c:when test="${row.mgrade eq 6}">
+									전문 의사
+								</c:when>
+								<c:when test="${row.mgrade eq 7}">
+									일반 관리자
+								</c:when>
+								<c:when test="${row.mgrade eq 8}">
+									최고 관리자
+								</c:when>
+							</c:choose>
+							</div>
+							<%-- <div class="div-cell">
 								<select class="grade"
 									onchange="gradeCh(${row.mno }, '${row.mname }', this.value,  ${row.mboardcount })">
 									<optgroup label="이용불가">
@@ -114,10 +161,12 @@
 											<c:if test="${row.mgrade eq 8}">selected="selected"</c:if>>최고관리자</option>
 									</optgroup>
 								</select>
-							</div>
+							</div> --%>
 						</div>
 					</c:forEach>
-					<button class="btn" onclick="location.href='./main'">돌아가기</button>
+					<div class="btnCenter">
+						<button class="btn" onclick="location.href='./main'">돌아가기</button>
+					</div>
 				</div>
 			</div>
 		</div>

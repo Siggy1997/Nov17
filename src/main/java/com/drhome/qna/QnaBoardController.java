@@ -42,6 +42,7 @@ public class QnaBoardController {
 		List<Map<String, Object>> qnaList = qnaBoardService.qnaList();
 		model.addAttribute("qnaList", qnaList);
 		
+		
 		// freeList 데이터를 받아옴
 	    List<Map<String, Object>> freeList = freeBoardService.freeList();
 
@@ -61,17 +62,30 @@ public class QnaBoardController {
 
 	@GetMapping("/qnaDetail")
 	public String qnaDetail(@RequestParam("bno") int bno, Model model, HttpSession session) {
+		
+		Integer mno = (Integer) session.getAttribute("mno");
+		 Integer dno = (Integer) session.getAttribute("dno");
+		
+		// 로그인이 되어있지 않을 때 mno를 null로 처리
+		if (mno != null) {
+			model.addAttribute("mno", mno);
+		}
+		
 
+		if (dno != null) {
+			model.addAttribute("dno", dno);
+		}
+
+		//int mno = 1;
+
+		//int dno = 2; // 추후 세션값으로 변경 예정 // 답변 삭제, 수정
 		
-	 //int mno = (int) session.getAttribute("mno");
-		int mno = 1;
-		int dno = 2; // 추후 세션값으로 변경 예정 // 답변 삭제, 수정
 		
-		model.addAttribute("dno", dno);
-		model.addAttribute("mno", mno);
+		
 
 		Map<String, Object> qnaQuestion = qnaBoardService.qnaQuestion(bno);
 		model.addAttribute("qnaQuestion", qnaQuestion);
+
 
 		String bCallDibs = (String) qnaQuestion.get("bcalldibs");
 		if (bCallDibs != null) {
@@ -143,14 +157,15 @@ public class QnaBoardController {
 			@RequestParam("bdate") String bdate, @RequestParam("selectDepartment") String selectDepartment
 			,HttpSession session) throws IOException {
 
-		// int mno = (int) session.getAttribute("mno");
-		
+		 int mno = (int) session.getAttribute("mno");
+
 		Map<String, Object> qnaData = new HashMap<>();
 		qnaData.put("btitle", btitle);
 		qnaData.put("bcontent", bcontent);
 		qnaData.put("bdate", bdate);
 		qnaData.put("btype", 0);
-		qnaData.put("mno", 1);
+		qnaData.put("mno", mno);
+
 		qnaData.put("selectDepartment", selectDepartment);
 		// 파일 데이터를 바이트 배열로 변환
 		//byte[] fileBytes = file.getBytes();
@@ -168,7 +183,10 @@ public class QnaBoardController {
 	public String writeQnaAnswer(@RequestParam("bno") int bno, @RequestParam("ccontent") String ccontent,
 			@RequestParam("cdate") String cdate, HttpSession session) {
 
-		// int mno = (int) session.getAttribute("mno");
+		int mno = (int) session.getAttribute("mno");
+
+		int dno = (int) session.getAttribute("dno");
+
 		
 		// 게시물당 댓글 수 조회
 		int commentCount = qnaBoardService.commentCount(bno);
@@ -181,8 +199,9 @@ public class QnaBoardController {
 		  LocalDateTime currentDatetime = LocalDateTime.now();
 
 		qnaAnswerData.put("bno", bno);
-		qnaAnswerData.put("dno", 2); // 추후 세션값으로 변경 예정
-		qnaAnswerData.put("hno", 1); // 추후 세션값으로 변경 예정
+		qnaAnswerData.put("mno", mno);
+		qnaAnswerData.put("dno", dno); // 추후 세션값으로 변경 예정
+		//qnaAnswerData.put("hno", 1); // 추후 세션값으로 변경 예정
 		qnaAnswerData.put("cno", cno);
 		qnaAnswerData.put("ccontent", ccontent);
 		qnaAnswerData.put("cdate", currentDatetime);
@@ -224,17 +243,18 @@ public class QnaBoardController {
 
 		Map<String, Object> qnaCallDibsData = new HashMap<>();
 
+		Integer mno = (Integer) session.getAttribute("mno");
 
-		// int mno = (int) session.getAttribute("mno");
-
+		// 로그인이 되어있지 않을 때 mno를 null로 처리
+		if (mno == null) {
+		    mno = null;
+		}
 
 		qnaCallDibsData.put("bno", bno);
-		qnaCallDibsData.put("mno", 1);
+		qnaCallDibsData.put("mno", mno);
 
 		if (callDibsInput == true) {
 
-			System.out.println(callDibsInput);
-			System.out.println(qnaCallDibsData);
 			qnaBoardService.delQnaCallDibs(qnaCallDibsData);
 
 		} else {
@@ -254,13 +274,13 @@ public class QnaBoardController {
 		  LocalDateTime currentDatetime = LocalDateTime.now();
 		
 
-		// int mno = (int) session.getAttribute("mno");
+		 int mno = (int) session.getAttribute("mno");
 			
 		  
 		reportData.put("bno", bno);
-		reportData.put("mno", 1);
+		reportData.put("mno", mno);
 		reportData.put("rpcontent", rpcontent);
-		reportData.put("rpurl", "http://localhost:8080/qnaDetail?bno=" + bno);
+		reportData.put("rpurl", "http://localhost/qnaDetail?bno=" + bno);
 		reportData.put("rpdate", currentDatetime);
 
 		qnaBoardService.reportPost(reportData);
@@ -269,45 +289,46 @@ public class QnaBoardController {
 	}
 	
 	
-	@GetMapping("/editBoard")
-	public String editBoard() {
 
-		return "/editBoard";
+	@GetMapping("/editQna")
+	public String editQna() {
+
+		return "/editQna";
 	}
 
-	
-	
-	@PostMapping("/editBoard")
-	public String editBoard(@RequestParam("bno") int bno, @RequestParam("btype") int btype, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent, Model model) {
+	@PostMapping("/editQna")
+	public String editBoard(@RequestParam("bno") int bno, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent,
+			@RequestParam("dpkind") String dpkind, Model model) {
 
 		model.addAttribute("bno", bno);
-		model.addAttribute("btype", btype);
+		//model.addAttribute("btype", btype);
 		model.addAttribute("btitle", btitle);
 		model.addAttribute("bcontent", bcontent);
+		model.addAttribute("dpkind", dpkind);
 		
 		
-		return "/editBoard";
+		return "/editQna";
 
 	}
 	
-	@PostMapping("/submitEditBoard")
-	public String submitEditBoard(@RequestParam("bno") int bno, @RequestParam("btype") int btype, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent, Model model) {
+
+	
+	@PostMapping("/submitEditQna")
+	public String submitEditQna(@RequestParam("bno") int bno, @RequestParam("btitle") String btitle, @RequestParam("bcontent") String bcontent,
+			 @RequestParam("selectDepartment") String selectDepartment, Model model) {
 
 
-	    Map<String, Object> editBoardData = new HashMap<>();
-	    editBoardData.put("bno", bno);
-	    editBoardData.put("btype", btype);
-	    editBoardData.put("btitle", btitle);
-	    editBoardData.put("bcontent", bcontent);
+	    Map<String, Object> editQnaData = new HashMap<>();
+	    editQnaData.put("bno", bno);
+	  //  editBoardData.put("btype", btype);
+	    editQnaData.put("btitle", btitle);
+	    editQnaData.put("bcontent", bcontent);
+	    editQnaData.put("selectDepartment", selectDepartment);
 
-		qnaBoardService.editBoard(editBoardData);
+		qnaBoardService.editQna(editQnaData);
 		
 		
-		if (btype == 0) {
 			return "redirect:/qnaDetail?bno=" + bno;
-		} else {
-			return "redirect:/freeDetail?bno=" + bno;
-		}
 
 	}
 	

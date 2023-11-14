@@ -8,10 +8,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./css/qnaBoard.css">
 <script src="./js/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <title>Insert title here</title>
 </head>
 <body>
+
+
+<header>
+    <i class="xi-angle-left xi-x"></i>
+    <div class="header title">커뮤니티</div>
+    <div class="blank"></div>
+</header>
+
+<main>
+
+<div id="boardButtonsContainer">
+<button id="qnaBoardButton" onclick="toggleBoard('qnaBoard')" style="display: none;">QnA게시판</button>
+<button id="qnaBoardBoldButton">QnA게시판</button>
+<button id="freeBoardButton" onclick="toggleBoard('freeBoard')">자유게시판</button>
+<button id="freeBoardBoldButton" style="display: none;">자유게시판</button>
+</div>
+<!-- <button id="hospitalMapButton" onclick="location.href='hospitalMap'">병원지도</button> -->
 
 	<form action="/searchWord" method="post" onsubmit="searchForm()">
 		<select name = "selectOption">
@@ -21,12 +42,9 @@
        </select>	
 		<input type="text" name="searchWord" id="searchWordInput"
 			placeholder="검색 할 내용을 입력하세요">		
-		<button type="submit">검색</button>
+		<button type="submit" class="xi-search xi-x"></button>
 	</form>
 
-<button id="qnaBoardButton" onclick="toggleBoard('qnaBoard')">QnA게시판</button>
-<button id="freeBoardButton" onclick="toggleBoard('freeBoard')">자유게시판</button>
-<!-- <button id="hospitalMapButton" onclick="location.href='hospitalMap'">병원지도</button> -->
 
 
 
@@ -39,9 +57,9 @@
 
 
 <div id="qnaBoard" style="display:block;"> 
-<h1>QnA 게시판</h1>
+<!-- <h1>QnA 게시판</h1> -->
 
-<button onclick="location.href='writeQna'">작성하기</button>
+<button class="writeButton" onclick="confirmWriteQna()">작성하기</button>
 
 <select name ="selectDepartment" id="selectDepartment">
 		<option>진료과목</option>
@@ -60,7 +78,7 @@
           <option value = "정신의학과">정신의학과</option>
        </select>	
 
-    <!-- 필터링 전 코드 -->
+
 <div id="qnaListContainer">
             <c:forEach items="${qnaList}" var="qna"> 
                 <a href="<c:url value='/qnaDetail'><c:param name='bno' value='${qna.bno}' /></c:url>">
@@ -72,7 +90,9 @@
                         </c:if>
                         <c:choose>
                             <c:when test="${qna.comment_count == 0}">
+                            <div class="wait">
                                 "답변 대기 중"
+                                </div>
                             </c:when>
                             <c:otherwise>
                                 <div class="count">답변 ${qna.comment_count}개</div>
@@ -80,13 +100,16 @@
                         </c:choose>
                     </div>
                 </a>
-                <br>
             </c:forEach>
 
 </div>
 
 </div>
 
+</main>
+<footer></footer>
+
+</body>
 
 <script>
     function toggleBoard(boardId) {
@@ -127,18 +150,18 @@
 </script>
 <script>
 $(document).ready(function () {
-    // select 요소의 변경이 감지되면 실행되는 함수
+   
     $("#selectDepartment").change(function () {
         // 선택된 부서 값을 가져옴
         var selectedDepartment = $(this).val();
 
-        // AJAX를 사용하여 서버에 데이터 요청
+      
         $.ajax({
             type: "GET",
             url: "/selectDepartment",
             data: { department: selectedDepartment },
             success: function (response) {
-                // 서버로부터 받은 응답을 사용하여 게시글을 업데이트
+               
                 updateQnaList(response);
             },
             error: function (error) {
@@ -151,7 +174,7 @@ $(document).ready(function () {
 <script>
     function updateQnaList(filteredQnaList) {
         var qnaListContainer = document.getElementById("qnaListContainer");
-        qnaListContainer.innerHTML = ""; // 기존 목록 초기화
+        qnaListContainer.innerHTML = "";
 
         for (var i = 0; i < filteredQnaList.length; i++) {
             var qna = filteredQnaList[i];
@@ -167,5 +190,53 @@ $(document).ready(function () {
         }
     }
 </script>
-</body>
+<script>
+function confirmWriteQna() {
+    const mno = "${mno}";
+
+    if (mno === null || mno === undefined || mno === "") {
+        if (confirm("로그인 한 사용자만 작성할 수 있습니다. 로그인 하시겠습니까?")) {
+            window.location.href = "/login";
+        }
+    } else {
+        window.location.href = 'writeQna';
+    }
+}
+
+
+function toggleBoardLogic(boardType) {
+   
+    var qnaBoard = document.getElementById("qnaBoard");
+    var freeBoard = document.getElementById("freeBoard");
+
+    if (boardType === 'qnaBoard') {
+      qnaBoard.style.display = "block";
+      freeBoard.style.display = "none";
+    } else if (boardType === 'freeBoard') {
+      qnaBoard.style.display = "none";
+      freeBoard.style.display = "block";
+    }
+  }
+
+
+
+function toggleBoard(boardType) {
+	
+    // 클릭된 버튼 강조
+    if (boardType === 'qnaBoard') {
+      document.getElementById("qnaBoardButton").style.display = "none";
+      document.getElementById("qnaBoardBoldButton").style.display = "block";
+      document.getElementById("freeBoardButton").style.display = "block";
+      document.getElementById("freeBoardBoldButton").style.display = "none";
+    } else if (boardType === 'freeBoard') {
+        document.getElementById("qnaBoardButton").style.display = "block";
+        document.getElementById("qnaBoardBoldButton").style.display = "none";
+      document.getElementById("freeBoardButton").style.display = "none";
+      document.getElementById("freeBoardBoldButton").style.display = "block";
+    }
+    
+    toggleBoardLogic(boardType);
+
+  }
+</script>
 </html>

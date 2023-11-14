@@ -4,9 +4,12 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
- 
+
 import com.drhome.search.SearchUtil;
 
 @Controller
@@ -45,8 +48,14 @@ public class TelehealthController {
 		// 진료과 랜덤으로 뽑아서 모델에 담기
 		Random random = new Random();
 		List<String> departmentRandomKeyword = new ArrayList<>();
-		for (int i = 0; i < 8; i++) {
-			int randomIndex = random.nextInt(alldpkind.size());
+		Set<Integer> selectedDepartment = new HashSet<>();
+		for (int i = 0; i < 7; i++) {
+			int randomIndex;
+			do {
+				randomIndex = random.nextInt(alldpkind.size());
+			} while (selectedDepartment.contains(randomIndex));
+			
+			selectedDepartment.add(randomIndex);
 			departmentRandomKeyword.add(alldpkind.get(randomIndex));
 		}
 		model.addAttribute("departmentRandomKeyword",departmentRandomKeyword);
@@ -55,8 +64,13 @@ public class TelehealthController {
 		List<String> allKeyword = searchUtil.changeTypeToStringByComma(departmentKeyword, "dpkeyword");
 		List<String> symptomRandomKeyword = new ArrayList<>();
 		Random randomSymptom = new Random();
-		for (int i = 0; i < 8; i++) {
-			int randomIndex = randomSymptom.nextInt(allKeyword.size());
+		Set<Integer> selectedSymptom = new HashSet<>();
+		for (int i = 0; i < 7; i++) {
+			int randomIndex;
+			do {
+				randomIndex = randomSymptom.nextInt(allKeyword.size());
+			} while (selectedSymptom.contains(randomIndex));
+			selectedSymptom.add(randomIndex);
 			symptomRandomKeyword.add(allKeyword.get(randomIndex));
 		}
 		model.addAttribute("symptomRandomKeyword",symptomRandomKeyword);
@@ -214,6 +228,16 @@ public class TelehealthController {
 		return json.toString();
 	}
 	
+	// 비대면 진료 의사 상세페이지 내 글 리뷰 수정하기
+	@ResponseBody
+	@PostMapping("/reviewEdit")
+	public String reviewEdit(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		telehealthService.reviewEdit(map);
+		JSONObject json = new JSONObject();
+		return json.toString();
+	}
+	
 	// 비대면 진료 접수 페이지
 	@GetMapping("/telehealthApply")
 	public String telehealthApply(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
@@ -235,14 +259,24 @@ public class TelehealthController {
 		} else {
 			map.put("pay", 10000);
 		}
-		
+		map.put("date", new Date());
 		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
-			String mno = (String) session.getAttribute("mno");
-			return "/pay/" + mno + "?tno="; //+ tno;
+			int mno = (int) session.getAttribute("mno");
+			map.put("mno", mno);
+			telehealthService.apply(map);
+			return "redirect:/pay/" + mno + "?tno=" + map.get("tno");
 		}
-		
-		System.out.println(map);
 		return "redirect:/main";
 	}
 	
+	@GetMapping("/menu")
+	public String menu(HttpSession session, Model model) {
+		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
+			Map<String, Object> userInfo = telehealthService.userInfo(session.getAttribute("mno"));
+			model.addAttribute("userInfo", userInfo);
+			System.out.println(userInfo);
+		}
+		return "/menu";
+	}
+ 	
 }

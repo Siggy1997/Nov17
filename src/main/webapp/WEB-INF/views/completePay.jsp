@@ -5,23 +5,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>CompletePay</title>
-
+<link href="/css/completePay.css" rel="stylesheet" />
 <script src="../js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
-
 </script>
 
 </head>
 <body>
-	<h1>CompletePay</h1>
-	<h1>이미지 자리입니다.</h1>
-	<h2>결제가 완료되었습니다.</h2>
-	<h3>조금만 기다려 주세요!</h3>
-	<h3>곧 담당의사가 연락할거예요🧑‍⚕️</h3>
-	<br>
-	<button type="button" onclick="location.href='../main'">확인</button>
-
+	<header></header>
+	
+	<main>
+	<div class="complete-area">
+	<div class="img-area">
+		<img class="img" alt="없음" src="/img/yes.png">
+	</div>
+	<div class="comment-area">
+		<p class="top-title">결제가 완료되었습니다.</p>
+		<div class="introduce-area">
+		<p class="top-introduce">조금만 기다려 주세요!</p>
+		<p class="top-introduce">곧 담당의사가 연락할거예요🧑‍⚕️</p>
+		</div>
+	</div>
+	</div>
+	</main>
+	
+	<footer>
+		<button type="button" onclick="location.href='/main'">확인</button>
+	</footer>
+	
 </body>
 </html>

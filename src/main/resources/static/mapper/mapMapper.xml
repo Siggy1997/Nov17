@@ -23,8 +23,10 @@ TIME_FORMAT(hholidayendtime, '%H:%i') AS hholidayendtime
 	</select>
 
 	<select id="pharmacyList" resultType="Map">
-		SELECT pno, pname, paddr
-		FROM map
+		SELECT pno, pname, paddr, 
+		TIME_FORMAT(popentime, '%H:%i') AS popentime, 
+		TIME_FORMAT(pclosetime, '%H:%i') AS pclosetime
+		FROM pharmacy
 	</select>
 
 

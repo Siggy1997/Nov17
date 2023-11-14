@@ -8,9 +8,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/writeQna.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <title>Insert title here</title>
 </head>
 <body>
+
+<header>
+    <i class="xi-angle-left xi-x"></i>
+    <div class="header title">상담하기</div>
+    <div class="blank"></div>
+</header>
+
+<main>
+
 	<h2>[QnA 게시판 글쓰기]</h2>
 	<form action='<c:url value='/postQna'/>' method="post" id="qnaForm" enctype="multipart/form-data">
 		<div>
@@ -52,6 +64,10 @@
   </div>
   <div id="progress"></div>
   <div id="upload-box"></div> -->
+</main>
+
+<footer></footer>
+
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="/js/mcore.min.js"></script>
@@ -95,7 +111,7 @@
 					return false;
 				}
 				else if (selectDepartment === 'department') {
-					alert('과목을 선택해주세요.');
+					alert('진료 과목을 선택해주세요.');
 					event.preventDefault(); // 폼 전송 막기
 					return false;
 				} else {

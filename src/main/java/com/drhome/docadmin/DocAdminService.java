@@ -53,5 +53,9 @@ public class DocAdminService {
 	public Map<String, Object> findHospitalByHno(Map<String, Object> map) {
 		return docAdminDAO.findHospitalByHno(map);
 	}
+
+	public Map<String, Object> findHospitalImg(int dno) {
+		return docAdminDAO.findHospitalImg(dno);
+	}
 	
 }

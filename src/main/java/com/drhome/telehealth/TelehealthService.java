@@ -56,8 +56,23 @@ public class TelehealthService {
 	public void reviewDelete(int rno) {
 		telehealthDAO.reviewDelete(rno);
 	}
+	
+	public void reviewEdit(Map<String, Object> map) {
+		telehealthDAO.reviewEdit(map);
+	}
 
 	public Map<String, Object> telehealthApply(int dno) {
 		return telehealthDAO.telehealthApply(dno);
 	}
+
+	
+	public void apply(Map<String, Object> map) {
+		telehealthDAO.apply(map);
+	}
+
+
+	public Map<String, Object> userInfo(Object mno) {
+		return telehealthDAO.userInfo(mno);
+	}
+
 }
