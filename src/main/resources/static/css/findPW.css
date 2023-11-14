@@ -197,6 +197,12 @@ button{
   	font-weight: bold;
 }
 
-
+#mname::placeholder,
+#mid::placeholder,
+#firstMrrn::placeholder,
+#lastMrrn::placeholder
+ {
+	color:#BDBDBD;
+    }
 
 

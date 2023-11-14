@@ -143,7 +143,7 @@ $(function() {
 	
 	<div class="symptomInfo-area">
 		<div class="title" id="symptomInfo">증상기록</div>
-			<textarea class="write">${patientDetail.tsymptomdetail}</textarea>
+			<span class="write">${patientDetail.tsymptomdetail}</span>
 	</div>
 	
 	<div class="graySeperate"></div>

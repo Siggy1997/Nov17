@@ -150,8 +150,8 @@
     	</div>
    	 	<div class="input-area">
 			<p>주민등록번호</p>
-			<input type="text" id="firstMrrn" name="firstMrrn" maxlength="6">-
-			<input type="text" id="lastMrrn" name="lastMrrn" maxlength="7">
+			<input type="text" id="firstMrrn" name="firstMrrn" maxlength="6" placeholder="960614">-
+			<input type="text" id="lastMrrn" name="lastMrrn" maxlength="7" placeholder="2XXXXXX">
 			<p id="mrrnInfo" class="info"></p>
 			<p id="findPWInfo" class="info"></p>
 			<p id="findPWInfo2" class="info"></p>

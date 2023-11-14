@@ -203,7 +203,7 @@ input::placeholder {
 .th{
 	font-weight: bold;
 	font-size: 13px;
-    width: 144px;
+    width: 42%;
     padding: 3px 0px;
 }
 
@@ -223,8 +223,11 @@ input::placeholder {
 
 .td {
     font-size: 12px;
-    width: 144px;
+    width: 42%;
     padding: 3px 0px;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
 }
 
 #tstatus{
@@ -273,7 +276,32 @@ input::placeholder {
 }
 
 .comment{
-	margin: 5px 0px;
-    width: 22%;
+	margin: 20px 0px;
+    width: 55%;
     text-align: center;
+}
+
+.dpname-area{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 14px;
+    font-weight: 500;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.dpname{
+    width: 34%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+    padding: 8px;
+    margin-bottom: 12px;
+    flex-direction: column;
+}
+
+.dpname img{
+	width: 50px;
+    height: 50px;
 }
