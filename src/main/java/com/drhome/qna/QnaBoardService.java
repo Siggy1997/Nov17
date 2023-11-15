@@ -30,6 +30,7 @@ public class QnaBoardService {
 
 	public void writeQnaAnswer(Map<String, Object> qnaAnswerData) {
 		qnaBoardDAO.writeQnaAnswer(qnaAnswerData);
+		qnaBoardDAO.sendNotification(qnaAnswerData);
 
 	}
 

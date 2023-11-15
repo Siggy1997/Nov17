@@ -37,4 +37,6 @@ public interface FreeBoardDAO {
 	
 	void editBoard(Map<String, Object> editBoardData);
 
+	void sendFreeNotification(Map<String, Object> freeCommentData);
+
 }

@@ -13,26 +13,26 @@
 
 <header>
     <i class="xi-angle-left xi-x"></i>
-    <div class="header title">상담하기</div>
+    <div class="header title">글 수정하기</div>
     <div class="blank"></div>
 </header>
 
 <main>
 
-<h2>[게시판 글 수정하기]</h2>
+<!-- <h2>[게시판 글 수정하기]</h2> -->
 
 
 
 	<form action="/submitEditQna" method="post" id="editForm">
 		<div>
-			제목<input type="text" name="btitle" value="${btitle}">
+			<input type="text" name="btitle" class="btitle" value="${btitle}">
 		</div>
 		<div>
-			내용
-			<textarea rows="5" cols="13" name="bcontent">${bcontent}</textarea>
+			<textarea rows="5" cols="13" name="bcontent" class="bcontent">${bcontent}</textarea>
 		</div>
 		<input type="hidden" name="bno" id="bno"
 			value="${bno}">
+			<div class="selectDepartment">
 			<select name = "selectDepartment">
 		<option value = "department">진료과목</option>
           <option value = "소아과">소아과</option>
@@ -50,8 +50,11 @@
           <option value = "정신의학과">정신의학과</option>
           <option value = "unknown">잘 모름</option>
        </select>
-		<button type="submit">완료</button>
-		<button type="button" onclick="history.back()">취소</button>
+       </div>
+       <div class="rightSide">
+		<button type="button" class="cancel" onclick="history.back()">취소</button>
+		<button type="submit" class="submit">완료</button>
+		</div>
 	</form>
 
 </main>

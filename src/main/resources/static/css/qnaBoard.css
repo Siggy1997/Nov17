@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
 /* 기본 틀 */
 * {
 	font-family: "Pretendard Variable";
@@ -48,6 +52,7 @@ footer {
 
 main {
 	padding-top: 9vh;
+	
 }
 
 .blank {
@@ -55,9 +60,20 @@ main {
 }
 
 /* 컨텐츠 */
+
+
+
+.space {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.freeContainer {
+	margin-top: -17%;
+}
+
 select[name="selectOption"] {
-	margin: 3% 1% 3% 3%;
-	padding: 1%;
+	margin: 3% 1% 3% 0%;
 	border-radius: 5px;
 	border-color: lightgrey;
 	background-color: white;
@@ -65,59 +81,76 @@ select[name="selectOption"] {
 }
 
 .xi-search {
+	color: #00C9FF;
 	background-color: white;
 	border: none;
 	box-shadow: none;
 }
 
+.searchForm {
+	margin-top: 15%;
+}
+
 #searchWordInput {
-	background: rgba(217, 217, 217, 0.3);
-	border-radius: 5px;
 	width: 60%;
-	height: 4%;
-	border: none;
+	height: 30px;
 	box-shadow: none;
-	margin: 3% 1% 3% 0;
+	margin: 3% 3% 3.7% 0;
 	padding: 1%;
+	align-items: center;
+	border: 1px solid #F5F5F5;
+	border-radius: 8px;
 }
 
 #boardButtonsContainer {
+	width: 100%;
+	height: 7vh;
+	background-color: white;
+	z-index: 999;
 	display: flex;
-	justify-content: space-between; /* 자식 요소들을 좌우로 나란히 정렬 */
+	position: fixed;
+	top: 8%;
+	
 }
 
-#qnaBoardBoldButton, #freeBoardBoldButton, #qnaBoardButton,
-	#freeBoardButton {
-	flex: 1; /* 자식 요소가 동일한 너비를 가지도록 설정 */
-	margin-right: 10px; /* 요소 사이 간격 설정 */
+#qnaBoardBoldButton, #freeBoardBoldButton,
+#qnaBoardButton, #freeBoardButton {
+   
+    border: none; 
 }
+
 
 #qnaBoardBoldButton, #freeBoardBoldButton {
-	background: white;
-	border: none;
-	border-bottom: 3px solid black;
-	box-shadow: none;
+	height: 7vh;
+	text-align: center;
+	display: flex;
+	font-size: 17px;
+	font-weight: 600;
+	color: black;
+	border-bottom: 2px solid black;
+	justify-content: center;
+	align-items: center;
 	width: 50%;
-	height: 50%;
-	padding: 2%;
-	font-weight: bold;
-	font-size: medium;
+	background-color: white;
+	
 }
 
 #qnaBoardButton, #freeBoardButton {
-	background: white;
-	border: none;
-	border-bottom: 1px solid lightgray;
-	font: lightgray;
-	box-shadow: none;
+	height: 7vh;
+	text-align: center;
+	display: flex;
+	font-size: 17px;
+	font-weight: 600;
+	color: #BFBFBF;
+	border-bottom: 2px solid #E0E0E0;
+	justify-content: center;
+	align-items: center;
 	width: 50%;
-	height: 50%;
-	padding: 2%;
-	font-size: medium;
+	background-color: white;
+	
 }
 
 .writeButton {
-	margin: 5%;
 	padding: 1%;
 	background-color: #00C9FF;
 	color: white;
@@ -125,47 +158,112 @@ select[name="selectOption"] {
 	border: none;
 	box-shadow: none;
 	font-weight: bold;
-	font-size: medium;
+		float: right;
+		width:20%;
+	
+}
+
+
+.backGroundBar {
+	height: 35px;
+	background-color: #F5F5F5;
+	border-top: 1px solid #d5d2d2;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: #5c5c5c;
 }
 
 #selectDepartment {
-	float: right;
-	margin-right: 5%;
-	margin-top: 5%;
-	padding: 1%;
-	border-radius: 5px;
-	border-color: lightgrey;
-	background-color: white;
+		border: none;
+	background-color: #F5F5F5;
+	color: #5c5c5c;
+	font-size: 12px;
+	height: 100%;
+	padding: 5px;
 }
 
-.title, .content {
-	margin: 2%;
-	padding: 2% 2% 2% 1%;
+a {
+    text-decoration: none;
+}
+
+.rightSide {
+	 display: flex;
+  justify-content: flex-end;
+  align-items: center; 
+  color: black;
+}
+
+.rightSide > div {
+  margin-right: 3%; /* 각 요소 사이의 간격 조절 */
 }
 
 .title {
 	font-size: large;
 	font-weight: bold;
-	padding-top: 3%;
+	padding-top: 5%;
+	padding-bottom: 2%;
+	color:black;
+}
+
+.content {
+	color:black;
+	padding-bottom: 3%;
 }
 
 .kind {
 	display: inline-block;
-	margin: 4%;
 	padding: 1%;
-	background: rgba(217, 217, 217, 0.3);
+	background-color: rgba(0, 201, 255, 0.15);
+	border-color: rgba(0, 201, 255, 0.30);
 	border-radius: 5px;
+	color: black;
 }
 
 .wait, .count {
-	margin: 3%;
 	padding: 1%;
-	float: right;
+	float: left;
 	font-weight: bold;
 }
 
+.wait {
+	color: grey;
+}
+
+.count{
+	color: black;
+}
+
 .list {
-	border-top: 1px solid lightgrey;
-	padding-top: 2%;
+	padding-top: 5%;
+	padding-bottom: 8%;
+}
+
+.filterTitle {
+padding-top: 5%;
+font-size: large;
+	font-weight: bold;
 	padding-bottom: 2%;
+	color:black;
+}
+
+
+.line {
+    border: 1px solid lightgrey; 
+    width: 100%; 
+    margin-top: 10px;
+}
+
+
+
+
+.nickname {
+	
+	color: grey;
+}
+
+.xi-comment-o,
+.xi-heart-o {
+  font-size: 20px; /* 아이콘 크기 조절 */
+  margin-right: 5px; /* 아이콘과 텍스트 사이 간격 조절 */
 }

@@ -153,5 +153,10 @@
 		bcontent = #{bcontent},
 		WHERE bno=#{bno}
 	</update>
+	
+	   <insert id="sendFreeNotification">
+      INSERT INTO notification (mno, nfreeboardNoti )
+      VALUES((SELECT mno FROM board WHERE bno=#{bno}), #{bno})
+   </insert>
 
 </mapper>
