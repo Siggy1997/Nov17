@@ -100,7 +100,7 @@ public class QnaBoardController {
 		model.addAttribute("qnaAnswer", qnaAnswer);
 
 		Map<String, Object> reportCountData = new HashMap<>();
-		reportCountData.put("mno", 1);
+		reportCountData.put("mno", mno);
 		reportCountData.put("bno", bno);
 
 		int reportCount = qnaBoardService.reportCount(reportCountData);
@@ -184,7 +184,6 @@ public class QnaBoardController {
 			@RequestParam("cdate") String cdate, HttpSession session) {
 
 		int mno = (int) session.getAttribute("mno");
-
 		int dno = (int) session.getAttribute("dno");
 
 		
@@ -198,6 +197,7 @@ public class QnaBoardController {
 
 		  LocalDateTime currentDatetime = LocalDateTime.now();
 
+		  qnaAnswerData.put("bno", bno);
 		qnaAnswerData.put("bno", bno);
 		qnaAnswerData.put("mno", mno);
 		qnaAnswerData.put("dno", dno); // 추후 세션값으로 변경 예정
@@ -207,6 +207,8 @@ public class QnaBoardController {
 		qnaAnswerData.put("cdate", currentDatetime);
 
 		qnaBoardService.writeQnaAnswer(qnaAnswerData);
+	
+
 
 		return "redirect:/qnaDetail?bno=" + bno;
 	}

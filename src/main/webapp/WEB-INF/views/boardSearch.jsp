@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+<script src="./js/jquery-3.7.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="./css/boardSearch.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -16,13 +17,20 @@
 
 <header>
     <i class="xi-angle-left xi-x"></i>
-    <div class="header title">상담하기</div>
+    <div class="header title">검색결과</div>
     <div class="blank"></div>
 </header>
 
 <main>
 
+<div id="boardButtonsContainer">
+<button id="qnaBoardButton" onclick="toggleBoard('qnaBoard')" style="display: none;">QnA게시판</button>
+<button id="qnaBoardBoldButton">QnA게시판</button>
+<button id="freeBoardButton" onclick="toggleBoard('freeBoard')">자유게시판</button>
+<button id="freeBoardBoldButton" style="display: none;">자유게시판</button>
+</div>
 
+<div class="space">
 	<form action="/searchWord" method="post" onsubmit="searchForm()">
 		<select name = "selectOption">
           <option value = "all" selected>제목+내용</option>
@@ -31,38 +39,47 @@
        </select>	
 		<input type="text" name="searchWord" id="searchWordInput"
 			placeholder="검색 할 내용을 입력하세요">		
-		<button type="submit">검색</button>
+		<button type="submit" class="xi-search xi-x"></button>
 	</form>
+	</div>
 
-	<br>
-	[상담 게시판]
-	<br><br>
+
+	<div id="qnaBoard" style="display:block;"> 
 	<c:forEach items="${boardSearchData}" var="search">
 		<c:if test="${search.btype eq 0}">
 		<div onclick="location.href='/qnaDetail?bno=${search.bno}'">
+		<div class="space">
 			<div class="btitle">${search.btitle}</div>
 			<div class="bcontent">${search.bcontent}</div>
 			<div class="ccontent">${search.ccontent}</div>
 			</div>
-			<br>
+			</div>
+		<div class ="line"></div>
 		</c:if>
 	</c:forEach>
+	</div>
 	
-	<br> [자유 게시판]
-	<br><br>
+	
+	<div id="freeBoard" style="display:none;">
 	<c:forEach items="${boardSearchData}" var="search">
 		<c:if test="${search.btype eq 1}">
+		<div class="space">
 		<div onclick="location.href='/freeDetail?bno=${search.bno}'">
 			<div class="btitle">${search.btitle}</div>
 			<div class="bcontent">${search.bcontent}</div>
 			</div>
-			<br>
+			</div>
+					<div class ="line"></div>
 		</c:if>
 	</c:forEach>
+	</div>
 
 </main>
 
 <footer></footer>
+
+
+</body>
 
 	<script>
 		var maxLength = 30; // 최대 문자열 길이
@@ -88,6 +105,59 @@
 
 			}
 		}
+		
+		
+		 function toggleBoard(boardId) {
+		        var boards = document.querySelectorAll("#freeBoard, #qnaBoard");
+		        boards.forEach(function(board) {
+		            if (board.id === boardId) {
+		                board.style.display = "block";
+		            } else {
+		                board.style.display = "none";
+		            }
+		        });
+		    }
+		
+
+		function toggleBoardLogic(boardType) {
+		   
+		    var qnaBoard = document.getElementById("qnaBoard");
+		    var freeBoard = document.getElementById("freeBoard");
+
+		    if (boardType === 'qnaBoard') {
+		      qnaBoard.style.display = "block";
+		      freeBoard.style.display = "none";
+		    } else if (boardType === 'freeBoard') {
+		      qnaBoard.style.display = "none";
+		      freeBoard.style.display = "block";
+		    }
+		  }
+
+
+
+		function toggleBoard(boardType) {
+			
+		    // 클릭된 버튼 강조
+		    if (boardType === 'qnaBoard') {
+		      document.getElementById("qnaBoardButton").style.display = "none";
+		      document.getElementById("qnaBoardBoldButton").style.display = "block";
+		      document.getElementById("freeBoardButton").style.display = "block";
+		      document.getElementById("freeBoardBoldButton").style.display = "none";
+		    } else if (boardType === 'freeBoard') {
+		        document.getElementById("qnaBoardButton").style.display = "block";
+		        document.getElementById("qnaBoardBoldButton").style.display = "none";
+		      document.getElementById("freeBoardButton").style.display = "none";
+		      document.getElementById("freeBoardBoldButton").style.display = "block";
+		    }
+		    
+		    toggleBoardLogic(boardType);
+
+		  }
+		
+		//뒤로가기 버튼
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
+
 	</script>
-</body>
 </html>

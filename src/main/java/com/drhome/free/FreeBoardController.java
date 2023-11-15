@@ -107,7 +107,7 @@ public class FreeBoardController {
 
 		freeBoardService.postFree(freeData);
 
-		return "redirect:/freeBoard";
+		return "redirect:/qnaBoard";
 	}
 
 	@PostMapping("/writeFreeComment")

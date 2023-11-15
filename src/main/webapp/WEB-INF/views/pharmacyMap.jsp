@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 
-<link rel="stylesheet" href="./css/hospitalMap.css">
+<link rel="stylesheet" href="./css/pharmacyMap.css">
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="./js/wnInterface.js"></script>
@@ -23,9 +23,7 @@
 <title>Insert title here</title>
 
   <style>
-
-
-        
+ 
 </style>
 
 </head>
@@ -35,14 +33,16 @@
     <div class="xi-angle-left xi-x"></div>
  
     <div id="searchContainer">
-        <input type="text" id="searchInput" placeholder="병원 이름 검색">
+        <input type="text" id="searchInput" placeholder="약국 이름 검색">
         <button id="searchButton">검색</button>
     </div>
 </header>
 <main>
 
 
- <button onclick="location.href='/pharmacyMap'" id="pharmacyMap">약국<br>지도</button>
+ 
+ <button onclick="location.href='/hospitalMap';" id="hospitalMap">병원<br>지도</button>
+ 
 
  <button onclick="refreshPage()" id="currentLocation" class="xi-gps xi-x"></button>
  
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (result.status !== 'SUCCESS') {
         
           if (result.message) {
-              
+              // gps off
         	  console.log(result.status + ':' + result.message);
               initializeMap(37.498599, 127.028575); // 기본 중심 좌표
        
@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
    
           if (result.coords) {
+        	
         	  
             var { latitude, longitude } = result.coords;
             var lat = parseFloat(latitude);
@@ -194,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
-        var hospitals = [];
+        var pharmacies = [];
 
         var overlay = new kakao.maps.CustomOverlay({
             content: contentNode,
@@ -202,35 +203,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
-        <c:forEach items="${hospitalList}" var="h">
-        	var hospitalNumber = "${h.hno}";
-            var title = "${h.hname}";
-            var address = "${h.haddr}";
-            var opentime = "${h.hopentime}";
-            var closetime = "${h.hclosetime}";
-            var nightday = "${h.hnightday}";
-            var nightendtime = "${h.hnightendtime}";
-            var hImg = "${h.himg}";
-            var hBreakTime = "${h.hbreaktime}";
-            var hBreakEndTime = "${h.hbreakendtime}";
-            var hHoliday = "${h.hholiday}";
-            var hHolidayEndTime = "${h.hholidayendtime}";
-
+        <c:forEach items="${pharmacyList}" var="p">
+        	var pharmacyNumber = "${p.pno}";
+            var title = "${p.pname}";
+            var address = "${p.paddr}";
+            var opentime = "${p.popentime}";
+            var closetime = "${p.pclosetime}";
            
            
-            hospitals.push({
-            	hospitalNumber: hospitalNumber,
+            pharmacies.push({
+            	pharmacyNumber: pharmacyNumber,
                 title: title,
                 address: address,
                 opentime: opentime,
                 closetime: closetime,
-                nightday: nightday,
-                nightendtime: nightendtime,
-                hImg: hImg,
-                hBreakTime: hBreakTime,
-                hBreakEndTime: hBreakEndTime,
-                hHoliday : hHoliday,
-                hHolidayEndTime : hHolidayEndTime
             });
         </c:forEach>
         
@@ -267,16 +253,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // 병원 데이터를 순회하면서 검색어와 일치하는 항목 찾기
-            hospitals.forEach(function (hospital) {
-                if (hospital.title.includes(keyword)) {
+            pharmacies.forEach(function (pharmacy) {
+                if (pharmacy.title.includes(keyword)) {
                     // 검색어가 일치하는 경우 결과 리스트에 추가
                     var listItem = document.createElement('li');
-                    listItem.textContent = hospital.title;
+                    listItem.textContent = pharmacy.title;
 
                  // 클릭하면 해당 병원을 지도에 표시
                     listItem.addEventListener('click', function () {
                         // 주소로 좌표 검색
-                        geocoder.addressSearch(hospital.address, function (result, status) {
+                        geocoder.addressSearch(pharmacy.address, function (result, status) {
                             
                             if (status === kakao.maps.services.Status.OK) {
                                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -285,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 map.panTo(coords);
 
                              // 해당 병원에 대한 마커를 찾아서 클릭한 것처럼 보이도록 설정
-                                simulateMarkerClick(hospital);
+                                simulateMarkerClick(pharmacy);
                             }
                         });
                     });
@@ -322,93 +308,62 @@ document.addEventListener("DOMContentLoaded", function () {
             return 0; // 예외 처리
         }
 
-        function checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime) {
+        function checkBusinessStatus(opentime, closetime) {
             const now = new Date();
             const currentDay = now.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
             const currentTime = now.getHours() * 60 + now.getMinutes(); 
 
             const openMinutes = timeToMinutes(opentime);
             const closeMinutes = timeToMinutes(closetime);
-            const nightEndMinutes = timeToMinutes(nightendtime);
-            const holidayEndMinutes = timeToMinutes(hHolidayEndTime);
+          
 
            
             if(currentDay == 0 || currentDay == 6) {
-            	if(hHoliday == 1){   		
-            		if (currentTime >= openMinutes && currentTime <= holidayEndMinutes) {
-                     return "진료중";        
-                 } else {
-              
-                     return "진료종료";
-                 }
+            
+            		 return "휴업일";
 
-            	} else {    		
-            		 return "휴진일";
-            	}
-            	
             } else {          	
-            	if(currentTime >= hBreakTime && currentTime <= hBreakEndTime){
-                    return "점심시간";        
-                } else {
-
-                	 if (nightday == currentDay) {
-                         if (currentTime >= openMinutes && currentTime <= nightEndMinutes) {
-                             return "진료중";        
-                         } else {
-                             return "진료종료";
-                         }
-                     } else {
+            	
                          if (currentTime >= openMinutes && currentTime <= closeMinutes) {
-                             return "진료중";
+                             return "영업중";
                          } else { 
-                             return "진료종료";
+                             return "영업종료";
                          }
-                     }  
-                }
-          
-            }
+                  } 
+
         }
 
 
         function handleMarkerClick(position) {
 
-            var hospitalNumber = position.hospitalNumber;
+            var pharmacyNumber = position.pharmacyNumber;
             var title = position.title;
             var address = position.address;
             var opentime = position.opentime;
             var closetime = position.closetime;
-            var nightendtime = position.nightendtime;
-            var nightday = position.nightday;
-            var hImg = position.hImg;
-            var hBreakTime = position.hBreakTime;
-            var hBreakEndTime = position.hBreakEndTime;
-            var hHoliday = position.hHoliday;
-            var hHolidayEndTime = position.hHolidayEndTime;
+           
 
             const currentDay = new Date().getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
 
             // 영업 상태를 확인
-            var status = checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime);
+            var status = checkBusinessStatus(opentime, closetime);
 
             // 컨테이너에 정보 추가
             var dynamicContainer = document.getElementById("infoDiv");
             dynamicContainer.innerHTML =
                 '<div class="wrap">' +
-                '    <div class="info"><a href="http://172.30.1.61/hospitalDetail/' + hospitalNumber + '" target="_blank" class="link">' +
+                '    <div class="info">' +
                 '        <div class="title">' +
                 '            ' + title +
                 '        </div>' +
                 '        <div class="body">' +
-                '            <div class="img">' +
-                '                <img src="' + hImg + '" width="73" height="70">' +
-                '           </div>' +
                 '            <div class="desc">' +
                 '                <div class="ellipsis">' + address + '</div>' +
-                '                <div class="time">' + opentime + "~" + (nightday == currentDay ? nightendtime : closetime) + '</div>' +
+                '                <div class="time">' + opentime + "~" + closetime + '</div>' +
                 '            </div>' +
                 '                <div class="status">' + status + '</div>' +
                 '        </div>' +
-                '    </a></div>' +       
+                '   </div>' +       
                 '</div>';
 
 
@@ -420,19 +375,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         
      // 해당 병원에 대한 마커를 찾아서 클릭한 것처럼 보이도록 설정하는 부분
-        function simulateMarkerClick(hospital) {
-            hospitals.forEach(function (hospitalMarker) {
-                if (hospitalMarker.title === hospital.title) {
+        function simulateMarkerClick(pharmacy) {
+        	pharmacies.forEach(function (pharmacyMarker) {
+                if (pharmacyMarker.title === pharmacy.title) {
                     // 마커 클릭 이벤트를 트리거
-                    kakao.maps.event.trigger(hospitalMarker.marker, 'click');
+                    kakao.maps.event.trigger(pharmacyMarker.marker, 'click');
 
-                    handleMarkerClick(hospital);
+                    handleMarkerClick(pharmacy);
                 }
             });
         }
         
 
-        hospitals.forEach(function (position) {
+        pharmacies.forEach(function (position) {
             // 주소로 좌표 검색
             geocoder.addressSearch(position.address, function (result, status) {
                 // 검색 완료
