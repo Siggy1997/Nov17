@@ -23,6 +23,14 @@
 		UPDATE member SET mphonenumber=#{mphonenumber} WHERE mno=#{mno};
 	</update>
 	
+	<update id="changeAllMyInfo" parameterType="Map">
+		UPDATE member SET mpw=HEX(AES_ENCRYPT(#{mpw}, 'drhome')),
+		mhomeaddr=#{mhomeaddr}, mhomeaddr2=#{mhomeaddr2},
+		mcompanyaddr=#{mcompanyaddr}, mcompanyaddr2=#{mcompanyaddr2},
+		mphonenumber=#{mphonenumber}
+		WHERE mno=#{mno};
+	</update>
+	
 	<select id="myWriting" parameterType="Integer" resultType="Map">
 		SELECT b.bno, b.btype, b.btitle, 
 		DATE_FORMAT(b.bdate, '%Y-%m-%d') as bdate,

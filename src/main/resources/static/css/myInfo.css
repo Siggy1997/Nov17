@@ -195,17 +195,17 @@ button{
 	width: 75px;
 }
 
-#changeHealthRecordBtn {
-	font-weight: 700;
-	background-color: #00c9ff;
-	color: white;
-	width: 333px;
-	height: 61px;
-	border: none;
-	text-align: center;
-	font-size: 15px;
-	border-radius: 14px;
-	margin: 36px 0px;
+#changeMyInfoBtn {
+    font-weight: 700;
+    background-color: #00c9ff;
+    color: white;
+    width: 90%;
+    height: 61px;
+    border: none;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 14px;
+    margin: 0px -20px;
 }
 
 

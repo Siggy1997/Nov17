@@ -34,7 +34,13 @@ public class MyInfoService {
 		System.out.println(mphonenumber);
 		map.put("mphonenumber", mphonenumber);
 		myInfoDAO.changePhoneNumber(map);	
-		
+	}
+	
+	public void changeAllMyInfo(Map<String, Object> map) {
+		String mphonenumber = String.valueOf(map.get("firstNumber")) +"-"+ String.valueOf(map.get("MiddleNumber"))+"-"+ String.valueOf(map.get("lastNumber"));
+		System.out.println(mphonenumber);
+		map.put("mphonenumber", mphonenumber);
+		myInfoDAO.changeAllMyInfo(map);
 	}
 
 	public List<Map<String, Object>> myWriting(int mno) {

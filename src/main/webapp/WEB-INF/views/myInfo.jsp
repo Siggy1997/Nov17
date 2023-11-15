@@ -12,6 +12,7 @@
 <link href="/css/modal.css" rel="stylesheet" />
 <link href="/css/myInfo.css" rel="stylesheet" />
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link href="/css/aram.css" rel="stylesheet" />
 <script src="/js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
 
@@ -39,7 +40,7 @@ $(function(){
     
 	        
 	        $("#changePWBtn").click(function(){
-	    		
+	        	
 	    		$("#pwInfo").text("");
 	    		
 	    		let mpw = $("#mpw").val();
@@ -58,13 +59,38 @@ $(function(){
 	    			return false;
 	    		 } 
 	    		 else{
-	    		 $("#changePW").submit();
+	    			    // 폼 엘리먼트 생성
+	    			    let form = document.createElement('form');
+	    			    form.action = "../changePW/${sessionScope.mno}"; // 폼이 전송될 URL
+	    			    form.method = "post"; // 전송 방식
+
+	    			    // 폼에 추가할 input 엘리먼트 생성
+	    			    let passwordInput = document.createElement('input');
+	    			    passwordInput.type = "password"; // 입력 필드 타입
+	    			    passwordInput.name = "mpw"; // 폼 데이터 이름
+	    			    passwordInput.value = $("#mpw").val(); // 입력된 비밀번호 값
+
+	    			    // 생성한 input 엘리먼트를 폼에 추가
+	    			    form.appendChild(passwordInput);
+
+	    			    // 생성한 폼을 문서에 추가
+	    			    document.body.appendChild(form);
+	    			    
+	    			    $("#dh-modal-alert").addClass("active").fadeIn();
+	    		        setTimeout(function() {
+	    		            $("#dh-modal-alert").fadeOut(function(){
+	    		                $(this).removeClass("active");
+			    			    // 폼 전송
+			    			    form.submit();	    			 
+	    		            });
+	    		        }, 1000); //알람창
+	    			 
+	    		 /* $("#changePW").submit(); */
 	    		 }
 	    	});//changePWBtn 끝
-
-	
-	$("#changeHomeAddr").click(function(){
-		
+	    	
+$("#changeHomeAddr").click(function(){
+	    	
 		$("#homeAddrInfo").text("");
 		
 		let mhomeaddr = $("#mhomeaddr").val();
@@ -74,22 +100,81 @@ $(function(){
             $("#homeAddrInfo").text("주소를 입력하세요.");
             $("#homeAddrInfo").css("color","red");
             return false;
+         } else{
+     	    let form = document.createElement('form');
+    	    form.action = "../changeHomeAddr/${sessionScope.mno}";
+    	    form.method = "post";
+
+    	    let input1 = document.createElement('input');
+    	    input1.type = "text";
+    	    input1.name = "mhomeaddr";
+    	    input1.value = $("#mhomeaddr").val();
+
+    	    let input2 = document.createElement('input');
+    	    input2.type = "text";
+    	    input2.name = "mhomeaddr2";
+    	    input2.value = $("#mhomeaddr2").val();
+
+    	    form.appendChild(input1);
+    	    form.appendChild(input2);
+
+    	    document.body.appendChild(form);
+    	    
+		    $("#dh-modal-alert2").addClass("active").fadeIn();
+	        setTimeout(function() {
+	            $("#dh-modal-alert").fadeOut(function(){
+	                $(this).removeClass("active");
+    			    // 폼 전송
+    			    form.submit();	    			 
+	            });
+	        }, 1000); //알람창
+
          }
-	});
+});//changeHomeAddr 끝
+
+
+$("#changeCompanyAddr").click(function(){
 	
-	$("#changeCompanyAddr").click(function(){
-		
-		$("#companyAddrInfo").text("");
-		
-		let mcompanyaddr = $("#mcompanyaddr").val();
-		
-        if (mcompanyaddr === "") {
-            $("#mcompanyaddr").focus();
-            $("#companyAddrInfo").text("주소를 입력하세요.");
-            $("#companyAddrInfo").css("color","red");
-            return false;
-         }
-	});
+	$("#companyAddrInfo").text("");
+	
+	let mcompanyaddr = $("#mcompanyaddr").val();
+	
+    if (mcompanyaddr === "") {
+        $("#mcompanyaddr").focus();
+        $("#companyAddrInfo").text("주소를 입력하세요.");
+        $("#companyAddrInfo").css("color","red");
+        return false;
+     } else{
+         let form = document.createElement('form');
+         form.action = "../changeCompanyAddr/${sessionScope.mno}";
+         form.method = "post";
+
+         let input1 = document.createElement('input');
+         input1.type = "text";
+         input1.name = "mcompanyaddr";
+         input1.value = $("#mcompanyaddr").val();
+
+         let input2 = document.createElement('input');
+         input2.type = "text";
+         input2.name = "mcompanyaddr2";
+         input2.value = $("#mcompanyaddr2").val();
+
+         form.appendChild(input1);
+         form.appendChild(input2);
+
+         document.body.appendChild(form);
+         
+		    $("#dh-modal-alert3").addClass("active").fadeIn();
+	        setTimeout(function() {
+	            $("#dh-modal-alert").fadeOut(function(){
+	                $(this).removeClass("active");
+    			    // 폼 전송
+    			    form.submit();	    			 
+	            });
+	        }, 1000); //알람창
+
+     }
+});//changeCompanyAddr 끝
 	
 	$("#changePhoneNumber").click(function(){
 		
@@ -112,6 +197,116 @@ $(function(){
 	        $("#phoneInfo").css("color","red");
 	        return false;
 	    }
+	    
+	    let form = document.createElement('form');
+	    form.action = "../changePhoneNumber/${sessionScope.mno}";
+	    form.method = "post";
+
+	    let input1 = document.createElement('input');
+	    input1.type = "text";
+	    input1.name = "firstNumber";
+	    input1.value = firstNumber;
+
+	    let input2 = document.createElement('input');
+	    input2.type = "text";
+	    input2.name = "MiddleNumber";
+	    input2.value = MiddleNumber;
+
+	    let input3 = document.createElement('input');
+	    input3.type = "text";
+	    input3.name = "lastNumber";
+	    input3.value = lastNumber;
+
+	    form.appendChild(input1);
+	    form.appendChild(input2);
+	    form.appendChild(input3);
+
+	    document.body.appendChild(form);
+	    
+	    $("#dh-modal-alert4").addClass("active").fadeIn();
+        setTimeout(function() {
+            $("#dh-modal-alert").fadeOut(function(){
+                $(this).removeClass("active");
+			    // 폼 전송
+			    form.submit();	    			 
+            });
+        }, 1000); //알람창
+	    
+	});//changePhoneNumber 끝
+	
+	$("#changeMyInfoBtn").click(function() {
+		
+		$("#phoneInfo").text("");
+		
+		let firstNumber = $("#firstNumber").val();
+		let MiddleNumber = $("#MiddleNumber").val();
+		let lastNumber = $("#lastNumber").val();
+		let phoneNumber = $("#firstNumber").val() + $("#MiddleNumber").val() + $("#lastNumber").val();
+		let notNum = /[^0-9]/g; //숫자아닌지 확인
+		
+	    let form = document.createElement('form');
+	    form.action = "../changeAllMyInfo/${sessionScope.mno}";
+	    form.method = "post";
+	    
+	    let passwordInput = document.createElement('input');
+	    passwordInput.type = "password";
+	    passwordInput.name = "mpw"; 
+	    passwordInput.value = $("#mpw").val(); 
+
+	    let input1 = document.createElement('input');
+	    input1.type = "text";
+	    input1.name = "mhomeaddr";
+	    input1.value = $("#mhomeaddr").val();
+
+	    let input2 = document.createElement('input');
+	    input2.type = "text";
+	    input2.name = "mhomeaddr2";
+	    input2.value = $("#mhomeaddr2").val();
+	    
+	    let input3 = document.createElement('input');
+        input3.type = "text";
+        input3.name = "mcompanyaddr";
+        input3.value = $("#mcompanyaddr").val();
+
+        let input4 = document.createElement('input');
+        input4.type = "text";
+        input4.name = "mcompanyaddr2";
+        input4.value = $("#mcompanyaddr2").val();
+        
+        let input5 = document.createElement('input');
+	    input5.type = "text";
+	    input5.name = "firstNumber";
+	    input5.value = $("#firstNumber").val();
+
+	    let input6 = document.createElement('input');
+	    input6.type = "text";
+	    input6.name = "MiddleNumber";
+	    input6.value = $("#MiddleNumber").val();
+
+	    let input7 = document.createElement('input');
+	    input7.type = "text";
+	    input7.name = "lastNumber";
+	    input7.value = $("#lastNumber").val();
+
+	    form.appendChild(passwordInput);
+	    form.appendChild(input1);
+	    form.appendChild(input2);
+        form.appendChild(input3);
+        form.appendChild(input4);
+	    form.appendChild(input5);
+	    form.appendChild(input6);
+	    form.appendChild(input7);
+	    
+	    document.body.appendChild(form);
+	    
+	    $("#dh-modal-alert5").addClass("active").fadeIn();
+        setTimeout(function() {
+            $("#dh-modal-alert").fadeOut(function(){
+                $(this).removeClass("active");
+			    // 폼 전송
+			    form.submit();	    			 
+            });
+        }, 1000); //알람창
 	});
 	
 });
@@ -169,7 +364,7 @@ new daum.Postcode({
 	
 	<main>
 		<div class="main-area">
-		<p class="top-title">내 정보 확인하기&nbsp;🙆‍♂️</p>
+		<p class="top-title">🙆‍♂️ 내 정보 확인하기</p>
 		<div class="health-area">
 			<p class="p-title">이름</p>
 			<p class="p-detail">${myInfo.mname}</p>
@@ -184,14 +379,15 @@ new daum.Postcode({
 		</div>
 		<div class="health-area">
 			<div class="password-area">
-				<form action="../changePW/${sessionScope.mno}" method="post" id="changePW">
+			   <%--  <form action="../changeAllMyInfo/${sessionScope.mno}" method="post"> --%>
+				<%-- <form action="../changePW/${sessionScope.mno}" method="post" id="changePW"> --%>
 				<div class="title-button">
 					<span class="p-title">패스워드</span><button class="button" id="changePWBtn">비밀번호 변경</button>
 				</div>
 				<input type="password" id="mpw" name="mpw" placeholder="비밀번호를 입력해주세요." maxlength="8" value="${myInfo.mpw }">
 				<i class="xi-eye-off xi-2x"></i>
 				<p id="pwInfo" class="info"></p>
-				</form>
+				<!-- </form> -->
 			</div>
 		</div>
 		<div class="health-area">
@@ -199,31 +395,31 @@ new daum.Postcode({
 			<p class="p-detail">${myInfo.memail}</p>
 		</div>
 		<div class="health-area">	
-			<form action="../changeHomeAddr/${sessionScope.mno}" method="post">
+			<%-- <form action="../changeHomeAddr/${sessionScope.mno}" method="post"> --%>
 			<div class="title-button">
 				<span class="p-title">집주소</span><button class="button" id="changeHomeAddr">집주소 변경</button>
 			</div>
 			<input type="text" id="mhomeaddr" name="mhomeaddr" placeholder="집주소를 입력해주세요." value="${myInfo.mhomeaddr}" onclick="searchAddr()">
 			<input type="text" id="mhomeaddr2" name="mhomeaddr2" placeholder="상세주소를 입력해주세요." value="${myInfo.mhomeaddr2}">
 			<span id="homeAddrInfo"></span>
-			</form>
+			<!-- </form> -->
 		</div>
 		<div class="health-area">
-			<form action="../changeCompanyAddr/${sessionScope.mno}" method="post">
+			<%-- <form action="../changeCompanyAddr/${sessionScope.mno}" method="post"> --%>
 			<div class="title-button">
 				<span class="p-title">회사주소(선택)</span><button class="button" id="changeCompanyAddr">회사주소 변경</button>
 			</div>
 			<input type="text" id="mcompanyaddr" name="mcompanyaddr" placeholder="회사 주소를 입력해주세요." value="${myInfo.mcompanyaddr}" onclick="searchComAddr()">
 			<input type="text" id="mcompanyaddr2" name="mcompanyaddr2" placeholder="상세주소를 입력해주세요." value="${myInfo.mcompanyaddr2}">
 			<span id="companyAddrInfo"></span>
-			</form>
+			<!-- </form> -->
 		</div>
 		<div class="health-area">
 			<p class="p-title">생년월일</p>
 			<p class="p-detail">${myInfo.mbirth }</p>
 		</div>
 		<div class="health-area">
-			<form action="../changePhoneNumber/${sessionScope.mno}" method="post">
+			<%-- <form action="../changePhoneNumber/${sessionScope.mno}" method="post"> --%>
 			<div class="title-button">
 				<span class="p-title">전화번호</span><button id="changePhoneNumber">전화번호 변경</button>
 			</div>
@@ -231,10 +427,93 @@ new daum.Postcode({
 			<input type="text" id="MiddleNumber" name="MiddleNumber" maxlength="4" placeholder="xxxx"> -
 			<input type="text" id="lastNumber" name="lastNumber" maxlength="4" placeholder="xxxx">
 			<span id="phoneInfo"></span>
-			</form>
+			<!-- </form> -->
 		</div>
 	</div>
 	</main>
+	
+	<!-- 비밀번호 알람모달 -->
+	
+	<div id="dh-modal-alert">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">비밀번호가 변경되었습니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>
+
+	<!-- 집주소 알람모달 -->
+	
+	<div id="dh-modal-alert2">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">집주소가 변경되었습니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>	
+	
+	<!-- 회사주소 알람모달 -->
+	
+	<div id="dh-modal-alert3">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">회사주소가 변경되었습니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>		
+
+	<!-- 전화번호 알람모달 -->
+	
+	<div id="dh-modal-alert4">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">전화번호가 변경되었습니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>	
+	
+	<!-- 전체변경 알람모달 -->
+	
+	<div id="dh-modal-alert5">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">내 정보가 변경되었습니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>		
+		
+	<div style="height: 9vh"></div>
+		
+			
+		<footer>
+			<button id="changeMyInfoBtn">변경하기</button>
+		</footer>
+		<!-- </form> -->
 	
 		<!-- 모달1 start -->
 	<div class="modal" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">

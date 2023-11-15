@@ -10,10 +10,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="/css/healthRecord.css">
+<link href="/css/aram.css" rel="stylesheet" />
 <script src="../js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
+
 $(function(){
 	$("#changeHealthRecordBtn").click(function(){
+		event.preventDefault(); //폼 전송 막기
 		
 		$("#heightInfo").text("");
 		$("#weightInfo").text("");
@@ -51,9 +54,17 @@ $(function(){
 	        $("#diastolicPressureInfo").css("color","red");
 	        return false;
 	    }
+	    
+	    $("#dh-modal-alert").addClass("active").fadeIn();
+	        setTimeout(function() {
+	            $("#dh-modal-alert").fadeOut(function(){
+	                $(this).removeClass("active");
+	    			$("#changeHealthRecord").submit();
+	            });
+	        }, 1000);
 	});
 });
-
+	    
 
 </script>
 
@@ -67,8 +78,8 @@ $(function(){
 	
 	<main>
 		<div class="main-area">
-		<p class="top-title">내 건강기록을 확인하기🏃‍♂️</p>
-		<form action="../changeHealthRecord/${sessionScope.mno}" method="post">
+		<p class="top-title">🏃‍♂️ 내 건강기록을 확인하기</p>
+		<form id="changeHealthRecord" action="../changeHealthRecord/${sessionScope.mno}" method="post">
 		<div class="input-area">
 			<p>키</p>
 			<input type="text" id="hrheight" name="hrheight" placeholder="ex)155" maxlength="3" value="${healthRecord.hrheight}">cm
@@ -93,9 +104,29 @@ $(function(){
 			<p>기타 특이사항</p>
 			<input type="text" id="hrissue" name="hrissue" placeholder="특이사항을 적어주세요." maxlength="30" value="${healthRecord.hrissue}">
 		</div>
+		
+		<footer>
 			<button id="changeHealthRecordBtn">변경하기</button>
+		</footer>
+		
 		</form>
 		</div>
 	</main>
+	
+			<!-- 알람모달 -->
+	
+	<div id="dh-modal-alert">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">건강기록이 변경되었습니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>
+	
 </body>
 </html>
