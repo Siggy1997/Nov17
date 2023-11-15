@@ -183,17 +183,15 @@
 		});
 		
 		/* 진료 중일 때만 비대면 진료하기 */
-		if ( $(".doctocFooter").hasClass("application") ) {
-		alert("!");
+		if ($(".application").length > 0) {
+			if ($(".doctorStatus_text").text() == '진료 중') {
+				$(".application").addClass("submit-btn-css").prop("disabled", false);;
+				$(".application").disabled(abled);
+			} else {
+				$(".application").text("비대면 진료 종료").removeClass("submit-btn-css").prop("disabled", true);
+			}
+   	 	}
 		
-		if ($(".doctorStatus_text").text() == '진료 중') {
-			$(".application").addClass("btn-color-css");
-		} else {
-			$(".application").removeClass("btn-color-css").text("비대면 진료 종료");
-			
-		}
-		
-	}
 		
  		
 		/* Collection of functions */
@@ -380,8 +378,6 @@
 				<button type="button" class="sortReviewButton">별점 높은 순</button>
 				<button type="button" class="sortReviewButton">별점 낮은 순</button>
 			</div>
-<!-- [{rlike=42, rno=1, dno=1, rdate=2023-10-25 01:33:38.0, hno=1, rrate=4.0, rcontent=친절하게 진찰해주셨어요., 
-mname=송화진, rkeyword=효과좋아요,친절해요, mno=1} -->
 			<div class="reviewBox">
 				<c:forEach items="${doctorReview}" var="row">
 				<div class="reviewWriteBox">
@@ -420,20 +416,21 @@ mname=송화진, rkeyword=효과좋아요,친절해요, mno=1} -->
 			</div>
 		</div>
 	</div>
+	</main>
 	
-	<footer class="doctocFooter">
+	<form id="telehealthApply" action="/telehealthApply" method="get">
+	<footer>
 		<c:choose>
 			<c:when test="${doctor.dtelehealth == 0 }">
-				<button type="button">비대면 진료 불가</button>
+				<button class="submit" type="button">비대면 진료 불가</button>
 			</c:when>
 			<c:otherwise>
-				<form id="telehealthApply" action="/telehealthApply" method="get">
 				<input name="dno" type="hidden" value="${doctor.dno}">
-				<button class="application">비대면 진료 신청</button>
-				</form>
+				<button class="submit application" disabled="disabled">비대면 진료 신청</button>
 			</c:otherwise>
 		</c:choose>
 	</footer>
+	</form>
 
 </body>
 </html>

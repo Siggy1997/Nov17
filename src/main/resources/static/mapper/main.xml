@@ -45,7 +45,12 @@
 		UPDATE notification n
 		SET n.nread='1'
 		WHERE nno=#{nno}
-	
 	</update>
+	
+	<select id="userInfo" parameterType="Object" resultType="Map">
+		SELECT mnickname, mbirth, mimg, mid, mname
+		FROM member
+		WHERE mno = #{mno}
+	</select>
 
 </mapper>

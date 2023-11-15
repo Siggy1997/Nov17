@@ -70,9 +70,4 @@ public class TelehealthService {
 		telehealthDAO.apply(map);
 	}
 
-
-	public Map<String, Object> userInfo(Object mno) {
-		return telehealthDAO.userInfo(mno);
-	}
-
 }

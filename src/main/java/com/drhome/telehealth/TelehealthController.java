@@ -269,14 +269,4 @@ public class TelehealthController {
 		return "redirect:/main";
 	}
 	
-	@GetMapping("/menu")
-	public String menu(HttpSession session, Model model) {
-		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
-			Map<String, Object> userInfo = telehealthService.userInfo(session.getAttribute("mno"));
-			model.addAttribute("userInfo", userInfo);
-			System.out.println(userInfo);
-		}
-		return "/menu";
-	}
- 	
 }

@@ -9,9 +9,11 @@
 <meta charset="UTF-8">
 <title>search</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/hospital.css">
+<link rel="stylesheet" href="./css/telehealthSearch.css">
 <script src="./js/jquery-3.7.0.min.js"></script> 
-
+<script src="./js/wnInterface.js"></script>
+<script src="./js/mcore.min.js"></script>
+<script src="./js/mcore.extends.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
 	    document.getElementById('keyword').focus();
@@ -21,50 +23,62 @@
 		
 		/* 뒤로가기 버튼 */
 		$(document).on("click", ".xi-angle-left", function(){
-			history.back();
+			location.href = '/main';
 		});
 		
-		let recentKeywordCookies = getCookie("recentKeyword");
-		if (recentKeywordCookies == null) {
+		/* 최근 검색어 가져오기 */
+		let storageKeyword = M.data.storage("recentKeyword");
+		alert("처음 저장된 검색어 : " + M.data.storage("recentKeyword"));
+		
+		/* 최근 검색어 키워드 넣기 */
+		if ( M.data.storage("recentKeyword") == null ) {
 			$(".searchRecentItems").html('');
 		} else {
-			let stringArray = separationString(recentKeywordCookies);
+			let stringArray = separationString(storageKeyword);
 			let searchRecentItems = '';
 			for(let item of stringArray) {
-				searchRecentItems += '<div class="recentItemBox"><button class="recentItem">' + item + '</button><div class="xi-close-min"></div></div>';
+				searchRecentItems += '<div class="recentItemBox"><button class="recentItem">' + item + '</button><div class="deleteKeyword"><i class="xi-close-min"></i></div></div>';
 			}
 			$(".searchRecentItems").html(searchRecentItems);
 		}
-		
+
+		/* 최근 검색어 전체 삭제 */
 		$(".searchDelete").click(function(){
-			deleteAllCookie("recentKeyword");
+			M.data.removeStorage("recentKeyword");
+			alert("검색어 전체 삭제 : " + M.data.storage("recentKeyword"));
 			$(".searchRecentItems").html('');
 		});
 		
-		$(".recommendItem").click(function(){
-			let keyword = $(this).text();
-			$('#keyword').val(keyword);
-		})
-		
-		$(".recommendRandomItem").click(function(){
-			let keyword = $(this).text();
-			$('#keyword').val(keyword);
-		})
-		
-		$(".recentItem").click(function(){
-			let keyword = $(this).text();
-			$('#keyword').val(keyword);
-		})
+		/* 검색 */
+		$(".recommendItem, .recommendRandomItem, .recentItem").click(function(){
+		    let keyword = $(this).text();
+		    $('#keyword').val(keyword);
+		});
+
 	});
 	
 	$(document).on("submit", "#searchForm", function(){
-		let recentKeyword = $("#keyword").val();
-		setCookie("recentKeyword", recentKeyword, 30);
+		let searchKeyword = $("#keyword").val();
+		alert(searchKeyword);
+		if ( M.data.storage("recentKeyword") != null ) {
+			let combine = M.data.storage("recentKeyword") + "," + searchKeyword;
+			alert(combine);
+			M.data.storage("recentKeyword", combine);
+			alert("저장된 검색어가 널이 아닐 때 저장 후 : " + M.data.storage("recentKeyword"));
+		} else {
+			M.data.storage("recentKeyword", searchKeyword);
+			alert("저장된 검색어가 널일 때 저장: " + storageKeyword);
+		}
 	});
 	
-	$(document).on("click", ".xi-close-min", function(){
+	/* 쿠키 한개 삭제 */
+	$(document).on("click", ".deleteKeyword", function(){
 		let deleteKeyword = $(this).siblings().text();
-		deleteCookie(deleteKeyword, "recentKeyword", 30);
+		let allCookieArray = separationString(storageKeyword);// 스트링 -> 배열
+		let deleteCookieArray = allCookieArray.filter(item => item !== deleteKeyword);// 삭제하고 다시 배열
+		let newCookie = deleteCookieArray.join(",");// 새로운 배열
+		M.data.storage("recentKeyword", newCookie);
+		alert("쿠키 한 개 삭제할 때" + storageKeyword);
 		$(this).parent().html('');
 	});
 	
@@ -172,12 +186,14 @@
 			<div class="serachItem">
 				<!-- 최근 검색 -->
 				<div class="searchRecent">
-					<div class="searchTitle">최근 검색</div>
-					<div class="searchDelete">전체삭제</div>
+					<div class="titleSection">
+						<div class="searchTitle">최근 검색</div>
+						<div class="searchDelete">전체삭제</div>
+					</div>
 					<div class="searchRecentItems">
 						<div class="recentItemBox">
 							<button class="recentItem"></button>
-							<div class="xi-close-min"></div>
+							<div class="deleteKeyword"><i class="xi-close-min"></i></div>
 						</div>
 					</div>
 				</div>

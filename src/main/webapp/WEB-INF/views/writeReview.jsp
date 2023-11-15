@@ -3,18 +3,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
-<link rel="stylesheet"
-	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/writeReview.css">
-
 <script src="./js/jquery-3.7.0.min.js"></script>
 
 <script type="text/javascript">
 	$(function() {
+		/* 뒤로가기 버튼 */
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
+		
 		let rate;
 		let dno;
 		let keyword;
@@ -80,6 +85,14 @@
 
 			$('.reviewContent').show()
 		});
+		
+		$(document).on('input', '#content', function(){
+		    if ($(this).val().length >= 10) {
+		    	$('#finish').addClass('submit-btn-css');
+		    } else {
+		    	$('#finish').removeClass('submit-btn-css');
+		    }
+		});
 
 		$('#finish').click(function() {
 			if (rate !== undefined && dno !== undefined && keyword !== undefined && $('#content').val().length > 10) {
@@ -121,7 +134,12 @@
 		        form.appendTo("body");
 		        form.submit();
 		    } else {
-		        alert("필수 정보를 모두 입력해주세요!");
+				 $("#dh-modal-alert").addClass("active").fadeIn();
+				    setTimeout(function() {
+				        $("#dh-modal-alert").fadeOut(function(){
+				            $(this).removeClass("active");
+				        });
+				    }, 1000);
 		        return false; // 버튼 클릭 이벤트를 중단합니다.
 		    }
 		});
@@ -138,9 +156,15 @@
 
 </head>
 <body>
+	<header>
+		<i class="xi-angle-left xi-x"></i>
+		<div class="headerTitle">리뷰 작성</div>
+		<div class="blank"></div>
+	</header>
 	<input id="mno" type="hidden" value="${parameter.mno }">
 	<input id="hno" type="hidden" value="${parameter.hno }">
-	<div class="total">
+	
+	<main class="total container">
 		<div class="hospitalInfo">
 			<img alt=""
 				src="https://cdn0.iconfinder.com/data/icons/medical-flat-20/58/006_Hospital-1024.png">
@@ -149,63 +173,83 @@
 
 				<div class="selectStars">
 					<c:forEach var="i" begin="1" end="5">
-						<i class="star${i } xi-star-o xi-x"> <input id="rate"
+						<i class="star${i } xi-star-o"> <input id="rate"
 							type="hidden" value="${i }"></i>
 					</c:forEach>
 				</div>
 			</div>
 		</div>
 		<div class="goUp">
-			<img alt=""
+			<div class="hospitalImg">
+				<img alt=""
 				src="https://cdn0.iconfinder.com/data/icons/medical-flat-20/58/006_Hospital-1024.png">
+			</div>
 			<div id="hospitalName">
 				<span>${hospital.hname }</span>
 
 				<div class="selectStars">
 					<c:forEach var="i" begin="1" end="5">
-						<i class="star${i } xi-star-o xi-x"> <input id="rate"
+						<i class="star${i } xi-star-o"> <input id="rate"
 							type="hidden" value="${i }"></i>
 					</c:forEach>
 				</div>
 			</div>
-			<hr>
 		</div>
+		<div class="grayLine"></div>
 
 		<div class="totalDoctor">
-			<div class="title">진료 받으신 의사를 선택해주세요</div>
+			<div class="title">진료 받으신 의사를 선택해 주세요.</div>
 			<div class="selectDoctor">
 				<c:forEach var="doctor" items="${doctor}">
 					<div class="selectDoctorInfo doctor${doctor.dno }">
-						<img alt="의사사진" src="${doctor.dimg }"><br>
-						${doctor.dname } <input type="hidden" id="doctor"
-							value="${doctor.dno }">
+						<div class="imgBox"><img alt="의사사진" src="${doctor.dimg }"></div>
+						${doctor.dname }
+						<input type="hidden" id="doctor" value="${doctor.dno }">
 					</div>
 				</c:forEach>
 			</div>
 		</div>
 
-		<div class="totalTreatment">
+		<div class="totalTreatment questionBox">
 			<div class="title">진료 결과는 어때요?</div>
-			<button class="treatment t1" value="효과 없어요">효과 없어요</button>
-			<button class="treatment t2" value="보통이에요">보통이에요</button>
-			<button class="treatment t3" value="효과 좋아요">효과 좋아요</button>
+			<div class="reviewAnswerBox">
+				<button class="treatment t1" value="효과 없어요"><img src="./img/bad.png">효과 없어요</button>
+				<button class="treatment t2" value="보통이에요"><img src="./img/fine.png">보통이에요</button>
+				<button class="treatment t3" value="효과 좋아요"><img src="./img/good.png">효과 좋아요</button>
+			</div>
 		</div>
 
-		<div class="totalFeedback">
+		<div class="totalFeedback questionBox">
 			<div class="title">선생님은 친절하셨나요?</div>
-			<button class="feedback f1" value="불친절해요">불친절해요</button>
-			<button class="feedback f2" value="보통이에요">보통이에요</button>
-			<button class="feedback f3" value="친절해요">친절해요</button>
+			<div class="reviewAnswerBox">
+				<button class="feedback f1" value="불친절해요"><img src="./img/unkind.png">불친절해요</button>
+				<button class="feedback f2" value="보통이에요"><img src="./img/normal.png">보통이에요</button>
+				<button class="feedback f3" value="친절해요"><img src="./img/kind.png">친절해요</button>
+			</div>
 		</div>
 
-		<div class="reviewContent">
+		<div class="reviewContent questionBox">
 			<div class="title">상세한 리뷰를 써주세요</div>
-			<input id="content" placeholder="최소 10자 이상 입력해주세요">
+			<textarea id="content" placeholder="최소 10자 이상 입력해 주세요."></textarea>
 		</div>
-	</div>
-	<div class="blank"></div>
+		<div style="height: 9vh"></div>
+	</main>
 	<footer>
 		<button id="finish">완료</button>
 	</footer>
+	
+	<!-- 알림창 -->
+	<div id="dh-modal-alert">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">10글자 이상 입력해 주세요.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>
 </body>
 </html>

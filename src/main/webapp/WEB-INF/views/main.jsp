@@ -35,16 +35,6 @@
 			send();
 		});
 		
-		function send(){
-			let inputValue =$('#inputSearch').val();
-			let form = $('<form></form>');
-			form.attr("action","./search");
-			form.attr("method", "post");
-			form.append($("<input>",{type:'hidden', name:"keyword", value:inputValue}));
-			form.appendTo("body");
-			form.submit();
-		}
-		
 		
 		//퀴즈 올리기
 		$('#todayQuizAnswer>button').click(function() {
@@ -162,6 +152,90 @@
 			
 		})
 		
+		/* 진료과별 모달 */
+		$(document).on("click", ".selectByDepartment", function(){
+			$(".symptomContainer").hide();
+			$(".symptomModal").modal("show");
+			$(".modalDepartment").addClass("modal-title-css");
+		});
+		
+		/* 진료과 선택했을 때 */
+		$(document).on("click", ".modalDepartment", function(){
+			$(this).addClass("modal-title-css");
+			$(".modalSymptom").removeClass("modal-title-css");
+			$(".departmentGroup").show();
+			$(".symptomContainer").hide();
+		});
+		
+		/* 진료과 검색하기 */
+		$(document).on("click", ".departmentKind", function(){
+			let departmentKind = $(this).text();
+			$('#inputSearch').val(departmentKind);
+			send();
+		});
+		
+		/* 증상 선택했을 때 */
+		$(document).on("click", ".modalSymptom", function(){
+			$(this).addClass("modal-title-css");
+			$(".modalDepartment").removeClass("modal-title-css");
+			$(".departmentGroup").hide();
+			$(".symptomContainer").show();
+		});
+		
+		/* 증상 그룹별로 보여주기 */
+		let keywordClass = $(".symptomKindBox:first .symptomGroup").nextAll();
+		toggleClass(keywordClass);
+		$(document).on("click", ".symptomGroup", function(){
+			let togglKeyword = $(this).siblings();
+			toggleClass(togglKeyword);
+		});
+		
+		/* 모달에서 증상별 토글 효과 */
+		function toggleClass(keyword) {
+			let otherKeyword = $(".symptomKindButton").not(keyword);
+			if (otherKeyword.is(":visible")) {
+				otherKeyword.slideUp();
+				toggleIcon(otherKeyword);
+			}
+			if (keyword.is(":visible")) {
+		        toggleIcon(keyword);
+		        keyword.slideUp();
+		    } else {
+		        toggleIcon(keyword);
+		        keyword.slideDown();
+		    }
+		}
+		
+		/* 모달에서 증상별 토글 아이콘 변경 */
+		function toggleIcon(keyword) {
+			if (keyword.is(":visible")) {
+		        let toggle = keyword.siblings().children(".xi-angle-up-thin");
+		        keyword.siblings().children(".symptomGroupText").removeClass("font-css");
+		        toggle.removeClass("xi-angle-up-thin").addClass("xi-angle-down-thin");
+		    } else {
+		    	let toggle = keyword.siblings().children(".xi-angle-down-thin");
+		    	keyword.siblings().children(".symptomGroupText").addClass("font-css");
+		    	toggle.removeClass("xi-angle-down-thin").addClass("xi-angle-up-thin");
+		    }
+		}
+		
+		/* 증상 검색하기 */
+		$(document).on("click", ".symptomKind", function(){
+			let symptomKind = $(this).text();
+			$('#inputSearch').val(symptomKind)
+			send();
+		});
+		
+		function send(){
+			let inputValue =$('#inputSearch').val();
+			let form = $('<form></form>');
+			form.attr("action","./search");
+			form.attr("method", "post");
+			form.append($("<input>",{type:'hidden', name:"keyword", value:inputValue}));
+			form.appendTo("body");
+			form.submit();
+		}
+		
 		
 	});
 </script>
@@ -215,7 +289,7 @@
 
 		<!-- 진료과별 -->
 		<div class="section" id="selectDepartment">
-			<div class="mainTitle">
+			<div class="mainTitle selectByDepartment">
 				진료과별 <i class="xi-angle-right xi-x"></i>
 			</div>
 			<div id="departmentWrapper">
@@ -433,6 +507,49 @@
 		</a>
 
 	</footer>
+	
+	<!-- 진료과/증상 모달 -->
+	<div class="modal fade symptomModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <!-- 모달 헤더 -->
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">
+	               	<button type="button" class="modalDepartment">진료과</button>
+	               	<button type="button" class="modalSymptom">증상·질환</button>
+               </h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+			<!-- 모달 바디 -->
+            <div class="modal-body">
+            	<!-- 진료과 -->
+            	<div class="departmentGroup">
+            		<button class="departmentKind">전체</button>
+	            	<c:forEach items="${departmentKeyword}" var="row">
+	            	<button class="departmentKind">${row.dpkind}</button>
+	            	</c:forEach>
+            	</div>
+            	<!-- 증상 -->
+	  			 <div class="symptomContainer">
+	            	<c:forEach items="${departmentKeyword}" var="row">
+	            	<div class="symptomKindBox">
+	            		<div class="symptomGroup">
+	            			<div class="symptomGroupText">${row.dpsymptom}</div>
+	            			<div class="xi-angle-down-thin"></div>
+	            		</div>
+			        	<div class="symptomKindButton">
+	            		<c:set var="keywords" value="${row.dpkeyword.split(',')}"/>
+				        <c:forEach var="keyword" items="${keywords}">
+			            	<button class="symptomKind">${keyword}</button>
+				        </c:forEach>
+	            		</div>
+		        	</div>
+	            	</c:forEach>
+	           	</div>
+            </div>
+         </div>
+      </div>
+   </div>
 
 	<script type="text/javascript">
 		//스와이퍼 시작
@@ -457,5 +574,11 @@
 		
 
 	</script>
+	
+	<!-- Bootstrap core JS -->
+   <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="js/scripts.js"></script>
+   <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
