@@ -129,7 +129,7 @@ $(document).ready(function () {
 		data-bs-backdrop="static" data-keyboard="false">
 		<!-- 모달 내용 -->
 		<div class="modal-dialog">
-			<form action="admin/newDoctor" method="POST">
+			<form action="/admin/adminMain" method="POST">
 			<div class="modal-content">
 				<div class="edit-header">
 					<h1 class="modal-title" id="exampleModalLabel">병원 상세 내역</h1>
@@ -188,7 +188,7 @@ $(document).ready(function () {
 	<div style="height: 9vh"></div>
 	</main>
 	<footer>
-		css 테스트
+		
 	</footer>	
 </body>
 </html>

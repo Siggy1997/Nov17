@@ -71,7 +71,7 @@
 <header>
     <i class="xi-angle-left xi-x" onclick="history.back()"></i>
 
-	<div class="headerTitle"><i></i></div>
+	<div class="headerTitle"><h4 style="width: 104px; margin-right: -90px;">병원 개설</h4></div>
 	
 	<div class="headerTitle"><i class="xi-hospital xi-3x"></i></div>
 </header>
@@ -84,7 +84,7 @@
 			병원 개설을 위해 아래 내용을 입력해주세요.
 		</div>
 		<div class="tab">
-		<form action="/admin/hospitalOpen" method="POST">
+		<form action="/hospitalAdd" method="POST">
 			<div class="Group">
 				<input class="vector" type="text" placeholder="병원명" name="rhname">
 			</div>
@@ -141,7 +141,7 @@
 	<div style="height: 9vh"></div>
 </main>
 <footer>
-css 테스트
+
 </footer>
 </body>
 </html>

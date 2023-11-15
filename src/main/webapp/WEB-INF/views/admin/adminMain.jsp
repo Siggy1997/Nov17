@@ -43,7 +43,7 @@
 					<div id="comment">회원을 관리합니다</div>
 				</div>
 				
-				<div class="box" style="background-color: #2EFEF7;" onclick="url('newHospital')">
+				<div class="box" style="background-color: #2EFEF7;" onclick="url('hospitalOpen')">
 					병원 개설 관리
 					<div id="comment">병원의 개설을 관리합니다</div>
 				</div>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>의사 관리</title>
+<title>의사 등록 관리</title>
 <link rel="stylesheet" href="../css/newHosDoc.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -21,7 +21,6 @@ $(document).ready(function () {
 		$("#searchDiv").html("");
 		searchN = $("#searchN option:selected").val();     
 		searchV = $("input[name=searchV]").val();
-		
 		
 		$.ajax({
 			url : "./search",
@@ -39,11 +38,10 @@ $(document).ready(function () {
 						
 				for (let i = 0; i < search.length; i++) {
 					tableMake += "<div class='chkData' id='searchTable'>";
-					tableMake += "<div style='display: none;'>"+search[i].dno+"</div>";
-					tableMake += "<div style='text-align: left; margin-left: 10px; font-weight: bold;' id='data-dname'>"+search[i].dname+"</div>";
-					tableMake += "<div style='text-align: left; margin-left: 10px; font-size: 12px;' id='data-dspecialist'>"+(search[i].dspecialist == 0 ? '일반의' : '전문의')+"</div>";
-					tableMake += "<div style='text-align: left; margin-left: 10px; font-size: 12px;'>"+search[i].dpkind;
-					tableMake += "<div style='text-align: right; margin-right: 320px;'>"+search[i].hname+"</div></div>";
+					tableMake += "<div style='display: none;'>"+search[i].rdno+"</div>";
+					tableMake += "<div style='text-align: left; margin-left: 10px; font-weight: bold;' id='data-dname'>"+search[i].rdname+"</div>";
+					tableMake += "<div style='text-align: left; margin-left: 10px; font-size: 12px;' id='data-dspecialist'>"+(search[i].rdspecialist == 0 ? '일반의' : '전문의')+"</div>";
+					tableMake += "<div style='text-align: left; margin-left: 10px; font-size: 12px;'>"+search[i].rdpkind;
 					tableMake += "<hr style='height: 2px; background-color: black; margin-top: 5px;'></div>";
 				}
 				
@@ -58,13 +56,13 @@ $(document).ready(function () {
 
 	$(document).on("click", ".chkData" ,function() {
 		
-		let dno = $(this).children().first().html();
+		let rdno = $(this).children().first().html();
 		
 		$.ajax({
 			url : "./doctorView",
 			type : "POST",
 			data : {
-				"dno" : dno,
+				"rdno" : rdno,
 			},
 			dataType: "json",
 			success : function(data) {
@@ -74,16 +72,15 @@ $(document).ready(function () {
 				$(".modal-body").empty();
 
 				for (let i = 0; i < viewDoctor.length; i++) {
-					doctorMake += "<h1 class='modal-title' id='exampleModalLabel' id='data-dname' style='margin-bottom: 30px;'>"+viewDoctor[i].dname+"</h1>";
+					doctorMake += "<h1 class='modal-title' id='exampleModalLabel' id='data-rdname' style='margin-bottom: 30px;'>"+viewDoctor[i].rdname+"</h1>";
 					doctorMake += "<div class='modal-body view-body'>";
-					doctorMake += "<div class='title' style='text-decoration: underline; font-size: 20px;'>번호<span class='answer' style='font-weight: bold; font-size: 18px; text-align: right; margin-left: 200px;' id='data-dno'>"+viewDoctor[i].dno+"</span></div><br>";
-					doctorMake += "<div class='title' style='font-size: 15px;'>성별<span class='answer' style='font-weight: bold; font-size: 14px; text-align: right; margin-left: 207px;' id='data-dgender'>"+(viewDoctor[i].dgender == 0 ? '남자' : '여자')+"</span></div><br>";
-					doctorMake += "<div class='title' style='font-size: 15px;'>학력</div><span class='answer' style='font-weight: bold; font-size: 14px; text-align: left; margin-right: 200px;' id='data-dcareer'>"+viewDoctor[i].dcareer+"</span><br><br>";
-					doctorMake += "<div class='title' style='font-size: 15px;'>전문 여부<span class='answer' style='font-weight: bold; font-size: 14px; text-align: right; margin-left: 164px;' id='data-dspecialist'>"+(viewDoctor[i].dspecialist == 0 ? '일반의' : '전문의')+"</span></div><br>";
-					doctorMake += "<div class='title' style='font-size: 15px;'>진료과<div class='answer' style='font-weight: bold; font-size: 14px; text-align: left; margin-right: 24px;' id='data-dpkind'>"+viewDoctor[i].dpkind+"</div></div><br>";
-					doctorMake += "<div class='title' style='font-size: 15px;'>증상</div><div class='answer' style='font-weight: bold; font-size: 14px; text-align: left; margin-left: 20px;' id='data-dpsymptom'>"+viewDoctor[i].dpsymptom+"</div><br>";
-					doctorMake += "<div class='title' style='font-size: 15px;'>비대면 진료 여부<span class='answer' style='font-weight: bold; font-size: 18px; text-align: right; margin-left: 139px;' id='data-dtelehealth'>"+(viewDoctor[i].dtelehealth == 0 ? 'X' : 'O')+"</span></div><br>";
-					doctorMake += "<div style='font-size: 15px; text-align: center;'>키워드</div><br><div class='answer' style='font-weight: bold; font-size: 18px; text-align: center;' id='data-dpkeyword'>"+viewDoctor[i].dpkeyword+"</div></div>";
+					doctorMake += "<div class='title' style='text-decoration: underline; font-size: 18px;'>번호<span class='answer' style='font-weight: bold; font-size: 18px; text-align: right; margin-left: 200px;' id='data-rdno'>"+viewDoctor[i].rdno+"</span></div><br>";
+					doctorMake += "<div class='title' style='font-size: 15px;'>이미지<span class='answer' style='font-weight: bold; font-size: 18px; text-align: right; margin-left: 200px;' id='data-rdimg'>"+viewDoctor[i].rdimg+"</span></div><br>";
+					doctorMake += "<div class='title' style='font-size: 15px;'>소개<span class='answer' style='font-weight: bold; font-size: 18px; text-align: right; margin-left: 200px;' id='data-rdinfo'>"+viewDoctor[i].rdinfo+"</span></div><br>";
+					doctorMake += "<div class='title' style='font-size: 15px;'>성별<span class='answer' style='font-weight: bold; font-size: 14px; text-align: right; margin-left: 207px;' id='data-dgender'>"+(viewDoctor[i].rdgender == 0 ? '남자' : '여자')+"</span></div><br>";
+					doctorMake += "<div class='title' style='font-size: 15px;'>학력</div><span class='answer' style='font-weight: bold; font-size: 14px; text-align: left; margin-right: 200px;' id='data-dcareer'>"+viewDoctor[i].rdcareer+"</span><br><br>";
+					doctorMake += "<div class='title' style='font-size: 15px;'>전문 여부<span class='answer' style='font-weight: bold; font-size: 14px; text-align: right; margin-left: 164px;' id='data-dspecialist'>"+(viewDoctor[i].rdspecialist == 0 ? '일반의' : '전문의')+"</span></div><br>";
+					doctorMake += "<div class='title' style='font-size: 15px;'>비대면 진료 여부<span class='answer' style='font-weight: bold; font-size: 18px; text-align: right; margin-left: 139px;' id='data-dtelehealth'>"+(viewDoctor[i].rdtelehealth == 0 ? 'X' : 'O')+"</span></div></div>";
 				}
 
 				$(".modal-body").append(doctorMake);
@@ -112,7 +109,7 @@ $(document).ready(function () {
 
 <body>
 	<main>
-	<h1 style="text-align: center;">의사 관리</h1>
+	<h1 style="text-align: center;">의사 등록 관리</h1>
 	<div class="content">
 		<div style="text-align: center;">
 			<select id="searchN" name="searchN" style="width: 60px;">
@@ -123,14 +120,13 @@ $(document).ready(function () {
 			<input type="text" name="searchV" maxlength="2" style="width: 70px;" />
 			<button id="searchHos" type="button">검색</button>
 			<div id="searchDiv">
-				<c:forEach items="${newHospital}" var="nh">
+				<c:forEach items="${newDoctor}" var="nh">
 					<div class="chkData" id="searchTable">
-						<div style="display: none;">${nh.dno }</div>
-						<div style="text-align: left; margin-top: 5px; margin-left: 10px; font-weight: bold;" id="data-dname">${nh.dname }</div>
-						<div style="text-align: left; margin-left: 10px; font-size: 12px;" id="data-htelnumber">${nh.htelnumber}</div>
+						<div style="display: none;">${nh.rdno }</div>
+						<div style="text-align: left; margin-top: 5px; margin-left: 10px; font-weight: bold;" id="data-dname">${nh.rdname }</div>
 						<div style="text-align: left; margin-left: 10px; font-size: 12px;">
 							<c:choose>
-								<c:when test="${nh.dspecialist eq 0}">
+								<c:when test="${nh.rdspecialist eq 0}">
 									일반의
 								</c:when>
 								<c:otherwise>
@@ -138,7 +134,8 @@ $(document).ready(function () {
 								</c:otherwise>
 							</c:choose>
 						</div>
-						<div style="text-align: left; margin-left: 10px; font-size: 12px;" id="data-dpkind">${nh.dpkind}
+						<div style="text-align: left; margin-left: 10px; font-size: 12px;" id="data-htelnumber">${nh.rdcareer}</div>
+						<div style="text-align: left; margin-left: 10px; font-size: 12px;" id="data-dpkind">${nh.rdpkind}
 						
 							<div style="text-align: right; margin-right: 320px; font-weight: bold;" id="data-hname">${nh.hname }</div>
 						</div>
@@ -158,6 +155,7 @@ $(document).ready(function () {
 			<div class="modal-content">
 				<div class="edit-header">
 					<h1 class="modal-title" id="exampleModalLabel" id="data-dname"></h1>
+					<span style="margin-right: -230px;" class="xi-close xi-x" data-bs-dismiss="modal"></span>
 				</div>
 				<div class="modal-body view-body">
 					<table border="1" style="margin: 0 auto;" class="view-table">
@@ -201,14 +199,18 @@ $(document).ready(function () {
                			</tr>
                		</table>
 				</div>
-				<button type="button" class="dhBtn" id="closeBtn" data-bs-dismiss="modal">닫기</button>
+				<form action="/admin/newHosDoc" method="POST">
+					<input type="hidden" id="approve" name="rhno" value="" />
+					<button type="submit" class="dhBtn" id="confirm">승인</button>
+				</form>
+					<button type="button" class="dhBtn" id="cancel">삭제</button>	
 			</div>
 		</div>
 	</div>
 	<div style="height: 9vh"></div>
 	</main>
 	<footer>
-	css 테스트
+	
 	</footer>
 </body>
 </html>

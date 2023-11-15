@@ -14,7 +14,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
 	let rhno = 0;
-
+	
 	$(document).on("click", ".chkData" ,function() {
 		rhno = $(this).children().first().html();
 		
@@ -81,12 +81,12 @@ $(document).ready(function () {
 
 				for (let i = 0; i < searchHos.length; i++) {
 					tableMake += "<div class='chkData' id='searchTable'>";
-					tableMake += "<div style='text-align: left; margin-left: 10px;'>"+searchHos[i].rhno+"</div>";
-					tableMake += "<div style='text-align: left; margin-left: 10px;'>"+searchHos[i].rhname+"</div>";
+					tableMake += "<div style='display: none; text-align: left; margin-left: 10px;'>"+searchHos[i].rhno+"</div>";
+					tableMake += "<div style='text-align: left; font-weight: bold; margin-left: 10px;'>"+searchHos[i].rhname+"</div>";
 					tableMake += "<div style='text-align: left; margin-left: 10px; font-size: 12px;'>"+searchHos[i].rhaddr+"</div>";
 					tableMake += "<div style='text-align: left; margin-left: 10px; font-size: 12px;'>"+searchHos[i].rhtelnumber;
 					tableMake += "<span style='text-align: right; margin-left: 180px;'>"+searchHos[i].rhopendate+"</span></div>";
-					tableMake += "<hr style='height: 3px; background-color: black; margin-top: 5px;'></div>";
+					tableMake += "<hr style='height: 2px; background-color: #00C9FF; margin-top: 5px;'></div>";
 				}
 				
 				
@@ -189,7 +189,7 @@ $(document).ready(function () {
 						</div>
 						<br>
 						<div style="font-size: 18px;">주소
-							<span style="font-weight: bold; font-size: 14px; text-align: right; margin-left: 131px;" id="data-rhaddr"></span>
+							<span style="font-weight: bold; font-size: 14px; text-align: right; margin-left: 50px;" id="data-rhaddr"></span>
 						</div>
 						<br>
 						<div style="font-size: 18px;">진료시간</div>
@@ -214,7 +214,7 @@ $(document).ready(function () {
 					</div>
 				</div>
 				<div style="margin-top: 10px;" class="modal-footer view-footer">
-					<form action="/admin/realHospital" method="POST">
+					<form action="/admin/newHosDoc" method="POST">
 						<input type="hidden" id="approve" name="rhno" value="" />
 						<button type="submit" class="dhBtn" id="confirm">승인</button>
 					</form>
@@ -226,7 +226,7 @@ $(document).ready(function () {
 	<div style="height: 9vh"></div>
 </main>
 <footer>
-css 테스트
+
 </footer>
 </body>
 </html>
