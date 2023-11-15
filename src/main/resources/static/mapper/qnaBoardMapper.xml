@@ -204,8 +204,5 @@
 		VALUES((SELECT mno FROM board WHERE bno=#{bno}), #{bno})
 	</insert>
 
-   <insert id="sendNotification">
-      INSERT INTO notification (mno, nqnaboardNoti )
-      VALUES((SELECT mno FROM board WHERE bno=#{bno}), #{bno})
-   </insert>
+
 </mapper>
