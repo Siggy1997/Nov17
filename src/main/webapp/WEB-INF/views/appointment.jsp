@@ -150,7 +150,8 @@
 		      });
 		
 		  })
-
+		  
+		//시간 클릭시 
 		$(document).on('click', '.timeAvailable', function() {
 			time = $(this).text();
 			
@@ -165,7 +166,6 @@
 		})
 
 		$('.finish').click(function() {
-			alert($('#noteText').val())
 			let form = $('<form></form>');
 			form.attr("action", "../appointment");
 			form.attr("method", "post");

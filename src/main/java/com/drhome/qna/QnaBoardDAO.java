@@ -44,6 +44,8 @@ public interface QnaBoardDAO {
 
 	void editQna(Map<String, Object> editQnaData);
 
+	void sendNotification(Map<String, Object> qnaAnswerData);
+
 
 
 }

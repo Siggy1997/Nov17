@@ -102,12 +102,20 @@ main {
 .selectDoctor {
 	padding: 10px;
 	border-radius: 7px;
-	border: 1px solid gray;
+	border: 1px solid #d9d9d9;
 	margin: 10px 0;
+	display: flex;
+	align-items: center;
 }
 
-.selectDoctor span {
-	font-size: 10px;
+.selectDoctor img {
+	width: 40px;
+	margin-right: 21px;
+	border-radius: 50px;
+}
+
+.dpKind {
+	font-size: 12px;
 }
 
 .doctorName {
