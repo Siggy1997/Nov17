@@ -74,11 +74,12 @@
 	<insert id="writeQnaAnswer" parameterType="Map">
 		INSERT INTO comment
 		(mno, bno, dno, hno, ccontent, cdate)
+
 		VALUES (
 		#{mno},
 		#{bno},
 		#{dno},
-		(SELECT hno FROM member WHERE dno = #{dno}),
+		(SELECT hno FROM doctor WHERE dno = #{dno}),
 		#{ccontent},
 		#{cdate}
 		);
@@ -197,5 +198,14 @@
 		GROUP BY board.bno, board.btitle, board.bcontent, dpkind
 		ORDER BY board.bno DESC;
 	</select>
+	
+	<insert id="sendNotification">
+		INSERT INTO notification (mno, nqnaboardNoti )
+		VALUES((SELECT mno FROM board WHERE bno=#{bno}), #{bno})
+	</insert>
 
+   <insert id="sendNotification">
+      INSERT INTO notification (mno, nqnaboardNoti )
+      VALUES((SELECT mno FROM board WHERE bno=#{bno}), #{bno})
+   </insert>
 </mapper>

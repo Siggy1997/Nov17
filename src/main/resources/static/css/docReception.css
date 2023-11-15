@@ -282,22 +282,23 @@ input::placeholder {
 }
 
 .dpname-area{
-    display: flex;
+	display: flex;
     flex-wrap: wrap;
     font-size: 14px;
     font-weight: 500;
     justify-content: flex-start;
     flex-direction: row;
+    align-items: center;
 }
 
 .dpname{
-    width: 34%;
+    width: 36%;
     text-align: center;
     display: flex;
     align-items: center;
     border-radius: 15px;
     padding: 8px;
-    margin-bottom: 12px;
+    margin: 9px 23px;
     flex-direction: column;
 }
 

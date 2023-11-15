@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.drhome.hospitaldetail.HospitalDetailService;
 import com.drhome.search.SearchUtil;
 
 @Controller
@@ -32,6 +33,9 @@ public class TelehealthController {
 	private TelehealthService telehealthService;
 	@Autowired 
 	private SearchUtil searchUtil;
+	
+	@Autowired
+	private HospitalDetailService hospitalDetailService;
 	
 	// 비대면 진료 검색 페이지
 	@GetMapping("/telehealthSearch")
@@ -155,6 +159,11 @@ public class TelehealthController {
 	// 비대면 진료 의사 상세 페이지
 	@GetMapping("/doctorDetail/{dno}")
 	public String doctorDetail(@PathVariable int dno, Model model) {
+		 
+		Map<String, Object> reviewCount = hospitalDetailService.countReviewByRate(dno);
+		System.out.println(reviewCount);
+		
+		model.addAttribute("reviewCount", reviewCount);
 		
 		// 현재 요일, 시간
 		model.addAttribute("currentDay", searchUtil.currentDayOfTheWeek());

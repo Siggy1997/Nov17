@@ -62,11 +62,11 @@
 	</update>
 	
 	<select id="patientDetail" parameterType="Map" resultType="Map">
-	    SELECT m.*, t.*, hr.*, h.hno
+	    SELECT m.*, t.*, COALESCE(hr.hrissue, '없음') AS hrissue, h.hno
 	    FROM telehealth t
 	    JOIN member m ON t.mno = m.mno
-	    JOIN healthRecord hr ON t.mno = hr.mno
 	    JOIN hospital h ON t.hno = h.hno
+	    LEFT JOIN healthRecord hr ON t.mno = hr.mno
 	    WHERE t.tno=#{tno};
 	</select>
 	

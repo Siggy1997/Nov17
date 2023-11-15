@@ -40,6 +40,7 @@ public class FreeBoardService {
 
 	public void writeFreeComment(Map<String, Object> freeCommentData) {
 		freeBoardDAO.writeFreeComment(freeCommentData);
+		freeBoardDAO.sendFreeNotification(freeCommentData);
 		
 	}
 

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 public class AppointmentUtil {
 	LocalDate now = LocalDate.now();
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
 	// 일주일 요일뽑기
 	public List<String> daysOfWeek() {
 

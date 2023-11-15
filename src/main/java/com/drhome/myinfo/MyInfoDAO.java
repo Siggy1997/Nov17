@@ -36,4 +36,6 @@ public interface MyInfoDAO {
 
 	List<Map<String, Object>> telehealthHistory(int mno);
 
+	void changeAllMyInfo(Map<String, Object> map);
+
 }

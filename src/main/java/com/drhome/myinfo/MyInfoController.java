@@ -24,7 +24,6 @@ public class MyInfoController {
 	public String myInfo(@PathVariable int mno, Model model) {
 		Map<String, Object> myInfo = myInfoService.myInfo(mno);
 		model.addAttribute("myInfo", myInfo);
-		System.out.println(myInfo);
 		
 		return "/myInfo";
 	}
@@ -61,6 +60,15 @@ public class MyInfoController {
 		return "redirect:/myInfo/{mno}";
 	}
 	
+	@PostMapping("/changeAllMyInfo/{mno}")
+	public String changeAllMyInfo(@RequestParam Map<String, Object> map, @PathVariable int mno) {
+		map.put("mno", mno);
+		myInfoService.changeAllMyInfo(map);
+		System.out.println(map);
+		
+		return "redirect:/myInfo/{mno}";
+	}
+	
 	@GetMapping("/myWriting/{mno}")
 	public String myWriting(@PathVariable int mno, Model model) {
 		List<Map<String, Object>> callDibs = myInfoService.callDibs(mno);
@@ -68,7 +76,6 @@ public class MyInfoController {
 		
 		List<Map<String, Object>> myWriting = myInfoService.myWriting(mno);
 		model.addAttribute("myWriting", myWriting);
-		System.out.println(myWriting);
 		
 		List<Map<String, Object>> myComment = myInfoService.myComment(mno);
 		model.addAttribute("myComment", myComment);
@@ -81,11 +88,9 @@ public class MyInfoController {
 		
 		List<Map<String, Object>> appointmentHistory = myInfoService.appointmentHistory(mno);
 		model.addAttribute("appointmentHistory", appointmentHistory);
-		System.out.println(appointmentHistory);
 		
 		List<Map<String, Object>> telehealthHistory = myInfoService.telehealthHistory(mno);
 		model.addAttribute("telehealthHistory", telehealthHistory);
-		System.out.println(telehealthHistory);
 		
 		return "/medicalHistory";
 	}

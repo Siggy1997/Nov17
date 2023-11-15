@@ -24,175 +24,7 @@
 
   <style>
 
-/* 기본 틀 */
-* {
-	font-family: "Pretendard Variable";
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
 
-body {
-	background-color: white;
-	overflow: auto
-}
-
-header {
-	position: fixed;
-	height: 8vh;
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	align-items: center;
-	z-index: 1000;
-	background-color: white;
-	padding-inline-end: 22px;
-	padding-inline-start: 24px;
-}
-
-.xi-angle-left, .xi-angle-right {
-	color: #757575;
-}
-
-.headerTitle {
-	font-family: "NanumSquare" !important;
-	font-size: 18px;
-	text-align: center;
-	font-weight: 900;
-	margin: 20px 50px;
-}
-
-footer {
-	bottom: 0;
-	position: fixed;
-	height: 9vh;
-	width: 100%;
-	z-index: 1000;
-	background-color: white;
-}
-
-main {
-	padding-top: 9vh;
-}
-
-.blank {
-	width: 21px;
-}
-
-.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap {
-    position: relative;
-    width: 100%;
-    height: 100%; 
-    
-  }
-
-#infoDiv a {
-    color: black;
-}
-
-/* 애니메이션 정의 */
-@keyframes slideInFromBottom {
-    0% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* 애니메이션 적용 */
-#infoDiv {
-    /* 기본 스타일 설정 */
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 300px;
-    background-color: white;
-    z-index: 1000;
-    overflow: hidden;
-    
-    /* 애니메이션 설정 */
-    animation: slideInFromBottom 0.3s ease-in-out;
-}
-
-
-     .wrap {overflow: hidden;}
-     .info .title {position: absolute;margin: 5px 0 0 100px; bottom:62%;}
-  .info .desc {position: absolute;margin: 5px 0 0 100px; bottom:30%;}
-      .info .img {position: absolute; left: 5%;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden; bottom:30%;}
-  .info .status {position: absolute;margin: 10px 10px 0 250px; bottom:30%;}
-  
-#searchInput {
-  position: absolute;
-    top: 22%;
-    left: 13%;
-    width: 255px;
-    height: 37px;
-    padding: 5px;
-    z-index: 1000; 
-    	background: rgba(217, 217, 217, 0.3);
-	border-radius: 5px;
-		border: none;
-	box-shadow: none;
-}
-
-#searchButton {
-	float: right;
-    width: 50px;
-    height: 37px;
-    padding: 2%;
-    margin: 2%;
-    	background-color: #00C9FF;
-	color: white;
-	border-radius: 5px;
-	border: none;
-	box-shadow: none;
-	font-weight: bold;
-  
-}
-
-#searchResults {
-    position: absolute;
-    top: -5px;
-    left: 0px;
-    width: 100%;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background-color: white;
-    border: 1px solid lightgrey;
-    display: none;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1000; 
-}
-
- 
-     #map {
-    width: 100%;
-    height: 800px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1; 
-}
-
-#currentLocation {
- position: absolute;
-    bottom: 30px;
-    left: 3%;
-    z-index: 1000;
-width: 50px;
-height: 50px;
-background: #FFFFFF;
-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
-border-radius: 50%; 
-border-color: lightgrey;
-}
         
 </style>
 
@@ -210,7 +42,7 @@ border-color: lightgrey;
 <main>
 
 
- 
+ <button onclick="location.href='/pharmacyMap'" id="pharmacyMap">약국<br>지도</button>
 
  <button onclick="refreshPage()" id="currentLocation" class="xi-gps xi-x"></button>
  
@@ -219,6 +51,7 @@ border-color: lightgrey;
 <ul id="searchResults"></ul>   
 </div>
 
+<div style="height: 9vh"></div>
 </main>
 </body>
 
@@ -575,13 +408,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 '            </div>' +
                 '                <div class="status">' + status + '</div>' +
                 '        </div>' +
-                '    </a></div>' +
+                '    </a></div>' +       
                 '</div>';
 
 
             // 컨테이너를 표시
             dynamicContainer.style.display = 'block';
-            
+             
             var currentLocationButton = document.getElementById('currentLocation');
             currentLocationButton.style.bottom = '160px';
         }
@@ -656,7 +489,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
- 
+//뒤로가기 버튼
+$(document).on("click", ".xi-angle-left", function(){
+	history.back();
+});
+
 </script>
 
 

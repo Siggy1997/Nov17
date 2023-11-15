@@ -54,7 +54,7 @@ footer {
 .modal {
    display: none;
    position: fixed;
-   padding-top: 50px;
+   padding-top: 25px;
    top: calc(20vh - 30px);
    left: calc(26vw - 60px);
    width: 300px;
@@ -75,7 +75,7 @@ footer {
 	color: white;
 	width: 130px;
 	height: 30px;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
 }
 
 .modal-footer {
@@ -90,8 +90,7 @@ footer {
 }
 
 #confirm {
-	margin-right: 5px;
-	margin-left: 207px;
+	margin-top: 15px;
 }
 
 #searchTable {

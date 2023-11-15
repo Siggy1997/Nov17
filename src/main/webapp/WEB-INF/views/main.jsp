@@ -21,8 +21,13 @@
 		let ncgoto = 0;
 		let item = '';
 		let container = document.getElementById('navigationContainer');
+		
+		
+		$(document).on("click", ".dh-close-modal", function(){
+			$('.dh-modal-wrapper').hide();
+		});
 
-
+		
 		//enter눌러도 메세지 보내기
 		$('#inputSearch').keyup(function(a) {
 			if (a.keyCode === 13) {
@@ -35,21 +40,67 @@
 			send();
 		});
 		
+		//검색하기
+		function send(){
+			let inputValue =$('#inputSearch').val();
+			let form = $('<form></form>');
+			form.attr("action","./search");
+			form.attr("method", "post");
+			form.append($("<input>",{type:'hidden', name:"keyword", value:inputValue}));
+			form.appendTo("body");
+			form.submit();
+		}
 		
 		//퀴즈 올리기
 		$('#todayQuizAnswer>button').click(function() {
-			if($(this).val() == ${quiz.qanswer}){
+			 if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				 $('.dh-modal-wrapper').show();
+			 }else{
+				 if($(this).val() == ${quiz.qanswer}){
+					 $('.dh-modal-text').html("정답입니다");
+					 
+					    $("#dh-modal-alert").addClass("active").fadeIn();
+					    setTimeout(function() {
+					        $("#dh-modal-alert").fadeOut(function(){
+					            $(this).removeClass("active");
+					        });
+					   	 $('#doneTodayQuiz').show();
+					    }, 1000);
+					
 
-			}else{
-				alert("정답이 아닙니다");
-			}
+				}else{
+				 	$('.dh-modal-text').html("오답입니다.");
+				 
+				    $("#dh-modal-alert").addClass("active").fadeIn();
+				    setTimeout(function() {
+				        $("#dh-modal-alert").fadeOut(function(){
+				            $(this).removeClass("active");
+				        });
+				        $('#doneTodayQuiz').show();
+				    }, 1000);
+				  
+				}
+			 }
 		})
+		
+		//실시간채팅으로 가기
+		 $('.chatting').click(function() { 
+			 if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				 $('.dh-modal-wrapper').show();
+			 }else{
+		       location.href='./chatting'
+			 }
+		 });
 
 		//네비게이션 열기
 		 $('#navigationIcon, .mainTopChatBot').click(function() { 
+			 if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				 $('.dh-modal-wrapper').show();
+			 }else{
 		        $('#navigationBackGround').toggleClass('max');
 		        $('#introduction').toggle();
-		      });
+			 }
+		 });
 		
 		
 		//네비게이션
@@ -279,7 +330,7 @@
 			</a> <a class="mainTop mainTopChatBot"> <img alt="챗봇"
 				src="./img/mainChatbot.png">
 				<p>챗봇</p>
-			</a> <a class="mainTop" href="./hospital"> <img alt="커뮤니티"
+			</a> <a class="mainTop" href="./qnaBoard"> <img alt="커뮤니티"
 				src="https://cdn0.iconfinder.com/data/icons/business-startup-10/50/61-512.png">
 				<p>커뮤니티</p>
 			</a>
@@ -306,7 +357,7 @@
 		</div>
 
 		<div id="mapMedicine">
-			<a href="./hospital?kindKeyword=산부인과"> <img alt="주변약국"
+			<a href="./pharmacyMap"> <img alt="주변약국"
 				src="./img/mapmedicine.png">
 				<div>
 					<span>내주변 약국 찾기</span>
@@ -330,7 +381,12 @@
 					<img alt="" src="./img/mainCancel.png">아니다
 				</button>
 			</div>
+			<!-- 오늘 푼 퀴즈 -->
+			<div id="doneTodayQuiz" style="display: none;">오늘은 이미 퀴즈를
+				완료하였습니다</div>
 		</div>
+
+
 
 
 
@@ -376,7 +432,7 @@
 			<div id="livechat">
 				<div>
 					<span><strong style="color: #00c9ff; font-size: 18px;">실시간
-							채팅</strong>을<br> 사용해서 궁굼증을 해결해보세요</span><br> <a href="./chatting"><i
+							채팅</strong>을<br> 사용해서 궁굼증을 해결해보세요</span><br> <a class="chatting"><i
 						class="xi-angle-left xi-x"></i> 지금 검색하러가기</i> </a>
 				</div>
 				<img alt="실시간 상담" src="./img/sectionLivechat.png">
@@ -409,6 +465,7 @@
 		<!-- 알람 -->
 		<div id="notificationContainer">
 			<div class="triangle"></div>
+			<div id="notificationTitle">알림</div>
 			<div id="notificationContent">
 				<c:forEach var="noti" items="${notification }">
 					<div class="notiItems ${noti.nread eq 0 ? 'blue' : ''}">
@@ -416,7 +473,7 @@
 
 							<c:when test="${noti.nchattingNoti ne null }">
 								<a class="messageAlert" href="./chatting"><div
-										class="message">회원님에게 메세지를 요청합니다.</div>
+										class="message">${noti.nchattingNoti }님이메세지를요청합니다.</div>
 									<div class="notiDate">${noti.ndate }</div> <input class="nno"
 									type="hidden" name="nno" value="${noti.nno }"> </a>
 							</c:when>
@@ -469,6 +526,40 @@
 
 
 
+		<!-- 로그인알림차 모달 -->
+		<div class="dh-modal-wrapper" style="display: none">
+			<div class="dh-modal-login">
+				<div class="dh-modal-header">
+					<img src="https://cdn-icons-png.flaticon.com/512/7960/7960597.png">
+					<div class="dh-modal-body">
+						<span class="h4">로그인 후에<br> 이용하실 수 있는 서비스입니다.
+						</span> <span class="h6">닥터홈 로그인 후 많은 서비스를 경험해 보세요.</span>
+					</div>
+				</div>
+				<div class="dh-modal-footer">
+					<button class="dh-modal-button dh-close-modal">취소</button>
+					<button class="dh-modal-button" onclick="location.href='/login'">로그인</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- 경고창 알람 -->
+		<div id="dh-modal-alert">
+			<div class="dh-modal">
+				<div class="dh-modal-content">
+					<div class="dh-modal-title">
+						<img class="dh-alert-img"
+							src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+						알림
+					</div>
+					<div class="dh-modal-text">문구를 넣어주세요.</div>
+				</div>
+			</div>
+			<div class="dh-modal-blank"></div>
+		</div>
+
+
+
 	</main>
 
 
@@ -488,18 +579,18 @@
 				<img alt="없음" src="/img/mainDocbefore.png">
 				<p>진료 내역</p>
 			</div>
-		</a> <a href="./main">
+		</a> <a href="./hospitalMap">
 			<div class="footerMain">
 				<div class="footerIcon" id="mapIcon">
 					<img alt="없음" src="/img/mainMap.png">
 				</div>
 			</div>
-		</a> <a href="./main">
+		</a> <a href="./qnaBoard">
 			<div class="footerIcon">
 				<img alt="없음" src="/img/mainQnAbefore.png">
 				<p>고민 상담</p>
 			</div>
-		</a><a href="./main">
+		</a><a class="chatting">
 			<div class="footerIcon">
 				<img alt="없음" src="/img/myChatting3.png">
 				<p>실시간 채팅</p>

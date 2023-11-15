@@ -3,7 +3,9 @@
 <mapper namespace="com.drhome.appointment.AppointmentDAO">
 	<select id="findHospitalDeatilByHno">
 		SELECT hno, hname, hopentime, hclosetime, hnightday,
-		hnightendtime, hbreaktime, hbreakendtime, hholiday, hholidayendtime
+		haddr,
+		hnightendtime, hbreaktime, hbreakendtime, hholiday,
+		hholidayendtime
 		FROM hospital WHERE hno=#{hno}
 	</select>
 
@@ -19,9 +21,27 @@
 	</select>
 
 	<insert id="appointmentFinish">
-		INSERT INTO appointment (asymptomInfo, adate, aday, atime, hno, dno,
-		mno)
-		VALUES (#{content}, #{date}, #{day}, #{time}, #{hno}, #{dno}, #{mno})
+		INSERT INTO appointment (asymptomInfo, adate, aday,
+		atime, hno, dno,
+		mno, dpno)
+		VALUES (#{content}, #{date}, #{day},
+		#{time}, #{hno}, #{dno}, #{mno}, (SELECT dpno FROM doctor WHERE
+		hno=#{hno} AND dno=#{dno}))
 	</insert>
 
+	<insert id="appointmentTodayFinish">
+		INSERT INTO appointment (adate, aday, atime, hno,
+		mno, dpno, dno)
+		VALUES (#{date}, #{day}, #{time}, #{hno},
+		#{mno},
+		(SELECT dpno FROM department WHERE dpkind = #{dpkind}),
+		(SELECT dno
+		FROM doctor WHERE hno =#{hno} AND dpno = (SELECT dpno FROM department
+		WHERE dpkind = #{dpkind})))
+	</insert>
+
+	<select id="findHospitalDepartmentsByHno">
+		SELECT hospitalDepartments FROM hospitalinfo_view
+		WHERE hno = #{hno}
+	</select>
 </mapper>
