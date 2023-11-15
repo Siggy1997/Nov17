@@ -35,7 +35,7 @@ function choiceDetail(bno, btype) {
 	
 	<main>
 	<div class="main-area">
-	<p class="top-title">내가 찜한 글 ⭐</p>
+	<p class="top-title">⭐ 내가 찜한 글</p>
 	    <div class="table-area">
 	    	<div class="table">
 		    	<div class="table-head">
@@ -69,7 +69,7 @@ function choiceDetail(bno, btype) {
    			</div>
     	</div> <!-- 내가 찜한 글 -->
     
-	<p class="top-title">내가 작성하신 글 📝</p>
+	<p class="top-title">📝 내가 작성하신 글</p>
 	    <div class="table-area">
 	    	<div class="table">
 		    	<div class="table-head">
@@ -103,7 +103,7 @@ function choiceDetail(bno, btype) {
    			</div>
     	</div> <!-- 내가 작성한 글 -->
     
-    <p class="top-title">내가 작성한 댓글 📬</p>
+    <p class="top-title">📬 내가 작성한 댓글</p>
 	    <div class="table-area">
 	    	<div class="table">
 		    	<div class="table-head">
