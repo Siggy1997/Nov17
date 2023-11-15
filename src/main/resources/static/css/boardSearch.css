@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+
 /* 기본 틀 */
 * {
 	font-family: "Pretendard Variable";
@@ -48,8 +53,94 @@ footer {
 
 main {
 	padding-top: 9vh;
+	
 }
 
 .blank {
 	width: 21px;
 }
+
+
+.space {
+	width : 90%;
+	margin : 0 auto;
+}
+
+.line {
+	border: 1px solid #e7e7e7; 
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+select[name="selectOption"] {
+	
+	padding: 1%;
+	border-radius: 5px;
+	border-color: lightgrey;
+	background-color: white;
+	box-shadow: none;
+}
+
+.xi-search {
+	color: #00C9FF;
+	background-color: white;
+	border: none;
+	box-shadow: none;
+}
+
+#searchWordInput {
+	width: 60%;
+	height: 30px;
+	box-shadow: none;
+	margin: 3% 2% 0 2%;
+	padding: 1%;
+	align-items: center;
+	border: 1px solid #F5F5F5;
+	border-radius: 8px;
+}
+
+#boardButtonsContainer {
+	display: flex;
+	justify-content: space-between; /* 자식 요소들을 좌우로 나란히 정렬 */
+}
+
+#qnaBoardBoldButton, #freeBoardBoldButton, #qnaBoardButton,
+	#freeBoardButton {
+	flex: 1; /* 자식 요소가 동일한 너비를 가지도록 설정 */
+	margin-right: 10px; /* 요소 사이 간격 설정 */
+}
+
+#qnaBoardBoldButton, #freeBoardBoldButton {
+	background: white;
+	border: none;
+	border-bottom: 3px solid black;
+	box-shadow: none;
+	width: 50%;
+	height: 50%;
+	padding: 2%;
+	font-weight: bold;
+	font-size: medium;
+}
+
+#qnaBoardButton, #freeBoardButton {
+	background: white;
+	border: none;
+	border-bottom: 1px solid lightgray;
+	font: lightgray;
+	box-shadow: none;
+	width: 50%;
+	height: 50%;
+	padding: 2%;
+	font-size: medium;
+}
+
+.bcontent{
+	font-size: small;
+	color: grey;
+	margin-top: 2%;
+}
+
+#qnaBoard, #freeBoard{
+	margin-top: 7%;
+}
+

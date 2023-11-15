@@ -17,13 +17,13 @@
 
 <header>
     <i class="xi-angle-left xi-x"></i>
-    <div class="header title">상담하기</div>
+    <div class="header title">작성하기</div>
     <div class="blank"></div>
 </header>
 
 <main>
 
-	<h2>[자유 게시판 글쓰기]</h2>
+	<!-- <h2>[자유 게시판 글쓰기]</h2> -->
 	<form action='<c:url value='/postFree'/>' method="post" id="freeForm">
 		<div>
 			제목<input type="text" name="btitle">
@@ -82,6 +82,12 @@
 					// 폼 제출
 					this.submit();
 				});
+		
+		// 뒤로가기 버튼
+		$(document).on("click", ".xi-angle-left", function(){
+			history.back();
+		});
+		
 	</script>
 
 </body>

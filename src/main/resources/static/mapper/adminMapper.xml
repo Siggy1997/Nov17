@@ -77,9 +77,12 @@
 		ORDER BY rhopendate DESC LIMIT 10
 	</select>
 
-	<insert id="insertRegister" parameterType="Map">
+	<insert id="insertRegisterHos" parameterType="Map">
 		INSERT INTO registerhospital (rhname, rhopendate, rhaddr, rhtelnumber, rhimg, rhinfo, rhopentime, rhclosetime, rhnightday, rhnightendtime, rhbreaktime, rhbreakendtime, rhholiday, rhholidayendtime, rhparking)
 		VALUES (#{rhname}, #{rhopendate}, #{rhaddr}, #{rhtelnumber}, #{rhimg}, #{rhinfo}, #{rhopentime}, #{rhclosetime}, #{rhnightday}, #{rhnightendtime}, #{rhbreaktime}, #{rhbreakendtime}, #{rhholiday}, #{rhholidayendtime}, #{rhparking})
+	 	<selectKey resultType="Integer" keyProperty="rhno" order="AFTER">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>   
 	</insert>
 	
 	<insert id="insertHospital" parameterType="Map">
@@ -93,9 +96,14 @@
 		WHERE rhno=#{rhno}
 	</select> -->
 	
+	<insert id="insertRegisterDoc" parameterType="Map">
+		INSERT INTO registerdoctor (rdname, rdimg, rdinfo, rdgender, rdcareer, rdspecialist, dpno, rhno, rdtelehealth)
+		VALUES (#{rdname}, #{rdimg}, #{rdinfo}, #{rdgender}, #{rdcareer}, #{rdspecialist}, #{dpno}, #{rhno}, #{rdtelehealth})
+	</insert>
+
 	<insert id="insertDoctor" parameterType="Map">
 		INSERT INTO doctor (dname, dimg, dinfo, dgender, dcareer, dspecialist, dpno, hno, dtelehealth)
-		VALUES (#{dname}, #{dimg}, #{dinfo}, #{dgender}, #{dcareer}, #{dspecialist}, #{dpno}, #{hno}, #{dtelehealth})
+		VALUES (#{rdname}, #{rdimg}, #{rdinfo}, #{rdgender}, #{rdcareer}, #{rdspecialist}, #{dpno}, #{rhno}, #{rdtelehealth})
 	</insert>
 	
 	<update id="resultCh" parameterType="Map">
@@ -109,13 +117,18 @@
 		WHERE rhno=#{rhno}
 	</select>
 	
+	<select id="detailDoctor" parameterType="Integer" resultType="Map">
+		SELECT *
+		FROM registerdoctor
+		WHERE rdno=#{rdno}
+	</select>
+	
 	<select id="search" parameterType="Map" resultType="Map">
 		SELECT *
-		FROM hospitalList_view
+		FROM registerdoctor
 		<where>
 			<choose>
-				<when test="searchN == 'hname'">hname LIKE CONCAT('%', #{searchV}, '%')</when>
-				<when test="searchN == 'dname'">dname LIKE CONCAT('%', #{searchV}, '%')</when>
+				<when test="searchN == 'rdname'">rdname LIKE CONCAT('%', #{searchV}, '%')</when>
 			</choose>
 		</where>
 	</select>
@@ -124,12 +137,16 @@
 		DELETE FROM registerhospital WHERE rhno = #{rhno}
 	</delete>
 	
+	<delete id="deleteDoctor" parameterType="Integer" >
+		DELETE FROM registerDoctor WHERE rdno = #{rdno}
+	</delete>
+	
 	<select id="finalHospital" resultType="Map">
 		SELECT * FROM hospital
 		ORDER BY hopendate DESC
 	</select>
 	
-	<select id="newHospital" resultType="Map">
+<!-- 	<select id="newHospital" resultType="Map">
 		SELECT * FROM hospitalList_view
 		
 		<where>
@@ -139,19 +156,31 @@
 		</where>
 		
 		ORDER BY hno DESC
+	</select> -->
+	
+	<select id="newDoctor" resultType="Map">
+		SELECT * FROM registerdoctor
+		
+		<where>
+		<if test="rdno != 0">
+    		rdno = #{rdno}
+  		</if>
+		</where>
+		
+		ORDER BY rdno DESC
 	</select>
 		
 	
 	<select id="realDetail" parameterType="Integer" resultType="Map">
 		SELECT * 
-		FROM hospital
-		WHERE hno=#{hno}
+		FROM registerhospital
+		WHERE rhno=#{rhno}
 	</select>
 	
 	<select id="viewDoctor" parameterType="Integer" resultType="Map">
 		SELECT *
-		FROM hospitalList_view
-		WHERE dno=#{dno}
+		FROM registerdoctor
+		WHERE rdno=#{rdno}
 	</select>
 	
 	

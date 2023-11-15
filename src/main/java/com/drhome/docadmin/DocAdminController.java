@@ -96,14 +96,19 @@ public class DocAdminController {
 		//환자정보 뽑기
 		Map<String, Object> patientDetail = docAdminService.patientDetail(map);
 		model.addAttribute("patientDetail", patientDetail);
-		System.out.println(patientDetail);
+		System.out.println("patientDetail" + patientDetail);
 		
 		//우리병원 이용횟수 뽑기
 		map.put("mno", patientDetail.get("mno"));
 		map.put("hno", patientDetail.get("hno"));
 		System.out.println(map);
-		int hospitalCount = docAdminService.hospitalCount(map);
+		Integer hospitalCount = docAdminService.hospitalCount(map);
+		
+		System.out.println("hospitalCount" + hospitalCount);
+		
+		hospitalCount = (hospitalCount == null) ? 0 : hospitalCount;
 		model.addAttribute("hospitalCount", hospitalCount);
+		
 		System.out.println(hospitalCount);
 		
 		return "/docReceptionDetail";
@@ -115,7 +120,7 @@ public class DocAdminController {
 		System.out.println("map:"+map);
 		docAdminService.updateTelehealth(map);
 		
-		return "redirect:/docMain/"+mno+"/"+dno;
+		return "redirect:/docReception/{mno}/{dno}";
 	}
 	
 }

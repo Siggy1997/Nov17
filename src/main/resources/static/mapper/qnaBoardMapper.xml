@@ -74,7 +74,15 @@
 	<insert id="writeQnaAnswer" parameterType="Map">
 		INSERT INTO comment
 		(mno, bno, dno, hno, ccontent, cdate)
-		VALUES (#{mno},#{bno},#{dno},(SELECT hno FROM doctor WHERE dno = #{dno}),#{ccontent},#{cdate});
+
+		VALUES (
+		#{mno},
+		#{bno},
+		#{dno},
+		(SELECT hno FROM doctor WHERE dno = #{dno}),
+		#{ccontent},
+		#{cdate}
+		);
 	</insert>
 
 	<delete id="deleteQnaAnswer" parameterType="Map">
@@ -196,4 +204,8 @@
 		VALUES((SELECT mno FROM board WHERE bno=#{bno}), #{bno})
 	</insert>
 
+   <insert id="sendNotification">
+      INSERT INTO notification (mno, nqnaboardNoti )
+      VALUES((SELECT mno FROM board WHERE bno=#{bno}), #{bno})
+   </insert>
 </mapper>

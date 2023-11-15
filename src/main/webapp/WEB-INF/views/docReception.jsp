@@ -10,6 +10,7 @@
 <title>DocReception</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="/css/docReception.css">
+<link href="/css/aram.css" rel="stylesheet" />
 <script src="/js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -70,14 +71,23 @@
 			            data: { "row" : row },
 			            dataType: "json",
 			            success: function (data) {
-			                alert("진료가 취소되었습니다.");
-			                $("input[name=check]:checked").prop("checked", false);
-			                location.href="/docReception/"+${sessionScope.mno}+"/"+${sessionScope.dno};
+		 	            	//alert 띄우기
+			            	$(document).on("click", "#cancel", function(){
+			                    $("#dh-modal-alert").addClass("active").fadeIn();
+		 	                    setTimeout(function() {
+			                        $("#dh-modal-alert").fadeOut(function(){
+			                            $(this).removeClass("active");
+						                $("input[name=check]:checked").prop("checked", false);
+						                location.href="/docReception/"+${sessionScope.mno}+"/"+${sessionScope.dno};
+			                        });
+			                    }, 1000); 
+			                }); 
 			            },
 			            error: function (error) {
 			                alert("진료 취소 중 오류가 발생했습니다.");
 			            }
 			        });//ajax끝
+			    
 			        
 			    }//행 1개 이상 선택
 			    else {
@@ -225,20 +235,39 @@
 		<span class="subtitle">${dpCount}개</span>
 	</div>
 	
-		<c:forEach items="${dpKind}" var="row">
 		<div class="dpname-area">
+		<c:forEach items="${dpKind}" var="row">
 			<div class="dpname">
 				<img src="/img/dp${row.dpno}.png">
 				<div class="comment">${row.dpkind}</div>
 			</div>
-		</div>
 		</c:forEach>
-		
+		</div>
 	</main>
+
+		<div style="height: 9vh"></div>
 	
 	<footer>
 		<button type="button" id="cancel" onclick="cancel()">진료취소</button>
 		<button type="button" id="progress" onclick="progress()">진료처리</button>
 	</footer>
+	
+			<!-- 알람모달 -->
+	
+	<div id="dh-modal-alert">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">진료가 취소되었습니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>
+	
+	
+	
 </body>
 </html>

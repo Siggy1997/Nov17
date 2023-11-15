@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
 
 	@Autowired
@@ -29,7 +28,7 @@ public class AdminController {
 	@Autowired
 	private Util util;
 
-	@GetMapping("/adminMain")
+	@GetMapping("/admin/adminMain")
 	public String adminmain(@RequestParam Map<String, Object> map, Model model, HttpSession session) {
 
 		if (session.getAttribute("mid") == null) {
@@ -120,11 +119,13 @@ public class AdminController {
 	@GetMapping("/newHospital")
 	public String newHospital() {
 
-		return "admin/newHospital";
+		return "/newHospital";
 	}
 
-	@PostMapping("/hospitalOpen")
+	@PostMapping("/hospitalAdd")
 	public String newHospital(@RequestParam Map<String, Object> map) {
+		System.out.println(map.get("rhno"));
+		
 		System.out.println(map.containsKey("rhholiday"));
 		if (!(map.containsKey("rhholiday"))) {
 			map.put("rhholiday", 0);
@@ -136,21 +137,124 @@ public class AdminController {
 		}
 		System.out.println(map);
 
-		int insertRegister = adminService.insertRegister(map);
-		System.out.println(insertRegister);
+		int insertRegisterHos = adminService.insertRegisterHos(map);
+		System.out.println(insertRegisterHos);
 
-		return "redirect:/admin/hospitalOpen";
+		return "redirect:/newDoctor?rhno="+map.get("rhno");
 	}
 
 	@GetMapping("/newDoctor")
-	public String newDoctor(@RequestParam("hno") int hno, Map<String, Object> map) {
-		Map<String, Object> hnoDoctor = adminService.realDetail(hno);
-		map.put("hnoDoctor", hnoDoctor);
-		System.out.println(hnoDoctor);
-		return "admin/newDoctor";
+	public String newDoctor(@RequestParam(name = "rhno", required = false, defaultValue = "0") int rhno, Map<String, Object> map) {
+		Map<String, Object> rhnoDoctor = adminService.realDetail(rhno);
+		map.put("rhnoDoctor", rhnoDoctor);
+		System.out.println(rhnoDoctor);
+		return "/newDoctor";
 	}
 	
-	@PostMapping("/realHospital")
+	@PostMapping("/completeHosDoc")
+	public String newDoctor(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		
+		System.out.println(map.containsKey("rdgender"));
+		if (!(map.containsKey("rdgender"))) {
+			map.put("rdgender", 0);
+		}
+		
+		if (!(map.containsKey("rdspecialist"))) {
+			map.put("rdspecialist", 0);
+		}
+		
+		if (!(map.containsKey("rdtelehealth"))) {
+			map.put("rdtelehealth", 0);
+		}
+		
+		/*
+		 * if (String.valueOf(map.containsKey("rdspecialist")) == "on") {
+		 * map.put("rdspecialist", 1); } else { map.put("rdspecialist", 0); }
+		 * System.out.println(map.containsKey("rdspecialist"));
+		 * 
+		 * if (String.valueOf(map.containsKey("rdtelehealth")) == "on") {
+		 * map.put("rdtelehealth", 1); } else { map.put("rdtelehealth", 0); }
+		 * System.out.println(map.containsKey("rdtelehealth"));
+		 */
+		
+		int insertRegisterDoc = adminService.insertRegisterDoc(map);
+		System.out.println(insertRegisterDoc);
+		
+		System.out.println(map.get("rhno"));
+		System.out.println(map.get("rhname"));
+		// Base64.getEncoder().encodeToString(map.get("hname").getBytes())
+		return "redirect:/completeHosDoc";
+	}
+	
+	@RequestMapping(value = "/admin/hospitalOpen", method = RequestMethod.GET)
+	public String hospitalOpen(Map<String, Object> map, Model model) {
+
+		List<Map<String, Object>> hospitalOpen = adminService.hospitalOpen(map);
+		map.put("hospitalOpen", hospitalOpen);
+		
+		  //@RequestParam("rhno") int rhno,
+		  //List<Map<String, Object>> hospitalList = adminService.hospitalList(rhno);
+		  //map.put("hospitalList", hospitalList);
+		
+		return "admin/hospitalOpen";
+	}
+	
+	@GetMapping("/completeHosDoc")
+	public String completeHosDoc() {
+		
+		return "completeHosDoc";
+	}
+	
+	@ResponseBody
+	@PostMapping("/admin/detail")
+	public String detail(@RequestParam("rhno") int rhno) {
+
+		Map<String, Object> detail = adminService.detail(rhno);
+
+		JSONObject json = new JSONObject();
+		json.put("detail", detail);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
+	
+	@ResponseBody
+	@PostMapping("/admin/searchHos")
+	public String searchHos(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		
+		List<Map<String, Object>> searchHos = adminService.searchHos(map);
+
+		JSONObject json = new JSONObject();
+		json.put("searchHos", searchHos);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
+	
+	@ResponseBody
+	@PostMapping("/admin/deleteHos")
+	public String deleteHos(@RequestParam("rhno") int rhno) {
+		
+		int deleteHos = adminService.deleteHos(rhno);
+
+		JSONObject json = new JSONObject();
+		json.put("deleteHos", deleteHos);
+		System.out.println(json.toString());
+		
+		return json.toString();
+	}
+	
+	@GetMapping("/resultCh")
+	public String resultCh(@RequestParam Map<String, String> map) {
+		System.out.println(map);
+		int getMno = adminService.resultCh(map);
+		
+		return "redirect:/admin/hospitalOpen";
+	}
+	
+	@PostMapping("/admin/newHosDoc")
 	public String realHospital(@RequestParam("rhno") int rhno) {
 		
 		Map<String, Object> hospitalApproval = adminService.detail(rhno);
@@ -159,10 +263,55 @@ public class AdminController {
 		int deleteHospital = adminService.deleteHospital(rhno);
 		System.out.println(deleteHospital);
 		
-		return "redirect:/admin/realHospital";
+		return "redirect:/admin/newHosDoc";
 	}
 	
-	@GetMapping("/realHospital")
+	
+	
+	@PostMapping("/admin/adminMain")
+	public String ApprovalHosDoc(@RequestParam("rdno") int rdno, Map<String, Object> map) {
+		
+		Map<String, Object> doctorApproval = adminService.detailDoctor(rdno);
+		int insertDoctor = adminService.insertDoctor(doctorApproval);
+		System.out.println(insertDoctor);
+		int deleteDoctor = adminService.deleteDoctor(rdno);
+		System.out.println(deleteDoctor);
+		
+		return "redirect:/admin/adminMain";
+	}
+	
+	/*
+	 * @GetMapping("/admin/newHosDoc") public String newHosDoc(Map<String, Object>
+	 * map, HttpSession session, @RequestParam(name="hno", required=false,
+	 * defaultValue = "0") int hno) { System.out.println(hno); List<Map<String,
+	 * Object>> newHospital = adminService.newHospital(hno); map.put("newHospital",
+	 * newHospital); System.out.println(newHospital); return "admin/newHosDoc"; }
+	 */
+	
+	@GetMapping("/admin/newHosDoc")
+	public String newHosDoc(Map<String, Object> map, HttpSession session, @RequestParam(name="rdno", required=false, defaultValue = "0") int rdno) {
+		System.out.println(rdno);
+		List<Map<String, Object>> newDoctor = adminService.newDoctor(rdno);  
+		map.put("newDoctor", newDoctor);
+		System.out.println(newDoctor);
+		return "admin/newHosDoc";
+	}
+	
+	@ResponseBody
+	@PostMapping("/admin/doctorView")
+	public String doctorView(@RequestParam("rdno") int rdno) {
+		
+		List<Map<String, Object>> viewDoctor = adminService.viewDoctor(rdno);
+
+		JSONObject json = new JSONObject();
+		json.put("viewDoctor", viewDoctor);
+		System.out.println(json.toString());
+		
+		return json.toString();
+}
+/*	
+	
+	@GetMapping("/admin/realHospital")
 	public String realHospital(Map<String, Object> map) {
 			
 		List<Map<String, Object>> finalHospital = adminService.finalHospital();
@@ -203,41 +352,6 @@ public class AdminController {
 		return "redirect:/admin/newDoctor?hno="+map.get("hno");
 	}
 
-	@RequestMapping(value = "/hospitalOpen", method = RequestMethod.GET)
-	public String hospitalOpen(/* @RequestParam("rhno") int rhno, */ Map<String, Object> map, Model model) {
-
-		List<Map<String, Object>> hospitalOpen = adminService.hospitalOpen(map);
-		map.put("hospitalOpen", hospitalOpen);
-		
-		/*
-		 * List<Map<String, Object>> hospitalList = adminService.hospitalList(rhno);
-		 * map.put("hospitalList", hospitalList);
-		 */
-		
-		return "admin/hospitalOpen";
-	}
-
-	@GetMapping("/resultCh")
-	public String resultCh(@RequestParam Map<String, String> map) {
-		System.out.println(map);
-		int getMno = adminService.resultCh(map);
-		
-		return "redirect:/admin/hospitalOpen";
-	}
-
-	@ResponseBody
-	@PostMapping("/detail")
-	public String detail(@RequestParam("rhno") int rhno) {
-
-		Map<String, Object> detail = adminService.detail(rhno);
-
-		JSONObject json = new JSONObject();
-		json.put("detail", detail);
-		System.out.println(json.toString());
-		
-		return json.toString();
-	}
-
 	@GetMapping("/newHosDoc")
 	public String newHosDoc(Map<String, Object> map, HttpSession session, @RequestParam(name="hno", required=false, defaultValue = "0") int hno) {
 		System.out.println(hno);
@@ -260,58 +374,6 @@ public class AdminController {
 		
 		return json.toString();
 	}
-	
-	@ResponseBody
-	@PostMapping("/searchHos")
-	public String searchHos(@RequestParam Map<String, Object> map) {
-		System.out.println(map);
-		
-		List<Map<String, Object>> searchHos = adminService.searchHos(map);
-
-		JSONObject json = new JSONObject();
-		json.put("searchHos", searchHos);
-		System.out.println(json.toString());
-		
-		return json.toString();
-	}
-	
-	@ResponseBody
-	@PostMapping("/doctorView")
-	public String doctorView(@RequestParam("dno") int dno) {
-		
-		List<Map<String, Object>> viewDoctor = adminService.viewDoctor(dno);
-
-		JSONObject json = new JSONObject();
-		json.put("viewDoctor", viewDoctor);
-		System.out.println(json.toString());
-		
-		return json.toString();
-	}
-	
-	@ResponseBody
-	@PostMapping("/deleteHos")
-	public String deleteHos(@RequestParam("rhno") int rhno) {
-		
-		int deleteHos = adminService.deleteHos(rhno);
-
-		JSONObject json = new JSONObject();
-		json.put("deleteHos", deleteHos);
-		System.out.println(json.toString());
-		
-		return json.toString();
-	}
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/anotherDoctor") public String anotherDoctor(Map<String,
-	 * Object> map) {
-	 * 
-	 * int result = adminService.anotherDoctor();
-	 * 
-	 * JSONObject json = new JSONObject(); json.put("result", result);
-	 * System.out.println(json.toString());
-	 * 
-	 * return json.toString(); }
-	 */
+*/
 
 }

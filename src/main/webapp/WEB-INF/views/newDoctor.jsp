@@ -12,44 +12,37 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function () {
+$(document).ready(function() {
 	let man = $("#man");
 	let woman = $("#woman");
-	let dgender = $("input[name='dgender']");
-	let dspecialist = $("#dspecialist");
-    let dtelehealth = $("#dtelehealth");
-
+	let rdgender = $("input[name='rdgender']");
+	let rdspecialist = $("#rdspecialist");
+    let rdtelehealth = $("#rdtelehealth");
+    
     man.change(function () {
     	if ($(this).is(":checked")) {
-            dgender.val('0');
+            rdgender.val('0');
         }
     });
     
     woman.change(function () {
     	if ($(this).is(":checked")) {
-            dgender.val('1');
+            rdgender.val('1');
         }
     });
 	
-	dspecialist.change(function() {
+    rdspecialist.change(function() {
         if ($(this).is(":checked")) {
-        	dspecialist.val(1);
+        	rdspecialist.val(1);
         } 
     });
    	
-	dtelehealth.change(function() {
+	rdtelehealth.change(function() {
         if ($(this).is(":checked")) {
-        	dtelehealth.val(1);
+        	rdtelehealth.val(1);
         }
     });
-
-	
-	$("#btnAdd").click(function() {
-		confirm("추가 등록하시겠습니까?");
-		
-	});
-	
-}
+});
 </script>
 </head>
 
@@ -67,37 +60,37 @@ $(document).ready(function () {
 	<main>
 	<div class="article">
 		<h1>DR.Home</h1>
-		<div class="content" style="font-weight: bold">${hnoDoctor.hname }의
+		<div class="content" style="font-weight: bold">${rhnoDoctor.rhname}의
 			의사 등록을 위해 <br>아래 내용을 입력해주세요.</div>
-		<form action="/admin/newDoctor" class="GroupCenter" method="post">
+		<form action="/completeHosDoc" class="GroupCenter" method="post">
 			<div class="Group">
-				<input class="vector" type="text" placeholder="성명" name="dname">
+				<input class="vector" type="text" placeholder="성명" name="rdname">
 			</div>
 			<div class="Group">
-				<input class="vector" type="text" placeholder="사진" name="dimg">
+				<input class="vector" type="text" placeholder="사진" name="rdimg">
 			</div>
 			<div class="Group">
-				<input class="vector" type="text" placeholder="소개" name="dinfo">
+				<input class="vector" type="text" placeholder="소개" name="rdinfo">
 			</div>
 			<div class="Group">
 				<div style="font-size: 13px; margin-left: -200px; color: gray;">성별</div>
 				<div class="gender">
 					<div class="man">
-						<input type="radio" id="dgender" name="dgender" value="0" checked>남성
+						<input type="radio" id="rdgender" name="rdgender" value="0" checked>남성
 					</div>
 					<div class="woman">
-						<input type="radio" id="dgender" name="dgender" value="1">여성
+						<input type="radio" id="rdgender" name="rdgender" value="1">여성
 					</div>
 				</div>
 			</div>
 			<div class="Group">
-				<input class="vector" type="text" placeholder="학력" name="dcareer">
+				<input class="vector" type="text" placeholder="학력" name="rdcareer">
 			</div>
 			<div class="Group">
 				<div class="vector"
 					style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">전문
 					여부</div>
-				<input type="checkbox" id="dspecialist" name="dspecialist" class="cm-toggle">
+				<input type="checkbox" id="rdspecialist" name="rdspecialist" class="cm-toggle">
 				<!-- <input class="vector" type="text" placeholder="전문의(0:일반의 / 1:전문의)" name="dspecialist"> -->
 			</div>
 			<div class="Group">
@@ -120,24 +113,24 @@ $(document).ready(function () {
 					<option value="13">정신의학과</option>
 				</select>
 			</div>
-			<input class="vector" type="hidden" placeholder="병원번호" name="hno" value="${hnoDoctor.hno }">
-			<input class="vector" type="hidden" placeholder="병원이름" name="hname" value="${hnoDoctor.hname }">
+			<input class="vector" type="hidden" placeholder="병원번호" name="rhno" id="checkRhno" value="${rhnoDoctor.rhno }">
+			<input class="vector" type="hidden" placeholder="병원이름" name="rhname" value="${rhnoDoctor.rhname }">
 			<div class="Group">
 				<div class="vector"
 					style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">비대면진료 여부</div>
-				<input type="checkbox" id="dtelehealth" name="dtelehealth" class="cm-toggle">
+				<input type="checkbox" id="rdtelehealth" name="rdtelehealth" class="cm-toggle">
 				<!-- <input class="vector" type="text" placeholder="비대면진료 여부(0:진료x / 1:진료o)" name="dtelehealth"> -->
 			</div>
 			<button class="btn" id="btnAdd" type="submit">등록 ▷</button>
-			<div class="btn2">
-				<a onclick="location.href='/admin/newHosDoc?hno=${param.hno}'">등록된 의사 확인 하기 ▷</a>
-			</div>
+			<%-- <div class="btn2">
+				<a onclick="location.href='/newHosDoc?rhno=${param.rhno}'">등록된 의사 확인 하기 ▷</a>
+			</div> --%>
 		</form>
 	</div>
 	<div style="height: 9vh"></div>
 	</main>
 	<footer>
-	css 테스트
+	
 	</footer>
 </body>
 </html>

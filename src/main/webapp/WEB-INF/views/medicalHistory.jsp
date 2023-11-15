@@ -31,7 +31,7 @@ th, td {
 	
 	<main>
 	<div class="main-area">
-	<p class="top-title">내 예약 진료내역 🏥</p>
+	<p class="top-title">🏥 내 예약 진료내역</p>
 	    <div class="table-area">
 	    	<div class="table">
 		    	<div class="table-head">
@@ -56,7 +56,7 @@ th, td {
 			    </div>
 			</div>
 		</div> <!-- 예약진료 끝 -->
-	<p class="top-title">내 비대면 진료내역 💉</p>
+	<p class="top-title">💉 내 비대면 진료내역</p>
 	    <div class="table-area">
 	    	<div class="table">
 		    	<div class="table-head">
