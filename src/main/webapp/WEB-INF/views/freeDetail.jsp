@@ -8,7 +8,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <script src="./js/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet" href="./css/freeDetail.css">
 <link rel="stylesheet"
@@ -241,102 +242,102 @@
 						}
 					}
 				});
-		
-		
-		
-		// 버튼 클릭 시 모달 열기
-		document.getElementById("reportButton").addEventListener("click", function() {
-		   
-			const mno = "${mno}"; 
-		    
-		    
-		    if (mno === null || mno === undefined || mno === "") {
-		        // 로그인 창으로 이동
-		        if (confirm("로그인 한 사용자만 이용할 수 있습니다. 로그인 하시겠습니까?")) {
-		            window.location.href = "/login"; 
-		        }
-		        } else {
-		        const reportCount = ${reportCount};
-		        
-		        if (reportCount !== 0) {
-		            alert("이미 신고한 게시물입니다.");
-		        } else {
-		            document.getElementById("reportModal").style.display = "block";
-		        }
-		    }
-		    
-		});
 
-		
-		
+		// 버튼 클릭 시 모달 열기
+		document
+				.getElementById("reportButton")
+				.addEventListener(
+						"click",
+						function() {
+
+							const mno = "${mno}";
+
+							if (mno === null || mno === undefined || mno === "") {
+								// 로그인 창으로 이동
+								if (confirm("로그인 한 사용자만 이용할 수 있습니다. 로그인 하시겠습니까?")) {
+									window.location.href = "/login";
+								}
+							} else {
+								const reportCount = $
+								{
+									reportCount
+								}
+								;
+
+								if (reportCount !== 0) {
+									alert("이미 신고한 게시물입니다.");
+								} else {
+									document.getElementById("reportModal").style.display = "block";
+								}
+							}
+
+						});
 
 		$(document)
 				.on(
 						"click",
 						"#commentReportButton",
 						function() {
-							
-							const mno = "${mno}"; 
+
+							const mno = "${mno}";
 							const bno = $(this).data("bno");
 							const cno = $(this).data("cno");
 
+							if (mno === null || mno === undefined || mno === "") {
+								// 로그인 창으로 이동
+								if (confirm("로그인 한 사용자만 이용할 수 있습니다. 로그인 하시겠습니까?")) {
+									window.location.href = "/login";
+								}
+							} else {
 
-							 if (mno === null || mno === undefined || mno === "") {
-							        // 로그인 창으로 이동
-							        if (confirm("로그인 한 사용자만 이용할 수 있습니다. 로그인 하시겠습니까?")) {
-							            window.location.href = "/login"; 
-							        }
-							 } else {
-							
-							
-							$.ajax({
-										url : "/commentReportCount",
-										type : "post",
-										data : {
-											bno : bno,
-											cno : cno
-										},
-										success : function(result) {
-											const data = JSON.parse(result);
+								$
+										.ajax({
+											url : "/commentReportCount",
+											type : "post",
+											data : {
+												bno : bno,
+												cno : cno
+											},
+											success : function(result) {
+												const data = JSON.parse(result);
 
-											if (data.result !== 0) {
-												alert("이미 신고한 댓글 입니다");
-											} else {
-												document
-														.getElementById("commentReportModal").style.display = "block";
+												if (data.result !== 0) {
+													alert("이미 신고한 댓글 입니다");
+												} else {
+													document
+															.getElementById("commentReportModal").style.display = "block";
 
-												// 닫기 버튼 클릭 시 모달 닫기
-												closeModal2
-														.addEventListener(
-																"click",
-																function() {
-																	document
-																			.getElementById("commentReportModal").style.display = "none";
-																});
-
-												// 모달 외부 클릭 시 모달 닫기
-												window
-														.addEventListener(
-																"click",
-																function(event) {
-																	if (event.target == document
-																			.getElementById("commentReportModal")) {
+													// 닫기 버튼 클릭 시 모달 닫기
+													closeModal2
+															.addEventListener(
+																	"click",
+																	function() {
 																		document
 																				.getElementById("commentReportModal").style.display = "none";
-																	}
-																});
+																	});
+
+													// 모달 외부 클릭 시 모달 닫기
+													window
+															.addEventListener(
+																	"click",
+																	function(
+																			event) {
+																		if (event.target == document
+																				.getElementById("commentReportModal")) {
+																			document
+																					.getElementById("commentReportModal").style.display = "none";
+																		}
+																	});
+												}
+
+											},
+											error : function() {
+												// 오류 처리
 											}
+										});
 
-										},
-										error : function() {
-											// 오류 처리
-										}
-									});
-							
-							 }
+							}
 						});
-
-
 
 		// 닫기 버튼 클릭 시 모달 닫기
 		closeModal.addEventListener("click", function() {

@@ -7,8 +7,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>menu</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/menu.css">
@@ -20,6 +21,7 @@
 			history.back();
 		});
 		
+		/* 로그인 창 */
 		let sessionId = "<%=session.getAttribute("mid") %>"
 		if( sessionId == "null" || sessionId == '' ) {
 			$(".menuHeader").addClass("noLogin");
@@ -27,18 +29,21 @@
 			$(".menuHeader").removeClass("noLogin");
 		}
 		
+		$(".dh-modal-wrapper").hide();
+		$(document).on("click", ".dh-close-modal", function(){
+			$(".dh-modal-wrapper").hide();
+		});
+		
 	});
 	
+	/* 로그인 확인 */
 	function link(url) {
 		let sessionId = "<%=session.getAttribute("mid") %>"
 		
 		if( sessionId == "null" || sessionId == '' ) {
-			if (confirm("로그인을 해야 이용할 수 있는 서비스입니다. 로그인 하시겠습니까?")) {
-				return location.href= '/login';
-			} else {
-				return false;
-			}
+			$(".dh-modal-wrapper").show();
 		} else {
+			$(".dh-modal-wrapper").hide();
 			location.href = "/" + url;
 		}
 	}
@@ -129,13 +134,13 @@
 					<div class="listRow" onclick="link('medicalHistory')">
 						<div class="listTitle">진료 내역</div><div class="xi-angle-right-min"></div>
 					</div>
-					<div class="listRow" onclick="link('medicalHistory')">
-						<div class="listTitle">예약 내역</div><div class="xi-angle-right-min"></div>
+					<div class="listRow" onclick="noCheckLink('search')">
+						<div class="listTitle">병원 예약</div><div class="xi-angle-right-min"></div>
 					</div>
 					<div class="listRow" onclick="noCheckLink('telehealthSearch')">
 						<div class="listTitle">비대면 진료</div><div class="xi-angle-right-min"></div>
 					</div>
-					<div class="listRow" onclick="link('')">
+					<div class="listRow" onclick="link('chatting')">
 						<div class="listTitle">실시간 상담</div><div class="xi-angle-right-min"></div>
 					</div>
 					<div class="listRow" onclick="noCheckLink('hospitalMap')">
@@ -156,11 +161,29 @@
 					</div>
 				</div>
 			</div>
-		
 		</div>
-	
+		<div style="height: 9vh"></div>
 	</main>
+	
 	<footer>
 	</footer>
+	
+	<!-- 로그인 알림 -->
+	<div class="dh-modal-wrapper">
+		<div class="dh-modal-login">
+			<div class="dh-modal-header">
+				<img src="https://cdn-icons-png.flaticon.com/512/7960/7960597.png">
+				<div class="dh-modal-body">
+					<span class="h4">로그인 후에<br> 이용하실 수 있는 서비스입니다.</span>
+					<span class="h6">닥터홈 로그인 후 많은 서비스를 경험해 보세요.</span>
+				</div>
+			</div>
+			<div class="dh-modal-footer">
+				<button class="dh-modal-button dh-close-modal">취소</button>
+				<button class="dh-modal-button" onclick="location.href='/login'">로그인</button>
+			</div>
+		</div>
+     </div>
+	
 </body>
 </html>

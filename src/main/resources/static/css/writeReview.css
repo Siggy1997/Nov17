@@ -1,6 +1,15 @@
 @charset "UTF-8";
 
-@keyframes slidein {from { margin-left:100%;
+@import
+	url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css")
+	;
+
+@import
+	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
+	;
+
+@
+keyframes slidein {from { margin-left:100%;
 	width: 300%;
 }
 
@@ -8,9 +17,79 @@ to {
 	margin-left: 0%;
 	width: 100%;
 }
+
 }
 
+/* 기본 틀 */
+* {
+	font-family: "Pretendard Variable";
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: white;
+}
+
+header {
+	position: fixed;
+	height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	z-index: 1000;
+	background-color: white;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
+}
+
+.xi-angle-left, .xi-angle-right {
+	color: #757575;
+}
+
+.headerTitle {
+	font-family: "NanumSquare" !important;
+	font-size: 18px;
+	text-align: center;
+	font-weight: 900;
+	margin: 20px 50px;
+}
+
+footer {
+	bottom: 0;
+	position: fixed;
+	height: 9vh;
+	margin: 0 auto;
+	z-index: 1000;
+	background-color: white;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+main {
+	padding-top: 9vh;
+}
+
+.blank {
+	width: 21px;
+}
+
+.margin-right {
+	margin-right: 4px;
+}
+
+.margin-left {
+	margin-left: 4px;
+}
+
+/* 병원 정보 */
 .hospitalInfo {
+	width: 90%;
+	margin: 0 auto;
 	display: flex;
 	justify-content: center;
 	height: 90vh;
@@ -32,78 +111,155 @@ to {
 	font-size: 30px;
 }
 
-.selectStars {
-	margin-top: 10px;
-	color: #FFB300;
-	font-size: 50px;
-}
-
+/* 리뷰 */
 .goUp {
 	display: none;
-	width :100%;
-	height:200px;
+	width: 90%;
+	margin: 0 auto;
+	display: flex;
+	height: 80px;
 }
-.goUp span{
-	margin-top: 30px;
+
+.hospitalImg {
+	width: 25%;
+	border-radius: 50px;
+	overflow: hidden;
+	margin: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
+
+.hospitalImg img {
+	width: 50px;
+}
+
 .goUp #hospitalName {
-	padding:0 0 0 50px;
+	width: 75%;
+	padding: 10px;
 	display: flex;
 	flex-direction: column;
-	font-weight: 800;
-	font-size: 30px;
-	margin: 30px;
+	justify-content: space-evenly;
 }
 
-.goUp img {
-	float: left;
-	width: 130px;
-	margin: 0 30px;
+.goUp span {
+	font-size: 16px;
+	margin-right: 5px;
+	font-weight: 700;
 }
 
-.goUp .selectStars {
-	font-size: 35px;
+.selectStars {
+	font-size: 20px;
+}
+
+.xi-star-o {
+	color: #F5F5F5;
+}
+
+.xi-star {
+	color: #00C9FF;
+}
+
+.grayLine {
+	border-bottom: 1px solid #dedcdc;
+	height: 20px;
 }
 
 /* 의사 고르기 */
 .totalDoctor {
 	display: none;
+	width: 90%;
+	margin: 25px auto;
 }
 
 .title {
-	font-weight: 700;
-	font-size: 30px;
+	font-size: 15px;
+	font-weight: 500;
+	height: 25px;
 }
 
-.selectDoctor img {
-	width: 150px;
-	border-radius: 20px;
-	margin: 15px;
+.selectDoctor {
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .selectDoctorInfo {
-	display: inline-block;
+	display: flex;
 	text-align: center;
-	font-size: 25px;
-	margin: 50px 20px 124px 0;
+	font-size: 13px;
+	flex-direction: column;
+	align-items: center;
+	margin: 5px;
+	padding: 5px 0;
+}
+
+.imgBox {
+	width: 65px;
+	height: 65px;
+	border-radius: 50px;
+	overflow: hidden;
+	margin: 5px;
+}
+
+.selectDoctor img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .selectedDoc {
-	background-color: #4FC3F7;
-	border-radius: 20px;
+	background-color: #8ed6ff;
+	border-radius: 10px;
 	color: white;
-
 }
 
 .totalTreatment {
 	display: none;
 }
-.treatment{
-	margin: 50px 20px 124px 0;
+
+.questionBox {
+	width: 90%;
+	margin: 25px auto;
 }
+
+.reviewAnswerBox {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.reviewAnswerBox button {
+	width: 100px;
+	height: 40px;
+	margin: 7px;
+	background-color: white;
+	border: 1px solid #F5F5F5;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+	color: #5c5c5c;
+}
+
+.reviewAnswerBox img {
+	width: 17px;
+	margin-right: 5px;
+}
+
+#content {
+	width: 100%;
+	height: 180px;
+	margin: 8px 0;
+	border-radius: 5px;
+	border: 1px solid #e3dcdc;
+	padding: 15px;
+}
+
 .selectedTreatment {
-	background-color: #4FC3F7;
-	color: white;
+	background-color: rgba(0, 201, 255, 0.11) !important;
+	border: 1px solid #00C9FF !important;
+	color: black !important;
 }
 
 .totalFeedback {
@@ -111,72 +267,95 @@ to {
 }
 
 .selectedFeedback {
-	background-color: #4FC3F7;
-	color: white;
+	background-color: rgba(0, 201, 255, 0.11) !important;
+	border: 1px solid #00C9FF !important;
+	color: black !important;
 }
-.feedback{
-	margin: 50px 20px 124px 0;
-}
+
 .reviewContent {
 	display: none;
 }
 
-.reviewContent input {
-	width: 90%;
-	height: 300px;
-	margin: 50px;
-	text-align: left;
-	vertical-align: top;
-	cursor: default;
-    user-select: none;
-}
-input {
-    touch-action: manipulation;
-}
-
-
 #finish {
 	display: none;
+	width: 90%;
+	height: 80%;
+	border-radius: 7px;
+	color: #787878;
+	background-color: #ebebeb;
+	border: none;
+	font-size: 15px;
+	font-weight: 500;
 }
 
-footer {
+.submit-btn-css {
+	background-color: #00C9FF !important;
+	color: white !important;
+}
+
+/* 알림 모달 */
+#dh-modal-alert {
 	position: fixed;
-	bottom: 0;
+	top: 0;
+	left: 0;
 	width: 100%;
-	background-color: #f0f0f0; /* 선택적으로 배경색 설정 */
-	padding: 10px; /* 선택적으로 여백 설정 */
-	text-align: center;
-	height: 80px;
-	overflow: hidden;
+	height: 100%;
+	display: flex;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 1s ease-in-out;
+	background: rgba(0, 0, 0, 0.2);
+	justify-content: flex-end;
+	flex-direction: column;
+	z-index: 1499;
+	transition: opacity 1s ease-in-out;
 }
 
-button {
-	position: relative;
-	border: 0;
-	width: 30%;
-	height: 80px;
-	display: inline-block;
-	text-align: center;
-	border-radius: 10px;
-	color: black;
-	background-color: #E1F5FE;
-	display: inline-block;
-	font-size: 2rem;	
-	
+#dh-modal-alert.active {
+	opacity: 1;
+	visibility: visible;
 }
-.blank{
-	width: 100%;
-	height: 200px;
+
+.dh-modal {
+	padding: 20px;
+	width: 90%;
+	border-radius: 15px;
+	background-color: #F4F4F4;
+	height: 90px;
+	display: flex;
+	align-items: center;
+	margin: 18px auto;
+	z-index: 1500;
 }
-#finish {
-	position: relative;
-	border: 0;
-	width: 70%;
-	height: 80px;
-	display: inline-block;
-	text-align: center;
-	border-radius: 10px;
-	color: white;
-	background-color: #81D4FA;
-	display: inline-block;
+
+.dh-modal-title {
+	font-size: 18px;
+	font-weight: 700;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 7px;
+	align-items: center;
+}
+
+.dh-modal-content {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+}
+
+.dh-alert-img {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+}
+
+.dh-modal-text {
+	color: #313131;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.dh-modal-blank {
+	height: 9vh;
 }

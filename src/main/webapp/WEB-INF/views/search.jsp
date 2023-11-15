@@ -5,13 +5,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>search</title>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/hospital.css">
-<script src="./js/jquery-3.7.0.min.js"></script> 
-
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" href="./css/telehealthSearch.css">
+<script src="./js/jquery-3.7.0.min.js"></script>
+<script src="./js/wnInterface.js"></script>
+<script src="./js/mcore.min.js"></script>
+<script src="./js/mcore.extends.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
 	    document.getElementById('keyword').focus();
@@ -19,52 +23,74 @@
 	
 	$(function(){
 		
+		//실시간채팅으로 가기
+		 $('.chatting').click(function() { 
+			 if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				 $('.dh-modal-wrapper').show();
+			 }else{
+		       location.href='./chatting'
+			 }
+		 });
+
+		
 		/* 뒤로가기 버튼 */
 		$(document).on("click", ".xi-angle-left", function(){
-			history.back();
+			location.href = '/main';
 		});
 		
-		let recentKeywordCookies = getCookie("recentKeyword");
-		if (recentKeywordCookies == null) {
+		/* 최근 검색어 가져오기 */
+		let storageKeyword = M.data.storage("recentKeyword");
+		alert("처음 저장된 검색어 : " + M.data.storage("recentKeyword"));
+		
+		/* 최근 검색어 키워드 넣기 */
+		if ( M.data.storage("recentKeyword") == null ) {
 			$(".searchRecentItems").html('');
 		} else {
-			let stringArray = separationString(recentKeywordCookies);
+			let stringArray = separationString(storageKeyword);
 			let searchRecentItems = '';
 			for(let item of stringArray) {
-				searchRecentItems += '<div class="recentItemBox"><button class="recentItem">' + item + '</button><div class="xi-close-min"></div></div>';
+				searchRecentItems += '<div class="recentItemBox"><button class="recentItem">' + item + '</button><div class="deleteKeyword"><i class="xi-close-min"></i></div></div>';
 			}
 			$(".searchRecentItems").html(searchRecentItems);
 		}
-		
+
+		/* 최근 검색어 전체 삭제 */
 		$(".searchDelete").click(function(){
-			deleteAllCookie("recentKeyword");
+			M.data.removeStorage("recentKeyword");
+			alert("검색어 전체 삭제 : " + M.data.storage("recentKeyword"));
 			$(".searchRecentItems").html('');
 		});
 		
-		$(".recommendItem").click(function(){
-			let keyword = $(this).text();
-			$('#keyword').val(keyword);
-		})
-		
-		$(".recommendRandomItem").click(function(){
-			let keyword = $(this).text();
-			$('#keyword').val(keyword);
-		})
-		
-		$(".recentItem").click(function(){
-			let keyword = $(this).text();
-			$('#keyword').val(keyword);
-		})
+		/* 검색 */
+		$(".recommendItem, .recommendRandomItem, .recentItem").click(function(){
+		    let keyword = $(this).text();
+		    $('#keyword').val(keyword);
+		});
+
 	});
 	
 	$(document).on("submit", "#searchForm", function(){
-		let recentKeyword = $("#keyword").val();
-		setCookie("recentKeyword", recentKeyword, 30);
+		let searchKeyword = $("#keyword").val();
+		alert(searchKeyword);
+		if ( M.data.storage("recentKeyword") != null ) {
+			let combine = M.data.storage("recentKeyword") + "," + searchKeyword;
+			alert(combine);
+			M.data.storage("recentKeyword", combine);
+			alert("저장된 검색어가 널이 아닐 때 저장 후 : " + M.data.storage("recentKeyword"));
+		} else {
+			M.data.storage("recentKeyword", searchKeyword);
+			alert("저장된 검색어가 널일 때 저장: " + storageKeyword);
+		}
 	});
 	
-	$(document).on("click", ".xi-close-min", function(){
+	/* 쿠키 한개 삭제 */
+	$(document).on("click", ".deleteKeyword", function(){
 		let deleteKeyword = $(this).siblings().text();
-		deleteCookie(deleteKeyword, "recentKeyword", 30);
+		let allCookieArray = separationString(storageKeyword);// 스트링 -> 배열
+		let deleteCookieArray = allCookieArray.filter(item => item !== deleteKeyword);// 삭제하고 다시 배열
+		let newCookie = deleteCookieArray.join(",");// 새로운 배열
+		M.data.storage("recentKeyword", newCookie);
+		alert("쿠키 한 개 삭제할 때" + storageKeyword);
 		$(this).parent().html('');
 	});
 	
@@ -149,35 +175,43 @@
 
 </head>
 <body>
+	<%@ include file="loginAlert.jsp"%>
 	<form id="searchForm" action="/search" method="post">
-	<header>
-		<i class="xi-angle-left xi-x"></i>
-		<div class="headerTitle">병원 검색</div>
-		<div class="blank"></div>
-	</header>
-	
-	<main class="searchBox container">
-		
+		<header>
+			<i class="xi-angle-left xi-x"></i>
+			<div class="headerTitle">병원 검색</div>
+			<div class="blank"></div>
+		</header>
+
+		<main class="searchBox container">
+
 			<!-- search -->
 			<div class="search">
 				<div class="searchInput">
-					<input placeholder="진료과, 증상, 병원을 검색하세요." name="keyword" id="keyword">
+					<input placeholder="진료과, 증상, 병원을 검색하세요." name="keyword"
+						id="keyword">
 					<div class="deleteSearch">
 						<i class="icon"></i>
 					</div>
 				</div>
-				<button class="searchButton"><img src="./img/search.png"></button>
+				<button class="searchButton">
+					<img src="./img/search.png">
+				</button>
 			</div>
-			
+
 			<div class="serachItem">
 				<!-- 최근 검색 -->
 				<div class="searchRecent">
-					<div class="searchTitle">최근 검색</div>
-					<div class="searchDelete">전체삭제</div>
+					<div class="titleSection">
+						<div class="searchTitle">최근 검색</div>
+						<div class="searchDelete">전체삭제</div>
+					</div>
 					<div class="searchRecentItems">
 						<div class="recentItemBox">
 							<button class="recentItem"></button>
-							<div class="xi-close-min"></div>
+							<div class="deleteKeyword">
+								<i class="xi-close-min"></i>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -196,8 +230,43 @@
 					</div>
 				</div>
 			</div>
-	</main>
-		</form>
+			<div style="height: 9vh"></div>
+			
+			
+		
+		</main>
+	</form>
 	
+	
+	<footer>
+		<a href="./main">
+			<div class="footerIcon">
+				<img alt="없음" src="/img/mainHomebefore.png">
+				<p>홈</p>
+			</div>
+		</a> <a href="./search">
+			<div class="footerIcon now">
+				<img alt="없음" src="/img/mainSearchAfter.png">
+				<p>검색</p>
+			</div>
+		</a> <a href="./hospitalMap">
+			<div class="footerMain">
+				<div class="footerIcon" id="mapIcon">
+					<img alt="없음" src="/img/mainMap.png">
+				</div>
+			</div>
+		</a> <a href="./qnaBoard">
+			<div class="footerIcon">
+				<img alt="없음" src="/img/mainQnAbefore.png">
+				<p>고민 상담</p>
+			</div>
+		</a><a class="chatting">
+			<div class="footerIcon">
+				<img alt="없음" src="/img/myChatting3.png">
+				<p>실시간 채팅</p>
+			</div>
+		</a>
+	</footer>
+
 </body>
 </html>

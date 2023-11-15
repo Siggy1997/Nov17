@@ -39,7 +39,7 @@ public class AdminController {
 
 			return "admin/adminMain";
 		} else {
-			return "redirect:/admin/index";
+			return "redirect:/admin/adminMain";
 		}
 	}
 

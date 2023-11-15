@@ -7,16 +7,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>doctorDetail</title>
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="../css/doctorDetail.css">
 <script src="../js/jquery-3.7.0.min.js"></script>
-<!-- <script src="./js/wnInterface.js"></script> 
-<script src="./js/mcore.min.js"></script> 
-<script src="./js/mcore.extends.js"></script>  -->
+
 <script type="text/javascript">
 	$(function() {
 		let sessionId = '';
@@ -213,19 +212,16 @@
 		});
 
 		/* 진료 중일 때만 비대면 진료하기 */
-		if ($(".doctocFooter").hasClass("application")) {
-			alert("!");
-
+		if ($(".application").length > 0) {
 			if ($(".doctorStatus_text").text() == '진료 중') {
-				$(".application").addClass("btn-color-css");
+				$(".application").addClass("submit-btn-css").prop("disabled", false);;
+				$(".application").disabled(abled);
 			} else {
-				$(".application").removeClass("btn-color-css")
-						.text("비대면 진료 종료");
-
+				$(".application").text("비대면 진료 종료").removeClass("submit-btn-css").prop("disabled", true);
 			}
-
-		}
-
+   	 	}
+		
+		
 		/* Collection of functions */
 
 		/* 로그인 체크 */
@@ -535,6 +531,22 @@
 				</c:forEach>
 			</div>
 		</div>
+	</div>
+	</main>
+	
+	<form id="telehealthApply" action="/telehealthApply" method="get">
+	<footer>
+		<c:choose>
+			<c:when test="${doctor.dtelehealth == 0 }">
+				<button class="submit" type="button">비대면 진료 불가</button>
+			</c:when>
+			<c:otherwise>
+				<input name="dno" type="hidden" value="${doctor.dno}">
+				<button class="submit application" disabled="disabled">비대면 진료 신청</button>
+			</c:otherwise>
+		</c:choose>
+	</footer>
+	</form>
 
 		<footer class="doctocFooter">
 			<c:choose>

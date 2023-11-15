@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.drhome.search.SearchService;
+
 @Controller
 public class MainController {
 	@Autowired
 	MainService mainService;
+	@Autowired
+	SearchService searchService;
 
 	@GetMapping(value = { "/", "/main" })
 	public String main(Model model, HttpSession session) {
@@ -32,6 +36,10 @@ public class MainController {
 			model.addAttribute("countNotification", countNotification);
 			System.out.println(notification);
 		}
+		
+		// 진료과별 모달
+		List<Map<String, Object>> departmentKeyword = searchService.departmentKeyword();
+		model.addAttribute("departmentKeyword", departmentKeyword);
 
 		model.addAttribute("newQna", newQna);
 		model.addAttribute("quiz", todayQuiz);
@@ -55,6 +63,16 @@ public class MainController {
 		mainService.updateNotificationNum(nno);
 
 		return "";
+	}
+	
+	@GetMapping("/menu")
+	public String menu(HttpSession session, Model model) {
+		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
+			Map<String, Object> userInfo = mainService.userInfo(session.getAttribute("mno"));
+			model.addAttribute("userInfo", userInfo);
+			System.out.println(userInfo);
+		}
+		return "/menu";
 	}
 
 }

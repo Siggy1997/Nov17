@@ -49,12 +49,12 @@ footer {
 	bottom: 0;
 	position: fixed;
 	height: 9vh;
+	display: flex;
+	justify-content: space-evenly;
 	width: 100%;
+	align-items: center;
 	z-index: 1000;
 	background-color: white;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 
 main {
@@ -140,18 +140,6 @@ main {
 .doctorInfoBody {
 	display: flex;
 	font-size: 14px;
-	color: #5c5c5c;
-}
-
-.doctorFooter {
-	width: 90%;
-	margin: 0 auto;
-	padding: 5px 0;
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	font-size: 13px;
-	padding-bottom: 10px;
 	color: #5c5c5c;
 }
 
@@ -278,7 +266,7 @@ main {
 }
 
 /* footer */
-.doctocFooter button, .application {
+.submit {
 	width: 90%;
 	height: 80%;
 	border-radius: 7px;
@@ -288,6 +276,7 @@ main {
 	font-size: 15px;
 	font-weight: 500;
 }
+
 
 .btn-color-css {
 	background-color: rgba(0, 201, 255, 0.11) !important;

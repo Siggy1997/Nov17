@@ -21,6 +21,8 @@ public interface MainDAO {
 	void updateNotificationNum(int nno);
 
 	void raisePointByQuizToPoint(Map<String, Object> data);
+	
+	Map<String, Object> userInfo(Object mno);
 
 
 }

@@ -38,6 +38,12 @@ public class MainService {
 	public void updateNotificationNum(int nno) {
 		mainDAO.updateNotificationNum(nno);
 	}
+	
+
+	public Map<String, Object> userInfo(Object mno) {
+		return mainDAO.userInfo(mno);
+	}
+
 
 
 }

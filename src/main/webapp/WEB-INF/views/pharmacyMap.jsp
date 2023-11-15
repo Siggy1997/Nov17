@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <link rel="stylesheet" href="./css/pharmacyMap.css">
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -22,37 +23,39 @@
 
 <title>Insert title here</title>
 
-  <style>
- 
+<style>
 </style>
 
 </head>
 <body>
 
-<header>
-    <div class="xi-angle-left xi-x"></div>
- 
-    <div id="searchContainer">
-        <input type="text" id="searchInput" placeholder="약국 이름 검색">
-        <button id="searchButton">검색</button>
-    </div>
-</header>
-<main>
+	<header>
+		<div class="xi-angle-left xi-x"></div>
+
+		<div id="searchContainer">
+			<input type="text" id="searchInput" placeholder="약국 이름 검색">
+			<button id="searchButton">검색</button>
+		</div>
+	</header>
+	<main>
 
 
- 
- <button onclick="location.href='/hospitalMap';" id="hospitalMap">병원<br>지도</button>
- 
 
- <button onclick="refreshPage()" id="currentLocation" class="xi-gps xi-x"></button>
- 
-<div class="map_wrap">
-    <div id="map"></div>
-<ul id="searchResults"></ul>   
-</div>
+		<button onclick="location.href='/hospitalMap';" id="hospitalMap">
+			병원<br>지도
+		</button>
 
-<div style="height: 9vh"></div>
-</main>
+
+		<button onclick="refreshPage()" id="currentLocation"
+			class="xi-gps xi-x"></button>
+
+		<div class="map_wrap">
+			<div id="map"></div>
+			<ul id="searchResults"></ul>
+		</div>
+
+		<div style="height: 9vh"></div>
+	</main>
 </body>
 
 <script>
@@ -87,10 +90,11 @@ function refreshPage() {
 </script>
 
 
-	
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485&libraries=services"></script>
-		<script type="text/javascript"
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485"></script>
+
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485&libraries=services"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485"></script>
 
 
 
