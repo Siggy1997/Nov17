@@ -18,7 +18,7 @@
 	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="../js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e6035c5b6dc0c23f98779b6f6fded6d"></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e6035c5b6dc0c23f98779b6f6fded6d&libraries=services"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/sweet-modal/dist/min/jquery.sweet-modal.min.css" />
 <script
@@ -175,6 +175,8 @@ $(function() {
 			$('#available').show()
 		} else {
 			$('#unavailable').show()
+			$('.appointmentTodayButton').addClass('unavailable');
+			$('.appointmentTodayButton').prop('disabled', true);
 		}
 		
 		//정렬기준
@@ -288,12 +290,12 @@ $(function() {
 					}
 	             
 	                item += "<div class='reviewer'> &nbsp &nbsp" + n.mname + "</div></div>";
-	                item += "<div class='reviewLike'>추천해요<i class='xi-thumbs-up xi'>"+n.rlike +"</i></div></div>";
+	                item += "<div class='reviewLike'>"+n.rlike +"&nbsp&nbsp&nbsp&nbsp<img src='../img/thumbs_up.png' style='width: 20px'></div></div>";
+	                
 	                item += "<input class='rno' type='hidden' value='"+ n.rno +"'>"
 	                item += "<input class='sortValue' type='hidden' value='"+ sortValue +"'</div>"
 					item += "<div class='reviewGrayLine'><div>"
 	            $('#reviewListContainer').append(item);
-					alert
 	            }
 	            // 보여질게 있으면 버튼 생성
 	            if (maxReview < newData.review.length) {
@@ -318,7 +320,6 @@ $(function() {
 			
 			reviewer =  $(this).parent().siblings(".rno").val()
 			let sortnum = $(this).parent().siblings(".sortValue").val()
-			alert(reviewer)
 			   $.ajax({
 		        url: "/countReviewLike",
 		        type: "POST",
@@ -362,13 +363,13 @@ $(function() {
 </head>
 <body>
 	<header>
-		<a href="../main"><i class="xi-angle-left xi-x"></i></a>
+		<a href="../hospital"><i class="xi-angle-left xi-x"></i></a>
 
 		<div class="headerTitle">${hospital.hname }</div>
 
 		<div id="hospitalLike">
 			<c:set var="found" value="false" />
-			<c:forEach var="hospitalLike" items="${sessionScope.hospitallike}">
+			<c:forEach var="hospitalLike" items="${sessionScope.mhospitallike}">
 				<c:if test="${hospitalLike == hospital.hname}">
 					<div class="like" style="color: red">
 						<i class="xi-heart xi-x"></i>
@@ -479,7 +480,7 @@ $(function() {
 					<div class="dayTitle">오늘</div>
 					<span id="todayHours"></span>
 				</div>
-				
+
 				<div class="today todayBreakInfo">
 					<div class="dayTitle">점심시간</div>
 					<span id="todayBreak"> <c:if
@@ -635,7 +636,8 @@ $(function() {
 		<div class="section hospitalLocation">
 			<div class="hospitalTitle">위치</div>
 			<div class="mapAddr">
-				${hospital.haddr }
+				${hospital.haddr } <input type="hidden" id="hosptialAddr"
+					value="${hospital.haddr }">
 				<div id="map"></div>
 			</div>
 		</div>
@@ -678,15 +680,17 @@ $(function() {
 				리뷰 <span id="countReview"> ${fn:length(reviewList)}</span>
 			</div>
 
-
+			<c:if test="${reviewList == null || reviewList.isEmpty() }">
+				<div id="noReview">리뷰가 없어요. 리뷰를 작성해주세요.</div>
+			</c:if>
 			<div class="reviewHeader">
 				<div class="averageHospitalRate">
 					<div id="averageNum">
 						<c:choose>
 							<c:when test="${reviewList != null && !reviewList.isEmpty() }"> 
 							${averageHospitalRate }
-					</c:when>
-							<c:otherwise>리뷰가 없어요</c:otherwise>
+							</c:when>
+							<c:otherwise>0.0</c:otherwise>
 						</c:choose>
 					</div>
 					<div id="averageStar">
@@ -755,6 +759,7 @@ $(function() {
 				</c:if>
 			</div>
 			<div class="grayLine"></div>
+
 			<div id="reviewListContainer"></div>
 
 		</div>
@@ -762,7 +767,7 @@ $(function() {
 
 		<div style="height: 7vh"></div>
 	</main>
-	
+
 	<footer>
 		<button class="appointmentTodayButton">접수하기</button>
 		<button class="appointmentButton">예약하기</button>
@@ -784,14 +789,47 @@ $(function() {
 
 	});
     
-	//카카오 맵 가져오기
-    var container = document.getElementById('map');
-    var option = {
-    	center: new kakao.maps.LatLng(33.450701, 126.570667),
-    	level: 3
-    };
 
-    var map = new kakao.maps.Map(container, option);
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	mapOption = { 
+	    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	    level: 3 // 지도의 확대 레벨
+	};
+
+	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+
+	//주소-좌표 변환 객체를 생성
+	let geocoder = new kakao.maps.services.Geocoder();
+	// 주소로 좌표를 검색
+	geocoder.addressSearch($('#hosptialAddr').val(), function (result, status) {
+	  console.log(result);
+	  // 정상적으로 검색이 완료됐으면
+	  if (status === kakao.maps.services.Status.OK) {
+	    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	    var imageSrc = '../img/hospitalMarker.png', // 마커이미지의 주소입니다    
+        imageSize = new kakao.maps.Size(32, 34.5), // 마커이미지의 크기입니다
+        imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+		    
+		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+	 
+    
+
+
+	    // 결과값으로 받은 위치를 마커로 표시합니다
+	    var marker = new kakao.maps.Marker({
+	      map: map,
+	      position: coords,
+	      image : markerImage
+	    });
+
+	    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	    map.setCenter(coords);
+	  }
+	});
+ 
 </script>
 </body>
 </html>

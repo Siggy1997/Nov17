@@ -89,6 +89,12 @@ main {
 	margin-bottom: 15px;
 }
 
+.grayLine {
+	width: 100%;
+	height: 2px;
+	background-color: #F5F5F5;
+}
+
 .doctorImg {
 	width: 90px;
 	height: 90px;
@@ -287,4 +293,122 @@ main {
 	background-color: rgba(0, 201, 255, 0.11) !important;
 	border: 1px solid #00C9FF !important;
 	color: black !important;
+}
+
+.reviewHeader {
+	display: flex;
+	width: 90%;
+	margin: 0 auto 25px auto;
+	justify-content: space-between;
+}
+
+.doctorReviewScoreBoxLeft {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 30%;
+	margin-left: 5px;
+}
+
+.doctorReviewScore {
+	font-size: 32px;
+	font-weight: 800;
+	padding-bottom: 9px;
+}
+
+.doctorReviewStar {
+	color: #FFB300;
+	font-size: 15px;
+}
+
+.doctorReviewScoreBoxRight {
+	width: 60%;
+	padding-left: 10px;
+}
+
+.bar-container {
+	width: 60%;
+	padding-left: 10px;
+}
+
+.count-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 10px;
+	font-weight: 700;
+}
+
+.count-star {
+	width: 66%;
+	background-color: #dadada;
+	margin: 5px;
+	border-radius: 12px;
+}
+
+.bar {
+	border-radius: 12px;
+	height: 10px;
+	background-color: #00c9ff;
+}
+
+.reviewWritePage {
+	width: 90%;
+	font-size: 12px;
+	font-weight: 500;
+	color: #00c9ff;
+	margin: 0 auto 34px auto;
+	height: 29px;
+	display: flex;
+	border: 1px solid #00c9ff;
+	align-items: center;
+	justify-content: center;
+	border-radius: 15px;
+	background-color: white;
+}
+
+.sortReview {
+	margin: 13px 20px;
+}
+
+.sortReview button {
+	margin: 3px;
+	font-size: 11px;
+	font-weight: 500;
+	border: none;
+	background-color: white;
+	color: #BDBDBD;
+	border: none;
+}
+
+.reviewWriteBox {
+	width: 90%;
+	margin: 17px auto;
+}
+
+.reviewStar {
+	color: #FFB300;
+	font-size: 14px;
+	padding: 4px 0;
+}
+
+.reviewKeyword {
+	display: flex;
+}
+
+.keyword {
+	font-size: 10px;
+	margin: 3px 8px 0 0;
+	padding: 4px 5px;
+	border-radius: 14px;
+	background-color: #F5F5F5;
+	text-align: center;
+	border: none;
+	font-weight: 500;
+}
+
+.reviewContent {
+	font-size: 20px;
+	padding: 7px 0;
 }
