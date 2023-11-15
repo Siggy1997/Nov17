@@ -26,27 +26,29 @@
 </header>
 
 <main>
+
+<div class="space">
 	<div class="question">
 	<!-- <div class="boardNum">${qnaQuestion.bno}</div> -->	
 		<div class="btitle">${qnaQuestion.btitle}</div>
 		<div class="mname">${qnaQuestion.mname}</div>
+		<div class="dot">•</div>
 		<div class="bdate">${qnaQuestion.bdate}</div>
 		
 			<c:if test="${qnaQuestion.mno ne mno}">
 		<i class="xi-minus-circle-o xi-x" id="reportButton"></i>
 	</c:if>
 		
-		
-		<br>
+
 		
 		<div class="bdetail">${qnaQuestion.bcontent}</div>
-		
-		<br>
+	
 		
 		 <c:if test="${qnaQuestion.dpkind ne 'unknown'}">
 		<div class="dpkind">${qnaQuestion.dpkind}</div>
 		 </c:if>
 	</div>
+
 
 
 
@@ -65,6 +67,7 @@
 
 		</div>
 	</div>
+
 
 	<c:if test="${isDibsTrue eq false}">
 		<form id="callDibsForm" action="/qnaCallDibs" method="POST">
@@ -85,13 +88,7 @@
 	</c:if>
 
 
-	<c:if test="${qnaQuestion.mno eq mno}">
-		<form action="deleteQnaQuestion" method="post" id="deleteQnaQuestion">
-			<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
-			<i class="xi-trash-o xi-x" id="editButton" class="bdelete" onclick="deleteConfirm()"></i>
-		</form>
-	</c:if>
-
+  <div class="button-container right">
 <c:if test="${qnaQuestion.mno eq mno}">
 <form id="requestEditForm" action="/editQna" method="POST">
 <input type="hidden" name="bno" id="bno"
@@ -102,9 +99,18 @@
 			value="${qnaQuestion.bcontent}">
 			<input type="hidden" name="dpkind" id="dpkind"
 			value="${qnaQuestion.dpkind}">
-<i class="xi-pen-o xi-x" id="editButton"></i>
+<button class="xi-pen-o xi-x" id="editButton"></button>
 </form>
 </c:if>
+
+	<c:if test="${qnaQuestion.mno eq mno}">
+		<form action="deleteQnaQuestion" method="post" id="deleteQnaQuestion">
+			<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
+			<i class="xi-trash-o xi-x" id="deleteButton" class="bdelete" onclick="deleteConfirm()"></i>
+		</form>
+	</c:if>
+</div>
+
 
 	<c:if test="${not empty dno}">
 		<button type="button" id="answerToggleButton">답변 작성하기</button>
@@ -123,12 +129,13 @@
 			<button type="submit" id="submitAnswerButton">완료</button>
 		</form>
 	</div>
+	</div>
 
 
-	<br><div class="answerTitle">의료인 답변</div>
-	<br>
-	<br>
+	<div class="answerTitle"><div class="space">의료인 답변</div></div>
+	
 		<c:forEach items="${qnaAnswer}" var="answer">
+	<div class="space">
 	<div class="answer">
 			<input type="hidden" name="hospitalNum" value="${answer.hno}">
 			<input type="hidden" name="doctorNum" value="${answer.dno}">
@@ -144,10 +151,12 @@
 				</form>
 			</c:if>
 	</div>
+	</div>
 	
 			<c:forEach items="${doctorInfo}" var="doctor">
 			   <c:if test="${doctor.dno eq answer.dno}">
-	<div class="doctor">
+	<div class="space">
+	<div class="doctor" onclick="location.href='/doctorDetail/${doctor.dno}'">
 			   			<div class="cinfoLine_top"></div>
 				<img class="doctorImg" src="${doctor.dimg}" alt="의사 이미지" height="75">
 			   <div class="doctorInfo">
@@ -156,13 +165,14 @@
 				<div class="hospital">${doctor.hname}</div>
 				</div>
 				</div>
+				</div>
 				<div class="cinfoLine_bottom"></div>
 				 </c:if>
 			</c:forEach>
 		</c:forEach>
 
 
-
+<div style="height: 9vh"></div>
 </main>
 <footer></footer>
 

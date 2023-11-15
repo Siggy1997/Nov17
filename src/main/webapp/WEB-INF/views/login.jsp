@@ -10,6 +10,7 @@
 <title>Login</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link href="./css/login.css" rel="stylesheet" />
+<link href="./css/aram.css" rel="stylesheet" />
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script
@@ -210,8 +211,23 @@ $(document).ready(function(){
 
 				});//로그인 버튼 클릭            
 	});
-</script>
+	
 
+	$(document).on("click", ".cm-toggle", function(){
+		
+		if ($(this).is(":checked")) {
+			    $("#dh-modal-alert").addClass("active").fadeIn();
+			    setTimeout(function() {
+			        $("#dh-modal-alert").fadeOut(function(){
+			            $(this).removeClass("active");
+			        });
+			    }, 1000);
+		} else{
+			$("#dh-modal-alert").removeClass("active").fadeOut();
+		}
+			});
+</script>
+	
 </head>
 <body>
 	 <%-- <%@ include file="footer.jsp"%> --%> 
@@ -254,15 +270,33 @@ $(document).ready(function(){
 			</div>
 				
 			<div class="joinHospital-area">
-				<div class="joinHospital">병원 개설이 필요하신가요? <a href="./joinHospital" class="joinHospital">&nbsp;&nbsp;병원 등록하러 가기</a></div>
-				<div>비대면 진료 페이지<a href="/docReception/${sessionScope.mno}/${sessionScope.dno}">&nbsp;&nbsp;바로가기</a></div>
+				 <div class="joinHospital">병원 개설이 필요하신가요? <a href="admin/newHospital" class="joinHospital">&nbsp;&nbsp;병원 등록하러 가기</a></div>
+<%-- 				<div>비대면 진료 페이지<a href="/docReception/${sessionScope.mno}/${sessionScope.dno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>건강기록<a href="/healthRecord/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>내정보<a href="/myInfo/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>내글보기<a href="/myWriting/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>예약내역확인<a href="/medicalHistory/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>결제<a href="/pay/${sessionScope.mno}?tno=1">&nbsp;&nbsp;바로가기</a></div>
-				<div>결제완료<a href="/completePay/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
+				<div>결제완료<a href="/completePay/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>   --%>
 			</div>
 	</main>
+	
+	<footer></footer>
+	
+	<!-- 알람모달 -->
+	
+	<div id="dh-modal-alert">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">아이디를 저장합니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>
+	
 </body>
 </html>

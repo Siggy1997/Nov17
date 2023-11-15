@@ -76,34 +76,29 @@ a {
 	width: 21px;
 }
 
-.appointmentTitleWrapper {
+#hospitalLocation {
 	display: flex;
-	justify-content: space-between;
-}
-
-.appointmentTitle {
-	display: flex;
-	font-size: 15px;
-	font-weight: 700;
 	align-items: center;
+	font-size: 14px;
+	font-weight: 500;
+	margin-bottom: 25px;
 }
 
-.appointmentTitle img {
-	width: 25px;
-	height: 25px;
-	margin-right: 15px;
-	color: #8ed6ff;
+#hospitalLocation img {
+	width: 19px;
+	height: auto;
+	margin-right: 3px;
 }
 
-.appointmentTitle span {
-	color: #d6d6d6;
-	font-size: 13px;
-	margin-left: 6px;
+#dpKind {
+	font-size: 15px;
+	font-weight: 500;
 }
 
-.appointmentTitle .status {
-	margin-right: 15px;
-	color: #8ed6ff;
+#hopitalName {
+	font-size: 22px;
+	font-weight: 700;
+	margin-bottom: 5px;
 }
 
 .profile {
@@ -119,92 +114,13 @@ a {
 	margin-right: 20px;
 }
 
-#normalKind {
-	display: flex;
-	width: 90%;
-	margin: 0 auto;
+#dpKind, #date {
 	font-size: 14px;
-	font-weight: 500;
-	padding: 15px 24px;
-	border-radius: 10px;
-	justify-content: space-between;
-	background-color: #8ed6ff;
-	color: white;
+	font-weight: 600;
+	margin-bottom: 5px;
 }
 
-.chooseDoctor {
-	display: flex;
-}
-
-.selectDoctorInfo {
-	text-align: center;
-	font-size: 13px;
-	font-weight: 500;
-	padding: 10px;
-	margin-right: 5px;
-}
-
-.selectDoctorInfo img {
-	width: 43px;
-	height: auto;
-}
-
-.selectedDoc {
-	background-color: #8ed6ff;
-	border-radius: 10px;
-	color: white;
-}
-
-.chooseDateWrapper {
-	display: flex;
-	overflow-x: scroll;
-}
-
-.chooseDate {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-right: 12px;
-}
-
-.chooseDate span {
-	color: gray;
-	font-size: 13px;
-}
-
-.circle {
-	height: 39px;
-	width: 39px;
-	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 17px;
-	font-weight: 500;
-	margin-top: 5px;
-}
-
-.selectedDate {
-	background-color: #8ed6ff;
-	color: white;
-}
-
-.content {
-	margin: 15px 0 0 0;
-	display: none;
-}
-
-.morning, .afternoon {
-	font-size: 15px;
-	font-weight: 500;
-	margin-bottom: 8px;
-}
-
-.afternoon {
-	margin-top: 10px;
-}
-
-.timeContainer button {
+.selectButton {
 	width: 23%;
 	font-size: 12px;
 	font-weight: 500;
@@ -215,29 +131,45 @@ a {
 	border: 1px solid #d6d6d6;
 }
 
-.timeUnavailable {
+.timeTitle {
+	font-size: 14px;
+	font-weight: 500;
+	margin-bottom: 8px;
+}
+
+.afternoon {
+	padding-top: 10px;
+}
+
+.todayTilte {
+	font-size: 15px;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+.unavailable {
 	color: #787878;
 	background-color: #ebebeb !important;
 }
 
-.selectedTime {
-	background-color: #8ed6ff !important;
-	color: white;
-	border: none;
+.content {
+	display: none;
 }
 
-#noteText {
-	width: 100%;
-	height: 120px;
-	border: 1px solid #d6d6d6; margin-top : 12px;
-	border-radius: 5px;
-	padding: 10px;
-	margin-top: 12px;
+.selectedButton {
+	background-color: #8ed6ff;
+	color: white;
+}
+
+.todayTimeIntro {
+	font-size: 14px;
+	font-weight: 400;
+	color: #787878; 
 }
 
 .finish {
 	width: 90%;
-	height: 80%;
+	height: 70%;
 	border-radius: 7px;
 	color: #787878;
 	background-color: #ebebeb;

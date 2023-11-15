@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="./css/qnaBoard.css">
+
 <script src="./js/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -34,6 +35,8 @@
 </div>
 <!-- <button id="hospitalMapButton" onclick="location.href='hospitalMap'">병원지도</button> -->
 
+<div class="space">
+	<div class="searchForm">
 	<form action="/searchWord" method="post" onsubmit="searchForm()">
 		<select name = "selectOption">
           <option value = "all" selected>제목+내용</option>
@@ -44,6 +47,8 @@
 			placeholder="검색 할 내용을 입력하세요">		
 		<button type="submit" class="xi-search xi-x"></button>
 	</form>
+</div>
+</div>
 
 
 
@@ -59,8 +64,8 @@
 <div id="qnaBoard" style="display:block;"> 
 <!-- <h1>QnA 게시판</h1> -->
 
-<button class="writeButton" onclick="confirmWriteQna()">작성하기</button>
-
+<div class="backGroundBar">
+	<div class="space">
 <select name ="selectDepartment" id="selectDepartment">
 		<option>진료과목</option>
           <option value = "소아과">소아과</option>
@@ -78,34 +83,44 @@
           <option value = "정신의학과">정신의학과</option>
        </select>	
 
+<button class="writeButton" onclick="confirmWriteQna()">작성하기</button>
+</div>
+       </div>
 
 <div id="qnaListContainer">
             <c:forEach items="${qnaList}" var="qna"> 
                 <a href="<c:url value='/qnaDetail'><c:param name='bno' value='${qna.bno}' /></c:url>">
                     <div class="list"> 
-                        <div class="title">${qna.btitle}</div>
-                        <div class="content">${qna.bcontent}</div>
-                        <c:if test="${qna.dpkind ne 'unknown'}">
+<div class="space">
+ <c:if test="${qna.dpkind ne 'unknown'}">
                             <div class="kind">${qna.dpkind}</div>
                         </c:if>
+                        <div class="title">${qna.btitle}</div>
+                        <div class="content">${qna.bcontent}</div>
+                       
                         <c:choose>
                             <c:when test="${qna.comment_count == 0}">
-                            <div class="wait">
-                                "답변 대기 중"
+                            <div class="wait"><img src="https://cdn-icons-png.flaticon.com/512/1686/1686823.png" alt="답변 대기 중 이미지" 
+                            style="width: 20px; height: auto;">
+                                답변 대기 중
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="count">답변 ${qna.comment_count}개</div>
+                                <div class="count"><img src="https://cdn-icons-png.flaticon.com/512/9616/9616817.png" alt="답변 완료 이미지" 
+                            style="width: 20px; height: auto;">
+                                ${qna.comment_count}개의 답변</div>
                             </c:otherwise>
                         </c:choose>
+                        </div>
                     </div>
+                     <div class="line"></div>
                 </a>
             </c:forEach>
-
 </div>
 
 </div>
 
+<div style="height: 9vh"></div>
 </main>
 <footer></footer>
 
@@ -124,7 +139,7 @@
     }
 </script>
 <script>
-    var maxLength = 30; // 최대 문자열 길이
+    var maxLength = 50; // 최대 문자열 길이
     var contentElements = document.querySelectorAll(".content");
 
     contentElements.forEach(function(contentElement) {
@@ -179,12 +194,15 @@ $(document).ready(function () {
         for (var i = 0; i < filteredQnaList.length; i++) {
             var qna = filteredQnaList[i];
             var listItem = document.createElement("div");
-            listItem.className = "list";
+            listItem.className = "filterList";
             listItem.innerHTML = "<a href='/qnaDetail?bno=" + qna.bno + "'>" +
-                "<div class='title'>" + qna.btitle + "</div>" +
+            "<div class='space'>" + 
+                "<div class='filterTitle'>" + qna.btitle + "</div>" +
                 "<div class='content'>" + qna.bcontent + "</div>" +
                 "<div class='kind'>" + qna.dpkind + "</div>" +
                 (qna.comment_count == 0 ? "답변 대기 중" : "<div class='count'>답변 " + qna.comment_count + "개</div>") +
+                "</div>" +
+                "<div class='line'></div>" +
                 "</div></a><br>";
             qnaListContainer.appendChild(listItem);
         }
@@ -238,5 +256,12 @@ function toggleBoard(boardType) {
     toggleBoardLogic(boardType);
 
   }
+  
+  
+//뒤로가기 버튼
+$(document).on("click", ".xi-angle-left", function(){
+	history.back();
+});
+
 </script>
 </html>

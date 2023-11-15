@@ -27,15 +27,18 @@
 			<div class="modal">
 				<div id="modalHeader">
 					<div>의사를 선택해주세요.</div>
-					<div href="../main">닫기</div>
+					<div onclick="location.href='../main'">X</div>
 				</div>
 				<div id="doctorWrapper">
 					<div style="height: 4vh;"></div>
 					<c:forEach var="doctor" items="${doctor }">
 						<div class="selectDoctor">
-							<div class="doctorName">의사 ${doctor.mname }</div>
-							<span class="dpKind">${doctor.dpkind }</span> <input
-								id="doctorRoomNum" type="hidden" value="${doctor.mno }">
+							<img alt="" src="${doctor.dimg }">
+							<div class="doctorName">
+								의사 ${doctor.mname }
+								<div class="dpKind">${doctor.dpkind }</div>
+							</div>
+							<input id="doctorRoomNum" type="hidden" value="${doctor.mno }">
 
 						</div>
 					</c:forEach>
@@ -107,53 +110,63 @@
 			} else {
 
 				//의사 선택후 채팅방 들어가기
-				$(document).on('click','.selectDoctor',function() {
-					//의사 mno값
-					let roomNum = $(this).children('#doctorRoomNum').val();
-					 $.ajax({
-					        type: "POST",
-					        url: "./alertDoctor",
-					        //방번호 & 요청하는 사람이름 보내주기
-					        data: {"roomNum": roomNum, "manme" : mid.value},
-					        success: function(response) {
-					            console.log("Data sent successfully:", response);
-					        },
-					        error: function(error) {
-					            console.error("Error sending data:", error);
-					        }
-					    });
-					
-					
-					ws = new WebSocket("ws://" + location.host + "/chatting/" + roomNum);
-					
-					//의사 에게 알림 보내주기
-					  
-					
-					$('.modal-wrapper').hide();
+				$(document)
+						.on(
+								'click',
+								'.selectDoctor',
+								function() {
+									//의사 mno값
+									let roomNum = $(this).children(
+											'#doctorRoomNum').val();
+									$.ajax({
+										type : "POST",
+										url : "./alertDoctor",
+										//방번호 & 요청하는 사람이름 보내주기
+										data : {
+											"roomNum" : roomNum,
+											"manme" : mid.value
+										},
+										success : function(response) {
+											console.log(
+													"Data sent successfully:",
+													response);
+										},
+										error : function(error) {
+											console.error(
+													"Error sending data:",
+													error);
+										}
+									});
 
-					ws.onmessage = function(msg) {
-						let data = JSON.parse(msg.data);
-						//누가 보냈는지 구분하기
-						let className = data.mid == mid.value ? 'me'
-								: 'other'
+									ws = new WebSocket("ws://" + location.host
+											+ "/chatting/" + roomNum);
 
-						//메세지 띄워주기
-						let item = "<div class='" + className + "'><div class='date'>"
-								+ data.date + "</div>";
-						item += "<div class='message'>";
-						if (data.mid != mid.value) {
-							item += "<span><b>" + data.mid
-									+ "</b></span><br>";
-						}
-						item += "<div id='content'>" + data.msg
-								+ "</div></div></div>";
+									//의사 에게 알림 보내주기
+									$('.modal-wrapper').hide();
 
-						talk.innerHTML += item;
+									ws.onmessage = function(msg) {
+										let data = JSON.parse(msg.data);
+										//누가 보냈는지 구분하기
+										let className = data.mid == mid.value ? 'me'
+												: 'other'
 
-						// 스크롤바 하단으로 이동
-						talk.scrollTop = talk.scrollHeight;
-					}
-				});
+										//메세지 띄워주기
+										let item = "<div class='" + className + "'><div class='date'>"
+												+ data.date + "</div>";
+										item += "<div class='message'>";
+										if (data.mid != mid.value) {
+											item += "<span><b>" + data.mid
+													+ "</b></span><br>";
+										}
+										item += "<div id='content'>" + data.msg
+												+ "</div></div></div>";
+
+										talk.innerHTML += item;
+
+										// 스크롤바 하단으로 이동
+										talk.scrollTop = talk.scrollHeight;
+									}
+								});
 			}
 
 			//enter눌러도 메세지 보내기

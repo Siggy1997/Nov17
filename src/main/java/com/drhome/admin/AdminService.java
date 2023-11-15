@@ -57,20 +57,21 @@ public class AdminService {
 		return adminDAO.adminInfo(map);
 	}
 
-	public List<Map<String, Object>> hospitalOpen(Map<String, Object> map) {
-		return adminDAO.hospitalOpen(map);
-	}
 
-	public int insertRegister(Map<String, Object> map) {
-		return adminDAO.insertRegister(map);
+	public int insertRegisterHos(Map<String, Object> map) {
+		return adminDAO.insertRegisterHos(map);
 	}
 
 	public List<Map<String, Object>> hList() {
 		return adminDAO.hList();
 	}
 
-	public int insertDoctor(Map<String, Object> map) {
-		return adminDAO.insertDoctor(map);
+	public List<Map<String, Object>> hospitalOpen(Map<String, Object> map) {
+		return adminDAO.hospitalOpen(map);
+	}
+
+	public int insertRegisterDoc(Map<String, Object> map) {
+		return adminDAO.insertRegisterDoc(map);
 	}
 
 	public int resultCh(Map<String, String> map) {
@@ -101,16 +102,16 @@ public class AdminService {
 		return adminDAO.newHospital(hno);
 	}
 
-	public Map<String, Object> realDetail(int hno) {
-		return adminDAO.realDetail(hno);
+	public Map<String, Object> realDetail(int rhno) {
+		return adminDAO.realDetail(rhno);
 	}
 
 	public List<Map<String, Object>> search(Map<String, Object> map) {
 		return adminDAO.search(map);
 	}
 
-	public List<Map<String, Object>> viewDoctor(int dno) {
-		return adminDAO.viewDoctor(dno);
+	public List<Map<String, Object>> viewDoctor(int rdno) {
+		return adminDAO.viewDoctor(rdno);
 	}
 
 	public List<Map<String, Object>> searchHos(Map<String, Object> map) {
@@ -119,6 +120,22 @@ public class AdminService {
 
 	public int deleteHos(int rhno) {
 		return adminDAO.deleteHos(rhno);
+	}
+
+	public Map<String, Object> detailDoctor(int rdno) {
+		return adminDAO.detailDoctor(rdno);
+	}
+
+	public int insertDoctor(Map<String, Object> map) {
+		return adminDAO.insertDoctor(map);
+	}
+
+	public int deleteDoctor(int rdno) {
+		return adminDAO.deleteDoctor(rdno);
+	}
+
+	public List<Map<String, Object>> newDoctor(int rdno) {
+		return adminDAO.newDoctor(rdno);
 	}
 
 	/*

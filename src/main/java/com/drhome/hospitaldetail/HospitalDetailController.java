@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller
+@Controller 
 public class HospitalDetailController {
 	@Autowired
 	private HospitalDetailService hospitalDetailService;
@@ -32,7 +32,8 @@ public class HospitalDetailController {
 		ArrayList<Map<String, Object>> doctorList = hospitalDetailService.findDoctorByHno(hno);
 
 		ArrayList<Map<String, Object>> reviewList = hospitalDetailService.findReviewByHno(hno);
-
+		
+		//그래프
 		Map<String, Object> reviewCount = hospitalDetailService.countReviewByRate(hno);
 
 		// 병원 평균 평점가져오기
@@ -110,7 +111,7 @@ public class HospitalDetailController {
 	@ResponseBody
 	@PostMapping("/unlike")
 	public String unlike(@RequestParam("hospitalname") String hname, HttpSession session) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>(); 
 		map.put("hname", hname);
 		map.put("mno", session.getAttribute("mno"));
 		hospitalDetailService.hospitalUnlike(map);

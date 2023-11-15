@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.drhome.hospitaldetail.HospitalDetailUtil;
+
 @Controller
 public class AppointmentController {
 	@Autowired
@@ -23,14 +25,48 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentUtil util;
 
-	
+	@Autowired
+	private HospitalDetailUtil hospitalDetailUtil;
+
 	@GetMapping("/appointmentToday/{hno}")
-	public String appointmentToday(@PathVariable int hno) {
-		System.out.println(hno);
+	public String appointmentToday(@PathVariable Map<String, Object> hno, Model model) {
+		// 병원 가져오기
+		Map<String, Object> hospital = appointmentService.findHospitalDeatilByHno(hno);
+		// 진료과 가져오기
+		String dayOfToday = hospitalDetailUtil.getDayOfWeek(hospitalDetailUtil.getDayOfWeek());
+		
+		System.out.println(hospital);
+	
+
+		// 오늘 시간 가져오기 
+		// 선택된 요일 조건문에 넣어서 오픈,엔드 시간 찾기 / util에서 시작 끝 시간을 30분씩 짜르기
+		if ((dayOfToday.equals("토요일") || dayOfToday.equals("일요일")) && (hospital.get("hholiday") + "").equals("1")) {
+			model.addAttribute("timeSlots",
+					util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hholidayendtime")));
+		} else if ((dayOfToday.equals("토요일") || dayOfToday.equals("일요일"))
+				&& (hospital.get("hholiday") + "").equals("0")) {
+			model.addAttribute("timeSlots", "");
+
+		} else if (dayOfToday.equals(hospital.get("hnightday"))) {
+			model.addAttribute("timeSlots",
+					util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hnightendtime")));
+
+		} else {
+			model.addAttribute("timeSlots",
+					util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hclosetime")));
+		}
+		//현재 시간 넣기 
+		model.addAttribute("nowTime",hospitalDetailUtil.getTime());
+		System.out.println(model.getAttribute("timeSlots"));
+		model.addAttribute("hospital", hospital);
+		model.addAttribute("hospitalDepartments", appointmentService.findHospitalDepartmentsByHno(hno));
+		System.out.println(model.getAttribute("hospitalDeaprtments"));
+		model.addAttribute("today", util.now.format(util.formatter));
+		model.addAttribute("dayOfToday", dayOfToday);
+		
 		return "/appointmentToday";
 	}
-	
-	
+
 	@GetMapping("/appointment/{hno}")
 	public String appointment(@PathVariable Map<String, Object> hno, Model model) {
 		// 병원 정보 가져오기
@@ -47,6 +83,14 @@ public class AppointmentController {
 		return "/appointment";
 	}
 
+	@PostMapping("/appointmentToday")
+	public String appointmentToday(@RequestParam Map<String, Object> data) {
+		appointmentService.appointmentTodayFinish(data);
+		System.out.println(data); 
+		return "redirect:/main";
+	}
+
+	
 	@PostMapping("/appointment")
 	public String appointment(@RequestParam Map<String, Object> data) {
 		appointmentService.appointmentFinish(data);

@@ -7,8 +7,10 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Find ID</title>
+<title>Find PW</title>
 <link href="./css/findPW.css" rel="stylesheet" />
+<link href="./css/aram.css" rel="stylesheet" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script src="./js/jquery-3.7.0.min.js"></script>
 
 <script type="text/javascript">
@@ -94,7 +96,6 @@
                             copyBtn.click(function() {
                                 const pwText = pw;
                                 copyToClipboard(pwText);
-                                alert("비밀번호가 클립보드에 복사되었습니다.");
                             });
                         }
 
@@ -119,24 +120,39 @@
             });//ajax 끝
 		}); //findIDBtn 끝
 	}); //function 끝
+	
+	$(document).on("click", "#copyPWBtn", function(){
+        $("#dh-modal-alert").addClass("active").fadeIn();
+        setTimeout(function() {
+            $("#dh-modal-alert").fadeOut(function(){
+                $(this).removeClass("active");
+            });
+        }, 1000);
+    });
+	
+	
 </script>
 
 </head>
 <body>
-	<header></header>
+	<header>
+		<a href="/login"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">비밀번호 찾기</div>
+		<div class="blank"></div>
+	</header>
 	
 	<!-- 본문내용 -->
 	<main>
-		<div class="center-circle-area">
+<!-- 		<div class="center-circle-area">
 			<div class="center-circle">
 				<div class="center-img">
 					<img alt="없음" src="/img/hospital2.png" onclick="location.href='/main'">
 				</div>
 			</div>
-		</div>	
-	
+		</div>	 -->
+	    <div class="main-area">
 		<div class="top-area">
-			<p class="top-title">비밀번호가 기억나지 않으세요? 🔐</p>
+			<p class="top-title">🔐 비밀번호가 기억나지 않으세요? </p>
 		</div>
 		<div class="input-area">
 			<p>이름</p>
@@ -157,9 +173,26 @@
 			<p id="findPWInfo2" class="info"></p>
 		</div>
 		<button class="button" type="button" id="findPWBtn">비밀번호 찾기</button>
-		<div class="bottom-area">
-			<div class="bottom"><a href="./login">&nbsp;&nbsp;로그인 하러가기</a></div>
+		<div class="bottom-area">	
+			<div class="bottom"><a href="/main">&nbsp;&nbsp;메인화면으로 가기</a></div>
+		</div>
 		</div>
 	</main>	
+	
+			<!-- 알람모달 -->
+	
+	<div id="dh-modal-alert">
+		<div class="dh-modal">
+			<div class="dh-modal-content">
+				<div class="dh-modal-title">
+					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					알림
+				</div>
+				<div class="dh-modal-text">아이디가 클립보드에 복사되었습니다.</div>
+			</div>
+		</div>
+		<div class="dh-modal-blank"></div>
+	</div>
+	
 </body>
 </html>

@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>Join</title>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link href="./css/join.css" rel="stylesheet" />
 <link href="/css/modal.css" rel="stylesheet" />
 <script src="./js/jquery-3.7.0.min.js"></script> 
@@ -332,6 +333,24 @@ $(function(){
 				          }//error끝
 				       });//mrrnCheck ajax끝        
 	});//joinMemberBtn끝
+	
+		 //모달 열릴 때 footer 숨기기
+		   $('#modal').on('show.bs.modal', function (e) {
+		       $('#joinMemberBtn').hide(); 
+		   });
+
+		   $('#modal').on('hidden.bs.modal', function (e) {
+		       $('#joinMemberBtn').show();
+		   });
+		   
+		   $('#modal2').on('show.bs.modal', function (e) {
+		       $('#joinMemberBtn').hide(); 
+		   });
+
+		   $('#modal2').on('hidden.bs.modal', function (e) {
+		       $('#joinMemberBtn').show();
+		   });
+	
 });//function끝
 
 </script>
@@ -368,18 +387,23 @@ function searchComAddr() {
 </script>
 </head>
 <body>
-	<header></header>
+	<header>
+		<a href="/login"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">회원가입</div>
+		<div class="blank"></div>
+	</header>
 
 	<!-- 본문내용 -->
 	<main>
-		<div class="center-circle-area">
+<!-- 		<div class="center-circle-area">
 			<div class="center-circle">
 				<div class="center-img">
 					<img alt="없음" src="/img/hospital2.png" onclick="location.href='/main'">
 				</div>
 			</div>
-		</div>
-	
+		</div> -->
+		
+	<div class="main-area">
 	<div class="top-area">
 		<p class="top-title">DR.Home 💊</p>
 		<p class="top-introduce">닥터홈에 오신 것을 환영합니다!</p>
@@ -458,14 +482,17 @@ function searchComAddr() {
 	<div class="input-area">
 		<p id="joinInfo" class="info"></p>
 	</div>
+	
+	 <div style="height: 9vh"></div>
+	
+	<footer> 
 		<button type="submit" id="joinMemberBtn">회원가입</button>
+    </footer>
 	</div> 
 	</form>
-	<div class="bottom-area">
-		<div class="bottom"><span>이미 닥터홈 회원이신가요?</span><a href="./login">&nbsp;&nbsp;로그인 하러 가기</a></div>
 	</div>
     </main> <!-- 컨테이너 끝 -->
-  
+
     
 	<!-- 모달1 start -->
 	<div class="modal" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
