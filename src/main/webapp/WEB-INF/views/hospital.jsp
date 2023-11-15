@@ -17,7 +17,7 @@
 	$(function(){
 		/* 뒤로가기 버튼 */
 		$(document).on("click", ".xi-angle-left", function(){
-			history.back();
+			location.href = '/search';
 		});
 		
 		let optionKeywordBox = '';
@@ -512,7 +512,7 @@
 		<!-- filter -->
 		<div class="filter">
 			<div class="filterGroup">
-				<button type="button" class="selectByLocal select"><span class="xi-my-location margin-right"></span> 위치</button>
+				<!-- <button type="button" class="selectByLocal select"><span class="xi-my-location margin-right"></span> 위치</button> -->
 				<button type="button" class="selectByAvailable select"><span class="xi-time-o margin-right"></span> 진료중</button>
 				<button type="button" class="selectByDepartment select">
 					<div class="xi-plus-square-o margin-right"></div> 
@@ -538,7 +538,7 @@
 		</div>
 		
 	<!-- list -->
-	<div class="nightCare">오늘 야간진료 병원</div>
+	<div class="nightCare"><div>오늘 야간진료 병원</div></div>
 	<div class="hospitalListContainerBox">
 		 <c:forEach items="${hospitalList}" var="row">
 		 	<div class="hospitalListContainer">
@@ -630,11 +630,12 @@
 		</c:forEach>
 		
 		<c:if test="${notTodayNightHospital.size() gt 0 }">
-		<div class="nightCare">다른 요일 야간진료 병원</div>
+		<div class="nightCare"><div>다른 요일 야간진료 병원</div></div>
 			<c:forEach items="${notTodayNightHospital}" var="row">
+					
 				<div class="hospitalListContainer">
-					<div class="hospitalList">
-						<div class="listContainer">
+					<div class="listContainer">
+						<div class="hospitalList">
 						<div class="hospitalStatus">
 						
 							<!-- 공휴일 -->

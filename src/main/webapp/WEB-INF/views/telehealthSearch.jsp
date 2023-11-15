@@ -44,10 +44,15 @@
 		
 		/* 진료과 선택했을 때 */
 		$(document).on("click", ".optionDepartment", function(){
+			$(".fixMenu").addClass("fixed");
 			$(this).addClass("selectOption");
 			$(".optionSymptom").removeClass("selectOption");
 			$(".seletedDepartmentBox").show();
 			$(".seletedSymptomBox").hide();
+			let offset = $(".seletedDepartmentBox").offset().top - (20 * window.innerHeight / 100);
+			 $("html, body").animate({
+			        scrollTop: offset
+			    }, 450);
 		});
 		
 		/* 진료과 검색하기 */
@@ -63,6 +68,10 @@
 			$(".optionDepartment").removeClass("selectOption");
 			$(".seletedDepartmentBox").hide();
 			$(".seletedSymptomBox").show();
+			let offset = $(".seletedSymptomBox").offset().top - (20 * window.innerHeight / 100);
+			 $("html, body").animate({
+			        scrollTop: offset
+			    }, 450);
 		});
 		
 		/* 증상 그룹별로 보여주기 */
@@ -130,22 +139,26 @@
 	
 	<main class="telehealthSearchContainer container">
 			
-			<!-- search -->
-			<div class="search">
-				<div class="searchInput">
-					<input placeholder="진료과, 증상, 의사를 검색하세요." name="keyword" id="keyword">
-					<div class="deleteSearch">
-						<i class="icon"></i>
+			<div class="fixed">
+				<!-- search -->
+				<div class="search">
+					<div class="searchInput">
+						<input placeholder="진료과, 증상, 의사를 검색하세요." name="keyword" id="keyword">
+						<div class="deleteSearch">
+							<i class="icon"></i>
+						</div>
 					</div>
+					<button class="searchButton"><img src="./img/search.png"></button>
 				</div>
-				<button class="searchButton"><img src="./img/search.png"></button>
+				
+				<!-- menu bar -->
+				<div class="selectedOption">
+					<div class="optionDepartment selectOption">과목</div>
+					<div class="optionSymptom">증상</div>
+				</div>
 			</div>
 			
-			<!-- menu bar -->
-			<div class="selectedOption">
-				<div class="optionDepartment selectOption">과목</div>
-				<div class="optionSymptom">증상</div>
-			</div>
+			<div id="placeHolderDiv" style="height: 10vh;"></div>
 			<!-- 진료과 -->
 			<div class="seletedDepartmentBox">
 				<div class="favoriteBox">
