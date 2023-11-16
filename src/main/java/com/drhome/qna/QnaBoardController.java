@@ -125,17 +125,17 @@ public class QnaBoardController {
 	public String searchWord(@RequestParam("searchWord") String searchWord,
 			@RequestParam("selectOption") String selectOption, Model model) {
 
-		if ("all".equals(selectOption)) {
+		if ("allOption".equals(selectOption)) {
 			List<Map<String, Object>> boardSearchData = qnaBoardService.boardSearchAll(searchWord);
 			model.addAttribute("boardSearchData", boardSearchData);
 		}
 
-		else if ("title".equals(selectOption)) {
+		else if ("titleOption".equals(selectOption)) {
 			List<Map<String, Object>> boardSearchTitleData = qnaBoardService.boardSearchTitle(searchWord);
 			model.addAttribute("boardSearchData", boardSearchTitleData);
 		}
 
-		else if ("content".equals(selectOption)) {
+		else if ("contentOption".equals(selectOption)) {
 			List<Map<String, Object>> boardSearchContent = qnaBoardService.boardSearchContent(searchWord);
 			model.addAttribute("boardSearchData", boardSearchContent);
 		}
@@ -335,16 +335,6 @@ public class QnaBoardController {
 	}
 	
 
-	@GetMapping("/selectDepartment")
-	@ResponseBody
-	public List<Map<String, Object>> selectDepartment(@RequestParam("department") String department, Model model) {
-	    // department 값을 사용하여 게시글 필터링 로직 수행
-	    List<Map<String, Object>> filteredQnaList = qnaBoardService.getQnaListByDepartment(department);
-
-		model.addAttribute("filteredQnaList", filteredQnaList);
-	    // 필터링된 게시글 목록을 JSON 형식으로 반환
-	    return filteredQnaList;
-	}
 
 
 }

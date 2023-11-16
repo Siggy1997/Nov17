@@ -43,7 +43,7 @@ public interface AdminDAO {
 
 	int resultCh(Map<String, String> map);
 
-	Map<String, Object> detail(int rhno);
+	List<Map<String, Object>> detail(int rhno);
 
 	List<Map<String, Object>> approvalHospital(Map<String, Object> map);
 
@@ -72,6 +72,10 @@ public interface AdminDAO {
 	int deleteDoctor(int rdno);
 
 	List<Map<String, Object>> newDoctor(int rdno);
+
+	int insertRegisterDocom(Map<String, Object> map);
+
+	Map<String, Object> detailOne(int rhno);
 
 	/* List<Map<String, Object>> hospitalList(int rhno); */
 

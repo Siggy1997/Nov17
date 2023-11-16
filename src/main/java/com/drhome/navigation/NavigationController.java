@@ -45,7 +45,6 @@ public class NavigationController {
 			conditions.put("sort", navigationUtil.getCheckConditions(ncgoto).get("sort"));
 			
 			ArrayList<Map<String, Object>> hospitalList = navigationService.findHospitalTop5(conditions);
-			System.out.println(hospitalList);
 			result.put("hospitalList", new JSONArray(hospitalList));
 		}
 
@@ -55,7 +54,6 @@ public class NavigationController {
 		result.put("nextQuestion", new JSONObject(nextQuestion));
 		result.put("nextChoices", new JSONArray(nextChoices));
 
-		System.out.println(result.toString());
 		return result.toString();
 	}
 }

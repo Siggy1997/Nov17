@@ -50,6 +50,10 @@ public class DocAdminService {
 		
 	}
 
+	public void updateNotification(Map<String, Object> map) {
+		docAdminDAO.updateNotification(map);
+	}
+	
 	public Map<String, Object> findHospitalByHno(Map<String, Object> map) {
 		return docAdminDAO.findHospitalByHno(map);
 	}
@@ -57,5 +61,6 @@ public class DocAdminService {
 	public Map<String, Object> findHospitalImg(int dno) {
 		return docAdminDAO.findHospitalImg(dno);
 	}
+
 	
 }
