@@ -80,6 +80,11 @@
 		UPDATE telehealth SET tdiagnosisdetail=#{tdiagnosisdetail}, tstatus=1 WHERE tno=#{tno};
 	</update>
 	
+	<insert id="updateNotification" parameterType="Map">
+		INSERT INTO notification (ntelehealthNoti, mno)
+		SELECT '1', mno FROM telehealth WHERE tno=#{tno};
+	</insert>
+	
 	<select id="findHospitalByHno" parameterType="Map" resultType="Map">
 	    SELECT TIME_FORMAT(hopentime, '%H:%i') as hopentime,
       	TIME_FORMAT(hclosetime, '%H:%i') as hclosetime,
