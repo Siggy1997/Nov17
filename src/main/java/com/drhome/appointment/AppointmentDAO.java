@@ -21,4 +21,8 @@ public interface AppointmentDAO {
 
 	void appointmentTodayFinish(Map<String, Object> data);
 
+	Map<String, Object> findAppointmentDetailByAno(int ano);
+
+	void pushtoAlert(Map<String, Object> data);
+
 }

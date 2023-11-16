@@ -34,11 +34,9 @@ public class AppointmentController {
 		Map<String, Object> hospital = appointmentService.findHospitalDeatilByHno(hno);
 		// 진료과 가져오기
 		String dayOfToday = hospitalDetailUtil.getDayOfWeek(hospitalDetailUtil.getDayOfWeek());
-		
-		System.out.println(hospital);
-	
 
-		// 오늘 시간 가져오기 
+
+		// 오늘 시간 가져오기
 		// 선택된 요일 조건문에 넣어서 오픈,엔드 시간 찾기 / util에서 시작 끝 시간을 30분씩 짜르기
 		if ((dayOfToday.equals("토요일") || dayOfToday.equals("일요일")) && (hospital.get("hholiday") + "").equals("1")) {
 			model.addAttribute("timeSlots",
@@ -55,15 +53,13 @@ public class AppointmentController {
 			model.addAttribute("timeSlots",
 					util.splitTimeRange((Date) hospital.get("hopentime"), (Date) hospital.get("hclosetime")));
 		}
-		//현재 시간 넣기 
-		model.addAttribute("nowTime",hospitalDetailUtil.getTime());
-		System.out.println(model.getAttribute("timeSlots"));
+		// 현재 시간 넣기
+		model.addAttribute("nowTime", hospitalDetailUtil.getTime());
 		model.addAttribute("hospital", hospital);
 		model.addAttribute("hospitalDepartments", appointmentService.findHospitalDepartmentsByHno(hno));
-		System.out.println(model.getAttribute("hospitalDeaprtments"));
 		model.addAttribute("today", util.now.format(util.formatter));
 		model.addAttribute("dayOfToday", dayOfToday);
-		
+
 		return "/appointmentToday";
 	}
 
@@ -86,16 +82,20 @@ public class AppointmentController {
 	@PostMapping("/appointmentToday")
 	public String appointmentToday(@RequestParam Map<String, Object> data) {
 		appointmentService.appointmentTodayFinish(data);
-		System.out.println(data); 
-		return "redirect:/main";
+		return "redirect:/completeAppointment/"+data.get("ano");
 	}
 
-	
 	@PostMapping("/appointment")
-	public String appointment(@RequestParam Map<String, Object> data) {
-		appointmentService.appointmentFinish(data);
-		System.out.println(data);
-		return "redirect:/main";
+	public String appointment(@RequestParam Map<String, Object> data) { 
+		appointmentService.appointmentFinish(data); 
+		return "redirect:/completeAppointment/" + data.get("ano");
+	}
+ 
+	@GetMapping("/completeAppointment/{ano}")
+	public String completeAppointment(@PathVariable int ano, Model model) {
+		Map<String, Object> appointment = appointmentService.findAppointmentDetailByAno(ano);
+		model.addAttribute("appointment", appointment); 
+		return "/completeAppointment";
 	}
 
 	@ResponseBody
@@ -114,8 +114,6 @@ public class AppointmentController {
 		JSONObject json = new JSONObject();
 		// 예약된 시간 넣기
 		json.put("checkTime", checkTime);
-		System.out.println(data.get("date"));
-		System.out.println(util.now);
 		// 오늘 날짜 클릭시 시간 안보이고 진료 예약 으로 보내기
 		if (data.get("date").equals(util.now.format(util.formatter))) {
 			json.put("timeSlots", "오늘");
@@ -138,7 +136,6 @@ public class AppointmentController {
 			}
 
 		}
-		System.out.println(json.toString());
 
 		return json.toString();
 	}

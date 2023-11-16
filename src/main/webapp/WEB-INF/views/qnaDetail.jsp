@@ -8,21 +8,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-	content="initial-scale=1, width=device-width, user-scalable=no" />
 <script src="./js/jquery-3.7.0.min.js"></script>
-
 <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
-
 <link rel="stylesheet" href="./css/qnaDetail.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-
+	
 
 <title>Insert title here</title>
 </head>
 <body>
-
 	<%@ include file="loginAlert.jsp"%>
 	
 <header>
@@ -143,8 +138,14 @@
 	
 				<textarea rows="5" cols="13" name="ccontent" id="ccontent"
 					style="display: none;"></textarea>
-
 			</div>
+			<input type="hidden" name="cdate" id="cdate"> <input
+				type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
+			<button type="button" id="cancelAnswerButton">취소</button>
+			<button type="submit" id="submitAnswerButton">완료</button>
+		</form>
+	</div>
+	</div>
 
 
 	<div class="answerTitle"><div class="space">의료인 답변</div></div>
@@ -182,30 +183,11 @@
 				<div class="hospital">${doctor.hname}</div>
 				</div>
 				</div>
-
 				</div>
-			</div>
-
-			<c:forEach items="${doctorInfo}" var="doctor">
-				<c:if test="${doctor.dno eq answer.dno}">
-					<div class="space">
-						<div class="doctor"
-							onclick="location.href='/doctorDetail/${doctor.dno}'">
-							<div class="cinfoLine_top"></div>
-							<img class="doctorImg" src="${doctor.dimg}" alt="의사 이미지"
-								height="75">
-							<div class="doctorInfo">
-								<div class="doctorName">${doctor.dname}의사</div>
-								<div class="doctorDpkind">${doctor.dpkind}</div>
-								<div class="hospital">${doctor.hname}</div>
-							</div>
-						</div>
-					</div>
-					<div class="cinfoLine_bottom"></div>
-				</c:if>
+				<div class="cinfoLine_bottom"></div>
+				 </c:if>
 			</c:forEach>
 		</c:forEach>
-
 
 
 <!-- 로그인 알림 -->
@@ -232,7 +214,6 @@
 <div style="height: 9vh"></div>
 </main>
 </body>
-
 	<script>
 		//날짜, 시간 변환하기
 		function updateDate(element, dateString) {
@@ -270,7 +251,6 @@
 			});
 		});
 
-
 		
 		 const answerToggleButton = document.getElementById('answerToggleButton');
 
@@ -290,7 +270,6 @@
 		            }
 		        });
 		    }
-
 
 
 		// 취소 버튼 클릭 시 답변 입력창 가리기 
@@ -336,7 +315,6 @@
 
 
 
-
 		// 신고 모달 닫기 버튼 클릭 시 모달 닫기
 		closeModal.addEventListener("click", function() {
 			document.getElementById("reportModal").style.display = "none";
@@ -348,36 +326,34 @@
 				document.getElementById("reportModal").style.display = "none";
 			}
 		});
-
+		
+		
+		
 		//찜버튼 유효성검사
-
 		document.getElementById("dibsButtonFalse").addEventListener("click", function (event) {
     const mno = "${mno}";
 
     if (mno === null || mno === undefined || mno === "") {
-        event.preventDefault();
-
+    	
+    	event.preventDefault();
         $(".dh-modal-wrapper").show();
     }
 });
 		
 		// 이름 익명처리
-
 		document.addEventListener('DOMContentLoaded', function() {
-			var mnameElements = document.getElementsByClassName('mname');
+		    var mnameElements = document.getElementsByClassName('mname');
+		    
+		    for (var i = 0; i < mnameElements.length; i++) {
+		        var originalText = mnameElements[i].innerText;
 
-			for (var i = 0; i < mnameElements.length; i++) {
-				var originalText = mnameElements[i].innerText;
-
-				if (originalText.length >= 2) {
-					var shortenedText = originalText.charAt(0)
-							+ 'O'.repeat(originalText.length - 1);
-					mnameElements[i].innerText = shortenedText;
-
-				}
-			}
+		        if (originalText.length >= 2) {
+		            var shortenedText = originalText.charAt(0) + 'O'.repeat(originalText.length - 1);
+		            mnameElements[i].innerText = shortenedText;
+	
+		        }
+		    }
 		});
-
 		
 		
 			//로그인 모달
@@ -406,7 +382,6 @@
 			    });
 			});
 	</script>	
-
 
 
 </html>

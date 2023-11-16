@@ -28,7 +28,6 @@ public class ChattingController {
 	
 	@PostMapping("/alertDoctor")
 	public String alertDoctor(@RequestParam Map<String, Object> data) {
-		System.out.println(data);
 		chattingDAO.alertDoctor(data);
 		return "";
 	}

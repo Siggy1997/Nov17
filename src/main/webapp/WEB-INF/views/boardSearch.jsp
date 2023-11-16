@@ -10,7 +10,6 @@
 	content="initial-scale=1, width=device-width, user-scalable=no" />
 <script src="./js/jquery-3.7.0.min.js"></script>
 
-<meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
 
 <link rel="stylesheet" href="./css/boardSearch.css">
 <link rel="stylesheet"

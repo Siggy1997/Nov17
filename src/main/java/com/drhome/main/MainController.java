@@ -31,10 +31,8 @@ public class MainController {
 		if (session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
 			List<Map<String, Object>> notification = mainService.getNotification(session.getAttribute("mno"));
 			Map<String, Object> countNotification = mainService.countNotification(session.getAttribute("mno"));
-			System.out.println(countNotification);
 			model.addAttribute("notification", notification);
 			model.addAttribute("countNotification", countNotification);
-			System.out.println(notification);
 		}
 		
 		// 진료과별 모달
@@ -51,7 +49,6 @@ public class MainController {
 	@PostMapping("/point")
 	public String point(@RequestParam Map<String, Object> data) {
 		mainService.raisePointByQuiz(data);
-		System.out.println("!!!");
 		return "redirect:/main";
 	}
 
@@ -59,7 +56,6 @@ public class MainController {
 	@ResponseBody
 	@PostMapping("updateNotificationNum")
 	public String updateNotificationNum(@RequestParam("nno") int nno) {
-		System.out.println("!!!!!!!!!!!!!!!" + nno);
 		mainService.updateNotificationNum(nno);
 
 		return "";
@@ -70,7 +66,6 @@ public class MainController {
 		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
 			Map<String, Object> userInfo = mainService.userInfo(session.getAttribute("mno"));
 			model.addAttribute("userInfo", userInfo);
-			System.out.println(userInfo);
 		}
 		return "/menu";
 	}

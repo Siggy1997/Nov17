@@ -27,29 +27,10 @@
 		let keyword1;
 		let keyword2;
 
-		$('.hospitalInfo').find('.xi-star-o').click(function() {
-			rate = parseInt($(this).children('#rate').val());
-			for (let i = 1; i <= rate; i++) {
-				$('.star' + i).addClass('xi-star')
-				$('.star' + i).removeClass('xi-star-o')
-			}
-			;
-			for (let i = (rate + 1); i <= 5; i++) {
-				$('.star' + i).addClass('xi-star-o')
-				$('.star' + i).removeClass('xi-star')
-			}
-			;
-			slideUpAndShrink();
-			setTimeout(function() {
-				$('.goUp').show();
-				$('#ask').remove()
-				$('.totalDoctor').show();
-				$('#finish').show();
-			}, 700);
-		});
+	
 
 		$('.xi-star-o').click(function() {
-
+			$('.totalDoctor').show();
 			rate = parseInt($(this).children('#rate').val());
 			for (let i = 1; i <= rate; i++) {
 				$('.star' + i).addClass('xi-star')
@@ -168,11 +149,6 @@
 	<input id="hno" type="hidden" value="${parameter.hno }">
 
 	<main class="total container">
-		<div class="hospitalInfo">
-			<img alt=""
-				src="https://cdn0.iconfinder.com/data/icons/medical-flat-20/58/006_Hospital-1024.png">
-			<div id="hospitalName">
-				<span>${hospital.hname }</span>
 
 				<div class="selectStars">
 					<c:forEach var="i" begin="1" end="5">

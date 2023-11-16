@@ -15,13 +15,40 @@
 	href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script
 	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 <script type="text/javascript">
 	$(function() {
 		let ncgoto = 0;
 		let item = '';
 		let container = document.getElementById('navigationContainer');
 		
-		//enter눌러도 메세지 보내기
+		
+		 $(window).scroll(function() {
+		        var scrollPosition = $(window).scrollTop();
+		        var divPosition = $('main').offset().top-(8 * window.innerHeight / 100);
+
+		        if (scrollPosition >= divPosition) {
+		            $('header').css('background-color', 'white');
+		            $('#notificationIcon').attr('src', './img/mainNotification.png');
+		            $('#hamburgerIcon').attr('src', './img/mainHamburger.png');
+
+		        } else {
+		            $('header').css('background-color', 'transparent');
+		            $('#notificationIcon').attr('src', './img/mainNotificationWhite.png');
+		            $('#hamburgerIcon').attr('src', './img/mainHamburgerWhite.png');
+		        }
+		    });
+		 
+		
+
+		 
+		 $('#hamburgerIcon, .ham-close').click(function(){
+			 $('.menuContainer').toggleClass('openMenu');
+			 $('.menuSubContainer').toggle(250);
+			 
+		 })
+		 
+		 //enter눌러도 메세지 보내기
 		$('#inputSearch').keyup(function(a) {
 			if (a.keyCode === 13) {
 				send();
@@ -143,7 +170,6 @@
 					} else if (ncgoto >= 29 && ncgoto <= 40) {
 						item += "<div class='choices'>"
 						for (let i = 0; i < hospitalList.length; i++) {
-							alert(i)
 							let hospital = hospitalList[i];
 							if(hospital.reviewAverage == null || hospital.reviewAverage == ''){
 								hospital.reviewAverage = '리뷰가 없습니다'
@@ -272,7 +298,7 @@
 		
 		function send(){
 			let inputValue =$('#inputSearch').val();
-			let form = $('<form></form>');
+			let form = $('<form></form>'); 
 			form.attr("action","./search");
 			form.attr("method", "post");
 			form.append($("<input>",{type:'hidden', name:"keyword", value:inputValue}));
@@ -280,16 +306,47 @@
 			form.submit();
 		}
 		
-		
+				$(function() {
+					/* 로그인 창 */
+					 if(${sessionScope.mno == null || sessionScope.mno == ''}){
+						$(".ham-menu").addClass("ham-noLogin");
+					} else {
+						$(".ham-menu").removeClass("ham-noLogin");
+					}
+				});
 	});
+	
+	/* 로그인 확인 */
+	function link(url) {
+		 if(${sessionScope.mno == null || sessionScope.mno == ''}){
+			$(".dh-modal-wrapper").show();
+		} else {
+			$(".dh-modal-wrapper").hide();
+			location.href = "./" + url;
+		}
+	}
+
+	function noCheckLink(url) {
+		location.href = "./" + url;
+	}
+	
 </script>
 </head>
 <body>
 	<%@ include file="loginAlert.jsp"%>
 
+	<%@ include file="menu.jsp"%>
+	<%@ include file="loginAlert.jsp"%>
+
 	<header>
-		<img id="notificationIcon" alt="" src="./img/mainNotification.png">
-		<img id="hamburgerIcon" alt="" src="./img/mainHamburger.png">
+		<div>
+			<img id="logo" alt="로고" src="./img/DrHome_logo_text.png">
+		</div>
+		<div>
+			<img id="notificationIcon" alt=""
+				src="./img/mainNotificationWhite.png"> <img id="hamburgerIcon"
+				alt="" src="./img/mainHamburgerWhite.png">
+		</div>
 	</header>
 
 
@@ -486,7 +543,7 @@
 									type="hidden" name="nno" value="${noti.nno }"></a>
 							</c:when>
 
-							<c:when test="${noti.napoointmentNoti ne null }">
+							<c:when test="${noti.nappointmentNoti ne null }">
 								<a class="messageAlert"
 									href="./medicalHistory/${sessionScope.mno }">
 									<div class="message">진료예약이 완료되었습니다.</div>
@@ -532,6 +589,8 @@
 			<div class="dh-modal-blank"></div>
 		</div>
 
+		<!-- 메뉴 슬라이드 -->
+
 
 
 	</main>
@@ -543,28 +602,28 @@
 
 
 	<footer>
-		<a href="./main">
+		<a class="footer20" href="./main">
 			<div class="footerIcon now">
 				<img alt="없음" src="/img/mainHomeafter.png">
 				<p>홈</p>
 			</div>
-		</a> <a href="./search">
+		</a> <a class="footer20" href="./search">
 			<div class="footerIcon">
 				<img alt="없음" src="/img/mainSearchBefore.png">
 				<p>검색</p>
 			</div>
-		</a> <a href="./hospitalMap">
+		</a> <a class="footer20 footerMap" href="./hospitalMap">
 			<div class="footerMain">
 				<div class="footerIcon" id="mapIcon">
 					<img alt="없음" src="/img/mainMap.png">
 				</div>
 			</div>
-		</a> <a href="./qnaBoard">
+		</a> <a class="footer20" href="./qnaBoard">
 			<div class="footerIcon">
 				<img alt="없음" src="/img/mainQnAbefore.png">
 				<p>고민 상담</p>
 			</div>
-		</a><a class="chatting">
+		</a><a class="footer20 chatting">
 			<div class="footerIcon">
 				<img alt="없음" src="/img/myChatting3.png">
 				<p>실시간 채팅</p>
