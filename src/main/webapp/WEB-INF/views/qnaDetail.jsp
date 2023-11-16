@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="./js/jquery-3.7.0.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
 <link rel="stylesheet" href="./css/qnaDetail.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -18,9 +18,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<%@ include file="loginAlert.jsp"%>
+	
 <header>
-    <i class="xi-angle-left xi-x"></i>
+     <i class="xi-angle-left xi-x" onclick="location.href = '/qnaBoard'"></i>
     <div class="header title">상담하기</div>
     <div class="blank"></div>
 </header>
@@ -36,7 +37,7 @@
 		<div class="bdate">${qnaQuestion.bdate}</div>
 		
 			<c:if test="${qnaQuestion.mno ne mno}">
-		<i class="xi-minus-circle-o xi-x" id="reportButton"></i>
+		<img id="reportButton" src='/img/siren.png'/>
 	</c:if>
 		
 
@@ -51,12 +52,11 @@
 
 
 
-
+<!-- 신고하기 모달 -->
 	<div id="reportModal" class="modal">
 		<div class="modal-content">
 			<span class="close" id="closeModal">&times;</span>
 			<h2>신고하기</h2>
-
 			<form action="/reportPost" method="post" id="reportForm">
 				<input type="hidden" name="rpdate" id="rpdate"> <input
 					type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
@@ -106,10 +106,26 @@
 	<c:if test="${qnaQuestion.mno eq mno}">
 		<form action="deleteQnaQuestion" method="post" id="deleteQnaQuestion">
 			<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
-			<i class="xi-trash-o xi-x" id="deleteButton" class="bdelete" onclick="deleteConfirm()"></i>
+			<button class="xi-trash-o xi-x" id="deleteButton" class="bdelete"></button>
 		</form>
 	</c:if>
 </div>
+
+
+<!-- 삭제 확인 모달 -->
+	<div class="del-modal-wrapper">
+		<div class="del-modal-delete">
+			<div class="del-modal-header">
+				<div class="del-modal-body">
+					<span class="h3">삭제하시겠습니까?</span>
+				</div>
+			</div>
+			<div class="del-modal-footer">
+				<button class="del-modal-button-no">아니오</button>
+				<button class="del-modal-button-yes">예</button>
+			</div>
+		</div>
+     </div>
 
 
 	<c:if test="${not empty dno}">
@@ -141,15 +157,17 @@
 			<input type="hidden" name="doctorNum" value="${answer.dno}">
 			
 			<div class="cdetail">${answer.ccontent}</div><br>
+			<div class="cContainer">
 			<div class="cdate">${answer.cdate}</div>
 			
 			<c:if test="${answer.dno eq dno}">
 				<form action="deleteQnaAnswer" method="post" id="deleteQnaAnswer">
 					<input type="hidden" name="cno" id="cno" value="${answer.cno}">
 					<input type="hidden" name="bno" id="bno" value="${qnaQuestion.bno}">
-					<button class="cdelete" onclick="deleteConfirm()">삭제하기</button>
+					<button class="xi-trash-o xi-x" id="cDeleteButton" class="cdelete"></button>
 				</form>
 			</c:if>
+					</div>
 	</div>
 	</div>
 	
@@ -172,10 +190,30 @@
 		</c:forEach>
 
 
+<!-- 로그인 알림 -->
+	<div class="dh-modal-wrapper">
+		<div class="dh-modal-login">
+			<div class="dh-modal-header">
+				<img src="https://cdn-icons-png.flaticon.com/512/7960/7960597.png">
+				<div class="dh-modal-body">
+					<span class="h4">로그인 후에<br> 이용하실 수 있는 서비스입니다.</span>
+					<span class="h6">닥터홈 로그인 후 많은 서비스를 경험해 보세요.</span>
+				</div>
+			</div>
+			<div class="dh-modal-footer">
+				<button class="dh-modal-button dh-close-modal">취소</button>
+				<button class="dh-modal-button" onclick="location.href='/login'">로그인</button>
+			</div>
+		</div>
+     </div>
+
+
+
+
+
 <div style="height: 9vh"></div>
 </main>
-<footer></footer>
-
+</body>
 	<script>
 		//날짜, 시간 변환하기
 		function updateDate(element, dateString) {
@@ -201,7 +239,7 @@
 		}
 
 		document.addEventListener("DOMContentLoaded", function() {
-			// bdate, cdate에 적용
+		
 			const bdateElements = document.querySelectorAll(".bdate");
 			bdateElements.forEach(function(element) {
 				updateDate(element, element.textContent);
@@ -216,12 +254,12 @@
 		
 		 const answerToggleButton = document.getElementById('answerToggleButton');
 
-		    if (answerToggleButton) { // 버튼이 존재하는 경우에만 이벤트 리스너 추가
+		    if (answerToggleButton) { 
 		        answerToggleButton.addEventListener('click', function () {
 		            const textarea = document.getElementById('ccontent');
 		            const formContainer = document.getElementById('formContainer');
 
-		            if (textarea && formContainer) { // 요소가 존재하는 경우에만 동작
+		            if (textarea && formContainer) { 
 		                if (textarea.style.display === 'none') {
 		                    textarea.style.display = 'block';
 		                    formContainer.style.display = 'block';
@@ -234,7 +272,7 @@
 		    }
 
 
-		// "취소" 버튼 클릭 시 답변 입력창 가리기 
+		// 취소 버튼 클릭 시 답변 입력창 가리기 
 		document
 				.getElementById('cancelAnswerButton')
 				.addEventListener(
@@ -248,21 +286,20 @@
 			if (confirm("삭제하시겠습니까?")) {
 				return true;
 			} else {
-				event.preventDefault(); // 기본 제출 동작을 막음
+				event.preventDefault();
 			}
 		}
 
-		// 버튼 클릭 시 모달 열기
+		
+		// 신고 버튼 클릭 시 모달 열기
 		document.getElementById("reportButton").addEventListener("click", function() {
 		   
 			const mno = "${mno}"; 
-		    
-		    
+		  
 		    if (mno === null || mno === undefined || mno === "") {
-		        // 로그인 창으로 이동
-		        if (confirm("로그인 한 사용자만 이용할 수 있습니다. 로그인 하시겠습니까?")) {
-		            window.location.href = "/login"; 
-		        }
+		    	
+		    	$(".dh-modal-wrapper").show();
+		      
 		        } else {
 		        const reportCount = ${reportCount};
 		        
@@ -274,13 +311,16 @@
 		    }
 		    
 		});
+		
 
-		// 닫기 버튼 클릭 시 모달 닫기
+
+
+		// 신고 모달 닫기 버튼 클릭 시 모달 닫기
 		closeModal.addEventListener("click", function() {
 			document.getElementById("reportModal").style.display = "none";
 		});
 
-		// 모달 외부 클릭 시 모달 닫기
+		// 신고 모달 외부 클릭 시 모달 닫기
 		window.addEventListener("click", function(event) {
 			if (event.target == document.getElementById("reportModal")) {
 				document.getElementById("reportModal").style.display = "none";
@@ -296,12 +336,11 @@
     if (mno === null || mno === undefined || mno === "") {
         event.preventDefault();
 
-        if (confirm("로그인 한 사용자만 이용할 수 있습니다. 로그인 하시겠습니까?")) {
-            window.location.href = "/login";
-        }
+        $(".dh-modal-wrapper").show();
     }
 });
 		
+		// 이름 익명처리
 		document.addEventListener('DOMContentLoaded', function() {
 		    var mnameElements = document.getElementsByClassName('mname');
 		    
@@ -316,12 +355,33 @@
 		    }
 		});
 		
-		// 뒤로가기 버튼
-		$(document).on("click", ".xi-angle-left", function(){
-			history.back();
-		});
 		
-	</script>
+			//로그인 모달
+			$(".dh-modal-wrapper").hide();
+			$(document).on("click", ".dh-close-modal", function(){
+				$(".dh-modal-wrapper").hide();
+			});
 
-</body>
+
+			
+			//질문 삭제 모달
+			$(".del-modal-wrapper").hide();
+
+			$(document).on("click", "#deleteButton", function(event) {
+			    event.preventDefault();
+			    
+			    $(".del-modal-wrapper").show();
+
+			    $(".del-modal-button-yes").on("click", function() {
+			        
+			        $("#deleteQnaQuestion").submit();
+			    });
+
+			    $(document).on("click", ".del-modal-button-no", function() {
+			        $(".del-modal-wrapper").hide();
+			    });
+			});
+	</script>	
+
+
 </html>

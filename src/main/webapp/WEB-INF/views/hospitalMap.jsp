@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <link rel="stylesheet" href="./css/hospitalMap.css">
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -22,37 +23,37 @@
 
 <title>Insert title here</title>
 
-  <style>
-
-
-        
+<style>
 </style>
 
 </head>
 <body>
 
-<header>
-    <div class="xi-angle-left xi-x"></div>
- 
-    <div id="searchContainer">
-        <input type="text" id="searchInput" placeholder="병원 이름 검색">
-        <button id="searchButton">검색</button>
-    </div>
-</header>
-<main>
+	<header>
+		<div class="xi-angle-left xi-x"></div>
+
+		<div id="searchContainer">
+			<input type="text" id="searchInput" placeholder="병원 이름 검색">
+			<button id="searchButton">검색</button>
+		</div>
+	</header>
+	<main>
 
 
- <button onclick="location.href='/pharmacyMap'" id="pharmacyMap">약국<br>지도</button>
+		<button onclick="location.href='/pharmacyMap'" id="pharmacyMap">
+			약국<br>지도
+		</button>
 
- <button onclick="refreshPage()" id="currentLocation" class="xi-gps xi-x"></button>
- 
-<div class="map_wrap">
-    <div id="map"></div>
-<ul id="searchResults"></ul>   
-</div>
+		<button onclick="refreshPage()" id="currentLocation"
+			class="xi-gps xi-x"></button>
 
-<div style="height: 9vh"></div>
-</main>
+		<div class="map_wrap">
+			<div id="map"></div>
+			<ul id="searchResults"></ul>
+		</div>
+
+		<div style="height: 9vh"></div>
+	</main>
 </body>
 
 <script>
@@ -87,10 +88,11 @@ function refreshPage() {
 </script>
 
 
-	
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485&libraries=services"></script>
-		<script type="text/javascript"
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485"></script>
+
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485&libraries=services"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80e6cca959046a32e36bfd9340bd8485"></script>
 
 
 
@@ -390,6 +392,15 @@ document.addEventListener("DOMContentLoaded", function () {
             // 영업 상태를 확인
             var status = checkBusinessStatus(opentime, closetime, nightday, nightendtime, hHoliday, hHolidayEndTime);
 
+            var dotClass = "";
+
+            if (status === "진료중") {
+                dotClass = "availableDot";
+            } else {
+                dotClass = "unavailableDot";
+            }
+            
+            
             // 컨테이너에 정보 추가
             var dynamicContainer = document.getElementById("infoDiv");
             dynamicContainer.innerHTML =
@@ -406,6 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 '                <div class="ellipsis">' + address + '</div>' +
                 '                <div class="time">' + opentime + "~" + (nightday == currentDay ? nightendtime : closetime) + '</div>' +
                 '            </div>' +
+                '            <div class="' + dotClass + '">' + "●" + '</div>' +
                 '                <div class="status">' + status + '</div>' +
                 '        </div>' +
                 '    </a></div>' +       
@@ -443,7 +455,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     var imageSrc = '/img/hospitalMarker.png', // 마커이미지의 주소입니다    
                         imageSize = new kakao.maps.Size(32, 34.5), // 마커이미지의 크기입니다
-                        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                        imageOption = {offset: new kakao.maps.Point(20, 50)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
            
                     
                  // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다

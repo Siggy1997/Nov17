@@ -60,6 +60,9 @@ main {
 	width: 21px;
 }
 
+.searchForm {
+	margin-top: 15%;
+}
 
 .space {
 	width : 90%;
@@ -67,7 +70,7 @@ main {
 }
 
 .line {
-	border: 1px solid #e7e7e7; 
+	border: 0.5px solid #e7e7e7; 
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -100,38 +103,51 @@ select[name="selectOption"] {
 }
 
 #boardButtonsContainer {
+	width: 100%;
+	height: 7vh;
+	background-color: white;
+	z-index: 999;
 	display: flex;
-	justify-content: space-between; /* 자식 요소들을 좌우로 나란히 정렬 */
+	position: fixed;
+	top: 8%;
+	
 }
 
-#qnaBoardBoldButton, #freeBoardBoldButton, #qnaBoardButton,
-	#freeBoardButton {
-	flex: 1; /* 자식 요소가 동일한 너비를 가지도록 설정 */
-	margin-right: 10px; /* 요소 사이 간격 설정 */
+#qnaBoardBoldButton, #freeBoardBoldButton,
+#qnaBoardButton, #freeBoardButton {
+   
+    border: none; 
 }
+
 
 #qnaBoardBoldButton, #freeBoardBoldButton {
-	background: white;
-	border: none;
-	border-bottom: 3px solid black;
-	box-shadow: none;
+	height: 7vh;
+	text-align: center;
+	display: flex;
+	font-size: 17px;
+	font-weight: 600;
+	color: black;
+	border-bottom: 2px solid black;
+	justify-content: center;
+	align-items: center;
 	width: 50%;
-	height: 50%;
-	padding: 2%;
-	font-weight: bold;
-	font-size: medium;
+	background-color: white;
+	
 }
 
 #qnaBoardButton, #freeBoardButton {
-	background: white;
-	border: none;
-	border-bottom: 1px solid lightgray;
-	font: lightgray;
-	box-shadow: none;
+	height: 7vh;
+	text-align: center;
+	display: flex;
+	font-size: 17px;
+	font-weight: 600;
+	color: #BFBFBF;
+	border-bottom: 2px solid #E0E0E0;
+	justify-content: center;
+	align-items: center;
 	width: 50%;
-	height: 50%;
-	padding: 2%;
-	font-size: medium;
+	background-color: white;
+	
 }
 
 .bcontent{
