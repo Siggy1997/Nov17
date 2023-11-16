@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <script src="../js/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet" href="../css/main.css">
 <link rel="stylesheet"
@@ -15,18 +15,11 @@
 	href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script
 	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
 <script type="text/javascript">
 	$(function() {
 		let ncgoto = 0;
 		let item = '';
 		let container = document.getElementById('navigationContainer');
-		
-		
-		$(document).on("click", ".dh-close-modal", function(){
-			$('.dh-modal-wrapper').hide();
-		});
-
 		
 		//enter눌러도 메세지 보내기
 		$('#inputSearch').keyup(function(a) {
@@ -292,7 +285,7 @@
 </script>
 </head>
 <body>
-
+	<%@ include file="loginAlert.jsp"%>
 
 	<header>
 		<img id="notificationIcon" alt="" src="./img/mainNotification.png">
@@ -524,25 +517,6 @@
 			<div id="countNotification">${countNotification.countNoti}</div>
 		</c:if>
 
-
-
-		<!-- 로그인알림차 모달 -->
-		<div class="dh-modal-wrapper" style="display: none">
-			<div class="dh-modal-login">
-				<div class="dh-modal-header">
-					<img src="https://cdn-icons-png.flaticon.com/512/7960/7960597.png">
-					<div class="dh-modal-body">
-						<span class="h4">로그인 후에<br> 이용하실 수 있는 서비스입니다.
-						</span> <span class="h6">닥터홈 로그인 후 많은 서비스를 경험해 보세요.</span>
-					</div>
-				</div>
-				<div class="dh-modal-footer">
-					<button class="dh-modal-button dh-close-modal">취소</button>
-					<button class="dh-modal-button" onclick="location.href='/login'">로그인</button>
-				</div>
-			</div>
-		</div>
-
 		<!-- 경고창 알람 -->
 		<div id="dh-modal-alert">
 			<div class="dh-modal">
@@ -570,14 +544,14 @@
 
 	<footer>
 		<a href="./main">
-			<div class="footerIcon">
+			<div class="footerIcon now">
 				<img alt="없음" src="/img/mainHomeafter.png">
 				<p>홈</p>
 			</div>
-		</a> <a href="./main">
+		</a> <a href="./search">
 			<div class="footerIcon">
-				<img alt="없음" src="/img/mainDocbefore.png">
-				<p>진료 내역</p>
+				<img alt="없음" src="/img/mainSearchBefore.png">
+				<p>검색</p>
 			</div>
 		</a> <a href="./hospitalMap">
 			<div class="footerMain">
@@ -596,51 +570,52 @@
 				<p>실시간 채팅</p>
 			</div>
 		</a>
-
 	</footer>
-	
+
 	<!-- 진료과/증상 모달 -->
-	<div class="modal fade symptomModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-            <!-- 모달 헤더 -->
-            <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">
-	               	<button type="button" class="modalDepartment">진료과</button>
-	               	<button type="button" class="modalSymptom">증상·질환</button>
-               </h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-			<!-- 모달 바디 -->
-            <div class="modal-body">
-            	<!-- 진료과 -->
-            	<div class="departmentGroup">
-            		<button class="departmentKind">전체</button>
-	            	<c:forEach items="${departmentKeyword}" var="row">
-	            	<button class="departmentKind">${row.dpkind}</button>
-	            	</c:forEach>
-            	</div>
-            	<!-- 증상 -->
-	  			 <div class="symptomContainer">
-	            	<c:forEach items="${departmentKeyword}" var="row">
-	            	<div class="symptomKindBox">
-	            		<div class="symptomGroup">
-	            			<div class="symptomGroupText">${row.dpsymptom}</div>
-	            			<div class="xi-angle-down-thin"></div>
-	            		</div>
-			        	<div class="symptomKindButton">
-	            		<c:set var="keywords" value="${row.dpkeyword.split(',')}"/>
-				        <c:forEach var="keyword" items="${keywords}">
-			            	<button class="symptomKind">${keyword}</button>
-				        </c:forEach>
-	            		</div>
-		        	</div>
-	            	</c:forEach>
-	           	</div>
-            </div>
-         </div>
-      </div>
-   </div>
+	<div class="modal fade symptomModal" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<!-- 모달 헤더 -->
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">
+						<button type="button" class="modalDepartment">진료과</button>
+						<button type="button" class="modalSymptom">증상·질환</button>
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<!-- 모달 바디 -->
+				<div class="modal-body">
+					<!-- 진료과 -->
+					<div class="departmentGroup">
+						<button class="departmentKind">전체</button>
+						<c:forEach items="${departmentKeyword}" var="row">
+							<button class="departmentKind">${row.dpkind}</button>
+						</c:forEach>
+					</div>
+					<!-- 증상 -->
+					<div class="symptomContainer">
+						<c:forEach items="${departmentKeyword}" var="row">
+							<div class="symptomKindBox">
+								<div class="symptomGroup">
+									<div class="symptomGroupText">${row.dpsymptom}</div>
+									<div class="xi-angle-down-thin"></div>
+								</div>
+								<div class="symptomKindButton">
+									<c:set var="keywords" value="${row.dpkeyword.split(',')}" />
+									<c:forEach var="keyword" items="${keywords}">
+										<button class="symptomKind">${keyword}</button>
+									</c:forEach>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script type="text/javascript">
 		//스와이퍼 시작
@@ -665,11 +640,11 @@
 		
 
 	</script>
-	
+
 	<!-- Bootstrap core JS -->
-   <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="js/scripts.js"></script>
-   <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="js/scripts.js"></script>
+	<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>

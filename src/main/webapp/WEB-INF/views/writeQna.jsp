@@ -8,7 +8,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
+
 <link rel="stylesheet" href="./css/writeQna.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -16,13 +18,16 @@
 </head>
 <body>
 
+
 <header>
     <i class="xi-angle-left xi-x" onclick="location.href = '/qnaBoard'"></i>
     <div class="header title">작성하기</div>
     <div class="blank"></div>
 </header>
 
-<main>
+
+	<main>
+
 
 	<!-- <h2>[QnA 게시판 글쓰기]</h2> --> 
 	<form action='<c:url value='/postQna'/>' method="post" id="qnaForm" enctype="multipart/form-data">
@@ -60,7 +65,8 @@
 		</div>
 	</form>
 
-  <!-- <div>
+
+		<!-- <div>
       <button id="picker">M.media.picker</button>
   </div>
   <div id="box"></div>
@@ -69,199 +75,203 @@
   </div>
   <div id="progress"></div>
   <div id="upload-box"></div> -->
+
   
 <div style="height: 9vh"></div>
 </main>
 
-<footer></footer>
+
+	<footer></footer>
 
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="/js/mcore.min.js"></script>
-  <script src="/js/jquery.plugin.js"></script>
-  
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="/js/mcore.min.js"></script>
+	<script src="/js/jquery.plugin.js"></script>
+
 	<script>
-	
-	// 폼이 제출될 때 현재 날짜와 시간을 입력란에 추가
-	document.getElementById('qnaForm').addEventListener(
-			'submit',
-			function(event) {
-				event.preventDefault(); // 기본 제출 동작을 막음
+		// 폼이 제출될 때 현재 날짜와 시간을 입력란에 추가
+		document
+				.getElementById('qnaForm')
+				.addEventListener(
+						'submit',
+						function(event) {
+							event.preventDefault(); // 기본 제출 동작을 막음
 
-				// 현재 날짜와 시간을 가져오기
-				const currentDatetime = new Date();
-				const utcDatetime = new Date(currentDatetime.toISOString()
-						.slice(0, 19)
-						+ "Z"); // UTC 시간으로 변환
-				const formattedDatetime = new Date(utcDatetime.getTime()
-						+ 9 * 60 * 60 * 1000);
+							// 현재 날짜와 시간을 가져오기
+							const currentDatetime = new Date();
+							const utcDatetime = new Date(currentDatetime
+									.toISOString().slice(0, 19)
+									+ "Z"); // UTC 시간으로 변환
+							const formattedDatetime = new Date(utcDatetime
+									.getTime()
+									+ 9 * 60 * 60 * 1000);
 
-				document.getElementById('bdate').value = formattedDatetime
-						.toISOString().slice(0, 19).replace("T", " ");
+							document.getElementById('bdate').value = formattedDatetime
+									.toISOString().slice(0, 19).replace("T",
+											" ");
 
-				const title = document
-						.querySelector('input[name="btitle"]').value;
-				const content = document
-						.querySelector('textarea[name="bcontent"]').value;
-				const selectDepartment = document.querySelector('select[name="selectDepartment"]').value;
-				
-				
-				// 제목이나 내용 중 하나라도 비어있으면 경고창을 띄우고 전송을 막음
-				if (title.trim() === '') {
-					alert('제목을 입력해주세요.');
-					event.preventDefault(); // 폼 전송 막기
-					return false;
-				}
-				else if (content.trim() === '') {
-					alert('내용을 입력해주세요.');
-					event.preventDefault(); // 폼 전송 막기
-					return false;
-				}
-				else if (selectDepartment === 'department') {
-					alert('진료 과목을 선택해주세요.');
-					event.preventDefault(); // 폼 전송 막기
-					return false;
-				} else {
-					
-				const selectedDepartment = selectDepartment === 'unknown' ? null : selectDepartment;
-				this.submit();
-				}
-			});
-	
-	/*
-	
-	 (function () {
+							const title = document
+									.querySelector('input[name="btitle"]').value;
+							const content = document
+									.querySelector('textarea[name="bcontent"]').value;
+							const selectDepartment = document
+									.querySelector('select[name="selectDepartment"]').value;
 
-		    $.imagePicker = function () {
-		      return new Promise((resolve) => {
-		        M.media.picker({
-		          mode: "SINGLE",
-		          media: "PHOTO",
-		          // path: "/media", // 값을 넘기지않아야 기본 앨범 경로를 바라본다.
-		          column: 3,
-		          callback: (status, result) => {
-		            resolve({ status, result })
-		          }
-		        });
-		      })
-		    }
+							// 제목이나 내용 중 하나라도 비어있으면 경고창을 띄우고 전송을 막음
+							if (title.trim() === '') {
+								alert('제목을 입력해주세요.');
+								event.preventDefault(); // 폼 전송 막기
+								return false;
+							} else if (content.trim() === '') {
+								alert('내용을 입력해주세요.');
+								event.preventDefault(); // 폼 전송 막기
+								return false;
+							} else if (selectDepartment === 'department') {
+								alert('진료 과목을 선택해주세요.');
+								event.preventDefault(); // 폼 전송 막기
+								return false;
+							} else {
 
-		    $.convertBase64ByPath = function (imagePath) {
-		      if (typeof imagePath !== 'string') throw new Error('imagePath must be string')
-		      return new Promise((resolve) => {
-		        M.file.read({
-		          path: imagePath,
-		          encoding: 'BASE64',
-		          indicator: true,
-		          callback: function (status, result) {
-		            resolve({ status, result })
-		          }
-		        });
-		      })
-		    }
+								const selectedDepartment = selectDepartment === 'unknown' ? null
+										: selectDepartment;
+								this.submit();
+							}
+						});
 
-		    $.uploadImageByPath = function (targetImgPath, progress) {
-		      return new Promise((resolve) => {
-		        const _options = {
-		          url: '/postQna',
-		          header: {},
-		          params: {},
-		          body: [
-		            // multipart/form-data 바디 데이터
-		            { name: "file", content: targetImgPath, type: "FILE" },
-		          ],
-		          encoding: "UTF-8",
-		          finish: (status, header, body, setting) => {
-		            resolve({ status, header, body })
-		          },
-		          progress: function (total, current) {
-		            progress(total, current);
-		          }
-		        }
-		        M.net.http.upload(_options);
-		      })
-		    }
+		/*
+		
+		 (function () {
 
-		  })();
+			    $.imagePicker = function () {
+			      return new Promise((resolve) => {
+			        M.media.picker({
+			          mode: "SINGLE",
+			          media: "PHOTO",
+			          // path: "/media", // 값을 넘기지않아야 기본 앨범 경로를 바라본다.
+			          column: 3,
+			          callback: (status, result) => {
+			            resolve({ status, result })
+			          }
+			        });
+			      })
+			    }
 
+			    $.convertBase64ByPath = function (imagePath) {
+			      if (typeof imagePath !== 'string') throw new Error('imagePath must be string')
+			      return new Promise((resolve) => {
+			        M.file.read({
+			          path: imagePath,
+			          encoding: 'BASE64',
+			          indicator: true,
+			          callback: function (status, result) {
+			            resolve({ status, result })
+			          }
+			        });
+			      })
+			    }
 
-		  $(function () {
+			    $.uploadImageByPath = function (targetImgPath, progress) {
+			      return new Promise((resolve) => {
+			        const _options = {
+			          url: '/postQna',
+			          header: {},
+			          params: {},
+			          body: [
+			            // multipart/form-data 바디 데이터
+			            { name: "file", content: targetImgPath, type: "FILE" },
+			          ],
+			          encoding: "UTF-8",
+			          finish: (status, header, body, setting) => {
+			            resolve({ status, header, body })
+			          },
+			          progress: function (total, current) {
+			            progress(total, current);
+			          }
+			        }
+			        M.net.http.upload(_options);
+			      })
+			    }
 
-		    let selectImagePath = '';
-		    let $previewImg = null;
-		    let $uploadImg = null;
-		    const $box = $('#box');
-		    const $uploadBox = $('#upload-box');
-		    const $progress = $('#progress');
-		    const $picker = $('#picker');
-		    const $upload = $('#upload');
+			  })();
 
 
+			  $(function () {
 
-		    $picker.on('click', () => {
-		      if ($previewImg !== null) {
-		        $previewImg.remove();
-		        $previewImg = null;
-		      }
-		      selectImagePath = '';
-		      $.imagePicker()
-		        .then(({ status, result }) => {
-		          if (status === 'SUCCESS') {
-		            selectImagePath = result.path;
-		            return $.convertBase64ByPath(selectImagePath)
-		          } else {
-		            return Promise.reject('이미지 가져오기 실패')
-		          }
-		        })
-		        .then(({ status, result }) => {
-		          if (status === 'SUCCESS') {
-		            $previewImg = $(document.createElement('img'))
-		            $previewImg.attr('height', '200px')
-		            $previewImg.attr('src', "data:image/png;base64," + result.data)
-		            $box.append($previewImg);
-		          } else {
-		            return Promise.reject('BASE64 변환 실패')
-		          }
-		        })
-		        .catch((err) => {
-		          if (typeof err === 'string') alert(err)
-		          console.error(err)
-		        })
-		    })
+			    let selectImagePath = '';
+			    let $previewImg = null;
+			    let $uploadImg = null;
+			    const $box = $('#box');
+			    const $uploadBox = $('#upload-box');
+			    const $progress = $('#progress');
+			    const $picker = $('#picker');
+			    const $upload = $('#upload');
 
-		    $upload.on('click', () => {
-		      if (selectImagePath === '') return alert('이미지를 선택해주세요.')
-		      if ($uploadImg) {
-		        $uploadImg.remove();
-		        $uploadImg = null;
-		      }
-		      $progress.text('')
-		      $.uploadImageByPath(selectImagePath, (total, current) => {
-		        console.log(`total: ${total} , current: ${current}`)
-		        $progress.text(`${current}/${total}`)
-		      })
-		        .then(({
-		          status, header, body
-		        }) => {
-		          // status code
-		          if (status === '200') {
-		            $progress.text('업로드 완료')
-		            const bodyJson = JSON.parse(body)
-		            $uploadImg = $(document.createElement('img'))
-		            $uploadImg.attr('height', '200px')
-		            $uploadImg.attr('src', bodyJson.fullpath)
-		            $uploadBox.append($uploadImg)
-		          } else {
-		            return Promise.reject('업로드를 실패하였습니다.')
-		          }
-		        })
-		        .catch((err) => {
-		          if (typeof err === 'string') alert(err)
-		          console.error(err)
-		        })
-		    })
-		  });
-		  */
+
+
+			    $picker.on('click', () => {
+			      if ($previewImg !== null) {
+			        $previewImg.remove();
+			        $previewImg = null;
+			      }
+			      selectImagePath = '';
+			      $.imagePicker()
+			        .then(({ status, result }) => {
+			          if (status === 'SUCCESS') {
+			            selectImagePath = result.path;
+			            return $.convertBase64ByPath(selectImagePath)
+			          } else {
+			            return Promise.reject('이미지 가져오기 실패')
+			          }
+			        })
+			        .then(({ status, result }) => {
+			          if (status === 'SUCCESS') {
+			            $previewImg = $(document.createElement('img'))
+			            $previewImg.attr('height', '200px')
+			            $previewImg.attr('src', "data:image/png;base64," + result.data)
+			            $box.append($previewImg);
+			          } else {
+			            return Promise.reject('BASE64 변환 실패')
+			          }
+			        })
+			        .catch((err) => {
+			          if (typeof err === 'string') alert(err)
+			          console.error(err)
+			        })
+			    })
+
+			    $upload.on('click', () => {
+			      if (selectImagePath === '') return alert('이미지를 선택해주세요.')
+			      if ($uploadImg) {
+			        $uploadImg.remove();
+			        $uploadImg = null;
+			      }
+			      $progress.text('')
+			      $.uploadImageByPath(selectImagePath, (total, current) => {
+			        console.log(`total: ${total} , current: ${current}`)
+			        $progress.text(`${current}/${total}`)
+			      })
+			        .then(({
+			          status, header, body
+			        }) => {
+			          // status code
+			          if (status === '200') {
+			            $progress.text('업로드 완료')
+			            const bodyJson = JSON.parse(body)
+			            $uploadImg = $(document.createElement('img'))
+			            $uploadImg.attr('height', '200px')
+			            $uploadImg.attr('src', bodyJson.fullpath)
+			            $uploadBox.append($uploadImg)
+			          } else {
+			            return Promise.reject('업로드를 실패하였습니다.')
+			          }
+			        })
+			        .catch((err) => {
+			          if (typeof err === 'string') alert(err)
+			          console.error(err)
+			        })
+			    })
+			  });
+		 */
 	</script>
 
 </body>

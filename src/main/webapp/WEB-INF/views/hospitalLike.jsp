@@ -7,17 +7,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>hospitalLike</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<link rel="stylesheet" href="./css/hospital.css">
-<script src="./js/jquery-3.7.0.min.js"></script> 
+<link rel="stylesheet" href="../css/hospital.css">
+<script src="../js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
 	$(function(){
 		/* 뒤로가기 버튼 */
 		$(document).on("click", ".xi-angle-left", function(){
-			history.back();
+			location.href = "../menu";
 		});
 		
 		/* 병원 총 개수 세기 */
@@ -55,7 +56,7 @@
 				hospitalDelName = $(this).siblings().find($(".hospitalName")).text();
 			}
 			$.ajax({
-		         url: "./hospital",
+		         url: "../hospital",
 		         type: "post",
 		         dataType: "json",
 		         data: {hospitalName : hospitalName, hospitalDelName : hospitalDelName},
@@ -74,7 +75,7 @@
 			let hno = $(this).siblings().val();
 			let treatmentText = $(this).text().trim();
 			if (treatmentText === '접수 가능') {
-				return location.href= '/reception/' + hno;
+				return location.href= '../reception/' + hno;
 			} else {
 				alert("접수가 마감되었습니다.")
 				return false;
@@ -110,7 +111,7 @@
 	<header>
 		<i class="xi-angle-left xi-x"></i>
 		<div class="hospitalLikeHeaderText headerTitle">즐겨찾기</div>
-		<div class="blank blankImg" onclick="location.href='/hospital'"><i class="xi-plus xi-x"></i></div>
+		<div class="blank blankImg" onclick="location.href='../hospital'"><i class="xi-plus xi-x"></i></div>
 	</header>
 	
 	<main class="hospitalBox container">
@@ -130,7 +131,7 @@
 					<div class="hospitalListContainer">
 						<div class="listContainer">
 						<div class="hospitalList">
-							<div class="hospitalStatus"">
+							<div class="hospitalStatus">
 							
 							<!-- 공휴일 -->
 							<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
@@ -183,12 +184,12 @@
 								<div class="hospitalAddress">${row.haddr}</div>
 							</div>
 							<div class="hospitalReview" onclick="hospitalDetail(${row.hno})">
-								<img src="./img/star.png" style="width: 18px;">
+								<img src="../img/star.png" style="width: 18px;">
 								<div class="reviewScore">${row.hReviewAverage}</div>
 								<div class="reviewCount">(${row.hReviewCount})</div>
 							</div>
 							<div class="hospitalReserve">
-								<div class="receptionStatus""></div>
+								<div class="receptionStatus"></div>
 								<input type="hidden" class="hno" value="${row.hno}">
 								<div class="reservationStatus" onclick="hospitalAppointment(${row.hno})">예약 가능</div>
 							</div>

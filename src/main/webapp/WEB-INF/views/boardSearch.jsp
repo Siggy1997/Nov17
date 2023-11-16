@@ -6,8 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <script src="./js/jquery-3.7.0.min.js"></script>
+
 <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
+
 <link rel="stylesheet" href="./css/boardSearch.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">

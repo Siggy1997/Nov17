@@ -8,7 +8,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
+
 <script src="./js/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet" href="./css/freeDetail.css">
 <link rel="stylesheet"
@@ -286,10 +288,9 @@
 						$(".dh-modal-wrapper").show();
 					}
 				});
-		
-		
-		
+
 		// 버튼 클릭 시 모달 열기
+
 		document.getElementById("reportButton").addEventListener("click", function() {
 		   
 			const mno = "${mno}"; 
@@ -311,16 +312,16 @@
 		    
 		});
 
-		
-		
+
+						});
 
 		$(document)
 				.on(
 						"click",
 						"#commentReportButton",
 						function() {
-							
-							const mno = "${mno}"; 
+
+							const mno = "${mno}";
 							const bno = $(this).data("bno");
 							const cno = $(this).data("cno");
 
@@ -362,22 +363,33 @@
 																function(event) {
 																	if (event.target == document
 																			.getElementById("commentReportModal")) {
+
 																		document
 																				.getElementById("commentReportModal").style.display = "none";
-																	}
-																});
+																	});
+
+													// 모달 외부 클릭 시 모달 닫기
+													window
+															.addEventListener(
+																	"click",
+																	function(
+																			event) {
+																		if (event.target == document
+																				.getElementById("commentReportModal")) {
+																			document
+																					.getElementById("commentReportModal").style.display = "none";
+																		}
+																	});
+												}
+
+											},
+											error : function() {
+												// 오류 처리
 											}
+										});
 
-										},
-										error : function() {
-											// 오류 처리
-										}
-									});
-							
-							 }
+							}
 						});
-
-
 
 		// 닫기 버튼 클릭 시 모달 닫기
 		closeModal.addEventListener("click", function() {

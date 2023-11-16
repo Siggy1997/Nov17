@@ -8,7 +8,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
+
 <link rel="stylesheet" href="./css/qnaBoard.css">
 
 <script src="./js/jquery-3.7.0.min.js"></script>
@@ -18,10 +20,12 @@
 </head>
 <body>
 	<%@ include file="loginAlert.jsp"%>
+
 	
 
 	<header>
 		 <i class="xi-angle-left xi-x" onclick="location.href = '/main'"></i>
+
 		<div class="header title">커뮤니티</div>
 		<div class="blank"></div>
 	</header>
@@ -36,6 +40,7 @@
 			<button id="freeBoardBoldButton" style="display: none;">자유게시판</button>
 		</div>
 		<!-- <button id="hospitalMapButton" onclick="location.href='hospitalMap'">병원지도</button> -->
+
 
 
 	<div class="space">
@@ -55,12 +60,13 @@
 	         </div>
 	         <input type="hidden" name="selectOption" id="selectedOptionInput" value="allOption">
 <input type="text" name="searchWord" id="searchWordInput"
+
 						placeholder="검색 할 내용을 입력하세요">
 					<button type="submit" class="xi-search xi-x"></button>
 				</form>
 			</div>
 		</div>
-		
+
 
 
 
@@ -77,7 +83,7 @@
 
 			<div class="backGroundBar">
 				<div class="space">
-			
+
 						<!-- 정렬 리스트 -->
             <div class="selectDepartment">
             	<div class="sortTitle margin-right">진료과목</div>
@@ -102,6 +108,7 @@
 		            <div class="정신의학과">정신의학과</div>
 	            </div>
 	         </div>
+
 
 					<button class="writeButton" onclick="confirmWriteQna()">작성하기</button>
 				</div>
@@ -139,8 +146,10 @@
 									</c:otherwise>
 								</c:choose>
 							</div>
+
 						<div class="line"></div>
 						</div>
+
 					</a>
 				</c:forEach>
 			</div>
@@ -231,14 +240,18 @@ $('.chatting').click(function() {
 	}
 </script>
 
+
+
 <script>
 	function confirmWriteQna() {
 		
 		const mno = "${mno}";
 
 		if (mno === null || mno === undefined || mno === "") {
+
 			$(".dh-modal-wrapper").show();
 			
+
 		} else {
 			window.location.href = 'writeQna';
 		}
@@ -276,6 +289,7 @@ $('.chatting').click(function() {
 		toggleBoardLogic(boardType);
 
 	}
+
 	
 	$(document).on("click", ".selectDepartment", function(){
   	  $("#openSortList").toggleClass("maxList");
@@ -346,5 +360,6 @@ $('.chatting').click(function() {
 	
 	 
 	
+
 </script>
 </html>

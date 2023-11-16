@@ -7,13 +7,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <link rel="stylesheet" href="./css/qnaBoard.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <title>Insert title here</title>
 </head>
 <body>
+
 <%@ include file="loginAlert.jsp"%>
 <main>
 	
@@ -43,6 +45,7 @@
 				<div class="xi-heart-o xi-x"></div>
 				<div class="countCalldibs">${free.bcalldibsCount}</div>
 				</div>
+
 				</div>
 				</div>
 			</div>
@@ -73,12 +76,13 @@
 	
 	
 	<div style="height: 9vh"></div>
+
 	</main>
-	
+
 	<footer></footer>
-	
-	
-	
+
+
+
 </body>
 <script>
 
@@ -86,8 +90,12 @@
     var maxLength = 30; // 최대 문자열 길이
     var contentElements = document.querySelectorAll(".content");
 
-    contentElements.forEach(function(contentElement) {
-        var text = contentElement.textContent;
+
+		if (text.length > maxLength) {
+			var truncatedText = text.slice(0, maxLength) + "...";
+			contentElement.textContent = truncatedText;
+		}
+	});
 
         if (text.length > maxLength) {
             var truncatedText = text.slice(0, maxLength) + "...";
@@ -107,6 +115,7 @@ function confirmWriteFree() {
 		}
 	}
 	
+
 </script>
 
 </html>

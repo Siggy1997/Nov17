@@ -5,10 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>CompleteHosDoc</title>
-<link href="/css/completePay.css" rel="stylesheet" />
+<link href="/css/completeHosDoc.css" rel="stylesheet" />
 <script src="../js/jquery-3.7.0.min.js"></script> 
 <script type="text/javascript">
 </script>
@@ -34,7 +35,8 @@
 	</main>
 	
 	<footer>
-		<button type="button" onclick="location.href='/login'">확인</button>
+		<button style="margin-right: 15px;" type="button" onclick="location.href='/login'">확인</button>
+		<button type="button" onclick="location.href='/newDoctor?rhno=${param.rhno }'">추가</button>
 	</footer>
 	
 </body>

@@ -7,7 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
+
 <link rel="stylesheet" href="./css/pharmacyMap.css">
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -29,7 +31,9 @@
 <body>
 
 	<header>
+
 		 <i class="xi-angle-left xi-x" onclick="location.href = '/main'"></i>
+
 
 		<div id="searchContainer">
 			<input type="text" id="searchInput" placeholder="약국 이름 검색">

@@ -7,10 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>MyWriting</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <link href="/css/myWriting.css" rel="stylesheet" />
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<script src="../js/jquery-3.7.0.min.js"></script> 
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<script src="../js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
 
 function choiceDetail(bno, btype) {
@@ -31,112 +33,118 @@ function choiceDetail(bno, btype) {
 		<div class="headerTitle">내 글 관리</div>
 		<div class="blank"></div>
 	</header>
-	
-	
+
+
 	<main>
-	<div class="main-area">
-	<p class="top-title">⭐ 내가 찜한 글</p>
-	    <div class="table-area">
-	    	<div class="table">
-		    	<div class="table-head">
-		        	<div class="tr">
-			         	 <div class="th">제목</div>
-			          	 <div class="th">글쓴이</div>
-			         	 <div class="th">날짜</div>
-			         	 <div class="th">유형</div>
-		        	</div>
-		     	</div>
-      			<div class="table-body">
-		        	<c:forEach items="${callDibs}" var="row">
-		          	<div class="tr">
-			            <div class="td" id="tdtitle" onclick="choiceDetail(${row.bno}, ${row.btype})">${row.btitle}</div>
-			            <div class="td">${row.mnickname}</div>
-			            <div class="td">${row.bdate}</div>
-			           		<c:choose>
-							<c:when test="${row.btype eq 0}">
-								<div class="td" id="tstatus">상담게시판</div>
-							</c:when>
-							<c:when test="${row.btype eq 1}">
-								<div class="td" id="tstatus">자유게시판</div>
-							</c:when>
-							<c:otherwise>
-								<div class="td" style="color: red" id="tstatus">삭제된 글</div>
-							</c:otherwise>
-							</c:choose> 
-		          	</div>
-		        	</c:forEach>
-      			</div>
-   			</div>
-    	</div> <!-- 내가 찜한 글 -->
-    
-	<p class="top-title">📝 내가 작성하신 글</p>
-	    <div class="table-area">
-	    	<div class="table">
-		    	<div class="table-head">
-		        	<div class="tr">
-			          	 <div class="th">제목</div>
-			          	 <div class="th">글쓴이</div>
-			          	 <div class="th">날짜</div>
-			         	 <div class="th">유형</div>
-		        	</div>
-		     	</div>
-      			<div class="table-body">
-			        <c:forEach items="${myWriting}" var="row">
-			        <div class="tr">
-			            <div class="td" id="tdtitle" onclick="choiceDetail(${row.bno}, ${row.btype})">${row.btitle}</div>
-			            <div class="td" class="tdtitle" >${row.mnickname}</div>
-			            <div class="td" class="tdtitle" >${row.bdate}</div>
-							<c:choose>
-							<c:when test="${row.btype eq 0}">
-								<div class="td" id="tstatus">상담게시판</div>
-							</c:when>
-							<c:when test="${row.btype eq 1}">
-								<div class="td" id="tstatus">자유게시판</div>
-							</c:when>
-							<c:otherwise>
-								<div class="td" style="color: red" id="tstatus">삭제된 글</div>
-							</c:otherwise>
-							</c:choose>            
-			          </div>
-			        </c:forEach>
-      			</div>
-   			</div>
-    	</div> <!-- 내가 작성한 글 -->
-    
-    <p class="top-title">📬 내가 작성한 댓글</p>
-	    <div class="table-area">
-	    	<div class="table">
-		    	<div class="table-head">
-		        	<div class="tr">
-			          	 <div class="th">댓글내용</div>
-			          	 <div class="th">글쓴이</div>
-			          	 <div class="th">날짜</div>
-			         	 <div class="th">유형</div>
-		        	</div>
-		     	</div>
-      			<div class="table-body">
-        			<c:forEach items="${myComment}" var="row">
-          			<div class="tr">
-			            <div class="td" id="tdtitle"  onclick="location.href='../commentDetail?cno=${row.cno}'">${row.ccontent}</div>
-			            <div class="td">${row.mnickname}</div>
-			            <div class="td">${row.cdate}</div>
-			            	<c:choose>
-							<c:when test="${row.btype eq 0}">
-								<div class="td" id="tstatus">상담게시판</div>
-							</c:when>
-							<c:when test="${row.btype eq 1}">
-								<div class="td" id="tstatus">자유게시판</div>
-							</c:when>
-							<c:otherwise>
-								<div class="td" style="color: red" id="tstatus">삭제된 글</div>
-							</c:otherwise>
-							</c:choose> 
-          			</div>
-        			</c:forEach>
-      			</div>
-   			</div>
-    	</div> <!-- 내가 작성한 댓글 -->
-    	</div>        			
-    </main>
+		<div class="main-area">
+			<p class="top-title">⭐ 내가 찜한 글</p>
+			<div class="table-area">
+				<div class="table">
+					<div class="table-head">
+						<div class="tr">
+							<div class="th">제목</div>
+							<div class="th">글쓴이</div>
+							<div class="th">날짜</div>
+							<div class="th">유형</div>
+						</div>
+					</div>
+					<div class="table-body">
+						<c:forEach items="${callDibs}" var="row">
+							<div class="tr">
+								<div class="td" id="tdtitle"
+									onclick="choiceDetail(${row.bno}, ${row.btype})">${row.btitle}</div>
+								<div class="td">${row.mnickname}</div>
+								<div class="td">${row.bdate}</div>
+								<c:choose>
+									<c:when test="${row.btype eq 0}">
+										<div class="td" id="tstatus">상담게시판</div>
+									</c:when>
+									<c:when test="${row.btype eq 1}">
+										<div class="td" id="tstatus">자유게시판</div>
+									</c:when>
+									<c:otherwise>
+										<div class="td" style="color: red" id="tstatus">삭제된 글</div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+			<!-- 내가 찜한 글 -->
+
+			<p class="top-title">📝 내가 작성하신 글</p>
+			<div class="table-area">
+				<div class="table">
+					<div class="table-head">
+						<div class="tr">
+							<div class="th">제목</div>
+							<div class="th">글쓴이</div>
+							<div class="th">날짜</div>
+							<div class="th">유형</div>
+						</div>
+					</div>
+					<div class="table-body">
+						<c:forEach items="${myWriting}" var="row">
+							<div class="tr">
+								<div class="td" id="tdtitle"
+									onclick="choiceDetail(${row.bno}, ${row.btype})">${row.btitle}</div>
+								<div class="td" class="tdtitle">${row.mnickname}</div>
+								<div class="td" class="tdtitle">${row.bdate}</div>
+								<c:choose>
+									<c:when test="${row.btype eq 0}">
+										<div class="td" id="tstatus">상담게시판</div>
+									</c:when>
+									<c:when test="${row.btype eq 1}">
+										<div class="td" id="tstatus">자유게시판</div>
+									</c:when>
+									<c:otherwise>
+										<div class="td" style="color: red" id="tstatus">삭제된 글</div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+			<!-- 내가 작성한 글 -->
+
+			<p class="top-title">📬 내가 작성한 댓글</p>
+			<div class="table-area">
+				<div class="table">
+					<div class="table-head">
+						<div class="tr">
+							<div class="th">댓글내용</div>
+							<div class="th">글쓴이</div>
+							<div class="th">날짜</div>
+							<div class="th">유형</div>
+						</div>
+					</div>
+					<div class="table-body">
+						<c:forEach items="${myComment}" var="row">
+							<div class="tr">
+								<div class="td" id="tdtitle"
+									onclick="location.href='../commentDetail?cno=${row.cno}'">${row.ccontent}</div>
+								<div class="td">${row.mnickname}</div>
+								<div class="td">${row.cdate}</div>
+								<c:choose>
+									<c:when test="${row.btype eq 0}">
+										<div class="td" id="tstatus">상담게시판</div>
+									</c:when>
+									<c:when test="${row.btype eq 1}">
+										<div class="td" id="tstatus">자유게시판</div>
+									</c:when>
+									<c:otherwise>
+										<div class="td" style="color: red" id="tstatus">삭제된 글</div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+			<!-- 내가 작성한 댓글 -->
+		</div>
+	</main>
 </body>
 </html>

@@ -21,14 +21,15 @@ body {
 
 header {
     position: fixed;
-    height: 9vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 95%;
-    z-index: 1000;
-    background-color: white;
-    padding-inline-start: 20px;
+	height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	align-items: center;
+	z-index: 1000;
+	background-color: white;
+	padding-inline-end: 22px;
+	padding-inline-start: 24px;
 }
 
 .headerTitle {
@@ -39,20 +40,30 @@ header {
 	margin: 20px 90px;
 }
 
+.blank {
+	width: 21px;
+}
+
+.line {
+	background-color: #00C9FF; 
+	margin-top: 15px;
+	height: 0.5px;
+}
+
 footer {
 	bottom: 0;
 	position: fixed;
 	height: 8vh;
 	display: flex;
 	justify-content: space-evenly;
-	width: 100%;
+	width: 90%;
 	align-items: center;
 	z-index: 1000;
 	background-color: white;
 }
 
 .Group {
-	width: 430px;
+	width: 404px;
 	height: 40px;
 	margin: 0 auto; display : flex;
 	flex-direction: column;
@@ -83,22 +94,7 @@ footer {
 	width: 250px;
 	height: 30px;
 	margin-bottom: 30px;
-	margin-left: 85px;
-	font-size: 13px;
-	display: flex; 
-	justify-content: center; 
-	align-items: center;
-}
-
-.btn2 {
-	border: 0;
-	background-color: #00C9FF;
-	border-radius: 15px;
-	color: white;
-	width: 250px;
-	height: 30px;
-	margin-left: 85px;
-	margin-top: 20px;
+	margin-left: 70px;
 	font-size: 13px;
 	display: flex; 
 	justify-content: center; 
@@ -107,12 +103,12 @@ footer {
 
 h1 {
 	margin-top: 30px;
+	display:inline-block;
 }
 
 .article {
 	margin: 0 auto;
 	text-align: center;
-	width: 400px;
 }
 
 input {
@@ -123,10 +119,12 @@ input {
 .vector {
 	width: 220px;
 	border-width: 0 0 1px;
+	font-size: 17px;
 }
 
 .content {
 	margin-bottom: 40px;
+	font-size: 20px;
 }
 
 .GroupCenter {

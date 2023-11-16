@@ -7,21 +7,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>doctorDetail</title>
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="../css/doctorDetail.css">
 <script src="../js/jquery-3.7.0.min.js"></script>
-<!-- <script src="./js/wnInterface.js"></script> 
-<script src="./js/mcore.min.js"></script> 
-<script src="./js/mcore.extends.js"></script>  -->
+
 <script type="text/javascript">
 	$(function() {
 		let sessionId = '';
 		
-		//그래프
+		/* 그래프 : hospitalDetail 참고 */
 		let verygood = parseInt(${reviewCount.veryGood});
 		let good = parseInt(${reviewCount.good});
 		let normal = parseInt(${reviewCount.normal});
@@ -41,9 +40,49 @@
 		    barElement.style.width = targetValue + '%';
 		}
 		
-		sessionId =
-		<%=session.getAttribute("mno")%>
-	/* 뒤로가기 버튼 */
+		/* 서브메뉴 고정 : hospitalDetail 참고 */
+		let offsetSubMenu = $(".doctorBar").offset().top;
+		
+		/* 특정 div 위치에 도달시 서브 메뉴 바꾸기 */
+		let offsetIntroduce = $(".doctorInfoBox").offset().top - (18 * window.innerHeight / 100);
+		let offsetReview = $(".doctorReviewBox").offset().top - (18 * window.innerHeight / 100);
+		
+		$(window).scroll(function() {
+		    let scrollPos = $(window).scrollTop();
+			/* 고정 */
+		    if (scrollPos >= offsetSubMenu - (7 * window.innerHeight / 100)) {
+		    	 $(".doctorBar").addClass("fixed");
+		        $('#placeHolderDiv').show();
+		    } else {
+		    	 $(".doctorBar").removeClass("fixed");
+		        $('#placeHolderDiv').hide();
+		    }
+			
+			/* 하이라이트 */
+		    if (scrollPos >= offsetMedical && scrollPos < offsetIntroduce) {
+		        $('#subMenu1').addClass('selectOption').siblings().removeClass('selectOption');
+		    }
+		    if (scrollPos >= offsetHospital && scrollPos < offsetDoctor) {
+		        $('#subMenu2').addClass('selectOption').siblings().removeClass('selectOption');
+		    }
+		});
+
+		/* 서브 메뉴 클릭시 보내기 */
+		$(document).on("click", ".doctorBarIntroduce", function() {
+		    let offset;
+		    
+		    if ($(this).text() == '소개') {
+		        offset = $(".doctorInfoBox").offset().top - (15 * window.innerHeight / 100);
+		    }  else {
+		        offset = $(".doctorReviewBox").offset().top - (18 * window.innerHeight / 100);
+		    }
+		    $("html, body").animate({
+		        scrollTop: offset
+		    }, 450);
+		});
+		
+		sessionId = <%=session.getAttribute("mno")%>
+		/* 뒤로가기 버튼 */
 		$(document).on("click", ".xi-angle-left", function() {
 			history.back();
 		});
@@ -222,7 +261,6 @@
 			}
    	 	}
 		
-		
 		/* Collection of functions */
 
 		/* 로그인 체크 */
@@ -369,9 +407,10 @@
 		<!-- 의사 소개 -->
 		<div class="doctorBody">
 			<div class="doctorBar">
-				<div class="doctorBarIntroduce">소개</div>
-				<div class="doctorBarIntroduce">리뷰(${doctor.dReviewCount})</div>
+				<div id="subMenu1" class="doctorBarIntroduce selectOption">소개</div>
+				<div id="subMenu2" class="doctorBarIntroduce">리뷰(${doctor.dReviewCount})</div>
 			</div>
+			<div id="placeHolderDiv" style="height: 7vh; display: none;"></div>
 			<div class="doctorInfoBox">
 				<div class="doctorTitle">의사 소개</div>
 				<div class="doctorIntroduce">
@@ -411,13 +450,10 @@
 			<div class="graySeperate"></div>
 
 
-
-
-
 			<!-- 의사 리뷰 -->
-			<div class="doctorReviewBox">
+			<div class="doctorReviewBox doctorInfoBox">
 				<div class="doctorTitle">
-					리뷰<span>${doctor.dReviewCount}</span>
+					리뷰<span> ${doctor.dReviewCount}</span>
 				</div>
 
 				<div class="reviewHeader">
@@ -548,19 +584,5 @@
 		</c:choose>
 	</footer>
 	</form>
-
-		<footer class="doctocFooter">
-			<c:choose>
-				<c:when test="${doctor.dtelehealth == 0 }">
-					<button type="button">비대면 진료 불가</button>
-				</c:when>
-				<c:otherwise>
-					<form id="telehealthApply" action="/telehealthApply" method="get">
-						<input name="dno" type="hidden" value="${doctor.dno}">
-						<button class="application">비대면 진료 신청</button>
-					</form>
-				</c:otherwise>
-			</c:choose>
-		</footer>
 </body>
 </html>

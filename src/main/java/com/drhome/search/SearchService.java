@@ -45,10 +45,4 @@ public class SearchService {
 		return searchDAO.hospitalLikeList(mno);
 	}
 
-	
-
-
-
-
-
 }

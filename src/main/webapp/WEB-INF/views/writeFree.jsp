@@ -8,7 +8,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
+
 <link rel="stylesheet" href="./css/writeFree.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -16,13 +18,16 @@
 </head>
 <body>
 
+
 <header>
     <i class="xi-angle-left xi-x" onclick="location.href = '/qnaBoard'"></i>
     <div class="header title">작성하기</div>
     <div class="blank"></div>
 </header>
 
-<main>
+
+	<main>
+
 
 	<!-- <h2>[자유 게시판 글쓰기]</h2> -->
 	<form action='<c:url value='/postFree'/>' method="post" id="freeForm">
@@ -44,7 +49,8 @@
 <div style="height: 9vh"></div>
 </main>
 
-<footer></footer>
+
+	<footer></footer>
 
 
 	<script>
@@ -85,8 +91,10 @@
 					// 폼 제출
 					this.submit();
 				});
+
 		
 	
+
 	</script>
 
 </body>

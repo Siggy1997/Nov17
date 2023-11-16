@@ -2,17 +2,19 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ page import="java.util.Calendar, java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar, java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>doctorList</title>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/hospital.css">
-<script src="./js/jquery-3.7.0.min.js"></script> 
+<script src="./js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		
@@ -171,8 +173,15 @@
 		});
 		
 		/* 정렬 */
-		$(".sortDoctor").change(function(){
-			let selectedOption = $(this).find("option:selected").text();
+		$(document).on("click", ".sortByList", function(){
+	    	  $("#openSortList").toggleClass("maxList");
+	          $(".selectSortList").slideToggle("fast");
+      	});
+		
+		$(document).on("click", ".optionTitle", function(){
+			
+			let selectedOption = $(this).text().trim();
+	         $(".sortTitle").text(selectedOption);
 			
 			/* 별점 순 정렬 */
 			if (selectedOption === '별점 순') {
@@ -206,6 +215,8 @@
 	            });
 				$(".doctorListContainerBox").html(doctorListContainer);
 			}
+			$(".selectSortList").slideToggle("fast");
+	        $("#openSortList").toggleClass("maxList");
 		});
 		
 		/* 카테고리 선택 해제 */
@@ -294,194 +305,243 @@
 </head>
 <body>
 	<form id="searchForm" action="/telehealthSearch" method="post">
-	<header>
-		<i class="xi-angle-left xi-x"></i>
-		<div class="headerTitle">비대면 진료 검색</div>
-		<div class="blank"></div>
-	</header>
-	<main class="doctorBox container">
-	
-		<!-- search -->
-		<div class="search">
-			<div class="searchInput">
-				<input placeholder="진료과, 증상, 의사를 검색하세요." name="keyword" id="keyword">
-				<div class="deleteSearch">
-					<i class="icon"></i>
+		<header>
+			<i class="xi-angle-left xi-x"></i>
+			<div class="headerTitle">비대면 진료 검색</div>
+			<div class="blank"></div>
+		</header>
+		<main class="doctorBox container">
+
+			<!-- search -->
+			<div class="search">
+				<div class="searchInput">
+					<input placeholder="진료과, 증상, 의사를 검색하세요." name="keyword"
+						id="keyword">
+					<div class="deleteSearch">
+						<i class="icon"></i>
+					</div>
 				</div>
+				<button class="searchButton">
+					<img src="./img/search.png">
+				</button>
 			</div>
-			<button class="searchButton"><img src="./img/search.png"></button>
-		</div>
-		
-		<!-- filter -->
-		<div class="doctorfilter">
-			<button type="button" class="selectByAvailable select"><span class="xi-time-o margin-right"></span> 진료중</button>
-			<button type="button" class="selectBySpecialist select"><span class="xi-school margin-right"></span> 전문의</button>
-			<button type="button" class="selectByFemale select"><span class="xi-woman margin-right"></span> 여의사</button>
-			<button type="button" class="selectByDepartment select">
-				<div class="xi-plus-square-o margin-right"></div> 
-				<div class="selectByDepartmentText"> 진료과/증상</div>
-				<div class="xi-angle-down-min deleteKeyword"></div>
-			</button>
-		</div>
-		
-		<!-- title -->
-		<div class="doctorBar bar">
-			<div class="doctorCount count">
-				의사 <span class="countNumber"></span>
+
+			<!-- filter -->
+			<div class="doctorfilter">
+				<button type="button" class="selectByAvailable select">
+					<span class="xi-time-o margin-right"></span> 진료중
+				</button>
+				<button type="button" class="selectBySpecialist select">
+					<span class="xi-school margin-right"></span> 전문의
+				</button>
+				<button type="button" class="selectByFemale select">
+					<span class="xi-woman margin-right"></span> 여의사
+				</button>
+				<button type="button" class="selectByDepartment select">
+					<div class="xi-plus-square-o margin-right"></div>
+					<div class="selectByDepartmentText">진료과/증상</div>
+					<div class="xi-angle-down-min deleteKeyword"></div>
+				</button>
 			</div>
-			<select class="sortDoctor sortByList">
-				<option class="sortByExact">기본 순</option>
-				<option class="sortByRate">별점 순</option>
-				<option class="sortByReview">리뷰 순</option>
-			</select>
-		</div>
-		
-		<!-- list -->
-		<div class="doctorListContainerBox">
-			 <c:forEach items="${doctorList}" var="row">
-			 	<div class="doctorListContainer" onclick="doctorDetail(${row.dno})">
-				 <input type="hidden" class="femaleDoctor" value="${row.dgender}">
-					<div class="doctorHeader">
-						<div class="doctorImg margin-right"><img src="${row.dimg}"></div>
-						<input type="hidden" class="dno" value="${row.dno}">
-						<div class="doctorInfo">
-							<div class="doctorInfoHeader">
-								<div class="doctorName">
-									<c:choose>
-										<c:when test="${row.dpno == 9}">${row.dname} 한의사</c:when>
-										<c:otherwise>${row.dname} 의사</c:otherwise>
-									</c:choose>
+
+			<!-- title -->
+			<div class="doctorBar bar">
+				<div class="doctorCount count">
+					의사 <span class="countNumber"></span>
+				</div>
+				
+				<!-- 정렬 리스트 -->
+	            <div class="sortByList">
+	            	<div class="sortTitle margin-right">기본 순</div>
+	            	<i class="xi-angle-down-thin"></i>
+	            </div>
+	          
+		         <div id="openSortList">
+		         	<div class="selectSortList" style="display: none;">
+			            <div class="optionTitle">기본 순</div>
+			            <div class="optionTitle">별점 순</div>
+			            <div class="optionTitle">리뷰 순</div>
+		            </div>
+		         </div>
+			</div>
+
+			<!-- list -->
+			<div class="doctorListContainerBox">
+				<c:forEach items="${doctorList}" var="row">
+					<div class="doctorListContainer" onclick="doctorDetail(${row.dno})">
+						<input type="hidden" class="femaleDoctor" value="${row.dgender}">
+						<div class="doctorHeader">
+							<div class="doctorImg margin-right">
+								<img src="${row.dimg}">
+							</div>
+							<input type="hidden" class="dno" value="${row.dno}">
+							<div class="doctorInfo">
+								<div class="doctorInfoHeader">
+									<div class="doctorName">
+										<c:choose>
+											<c:when test="${row.dpno == 9}">${row.dname} 한의사</c:when>
+											<c:otherwise>${row.dname} 의사</c:otherwise>
+										</c:choose>
+									</div>
+									<div class="doctorStatus">
+
+										<!-- 공휴일 -->
+										<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
+											<c:choose>
+												<c:when test="${row.hholiday == 1}">
+													<c:choose>
+														<c:when
+															test="${currentTime ge row.hopentime && currentTime le row.hholidayendtime}">
+															<span class="availableCircle">● </span>
+															<span class="doctorStatus_text">진료 중</span>
+														</c:when>
+														<c:otherwise>
+															<span class="unavailableCircle">● </span>
+															<span class="doctorStatus_text">진료 종료</span>
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise>
+													<span class="unavailableCircle">● </span>
+													<span class="doctorStatus_text">휴진</span>
+												</c:otherwise>
+											</c:choose>
+										</c:if>
+
+										<!-- 평일 -->
+										<c:if
+											test="${ !(currentDay == '토요일' || currentDay == '일요일') }">
+											<c:choose>
+												<c:when test="${row.hnightday == currentDay}">
+													<c:choose>
+														<c:when
+															test="${currentTime ge row.hopentime && currentTime le row.hnightendtime}">
+															<span class="availableCircle">● </span>
+															<span class="doctorStatus_text">진료 중</span>
+														</c:when>
+														<c:when
+															test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
+															<span class="unavailableCircle">● </span>
+															<span class="doctorStatus_text">점심시간</span>
+														</c:when>
+														<c:otherwise>
+															<span class="unavailableCircle">● </span>
+															<span class="doctorStatus_text">진료 종료</span>
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise>
+													<c:choose>
+														<c:when
+															test="${currentTime ge row.hopentime && currentTime le row.hclosetime}">
+															<span class="availableCircle">● </span>
+															<span class="doctorStatus_text">진료 중</span>
+														</c:when>
+														<c:when
+															test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
+															<span class="unavailableCircle">● </span>
+															<span class="doctorStatus_text">점심시간</span>
+														</c:when>
+														<c:otherwise>
+															<span class="unavailableCircle">● </span>
+															<span class="doctorStatus_text">진료 종료</span>
+														</c:otherwise>
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
+										</c:if>
+									</div>
 								</div>
-								<div class="doctorStatus">
-								
-								<!-- 공휴일 -->
-								<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
-									<c:choose>
-										<c:when test="${row.hholiday == 1}">
-											<c:choose>
-												<c:when test="${currentTime ge row.hopentime && currentTime le row.hholidayendtime}">
-													<span class="availableCircle">● </span><span class="doctorStatus_text">진료 중</span>
-												</c:when>
-												<c:otherwise><span class="unavailableCircle">● </span><span class="doctorStatus_text">진료 종료</span></c:otherwise>
-											</c:choose>
-										</c:when>
-										<c:otherwise><span class="unavailableCircle">● </span><span class="doctorStatus_text">휴진</span></c:otherwise>
-									</c:choose>
-								</c:if>
-								
-								<!-- 평일 -->
-								<c:if test="${ !(currentDay == '토요일' || currentDay == '일요일') }">
-									<c:choose>
-										<c:when test="${row.hnightday == currentDay}">
-											<c:choose>
-												<c:when test="${currentTime ge row.hopentime && currentTime le row.hnightendtime}">
-													<span class="availableCircle">● </span><span class="doctorStatus_text">진료 중</span>
-												</c:when>
-												<c:when test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
-													<span class="unavailableCircle">● </span><span class="doctorStatus_text">점심시간</span>
-												</c:when>
-												<c:otherwise><span class="unavailableCircle">● </span><span class="doctorStatus_text">진료 종료</span></c:otherwise>
-											</c:choose>
-										</c:when>
-										<c:otherwise>
-											<c:choose>
-												<c:when test="${currentTime ge row.hopentime && currentTime le row.hclosetime}">
-													<span class="availableCircle">● </span><span class="doctorStatus_text">진료 중</span>
-												</c:when>
-												<c:when test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
-													<span class="unavailableCircle">● </span><span class="doctorStatus_text">점심시간</span>
-												</c:when>
-												<c:otherwise><span class="unavailableCircle">● </span><span class="doctorStatus_text">진료 종료</span></c:otherwise>
-												</c:choose>
-										</c:otherwise>
-									</c:choose>
-								</c:if>
+								<div class="doctorInfoBody">
+									<div class="doctorHospitalName margin-right">${row.hname}</div>
+									|
+									<div class="doctorDepartment margin-left">${row.dpkind}</div>
+								</div>
+								<div class="doctorInfoFooter hospitalReview">
+									<img src="./img/star.png" style="width: 18px;">
+									<div class="reviewScore">${row.dReviewAverage}</div>
+									<div class="reviewCount">(${row.dReviewCount})</div>
 								</div>
 							</div>
-							<div class="doctorInfoBody">
-								<div class="doctorHospitalName margin-right">${row.hname}</div> | 
-								<div class="doctorDepartment margin-left">${row.dpkind}</div>								
-							</div>
-							<div class="doctorInfoFooter hospitalReview">
-								<img src="./img/star.png" style="width: 18px;">
-								<div class="reviewScore">${row.dReviewAverage}</div>
-								<div class="reviewCount">(${row.dReviewCount})</div>
+							<div class="doctorNext">
+								<span class="xi-angle-right"></span>
 							</div>
 						</div>
-						<div class="doctorNext"><span class="xi-angle-right"></span></div>
-					</div>
-					<div class="doctorFooter">
-						<div class="dotorSpecialist margin-right">
-							<c:choose>
-								<c:when test="${row.dspecialist == 1 }">
-									<img src="./img/specialist.png" style="width: 18px;">${row.dpkind} 전문의
+						<div class="doctorFooter">
+							<div class="dotorSpecialist margin-right">
+								<c:choose>
+									<c:when test="${row.dspecialist == 1 }">
+										<img src="./img/specialist.png" style="width: 18px;">${row.dpkind} 전문의
 								</c:when>
-								<c:otherwise>
+									<c:otherwise>
 									일반의
 								</c:otherwise>
-							</c:choose>
+								</c:choose>
+							</div>
+							<div class="dotorTelehealth">
+								<img src="./img/telehealth.png" style="width: 18px;"> 비대면
+								진료 가능
+							</div>
 						</div>
-						<div class="dotorTelehealth">
-							<img src="./img/telehealth.png" style="width: 18px;"> 비대면 진료 가능
-						</div>
+						<div class="graySeperate"></div>
 					</div>
-				<div class="graySeperate"></div>
+				</c:forEach>
+
+			</div>
+
+
+			<!-- 진료과/증상 모달 -->
+			<div class="modal fade symptomModal" id="exampleModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<!-- 모달 헤더 -->
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">
+								<button type="button" class="modalDepartment">진료과</button>
+								<button type="button" class="modalSymptom">증상·질환</button>
+							</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- 모달 바디 -->
+						<div class="modal-body">
+							<!-- 진료과 -->
+							<div class="departmentGroup">
+								<button class="departmentKind">전체</button>
+								<c:forEach items="${departmentKeyword}" var="row">
+									<button class="departmentKind">${row.dpkind}</button>
+								</c:forEach>
+							</div>
+							<!-- 증상 -->
+							<div class="symptomContainer">
+								<c:forEach items="${departmentKeyword}" var="row">
+									<div class="symptomKindBox">
+										<div class="symptomGroup">
+											<div class="symptomGroupText">${row.dpsymptom}</div>
+											<div class="xi-angle-down-thin"></div>
+										</div>
+										<div class="symptomKindButton">
+											<c:set var="keywords" value="${row.dpkeyword.split(',')}" />
+											<c:forEach var="keyword" items="${keywords}">
+												<button class="symptomKind">${keyword}</button>
+											</c:forEach>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+
+					</div>
 				</div>
-			</c:forEach>
-			
-		</div>
-		
-		
-		<!-- 진료과/증상 모달 -->
-		<div class="modal fade symptomModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	        <div class="modal-dialog modal-dialog-centered">
-	         <div class="modal-content">
-	            <!-- 모달 헤더 -->
-	            <div class="modal-header">
-	               <h5 class="modal-title" id="exampleModalLabel">
-		               	<button type="button" class="modalDepartment">진료과</button>
-		               	<button type="button" class="modalSymptom">증상·질환</button>
-	               </h5>
-	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-				<!-- 모달 바디 -->
-	            <div class="modal-body">
-	            	<!-- 진료과 -->
-	            	<div class="departmentGroup">
-	            		<button class="departmentKind">전체</button>
-		            	<c:forEach items="${departmentKeyword}" var="row">
-		            	<button class="departmentKind">${row.dpkind}</button>
-		            	</c:forEach>
-	            	</div>
-	            	<!-- 증상 -->
-		  			 <div class="symptomContainer">
-		            	<c:forEach items="${departmentKeyword}" var="row">
-		            	<div class="symptomKindBox">
-		            		<div class="symptomGroup">
-		            			<div class="symptomGroupText">${row.dpsymptom}</div>
-		            			<div class="xi-angle-down-thin"></div>
-		            		</div>
-				        	<div class="symptomKindButton">
-		            		<c:set var="keywords" value="${row.dpkeyword.split(',')}"/>
-					        <c:forEach var="keyword" items="${keywords}">
-				            	<button class="symptomKind">${keyword}</button>
-					        </c:forEach>
-		            		</div>
-			        	</div>
-		            	</c:forEach>
-		           	</div>
-	            </div>
-	            
-	         </div>
-	      </div>
-	   </div>
-   </main>
-   </form>
-	
+			</div>
+		</main>
+	</form>
+
 	<!-- Bootstrap core JS -->
-   <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="js/scripts.js"></script>
-   <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="js/scripts.js"></script>
+	<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
