@@ -1,16 +1,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page import="java.util.Calendar, java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
+<title>menu</title>
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/menu.css">
+<script src="./js/jquery-3.7.0.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		
+		/* 엑스 버튼 */
+		$(document).on("click", ".ham-close", function(){
+		
+		});
+		
+		/* 로그인 창 */
+		let sessionId = "<%=session.getAttribute("mid")%>"
+		if( sessionId == "null" || sessionId == '' ) {
+			$(".ham-menu").addClass("ham-noLogin");
+		} else {
+			$(".ham-menu").removeClass("ham-noLogin");
+		}
+	});
+	
+	/* 로그인 확인 */
+	function link(url) {
+		let sessionId = "<%=session.getAttribute("mid")%>
+	"
+		if (sessionId == "null" || sessionId == '') {
+			$(".dh-modal-wrapper").show();
+		} else {
+			$(".dh-modal-wrapper").hide();
+			location.href = "./" + url;
+		}
+	}
 
+	function noCheckLink(url) {
+		location.href = "./" + url;
+	}
+</script>
 
 </head>
 <body>
 <body>
+	<%@ include file="loginAlert.jsp"%>
+	<!-- header -->
 	<div class="menuContainer">
 		<div class="menuSubContainer">
-
-
 			<div class="ham-header">
 				<i class="xi-close-thin xi-x ham-close"></i>
 			</div>
@@ -210,7 +255,6 @@
 							<div class="xi-angle-right-min"></div>
 						</div>
 					</div>
-					<div class="ham-buttonText">건강관리</div>
 				</div>
 
 				<!-- 기타 -->
@@ -229,50 +273,9 @@
 							<div class="xi-angle-right-min"></div>
 						</div>
 					</div>
-<<<<<<< HEAD
-=======
-					<div class="ham-buttonText">예약 내역</div>
-				</div>
-			</div>
-			</c:otherwise>
-		</c:choose>
-	</div>
-	<div class="graySeperate"></div>
-
-
-	<div>
-		<!-- 나의 관리 -->
-		<div class="ham-menuSection">
-			<div class="ham-sectionTitle">
-				<img src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png"
-					style="width: 28px; margin-right: 8px;">나의 관리
-			</div>
-			<div class="ham-sectionList">
-				<div class="ham-listRow"
-					onclick="link('myInfo/${sessionScope.mno}')">
-					<div class="ham-listTitle">내 정보</div>
-					<div class="xi-angle-right-min"></div>
-				</div>
-				<div class="ham-listRow"
-					onclick="link('hospitalLike/${sessionScope.mno}')">
-					<div class="ham-listTitle">즐겨찾는 병원</div>
-					<div class="xi-angle-right-min"></div>
-				</div>
-				<div class="ham-listRow"
-					onclick="link('healthRecord/${sessionScope.mno}')">
-					<div class="ham-listTitle">건강 기록 내역</div>
-					<div class="xi-angle-right-min"></div>
-				</div>
-				<div class="ham-listRow"
-					onclick="link('myWriting/${sessionScope.mno}')">
-					<div class="ham-listTitle">나의 게시글 내역</div>
-					<div class="xi-angle-right-min"></div>
->>>>>>> ab5f8eb9874b487696e9eb29b09b9099c059ad6f
 				</div>
 			</div>
 		</div>
-
-
 	</div>
-
 </body>
+</html>

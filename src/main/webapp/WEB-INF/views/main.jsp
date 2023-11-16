@@ -298,7 +298,7 @@
 		
 		function send(){
 			let inputValue =$('#inputSearch').val();
-			let form = $('<form></form>');
+			let form = $('<form></form>'); 
 			form.attr("action","./search");
 			form.attr("method", "post");
 			form.append($("<input>",{type:'hidden', name:"keyword", value:inputValue}));
