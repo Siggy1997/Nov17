@@ -66,7 +66,6 @@
 			$(this).addClass('selectedFeedback')
 
 			$('.reviewContent').show()
-			$('#finish').show()
 		});
 
 		$(document).on('input', '#content', function() {
@@ -151,10 +150,18 @@
 
 	<main class="total container">
 
+				<div class="selectStars">
+					<c:forEach var="i" begin="1" end="5">
+						<i class="star${i } xi-star-o"> <input id="rate" type="hidden"
+							value="${i }"></i>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
 		<div class="goUp">
 			<div class="hospitalImg">
 				<img alt=""
-					src="../img/hospital-building.png">
+					src="https://cdn0.iconfinder.com/data/icons/medical-flat-20/58/006_Hospital-1024.png">
 			</div>
 			<div id="hospitalName">
 				<span>${hospital.hname }</span>

@@ -29,12 +29,10 @@ public class DocAdminController {
 	public String docMain(@PathVariable int dno, Model model) {
 		
 		Map<String, Object> hospital = docAdminService.findHospitalImg(dno);
-		System.out.println(hospital);
 		model.addAttribute("hospital", hospital);
 		
 		Map<String, Object> docMainDetail = docAdminService.docMainDetail(dno);
 		model.addAttribute("docMainDetail", docMainDetail);
-		System.out.println(docMainDetail);
 
 		List<Map<String, Object>> telehealthHistory = docAdminService.telehealthHistory(dno);
 		model.addAttribute("telehealthHistory", telehealthHistory);
@@ -48,7 +46,6 @@ public class DocAdminController {
 		
 		Map<String, Object> docMainDetail = docAdminService.docMainDetail(dno);
 		model.addAttribute("docMainDetail", docMainDetail);
-		System.out.println(docMainDetail);
 		
 		//검색내역 뽑기
 		List<Map<String, Object>> searchMname = docAdminService.searchMname(map);
@@ -71,8 +68,6 @@ public class DocAdminController {
 		model.addAttribute("hospital", hospital);
 		model.addAttribute("now", now);
 		
-		System.out.println(hospital);
-		
 		return "/docReception";
 	}
 	
@@ -80,7 +75,6 @@ public class DocAdminController {
 	@PostMapping("/updateRows")
 	public String updateRows(@RequestParam(value = "row[]") List<Integer> tnoArr) {
 		
-		System.out.println(tnoArr);
 		int result = docAdminService.updateRows(tnoArr);
 		
 		JSONObject json = new JSONObject();
@@ -96,20 +90,16 @@ public class DocAdminController {
 		//환자정보 뽑기
 		Map<String, Object> patientDetail = docAdminService.patientDetail(map);
 		model.addAttribute("patientDetail", patientDetail);
-		System.out.println("patientDetail" + patientDetail);
 		
 		//우리병원 이용횟수 뽑기
 		map.put("mno", patientDetail.get("mno"));
 		map.put("hno", patientDetail.get("hno"));
-		System.out.println(map);
 		Integer hospitalCount = docAdminService.hospitalCount(map);
 		
-		System.out.println("hospitalCount" + hospitalCount);
 		
 		hospitalCount = (hospitalCount == null) ? 0 : hospitalCount;
 		model.addAttribute("hospitalCount", hospitalCount);
 		
-		System.out.println(hospitalCount);
 		
 		return "/docReceptionDetail";
 	}
@@ -117,8 +107,8 @@ public class DocAdminController {
 	@PostMapping("/updateTelehealth/{mno}/{dno}")
 	public String updateTelehealth(@RequestParam Map<String, Object> map, @PathVariable int dno, @PathVariable int mno, Model model) {
 		
-		System.out.println("map:"+map);
 		docAdminService.updateTelehealth(map);
+		docAdminService.updateNotification(map);
 		
 		return "redirect:/docReception/{mno}/{dno}";
 	}

@@ -82,10 +82,6 @@ public class QnaBoardService {
 		return qnaBoardDAO.reportCount(reportCountData);
 	}
 
-	public List<Map<String, Object>> getQnaListByDepartment(String department) {
-		return qnaBoardDAO.getQnaListByDepartment(department);
-	}
-
 	public void editQna(Map<String, Object> editQnaData) {
 		qnaBoardDAO.editQna(editQnaData);
 		

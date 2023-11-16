@@ -8,8 +8,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-	content="initial-scale=1, width=device-width, user-scalable=no" />
+
+<meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
+
 <link rel="stylesheet" href="./css/qnaBoard.css">
 
 <script src="./js/jquery-3.7.0.min.js"></script>
@@ -19,9 +20,11 @@
 </head>
 <body>
 	<%@ include file="loginAlert.jsp"%>
+	
 
 	<header>
-		<i class="xi-angle-left xi-x"></i>
+		 <i class="xi-angle-left xi-x" onclick="location.href = '/main'"></i>
+
 		<div class="header title">커뮤니티</div>
 		<div class="blank"></div>
 	</header>
@@ -37,14 +40,26 @@
 		</div>
 		<!-- <button id="hospitalMapButton" onclick="location.href='hospitalMap'">병원지도</button> -->
 
-		<div class="space">
+
+
+	<div class="space">
 			<div class="searchForm">
 				<form action="/searchWord" method="post" onsubmit="searchForm()">
-					<select name="selectOption">
-						<option value="all" selected>제목+내용</option>
-						<option value="title">제목만</option>
-						<option value="content">내용만</option>
-					</select> <input type="text" name="searchWord" id="searchWordInput"
+ <div class="selectOptionTitle">
+            	<div class="optionTitle margin-right">제목+내용</div>
+            	<i class="xi-angle-down-thin"></i>
+            </div>
+          
+	         <div id="openOptionList">
+	         	<div class="selectOptionList" style="display: none;">
+		            <div class="allOption" onclick="updateSelectedOption('allOption')">제목+내용</div>
+		            <div class="titleOption" onclick="updateSelectedOption('titleOption')">제목만</div>
+		            <div class="contentOption" onclick="updateSelectedOption('contentOption')">내용만</div>
+	            </div>
+	         </div>
+	         <input type="hidden" name="selectOption" id="selectedOptionInput" value="allOption">
+<input type="text" name="searchWord" id="searchWordInput"
+
 						placeholder="검색 할 내용을 입력하세요">
 					<button type="submit" class="xi-search xi-x"></button>
 				</form>
@@ -67,22 +82,32 @@
 
 			<div class="backGroundBar">
 				<div class="space">
-					<select name="selectDepartment" id="selectDepartment">
-						<option>진료과목</option>
-						<option value="소아과">소아과</option>
-						<option value="치과">치과</option>
-						<option value="내과">내과</option>
-						<option value="이비인후과">이비인후과</option>
-						<option value="피부과">피부과</option>
-						<option value="산부인과">산부인과</option>
-						<option value="안과">안과</option>
-						<option value="정형외과">정형외과</option>
-						<option value="한의학과">한의학과</option>
-						<option value="비뇨기과">비뇨기과</option>
-						<option value="신경과">신경과</option>
-						<option value="외과">외과</option>
-						<option value="정신의학과">정신의학과</option>
-					</select>
+
+						<!-- 정렬 리스트 -->
+            <div class="selectDepartment">
+            	<div class="sortTitle margin-right">진료과목</div>
+            	<i class="xi-angle-down-thin"></i>
+            </div>
+          
+	         <div id="openSortList">
+	         	<div class="selectSortList" style="display: none;">
+		            <div class="전체">전체</div>
+		            <div class="소아과">소아과</div>
+		            <div class="치과">치과</div>
+		             <div class="내과">내과</div>
+		            <div class="이비인후과">이비인후과</div>
+		            <div class="피부과">피부과</div>
+		            <div class="산부인과">산부인과</div>
+		            <div class="안과">안과</div>
+		            <div class="정형외과">정형외과</div>
+		              <div class="한의학과">한의학과</div>
+		            <div class="비뇨기과">비뇨기과</div>
+		            <div class="신경과">신경과</div>
+		            <div class="외과">외과</div>
+		            <div class="정신의학과">정신의학과</div>
+	            </div>
+	         </div>
+
 
 					<button class="writeButton" onclick="confirmWriteQna()">작성하기</button>
 				</div>
@@ -120,8 +145,10 @@
 									</c:otherwise>
 								</c:choose>
 							</div>
-						</div>
+
 						<div class="line"></div>
+						</div>
+
 					</a>
 				</c:forEach>
 			</div>
@@ -167,7 +194,6 @@
 </body>
 
 <script>
-
 //실시간채팅으로 가기
 $('.chatting').click(function() { 
 	 if(${sessionScope.mno == null || sessionScope.mno == ''}){
@@ -212,69 +238,19 @@ $('.chatting').click(function() {
 		}
 	}
 </script>
-<script>
-	$(document).ready(function() {
 
-		$("#selectDepartment").change(function() {
-			// 선택된 부서 값을 가져옴
-			var selectedDepartment = $(this).val();
 
-			$.ajax({
-				type : "GET",
-				url : "/selectDepartment",
-				data : {
-					department : selectedDepartment
-				},
-				success : function(response) {
 
-					updateQnaList(response);
-				},
-				error : function(error) {
-					console.error("Error fetching data:", error);
-				}
-			});
-		});
-	});
-</script>
-<script>
-	function updateQnaList(filteredQnaList) {
-		var qnaListContainer = document.getElementById("qnaListContainer");
-		qnaListContainer.innerHTML = "";
-
-		for (var i = 0; i < filteredQnaList.length; i++) {
-			var qna = filteredQnaList[i];
-			var listItem = document.createElement("div");
-			listItem.className = "filterList";
-			listItem.innerHTML = "<a href='/qnaDetail?bno="
-					+ qna.bno
-					+ "'>"
-					+ "<div class='space'>"
-					+ "<div class='filterTitle'>"
-					+ qna.btitle
-					+ "</div>"
-					+ "<div class='content'>"
-					+ qna.bcontent
-					+ "</div>"
-					+ "<div class='kind'>"
-					+ qna.dpkind
-					+ "</div>"
-					+ (qna.comment_count == 0 ? "답변 대기 중"
-							: "<div class='count'>답변 " + qna.comment_count
-									+ "개</div>") + "</div>"
-					+ "<div class='line'></div>" + "</div></a><br>";
-			qnaListContainer.appendChild(listItem);
-		}
-	}
-</script>
 <script>
 	function confirmWriteQna() {
 		
 		const mno = "${mno}";
 
 		if (mno === null || mno === undefined || mno === "") {
-			if (confirm("로그인 한 사용자만 작성할 수 있습니다. 로그인 하시겠습니까?")) {
-				window.location.href = "/login";
-			}
+
+			$(".dh-modal-wrapper").show();
+			
+
 		} else {
 			window.location.href = 'writeQna';
 		}
@@ -313,10 +289,76 @@ $('.chatting').click(function() {
 
 	}
 
-	//뒤로가기 버튼
-	$(document).on("click", ".xi-angle-left", function() {
-		history.back();
-	});
 	
+	$(document).on("click", ".selectDepartment", function(){
+  	  $("#openSortList").toggleClass("maxList");
+        $(".selectSortList").slideToggle("fast");
+    });
+	
+	$(document).on("click", ".selectOptionTitle", function(){
+	  	  $("#openOptionList").toggleClass("maxOptionList");
+	        $(".selectOptionList").slideToggle("fast");
+	    });
+	
+	
+
+	function updateSelectedOption(option) {
+		
+	    document.getElementById("optionTitle").textContent = option;
+	    document.getElementById("selectedOptionInput").value = option;
+
+	}
+	
+	
+	
+
+	document.addEventListener("DOMContentLoaded", function () {
+		  // 진료과목 선택하는 요소
+		var selectDepartment = document.querySelector(".selectDepartment");
+
+		  // 키워드에 해당하는 게시글만 필터링하는 함수
+		  function filterByKeyword(keyword) {
+		    var qnaListContainer = document.getElementById("qnaListContainer");
+		    var qnaItems = qnaListContainer.getElementsByClassName("list");
+
+		    for (var i = 0; i < qnaItems.length; i++) {
+		      var qnaItem = qnaItems[i];
+		      var kindElement = qnaItem.querySelector(".kind");
+		      
+		      // "전체"를 선택한 경우 모든 아이템 보이기
+		      if (keyword === "전체") {
+		        qnaItem.style.display = "block";
+		      } else {
+		        // kind 값이 존재하고, kind 값이 선택한 키워드와 다를 경우 해당 아이템 숨김 처리
+		        if (kindElement && kindElement.textContent !== keyword) {
+		          qnaItem.style.display = "none";
+		        } else {
+		          qnaItem.style.display = "block";
+		        }
+		      }
+		    }
+		  }
+		
+
+		  // 각 진료과목 선택 시 이벤트 리스너 추가
+		  var sortItems = document.querySelectorAll("#openSortList .selectSortList > div");
+		  sortItems.forEach(function (item) {
+		    item.addEventListener("click", function () {
+		      // 선택한 키워드 가져오기
+		      var selectedKeyword = item.textContent.trim();
+
+		      // 진료과목 선택 버튼에 선택한 키워드 표시
+		      selectDepartment.querySelector(".sortTitle").textContent = selectedKeyword;
+
+		      // 키워드에 해당하는 게시글만 표시
+		      filterByKeyword(selectedKeyword);
+		    });
+		  });
+		});
+	
+	
+	 
+	
+
 </script>
 </html>

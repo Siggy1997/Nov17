@@ -70,7 +70,7 @@
 </head>
 <body>
 	<header>
-		<a href="/main"><i class="xi-angle-left xi-x"></i></a>
+		<a href="/menu"><i class="xi-angle-left xi-x"></i></a>
 		<div class="headerTitle">건강기록</div>
 		<div class="blank"></div>
 	</header>

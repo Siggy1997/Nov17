@@ -173,8 +173,15 @@
 		});
 		
 		/* 정렬 */
-		$(".sortDoctor").change(function(){
-			let selectedOption = $(this).find("option:selected").text();
+		$(document).on("click", ".sortByList", function(){
+	    	  $("#openSortList").toggleClass("maxList");
+	          $(".selectSortList").slideToggle("fast");
+      	});
+		
+		$(document).on("click", ".optionTitle", function(){
+			
+			let selectedOption = $(this).text().trim();
+	         $(".sortTitle").text(selectedOption);
 			
 			/* 별점 순 정렬 */
 			if (selectedOption === '별점 순') {
@@ -208,6 +215,8 @@
 	            });
 				$(".doctorListContainerBox").html(doctorListContainer);
 			}
+			$(".selectSortList").slideToggle("fast");
+	        $("#openSortList").toggleClass("maxList");
 		});
 		
 		/* 카테고리 선택 해제 */
@@ -340,11 +349,20 @@
 				<div class="doctorCount count">
 					의사 <span class="countNumber"></span>
 				</div>
-				<select class="sortDoctor sortByList">
-					<option class="sortByExact">기본 순</option>
-					<option class="sortByRate">별점 순</option>
-					<option class="sortByReview">리뷰 순</option>
-				</select>
+				
+				<!-- 정렬 리스트 -->
+	            <div class="sortByList">
+	            	<div class="sortTitle margin-right">기본 순</div>
+	            	<i class="xi-angle-down-thin"></i>
+	            </div>
+	          
+		         <div id="openSortList">
+		         	<div class="selectSortList" style="display: none;">
+			            <div class="optionTitle">기본 순</div>
+			            <div class="optionTitle">별점 순</div>
+			            <div class="optionTitle">리뷰 순</div>
+		            </div>
+		         </div>
 			</div>
 
 			<!-- list -->

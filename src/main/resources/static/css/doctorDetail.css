@@ -228,6 +228,10 @@ main {
 	padding: 20px;
 }
 
+.doctorIntroduce h3 {
+margin-bottom: 10px;
+}
+
 .doctorCareer {
 	width: 90%;
 	margin: 0 auto;
@@ -268,7 +272,7 @@ main {
 /* footer */
 .submit {
 	width: 90%;
-	height: 80%;
+	height: 70%;
 	border-radius: 7px;
 	color: #787878;
 	background-color: #ebebeb;
@@ -277,13 +281,20 @@ main {
 	font-weight: 500;
 }
 
-
-.btn-color-css {
-	background-color: rgba(0, 201, 255, 0.11) !important;
-	border: 1px solid #00C9FF !important;
-	color: black !important;
+.submit button {
+	font-size: 15px;
+	font-weight: 500;
+	color: #787878;
+	background-color: #ebebeb;
+	border: none;
 }
 
+.submit-btn-css {
+	background-color: #00C9FF;
+	color: white;
+}
+
+/* 리뷰 */
 .reviewHeader {
 	display: flex;
 	width: 90%;
@@ -400,4 +411,20 @@ main {
 .reviewContent {
 	font-size: 20px;
 	padding: 7px 0;
+}
+
+/* 서브 메뉴 고정 */
+.fixed {
+	position: fixed;
+	height: 7vh;
+	width: 100%;
+	box-sizing: border-box;
+	top: 7vh;
+	background-color: white;
+}
+
+.selectOption {
+	color: black !important;
+	font-weight: 700 !important;
+	border-bottom: 2px solid black !important;
 }
