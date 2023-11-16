@@ -74,7 +74,7 @@
 		    if ($(this).text() == '소개') {
 		        offset = $(".doctorInfoBox").offset().top - (15 * window.innerHeight / 100);
 		    }  else {
-		        offset = $(".doctorReviewBox").offset().top - (18 * window.innerHeight / 100);
+		        offset = $(".doctorReviewBox").offset().top - (15 * window.innerHeight / 100);
 		    }
 		    $("html, body").animate({
 		        scrollTop: offset
