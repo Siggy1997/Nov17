@@ -8,6 +8,21 @@
 	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
 	;
 
+<<<<<<< HEAD
+=======
+
+@keyframes slidein {from { margin-left:100%;
+	width: 300%;
+}
+
+to {
+	margin-left: 0%;
+	width: 100%;
+}
+
+}
+
+>>>>>>> ab5f8eb9874b487696e9eb29b09b9099c059ad6f
 /* 기본 틀 */
 * {
 	font-family: "Pretendard Variable";

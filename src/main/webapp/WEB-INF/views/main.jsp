@@ -333,7 +333,7 @@
 </script>
 </head>
 <body>
-
+	<%@ include file="loginAlert.jsp"%>
 
 	<%@ include file="menu.jsp"%>
 	<%@ include file="loginAlert.jsp"%>

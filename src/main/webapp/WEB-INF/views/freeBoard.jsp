@@ -85,7 +85,6 @@
 
 </body>
 <script>
-
 	
     var maxLength = 30; // 최대 문자열 길이
     var contentElements = document.querySelectorAll(".content");

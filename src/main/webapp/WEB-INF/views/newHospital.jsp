@@ -73,6 +73,7 @@
 <form action="/hospitalAdd" method="POST">
 
 	<header>
+
 		<a href="/login"><i class="xi-angle-left xi-x"></i></a>
 		<div class="headerTitle">병원개설</div>
 		<div class="blank"></div>
@@ -142,6 +143,39 @@
 				<p>주차 여부</p>
 				<input type="checkbox" id="rhparking" name="rhparking" class="vector cm-toggle">
 			</div>
+			<div class="Group">
+				<p>종료시간</p>
+				<input class="vector" type="text" placeholder="종료시간" name="rhclosetime">
+			</div>
+			<div class="Group">
+				<p>야간 진료 요일</p>
+				<input class="vector" id="rhnightday" type="text" placeholder="야간 진료요일" name="rhnightday">
+			</div>
+			<div class="Group" id="rhnightendtime">
+				<p>야간 종료시간</p>
+				<input class="vector" type="text" placeholder="야간 종료시간" name="rhnightendtime">
+			</div>
+			<div class="Group">
+				<p>브레이크 타임</p>
+				<input class="vector" id="rhbreaktime" type="text" placeholder="브레이크 타임" name="rhbreaktime">
+			</div>
+			<div class="Group" id="rhbreakendtime">
+				<p>브레이크 종료시간</p>
+				<input class="vector" type="text" placeholder="브레이크 종료시간" name="rhbreakendtime">
+			</div>
+			<div class="Group">
+				<p>공휴일 진료여부</p>
+				<input type="checkbox" id="rhholiday" name="rhholiday" class="vector cm-toggle">
+			</div>
+			<div class="Group" id="rhholidayendtime">
+				<p>공휴일 종료시간</p>
+				<input class="vector" type="text" placeholder="공휴일 종료시간" name="rhholidayendtime">
+			</div>
+			<div class="Group">
+				<p>주차 여부</p>
+				<input type="checkbox" id="rhparking" name="rhparking" class="vector cm-toggle">
+			</div>
+		</div>
 		</div>
 		</div>
 	<div style="height: 9vh"></div>
