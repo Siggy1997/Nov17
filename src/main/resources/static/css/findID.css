@@ -118,7 +118,7 @@ footer button {
 .input-area{
     width: 100%;
     height: 5%;
-    margin: 28px 0px;
+	margin: 55px 0px;
 }
 
 .input-area input {
@@ -189,7 +189,7 @@ button{
 }
 
 #findIDBtn {
-    font-weight: 700;
+ font-weight: 700;
     background-color: #00c9ff;
     color: white;
     width: 100%;
@@ -197,7 +197,7 @@ button{
     border: none;
     border-radius: 14px;
     font-size: 15px;
-    margin: 100px 0px 0px 0px;
+    margin: 250px 0px 0px 0px;
     
 }
 
@@ -224,7 +224,7 @@ button{
 	width: 100%;
 	text-align: center;
 	line-height: 59px;
-	margin: 34px 0px;
+    margin: 28px 0px;
 }
 
 .bottom a {

@@ -30,4 +30,6 @@ public interface DocAdminDAO {
 
 	Map<String, Object> findHospitalImg(int dno);
 
+	void updateNotification(Map<String, Object> map);
+
 }

@@ -153,6 +153,8 @@
 		</div>	
 	</main>
 	
+	<footer></footer>
+	
 		<!-- 알람모달 -->
 	
 	<div id="dh-modal-alert">
