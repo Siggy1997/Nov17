@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.mysql.cj.Session;
 
 @Controller
 public class AdminController {
@@ -61,7 +64,7 @@ public class AdminController {
 	}
 
 	// member
-	@RequestMapping(value = "/member", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/member", method = RequestMethod.GET)
 	public ModelAndView member(HttpSession session) {
 
 		ModelAndView mv = new ModelAndView("admin/member");
@@ -151,8 +154,8 @@ public class AdminController {
 		return "/newDoctor";
 	}
 	
-	@PostMapping("/newDoctor")
-	public String newDoctor(@RequestParam Map<String, Object> map) {
+	@PostMapping("/completeHosDoc")
+	public String newDoctor(@RequestParam Map<String, Object> map, RedirectAttributes redirectAttributes) {
 		System.out.println(map);
 		
 		System.out.println(map.containsKey("rdgender"));
@@ -184,7 +187,10 @@ public class AdminController {
 		System.out.println(map.get("rhno"));
 		System.out.println(map.get("rhname"));
 		// Base64.getEncoder().encodeToString(map.get("hname").getBytes())
-		return "redirect:/newDoctor";
+		
+		redirectAttributes.addAttribute("rhno", map.get("rhno"));
+		
+		return "redirect:/completeHosDoc";
 	}
 	
 	@RequestMapping(value = "/admin/hospitalOpen", method = RequestMethod.GET)
@@ -201,7 +207,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/completeHosDoc")
-	public String completeHosDoc() {
+	public String completeHosDoc(@RequestParam("rhno") int rhno) {
 		
 		return "completeHosDoc";
 	}
@@ -209,8 +215,10 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("/admin/detail")
 	public String detail(@RequestParam("rhno") int rhno) {
-
-		Map<String, Object> detail = adminService.detail(rhno);
+		System.out.println(rhno);
+		
+		
+		List<Map<String, Object>> detail = adminService.detail(rhno);
 
 		JSONObject json = new JSONObject();
 		json.put("detail", detail);
@@ -257,7 +265,7 @@ public class AdminController {
 	@PostMapping("/admin/newHosDoc")
 	public String realHospital(@RequestParam("rhno") int rhno) {
 		
-		Map<String, Object> hospitalApproval = adminService.detail(rhno);
+		Map<String, Object> hospitalApproval = adminService.detailOne(rhno);
 		int insertHospital = adminService.insertHospital(hospitalApproval);
 		System.out.println(insertHospital);
 		int deleteHospital = adminService.deleteHospital(rhno);

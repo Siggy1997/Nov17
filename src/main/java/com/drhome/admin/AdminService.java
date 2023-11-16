@@ -78,7 +78,7 @@ public class AdminService {
 		return adminDAO.resultCh(map);
 	}
 
-	public Map<String, Object> detail(int rhno) {
+	public List<Map<String, Object>> detail(int rhno) {
 		return adminDAO.detail(rhno);
 	}
 
@@ -136,6 +136,14 @@ public class AdminService {
 
 	public List<Map<String, Object>> newDoctor(int rdno) {
 		return adminDAO.newDoctor(rdno);
+	}
+
+	public int insertRegisterDocom(Map<String, Object> map) {
+		return adminDAO.insertRegisterDocom(map);
+	}
+
+	public Map<String, Object> detailOne(int rhno) {
+		return adminDAO.detailOne(rhno);
 	}
 
 	/*

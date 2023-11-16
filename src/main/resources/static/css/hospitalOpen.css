@@ -26,6 +26,11 @@
 	background-color: #F5F5F5;
 }
 
+.line {
+	height: 5px;
+	background-color: #F5F5F5;
+}
+
 .searchTab {
 	text-align: center;
 }
@@ -45,9 +50,9 @@
 }
 
 .modal-footer {
+	margin-top: 12px;
 	display: flex;
 	text-align: center;
-	margin: 0 auto;
 }
 
 #closeBtn {
@@ -209,4 +214,10 @@ input {
 	-webkit-transition: ease .3s;
 	-moz-transition: ease .3s;
 	-o-transition: ease .3s;
+}
+
+
+.edit-header {
+	display: inline-block;
+	margin: 0 auto;
 }
