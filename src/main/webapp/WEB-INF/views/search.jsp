@@ -5,12 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>search</title>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/telehealthSearch.css">
-<script src="./js/jquery-3.7.0.min.js"></script> 
+<script src="./js/jquery-3.7.0.min.js"></script>
 <script src="./js/wnInterface.js"></script>
 <script src="./js/mcore.min.js"></script>
 <script src="./js/mcore.extends.js"></script>
@@ -20,6 +22,16 @@
 	};
 	
 	$(function(){
+		
+		//실시간채팅으로 가기
+		 $('.chatting').click(function() { 
+			 if(${sessionScope.mno == null || sessionScope.mno == ''}){
+				 $('.dh-modal-wrapper').show();
+			 }else{
+		       location.href='./chatting'
+			 }
+		 });
+
 		
 		/* 뒤로가기 버튼 */
 		$(document).on("click", ".xi-angle-left", function(){
@@ -163,26 +175,30 @@
 
 </head>
 <body>
+	<%@ include file="loginAlert.jsp"%>
 	<form id="searchForm" action="/search" method="post">
-	<header>
-		<i class="xi-angle-left xi-x"></i>
-		<div class="headerTitle">병원 검색</div>
-		<div class="blank"></div>
-	</header>
-	
-	<main class="searchBox container">
-		
+		<header>
+			<i class="xi-angle-left xi-x"></i>
+			<div class="headerTitle">병원 검색</div>
+			<div class="blank"></div>
+		</header>
+
+		<main class="searchBox container">
+
 			<!-- search -->
 			<div class="search">
 				<div class="searchInput">
-					<input placeholder="진료과, 증상, 병원을 검색하세요." name="keyword" id="keyword">
+					<input placeholder="진료과, 증상, 병원을 검색하세요." name="keyword"
+						id="keyword">
 					<div class="deleteSearch">
 						<i class="icon"></i>
 					</div>
 				</div>
-				<button class="searchButton"><img src="./img/search.png"></button>
+				<button class="searchButton">
+					<img src="./img/search.png">
+				</button>
 			</div>
-			
+
 			<div class="serachItem">
 				<!-- 최근 검색 -->
 				<div class="searchRecent">
@@ -193,7 +209,9 @@
 					<div class="searchRecentItems">
 						<div class="recentItemBox">
 							<button class="recentItem"></button>
-							<div class="deleteKeyword"><i class="xi-close-min"></i></div>
+							<div class="deleteKeyword">
+								<i class="xi-close-min"></i>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -212,8 +230,43 @@
 					</div>
 				</div>
 			</div>
-	</main>
-		</form>
+			<div style="height: 9vh"></div>
+			
+			
+		
+		</main>
+	</form>
 	
+	
+	<footer>
+		<a href="./main">
+			<div class="footerIcon">
+				<img alt="없음" src="/img/mainHomebefore.png">
+				<p>홈</p>
+			</div>
+		</a> <a href="./search">
+			<div class="footerIcon now">
+				<img alt="없음" src="/img/mainSearchAfter.png">
+				<p>검색</p>
+			</div>
+		</a> <a href="./hospitalMap">
+			<div class="footerMain">
+				<div class="footerIcon" id="mapIcon">
+					<img alt="없음" src="/img/mainMap.png">
+				</div>
+			</div>
+		</a> <a href="./qnaBoard">
+			<div class="footerIcon">
+				<img alt="없음" src="/img/mainQnAbefore.png">
+				<p>고민 상담</p>
+			</div>
+		</a><a class="chatting">
+			<div class="footerIcon">
+				<img alt="없음" src="/img/myChatting3.png">
+				<p>실시간 채팅</p>
+			</div>
+		</a>
+	</footer>
+
 </body>
 </html>

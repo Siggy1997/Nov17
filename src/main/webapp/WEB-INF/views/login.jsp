@@ -5,8 +5,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>Login</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link href="./css/login.css" rel="stylesheet" />
@@ -258,6 +259,7 @@ $(document).ready(function(){
 			</div>
 		</div>
 			
+			<div class="middle-area">
 			<p class="info"></p>
 			<div class="find-form">
 				<a href="./findID" class="find">&nbsp;&nbsp;아이디 찾기 | </a> 
@@ -265,12 +267,21 @@ $(document).ready(function(){
 				<a href="./join" class="find"> &nbsp;&nbsp;회원가입</a>
 			</div>
 			
-			<div class="button-area">
-				<button class="loginBtn">Sign In →</button>
+			<div class="joinHospital-area">
+				 <div class="joinHospital"><a href="/newHospital" class="joinHospital">&nbsp;&nbsp;병원 등록하러 가기</a></div>
+			</div>
+			</div>
+			
+			<div class="bottom-area">
+				<div class="button-area">
+					<button class="loginBtn">Sign In →</button>
+				</div>
+				
+				<div class="joinHospital-area">
+					<div class="joinHospital"><a href="/main" class="joinHospital">&nbsp;&nbsp;메인화면으로 가기</a></div>
+				</div>
 			</div>
 				
-			<div class="joinHospital-area">
-				 <div class="joinHospital">병원 개설이 필요하신가요? <a href="admin/newHospital" class="joinHospital">&nbsp;&nbsp;병원 등록하러 가기</a></div>
 <%-- 				<div>비대면 진료 페이지<a href="/docReception/${sessionScope.mno}/${sessionScope.dno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>건강기록<a href="/healthRecord/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>내정보<a href="/myInfo/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
@@ -278,7 +289,6 @@ $(document).ready(function(){
 				<div>예약내역확인<a href="/medicalHistory/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>
 				<div>결제<a href="/pay/${sessionScope.mno}?tno=1">&nbsp;&nbsp;바로가기</a></div>
 				<div>결제완료<a href="/completePay/${sessionScope.mno}">&nbsp;&nbsp;바로가기</a></div>   --%>
-			</div>
 	</main>
 	
 	<footer></footer>

@@ -2,17 +2,19 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ page import="java.util.Calendar, java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar, java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>hospitalList</title>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="./css/hospital.css">
-<script src="./js/jquery-3.7.0.min.js"></script> 
+<script src="./js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		/* 뒤로가기 버튼 */
@@ -253,7 +255,7 @@
 			
 			let hospitalName = '';
 			let hospitalDelName = '';
-			let sessionId = "<%=session.getAttribute("mid") %>"
+			let sessionId = "<%=session.getAttribute("mid")%>"
 			
 			/* 로그인 체크 */
 			if( sessionId == "null" || sessionId == '' ) {
@@ -488,336 +490,400 @@
 </head>
 <body>
 	<form id="searchForm" action="/search" method="post">
-	
-	<!-- header -->
-	<header>
-		<i class="xi-angle-left xi-x"></i>
-		<div class="headerTitle">병원 검색</div>
-		<div class="blank"></div>
-	</header>
-	
-	<main class="hospitalBox container">
-		
-		<!-- search -->
-		<div class="search">
-			<div class="searchInput">
-				<input placeholder="진료과, 증상, 병원을 검색하세요." name="keyword" id="keyword">
-				<div class="deleteSearch">
-					<i class="icon"></i>
+
+		<!-- header -->
+		<header>
+			<i class="xi-angle-left xi-x"></i>
+			<div class="headerTitle">병원 검색</div>
+			<div class="blank"></div>
+		</header>
+
+		<main class="hospitalBox container">
+
+			<!-- search -->
+			<div class="search">
+				<div class="searchInput">
+					<input placeholder="진료과, 증상, 병원을 검색하세요." name="keyword"
+						id="keyword">
+					<div class="deleteSearch">
+						<i class="icon"></i>
+					</div>
 				</div>
-			</div>
-			<button class="searchButton"><img src="./img/search.png"></button>
-		</div>
-		
-		<!-- filter -->
-		<div class="filter">
-			<div class="filterGroup">
-				<!-- <button type="button" class="selectByLocal select"><span class="xi-my-location margin-right"></span> 위치</button> -->
-				<button type="button" class="selectByAvailable select"><span class="xi-time-o margin-right"></span> 진료중</button>
-				<button type="button" class="selectByDepartment select">
-					<div class="xi-plus-square-o margin-right"></div> 
-					<div class="selectByDepartmentText"> 진료과/증상</div>
-					<div class="xi-angle-down-min deleteKeyword"></div>
+				<button class="searchButton">
+					<img src="./img/search.png">
 				</button>
 			</div>
-			<button type="button" class="selectByCategory">
-				<span class="xi-tune"></span>
-			</button>
-		</div>
-		
-		<!-- title -->
-		<div class="hospitalBar bar">
-			<div class="hospitalCount count">
-				병원 <span class="countNumber"></span>
-			</div>
-			<select class="sortHospital sortByList">
-				<option class="sortByExact">기본 순</option>
-				<option class="sortByRate">별점 순</option>
-				<option class="sortByReview">리뷰 순</option>
-			</select>
-		</div>
-		
-	<!-- list -->
-	<div class="nightCare"><div>오늘 야간진료 병원</div></div>
-	<div class="hospitalListContainerBox">
-		 <c:forEach items="${hospitalList}" var="row">
-		 	<div class="hospitalListContainer">
-		 		<div class="listContainer">
-				<div class="hospitalList">
-					<div class="hospitalStatus">
-					
-						<!-- 공휴일 -->
-						<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
-							<c:choose>
-								<c:when test="${row.hholiday == 1}">
-									<c:choose>
-										<c:when test="${currentTime ge row.hopentime && currentTime le row.hholidayendtime}">
-											<span class="availableCircle">● </span><span class="hospitalStatus_text">진료 중</span>
-										</c:when>
-										<c:otherwise><span class="unavailableCircle">● </span><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
-									</c:choose>
-								</c:when>
-								<c:otherwise><span class="unavailableCircle">● </span><span class="hospitalStatus_text">휴진</span></c:otherwise>
-							</c:choose>
-						</c:if>
-						
-						<!-- 평일 -->
-						<c:if test="${ !(currentDay == '토요일' || currentDay == '일요일') }">
-							<c:choose>
-								<c:when test="${row.hnightday == currentDay}">
-									<c:choose>
-										<c:when test="${currentTime ge row.hopentime && currentTime le row.hnightendtime}">
-											<span class="availableCircle">● </span><span class="hospitalStatus_text">진료 중</span>
-										</c:when>
-										<c:when test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
-											<span class="unavailableCircle">● </span><span class="hospitalStatus_text">점심시간</span>
-										</c:when>
-										<c:otherwise><span class="unavailableCircle">● </span><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
-									</c:choose>
-								</c:when>
-								<c:otherwise>
-									<c:choose>
-										<c:when test="${currentTime ge row.hopentime && currentTime le row.hclosetime}">
-											<span class="availableCircle">● </span><span class="hospitalStatus_text">진료 중</span>
-										</c:when>
-										<c:when test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
-											<span class="unavailableCircle">● </span><span class="hospitalStatus_text">점심시간</span>
-										</c:when>
-										<c:otherwise><span class="unavailableCircle">● </span><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
-										</c:choose>
-								</c:otherwise>
-							</c:choose>
-						</c:if>
-					</div>
-					
-					<div class="hospitalHeader" onclick="hospitalDetail(${row.hno})">
-						<div class="hospitalName">${row.hname}</div>
-						<div class="hospitalDepartment">${row.dpkind}</div>
-					</div>
-					<div class="hospitalBody" onclick="hospitalDetail(${row.hno})">
-						<!-- <div class="hospitalDistance">뺄지말지고민</div> -->
-						<div class="hospitalAddress">${row.haddr}</div>
-					</div>
-					<div class="hospitalReview" onclick="hospitalDetail(${row.hno})">
-						<img src="./img/star.png" style="width: 18px;">
-						<div class="reviewScore">${row.hReviewAverage}</div>
-						<div class="reviewCount">(${row.hReviewCount})</div>
-					</div>
-					<div class="hospitalReserve">
-						<div class="receptionStatus" onclick="hospitalReception(${row.hno})"></div>
-						<input type="hidden" class="hno" value="${row.hno}">
-						<div class="reservationStatus" onclick="hospitalAppointment(${row.hno})">예약 가능</div>
-					</div>
+
+			<!-- filter -->
+			<div class="filter">
+				<div class="filterGroup">
+					<!-- <button type="button" class="selectByLocal select"><span class="xi-my-location margin-right"></span> 위치</button> -->
+					<button type="button" class="selectByAvailable select">
+						<span class="xi-time-o margin-right"></span> 진료중
+					</button>
+					<button type="button" class="selectByDepartment select">
+						<div class="xi-plus-square-o margin-right"></div>
+						<div class="selectByDepartmentText">진료과/증상</div>
+						<div class="xi-angle-down-min deleteKeyword"></div>
+					</button>
 				</div>
-				<c:choose>
-					<c:when test="${sessionScope.mno ne null}">
-						<c:choose>
-							<c:when test="${fn:contains(hospitalLikeList, row.hname)}">
-								<div class="hospitalLike xi-heart"></div>
-							</c:when>
-							<c:otherwise>
-								<div class="hospitalLike xi-heart-o"></div>
-							</c:otherwise>
-						</c:choose>
-					</c:when>
-					<c:otherwise>
-						<div class="hospitalLike xi-heart-o"></div>
-					</c:otherwise>
-				</c:choose>
+				<button type="button" class="selectByCategory">
+					<span class="xi-tune"></span>
+				</button>
 			</div>
-			<div class="graySeperate"></div>
+
+			<!-- title -->
+			<div class="hospitalBar bar">
+				<div class="hospitalCount count">
+					병원 <span class="countNumber"></span>
+				</div>
+				<select class="sortHospital sortByList">
+					<option class="sortByExact">기본 순</option>
+					<option class="sortByRate">별점 순</option>
+					<option class="sortByReview">리뷰 순</option>
+				</select>
 			</div>
-		</c:forEach>
-		
-		<c:if test="${notTodayNightHospital.size() gt 0 }">
-		<div class="nightCare"><div>다른 요일 야간진료 병원</div></div>
-			<c:forEach items="${notTodayNightHospital}" var="row">
-					
-				<div class="hospitalListContainer">
-					<div class="listContainer">
-						<div class="hospitalList">
-						<div class="hospitalStatus">
-						
-							<!-- 공휴일 -->
-							<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
-								<c:choose>
-									<c:when test="${row.hholiday == 1}">
+
+			<!-- list -->
+			<div class="nightCare">
+				<div>오늘 야간진료 병원</div>
+			</div>
+			<div class="hospitalListContainerBox">
+				<c:forEach items="${hospitalList}" var="row">
+					<div class="hospitalListContainer">
+						<div class="listContainer">
+							<div class="hospitalList">
+								<div class="hospitalStatus">
+
+									<!-- 공휴일 -->
+									<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
 										<c:choose>
-											<c:when test="${currentTime ge row.hopentime && currentTime le row.hholidayendtime}">
-												<span class="availableCircle">● </span><span class="hospitalStatus_text">진료 중</span>
+											<c:when test="${row.hholiday == 1}">
+												<c:choose>
+													<c:when
+														test="${currentTime ge row.hopentime && currentTime le row.hholidayendtime}">
+														<span class="availableCircle">● </span>
+														<span class="hospitalStatus_text">진료 중</span>
+													</c:when>
+													<c:otherwise>
+														<span class="unavailableCircle">● </span>
+														<span class="hospitalStatus_text">진료 종료</span>
+													</c:otherwise>
+												</c:choose>
 											</c:when>
-											<c:otherwise><span class="unavailableCircle">● </span><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
+											<c:otherwise>
+												<span class="unavailableCircle">● </span>
+												<span class="hospitalStatus_text">휴진</span>
+											</c:otherwise>
 										</c:choose>
-									</c:when>
-									<c:otherwise><span class="unavailableCircle">● </span><span class="hospitalStatus_text">휴진</span></c:otherwise>
-								</c:choose>
-							</c:if>
-							<!-- 평일 -->
-							<c:if test="${ !(currentDay == '토요일' || currentDay == '일요일') }">
-								<c:choose>
-									<c:when test="${row.hnightday == currentDay}">
+									</c:if>
+
+									<!-- 평일 -->
+									<c:if test="${ !(currentDay == '토요일' || currentDay == '일요일') }">
 										<c:choose>
-											<c:when test="${currentTime ge row.hopentime && currentTime le row.hnightendtime}">
-												<span class="availableCircle">● </span><span class="hospitalStatus_text">진료 중</span>
+											<c:when test="${row.hnightday == currentDay}">
+												<c:choose>
+													<c:when
+														test="${currentTime ge row.hopentime && currentTime le row.hnightendtime}">
+														<span class="availableCircle">● </span>
+														<span class="hospitalStatus_text">진료 중</span>
+													</c:when>
+													<c:when
+														test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
+														<span class="unavailableCircle">● </span>
+														<span class="hospitalStatus_text">점심시간</span>
+													</c:when>
+													<c:otherwise>
+														<span class="unavailableCircle">● </span>
+														<span class="hospitalStatus_text">진료 종료</span>
+													</c:otherwise>
+												</c:choose>
 											</c:when>
-											<c:when test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
-												<span class="unavailableCircle">● </span><span class="hospitalStatus_text">점심시간</span>
-											</c:when>
-											<c:otherwise><span class="unavailableCircle">● </span><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
+											<c:otherwise>
+												<c:choose>
+													<c:when
+														test="${currentTime ge row.hopentime && currentTime le row.hclosetime}">
+														<span class="availableCircle">● </span>
+														<span class="hospitalStatus_text">진료 중</span>
+													</c:when>
+													<c:when
+														test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
+														<span class="unavailableCircle">● </span>
+														<span class="hospitalStatus_text">점심시간</span>
+													</c:when>
+													<c:otherwise>
+														<span class="unavailableCircle">● </span>
+														<span class="hospitalStatus_text">진료 종료</span>
+													</c:otherwise>
+												</c:choose>
+											</c:otherwise>
 										</c:choose>
-									</c:when>
-									<c:otherwise>
-										<c:choose>
-											<c:when test="${currentTime ge row.hopentime && currentTime le row.hclosetime}">
-												<span class="availableCircle">● </span><span class="hospitalStatus_text">진료 중</span>
-											</c:when>
-											<c:when test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
-												<span class="unavailableCircle">● </span><span class="hospitalStatus_text">점심시간</span>
-											</c:when>
-											<c:otherwise><span class="unavailableCircle">● </span><span class="hospitalStatus_text">진료 종료</span></c:otherwise>
-										</c:choose>
-									</c:otherwise>
-								</c:choose>
-							</c:if>
-						</div>
-						<div class="hospitalHeader" onclick="hospitalDetail(${row.hno})">
-							<div class="hospitalName">${row.hname}</div>
-							<div class="hospitalDepartment">${row.dpkind}</div>
-						</div>
-						<div class="hospitalBody" onclick="hospitalDetail(${row.hno})">
-							<!-- <div class="hospitalDistance">뺄지말지고민</div> -->
-							<div class="hospitalAddress">${row.haddr}</div>
-						</div>
-						<div class="hospitalReview" onclick="hospitalDetail(${row.hno})">
-							<img src="./img/star.png" style="width: 18px;">
-							<div class="reviewScore">${row.hReviewAverage}</div>
-							<div class="reviewCount">(${row.hReviewCount})</div>
-						</div>
-						<div class="hospitalReserve">
-							<div class="receptionStatus"></div>
-							<input type="hidden" class="hno" value="${row.hno}">
-							<div class="reservationStatus" onclick="hospitalAppointment(${row.hno})">예약 가능</div>
-						</div>
-					</div>
-					<c:choose>
-						<c:when test="${sessionScope.mno ne null}">
+									</c:if>
+								</div>
+
+								<div class="hospitalHeader" onclick="hospitalDetail(${row.hno})">
+									<div class="hospitalName">${row.hname}</div>
+									<div class="hospitalDepartment">${row.dpkind}</div>
+								</div>
+								<div class="hospitalBody" onclick="hospitalDetail(${row.hno})">
+									<!-- <div class="hospitalDistance">뺄지말지고민</div> -->
+									<div class="hospitalAddress">${row.haddr}</div>
+								</div>
+								<div class="hospitalReview" onclick="hospitalDetail(${row.hno})">
+									<img src="./img/star.png" style="width: 18px;">
+									<div class="reviewScore">${row.hReviewAverage}</div>
+									<div class="reviewCount">(${row.hReviewCount})</div>
+								</div>
+								<div class="hospitalReserve">
+									<div class="receptionStatus"
+										onclick="hospitalReception(${row.hno})"></div>
+									<input type="hidden" class="hno" value="${row.hno}">
+									<div class="reservationStatus"
+										onclick="hospitalAppointment(${row.hno})">예약 가능</div>
+								</div>
+							</div>
 							<c:choose>
-								<c:when test="${fn:contains(hospitalLikeList, row.hname)}">
-									<div class="hospitalLike xi-heart"></div>
+								<c:when test="${sessionScope.mno ne null}">
+									<c:choose>
+										<c:when test="${fn:contains(hospitalLikeList, row.hname)}">
+											<div class="hospitalLike xi-heart"></div>
+										</c:when>
+										<c:otherwise>
+											<div class="hospitalLike xi-heart-o"></div>
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise>
 									<div class="hospitalLike xi-heart-o"></div>
 								</c:otherwise>
 							</c:choose>
-						</c:when>
-						<c:otherwise>
-							<div class="hospitalLike xi-heart-o"></div>
-						</c:otherwise>
-				</c:choose>
+						</div>
+						<div class="graySeperate"></div>
+					</div>
+				</c:forEach>
+
+				<c:if test="${notTodayNightHospital.size() gt 0 }">
+					<div class="nightCare">
+						<div>다른 요일 야간진료 병원</div>
+					</div>
+					<c:forEach items="${notTodayNightHospital}" var="row">
+
+						<div class="hospitalListContainer">
+							<div class="listContainer">
+								<div class="hospitalList">
+									<div class="hospitalStatus">
+
+										<!-- 공휴일 -->
+										<c:if test="${currentDay == '토요일' || currentDay == '일요일'}">
+											<c:choose>
+												<c:when test="${row.hholiday == 1}">
+													<c:choose>
+														<c:when
+															test="${currentTime ge row.hopentime && currentTime le row.hholidayendtime}">
+															<span class="availableCircle">● </span>
+															<span class="hospitalStatus_text">진료 중</span>
+														</c:when>
+														<c:otherwise>
+															<span class="unavailableCircle">● </span>
+															<span class="hospitalStatus_text">진료 종료</span>
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise>
+													<span class="unavailableCircle">● </span>
+													<span class="hospitalStatus_text">휴진</span>
+												</c:otherwise>
+											</c:choose>
+										</c:if>
+										<!-- 평일 -->
+										<c:if
+											test="${ !(currentDay == '토요일' || currentDay == '일요일') }">
+											<c:choose>
+												<c:when test="${row.hnightday == currentDay}">
+													<c:choose>
+														<c:when
+															test="${currentTime ge row.hopentime && currentTime le row.hnightendtime}">
+															<span class="availableCircle">● </span>
+															<span class="hospitalStatus_text">진료 중</span>
+														</c:when>
+														<c:when
+															test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
+															<span class="unavailableCircle">● </span>
+															<span class="hospitalStatus_text">점심시간</span>
+														</c:when>
+														<c:otherwise>
+															<span class="unavailableCircle">● </span>
+															<span class="hospitalStatus_text">진료 종료</span>
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise>
+													<c:choose>
+														<c:when
+															test="${currentTime ge row.hopentime && currentTime le row.hclosetime}">
+															<span class="availableCircle">● </span>
+															<span class="hospitalStatus_text">진료 중</span>
+														</c:when>
+														<c:when
+															test="${currentTime ge row.hbreaktime && currentTime le row.hbreakendtime}">
+															<span class="unavailableCircle">● </span>
+															<span class="hospitalStatus_text">점심시간</span>
+														</c:when>
+														<c:otherwise>
+															<span class="unavailableCircle">● </span>
+															<span class="hospitalStatus_text">진료 종료</span>
+														</c:otherwise>
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
+										</c:if>
+									</div>
+									<div class="hospitalHeader"
+										onclick="hospitalDetail(${row.hno})">
+										<div class="hospitalName">${row.hname}</div>
+										<div class="hospitalDepartment">${row.dpkind}</div>
+									</div>
+									<div class="hospitalBody" onclick="hospitalDetail(${row.hno})">
+										<!-- <div class="hospitalDistance">뺄지말지고민</div> -->
+										<div class="hospitalAddress">${row.haddr}</div>
+									</div>
+									<div class="hospitalReview"
+										onclick="hospitalDetail(${row.hno})">
+										<img src="./img/star.png" style="width: 18px;">
+										<div class="reviewScore">${row.hReviewAverage}</div>
+										<div class="reviewCount">(${row.hReviewCount})</div>
+									</div>
+									<div class="hospitalReserve">
+										<div class="receptionStatus"></div>
+										<input type="hidden" class="hno" value="${row.hno}">
+										<div class="reservationStatus"
+											onclick="hospitalAppointment(${row.hno})">예약 가능</div>
+									</div>
+								</div>
+								<c:choose>
+									<c:when test="${sessionScope.mno ne null}">
+										<c:choose>
+											<c:when test="${fn:contains(hospitalLikeList, row.hname)}">
+												<div class="hospitalLike xi-heart"></div>
+											</c:when>
+											<c:otherwise>
+												<div class="hospitalLike xi-heart-o"></div>
+											</c:otherwise>
+										</c:choose>
+									</c:when>
+									<c:otherwise>
+										<div class="hospitalLike xi-heart-o"></div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<div class="graySeperate"></div>
+						</div>
+					</c:forEach>
+				</c:if>
+			</div>
+
+
+			<!-- 진료과/증상 모달 -->
+			<div class="modal fade symptomModal" id="exampleModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<!-- 모달 헤더 -->
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">
+								<button type="button" class="modalDepartment">진료과</button>
+								<button type="button" class="modalSymptom">증상·질환</button>
+							</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- 모달 바디 -->
+						<div class="modal-body">
+							<!-- 진료과 -->
+							<div class="departmentGroup">
+								<button class="departmentKind">전체</button>
+								<c:forEach items="${departmentKeyword}" var="row">
+									<button class="departmentKind">${row.dpkind}</button>
+								</c:forEach>
+							</div>
+							<!-- 증상 -->
+							<div class="symptomContainer">
+								<c:forEach items="${departmentKeyword}" var="row">
+									<div class="symptomKindBox">
+										<div class="symptomGroup">
+											<div class="symptomGroupText">${row.dpsymptom}</div>
+											<div class="xi-angle-down-thin"></div>
+										</div>
+										<div class="symptomKindButton">
+											<c:set var="keywords" value="${row.dpkeyword.split(',')}" />
+											<c:forEach var="keyword" items="${keywords}">
+												<button class="symptomKind">${keyword}</button>
+											</c:forEach>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="graySeperate"></div>
+			</div>
+
+			<!-- 유형 모달 -->
+			<div class="modal fade optionModal" id="exampleModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<!-- 모달 헤더 -->
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">
+								<button type="button" class="modalOption">유형</button>
+							</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- 모달 바디 -->
+						<div class="modal-body">
+							<div class="optionGroup">
+								<button type="button" class="optionKind">
+									<span class="optionKindText">전문의</span> <span
+										class="xi-radiobox-blank"></span>
+								</button>
+								<button type="button" class="optionKind">
+									<span class="optionKindText">여의사</span> <span
+										class="xi-radiobox-blank"></span>
+								</button>
+								<button type="button" class="optionKind">
+									<span class="optionKindText">주차장</span> <span
+										class="xi-radiobox-blank"></span>
+								</button>
+								<button type="button" class="optionKind" value="휴일진료">
+									<span class="optionKindText">휴일진료</span> <span
+										class="xi-radiobox-blank"></span>
+								</button>
+								<button type="button" class="optionKind" value="야간진료">
+									<span class="optionKindText">야간진료</span> <span
+										class="xi-radiobox-blank"></span>
+								</button>
+							</div>
+
+							<input type="hidden" name="optionKeywordBox"
+								id="optionKeywordBox">
+							<div class="optionSubmit">
+								<button>선택완료</button>
+							</div>
+
+						</div>
+					</div>
 				</div>
-			</c:forEach>
-		</c:if>
-	</div>
-		
-		
-		<!-- 진료과/증상 모달 -->
-		<div class="modal fade symptomModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	        <div class="modal-dialog modal-dialog-centered">
-	         <div class="modal-content">
-	            <!-- 모달 헤더 -->
-	            <div class="modal-header">
-	               <h5 class="modal-title" id="exampleModalLabel">
-		               	<button type="button" class="modalDepartment">진료과</button>
-		               	<button type="button" class="modalSymptom">증상·질환</button>
-	               </h5>
-	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-				<!-- 모달 바디 -->
-	            <div class="modal-body">
-	            	<!-- 진료과 -->
-	            	<div class="departmentGroup">
-	            		<button class="departmentKind">전체</button>
-		            	<c:forEach items="${departmentKeyword}" var="row">
-		            	<button class="departmentKind">${row.dpkind}</button>
-		            	</c:forEach>
-	            	</div>
-	            	<!-- 증상 -->
-		  			 <div class="symptomContainer">
-		            	<c:forEach items="${departmentKeyword}" var="row">
-		            	<div class="symptomKindBox">
-		            		<div class="symptomGroup">
-		            			<div class="symptomGroupText">${row.dpsymptom}</div>
-		            			<div class="xi-angle-down-thin"></div>
-		            		</div>
-				        	<div class="symptomKindButton">
-		            		<c:set var="keywords" value="${row.dpkeyword.split(',')}"/>
-					        <c:forEach var="keyword" items="${keywords}">
-				            	<button class="symptomKind">${keyword}</button>
-					        </c:forEach>
-		            		</div>
-			        	</div>
-		            	</c:forEach>
-		           	</div>
-	            </div>
-	         </div>
-	      </div>
-	   </div>
-	   
-	   	<!-- 유형 모달 -->
-		<div class="modal fade optionModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	        <div class="modal-dialog modal-dialog-centered">
-	         <div class="modal-content">
-	            <!-- 모달 헤더 -->
-	            <div class="modal-header">
-	               <h5 class="modal-title" id="exampleModalLabel">
-		               	<button type="button" class="modalOption">유형</button>
-	               </h5>
-	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-				<!-- 모달 바디 -->
-	            <div class="modal-body">
-	            	<div class="optionGroup">
-	            		<button type="button" class="optionKind">
-	            			<span class="optionKindText">전문의</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            		<button type="button" class="optionKind">
-	            			<span class="optionKindText">여의사</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            		<button type="button" class="optionKind">
-	            			<span class="optionKindText">주차장</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            		<button type="button" class="optionKind" value="휴일진료">
-	            			<span class="optionKindText">휴일진료</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            		<button type="button" class="optionKind" value="야간진료">
-	            			<span class="optionKindText">야간진료</span>
-	            			<span class="xi-radiobox-blank"></span>
-	            		</button>
-	            	</div>
+			</div>
+		</main>
+	</form>
 
-						<input type="hidden" name="optionKeywordBox" id="optionKeywordBox">
-						<div class="optionSubmit">
-			            		<button>선택완료</button>
-		            	</div>
 
-	            </div>
-	         </div>
-	      </div>
-	   </div>
-   </main>
-   </form>
-
-	
 	<!-- Bootstrap core JS -->
-   <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="js/scripts.js"></script>
-   <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="js/scripts.js"></script>
+	<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>

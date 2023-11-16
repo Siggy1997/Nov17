@@ -5,8 +5,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>Find PW</title>
 <link href="./css/findPW.css" rel="stylesheet" />
 <link href="./css/aram.css" rel="stylesheet" />
@@ -172,12 +173,16 @@
 			<p id="findPWInfo" class="info"></p>
 			<p id="findPWInfo2" class="info"></p>
 		</div>
-		<button class="button" type="button" id="findPWBtn">비밀번호 찾기</button>
 		<div class="bottom-area">	
+			<button class="button" type="button" id="findPWBtn">비밀번호 찾기</button>
 			<div class="bottom"><a href="/main">&nbsp;&nbsp;메인화면으로 가기</a></div>
 		</div>
 		</div>
 	</main>	
+	
+	<div style="height: 9vh"></div>
+	
+	<footer></footer>
 	
 			<!-- 알람모달 -->
 	

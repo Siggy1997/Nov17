@@ -1,40 +1,43 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>병원 등록</title>
 <link rel="stylesheet" href="../css/hosDoc.css">
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		let rhholiday = $("#rhholiday");
-	    let rhholidayendtime = $("#rhholidayendtime");
+		let rhholidayendtime = $("#rhholidayendtime");
 		let rhparking = $("#rhparking");
-	    let rhnightday = $("#rhnightday").val();
+		let rhnightday = $("#rhnightday").val();
 		let rhnightendtime = $("#rhnightendtime");
 		let rhbreaktime = $("#rhbreaktime").val();
 		let rhbreakendtime = $("#rhbreakendtime");
-		
-		
-    	rhholidayendtime.hide();
 
-   		rhholiday.change(function() {
-	        if ($(this).is(":checked")) {
-	            rhholiday.val(1);
-	            rhholidayendtime.show();
-	        } else {
-	            rhholidayendtime.hide();
-	        }
-	    });
-    	
-    	rhparking.change(function() {
-	        if ($(this).is(":checked")) {
-	        	rhparking.val(1);
-	        }
-	    });
+		rhholidayendtime.hide();
+
+		rhholiday.change(function() {
+			if ($(this).is(":checked")) {
+				rhholiday.val(1);
+				rhholidayendtime.show();
+			} else {
+				rhholidayendtime.hide();
+			}
+		});
+
+		rhparking.change(function() {
+			if ($(this).is(":checked")) {
+				rhparking.val(1);
+			}
+		});
 
 		if (rhnightday == "") {
 			rhnightendtime.hide();
@@ -147,5 +150,6 @@
 	<button class="btn" type="submit">병원 개설하기 ▷</button>
 </footer>
 </form>
+
 </body>
 </html>

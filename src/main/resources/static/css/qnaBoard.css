@@ -1,8 +1,12 @@
 @charset "UTF-8";
 
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css");
+@import
+	url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css")
+	;
 
-@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+@import
+	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
+	;
 
 /* 기본 틀 */
 @import
@@ -60,7 +64,6 @@ footer {
 
 main {
 	padding-top: 9vh;
-	
 }
 
 .blank {
@@ -68,9 +71,6 @@ main {
 }
 
 /* 컨텐츠 */
-
-
-
 .space {
 	width: 90%;
 	margin: 0 auto;
@@ -118,15 +118,12 @@ select[name="selectOption"] {
 	display: flex;
 	position: fixed;
 	top: 8%;
-	
 }
 
-#qnaBoardBoldButton, #freeBoardBoldButton,
-#qnaBoardButton, #freeBoardButton {
-   
-    border: none; 
+#qnaBoardBoldButton, #freeBoardBoldButton, #qnaBoardButton,
+	#freeBoardButton {
+	border: none;
 }
-
 
 #qnaBoardBoldButton, #freeBoardBoldButton {
 	height: 7vh;
@@ -140,7 +137,6 @@ select[name="selectOption"] {
 	align-items: center;
 	width: 50%;
 	background-color: white;
-	
 }
 
 #qnaBoardButton, #freeBoardButton {
@@ -155,7 +151,6 @@ select[name="selectOption"] {
 	align-items: center;
 	width: 50%;
 	background-color: white;
-	
 }
 
 .writeButton {
@@ -166,11 +161,9 @@ select[name="selectOption"] {
 	border: none;
 	box-shadow: none;
 	font-weight: bold;
-		float: right;
-		width:20%;
-	
+	float: right;
+	width: 20%;
 }
-
 
 .backGroundBar {
 	height: 35px;
@@ -183,7 +176,7 @@ select[name="selectOption"] {
 }
 
 #selectDepartment {
-		border: none;
+	border: none;
 	background-color: #F5F5F5;
 	color: #5c5c5c;
 	font-size: 12px;
@@ -192,31 +185,32 @@ select[name="selectOption"] {
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .rightSide {
-	 display: flex;
-  justify-content: flex-end;
-  align-items: center; 
-  color: black;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	color: black;
 }
 
-.rightSide > div {
-  margin-right: 3%; /* 각 요소 사이의 간격 조절 */
+.rightSide>div {
+	margin-right: 3%; /* 각 요소 사이의 간격 조절 */
 }
 
 .title {
 	font-size: large;
 	font-weight: bold;
-	padding-top: 5%;
-	padding-bottom: 2%;
-	color:black;
+	color: black;
+	margin-bottom: 3px;
 }
 
 .content {
-	color:black;
-	padding-bottom: 3%;
+	color: black;
+	padding-bottom: 11px;
+	font-size: 15px;
+	font-weight: 500;
 }
 
 .kind {
@@ -226,52 +220,112 @@ a {
 	border-color: rgba(0, 201, 255, 0.30);
 	border-radius: 5px;
 	color: black;
+	margin: 0 0 10px 0;
+	padding: 4px;
+	font-size: 14px;
+	font-weight: 500;
 }
 
 .wait, .count {
-	padding: 1%;
-	float: left;
-	font-weight: bold;
+	display: flex;
+	font-weight: 600;
+	align-items: center;
+	font-size: 15px;
 }
 
 .wait {
 	color: grey;
 }
 
-.count{
+.count {
 	color: black;
 }
 
 .list {
-	padding-top: 5%;
-	padding-bottom: 8%;
+	margin: 17px 0;
 }
 
 .filterTitle {
-padding-top: 5%;
-font-size: large;
+	padding-top: 5%;
+	font-size: large;
 	font-weight: bold;
 	padding-bottom: 2%;
-	color:black;
+	color: black;
 }
-
 
 .line {
-    border: 1px solid lightgrey; 
-    width: 100%; 
-    margin-top: 10px;
+    border: 0.5px solid #d3d3d3;
+    width: 100%;
+    margin: 10px 0;
 }
 
-
-
-
 .nickname {
-	
 	color: grey;
 }
 
-.xi-comment-o,
-.xi-heart-o {
-  font-size: 20px; /* 아이콘 크기 조절 */
-  margin-right: 5px; /* 아이콘과 텍스트 사이 간격 조절 */
+.xi-comment-o, .xi-heart-o {
+	font-size: 20px; /* 아이콘 크기 조절 */
+	margin-right: 5px; /* 아이콘과 텍스트 사이 간격 조절 */
+}
+
+
+/* footer */
+footer {
+	bottom: 0;
+	position: fixed;
+	height: 9vh;
+	width: 100%;
+	z-index: 1000;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	padding: 0 10px;
+	color: gray;
+}
+
+.footerIcon {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.footerIcon img {
+	width: 20px;
+}
+
+.footerIcon p {
+	margin-top: 5px;
+	font-size: 9px;
+	text-align: center;
+	font-weight: 500;
+	color: gray;
+}
+
+.now p {
+	color: black
+}
+
+.footerMain {
+	display: flex;
+	width: 47px;
+	height: 47px;
+	background: linear-gradient(180deg, rgba(131, 247, 146, 0.5) 0%,
+		rgba(0, 201, 255, 0.5) 99.95%, rgba(82, 209, 187, 0.5) 99.96%,
+		rgba(61, 193, 204, 0.5) 99.97%, rgba(49, 183, 214, 0.5) 99.98%,
+		rgba(48, 183, 215, 0.5) 99.99%, rgba(0, 145, 255, 0.5) 100%);
+	box-shadow: 0px 12px 32px #979797;
+	border-radius: 100px;
+	padding: 0;
+	margin-bottom: 5px;
+	align-items: center;
+	justify-content: center;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+.now{
+	color: black;
 }
