@@ -8,7 +8,6 @@
 <title>boardManage</title>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="../css/admin.css">
-<link rel="stylesheet" href="../css/board.css">
 <style type="text/css">
 
 .input-form {
