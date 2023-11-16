@@ -26,13 +26,12 @@ public class JoinController {
 	public String join(@RequestParam Map<String, Object> map) {
 		joinService.join(map);
 		
-		return "redirect:/main";
+		return "redirect:/login";
 	}
 	
 	@ResponseBody
 	@PostMapping("/midCheck")
 	public String midCheck(@RequestParam("mid") String mid) {
-		System.out.println(mid);
 		int midCheck = joinService.midCheck(mid);
 
 		JSONObject json = new JSONObject();
@@ -43,7 +42,6 @@ public class JoinController {
 	@ResponseBody
 	@PostMapping("/mrrnCheck")
 	public String mrrnCheck(@RequestParam("mrrn") String mrrn) {
-		System.out.println(mrrn);
 		int mrrnCheck = joinService.mrrnCheck(mrrn);
 
 		JSONObject json = new JSONObject();
