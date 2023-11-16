@@ -5,10 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>의사 등록</title>
 <link rel="stylesheet" href="../css/newDoctor.css">
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -48,6 +50,7 @@ $(document).ready(function() {
 </head>
 
 <header>
+
 		<a href="/login"><i class="xi-angle-left xi-x"></i></a>
 		<div class="headerTitle">의사등록</div>
 		<div class="blank"></div>
@@ -56,6 +59,7 @@ $(document).ready(function() {
 <body>
 <form action="/completeHosDoc" class="GroupCenter" method="post">
 	<main>
+
 	<div class="article">
 		<span><img src="../img/DrHome_logo_side.png" style="width: 200px;" /></span>
 		<div class="content" style="font-weight: bold;">${rhnoDoctor.rhname}의

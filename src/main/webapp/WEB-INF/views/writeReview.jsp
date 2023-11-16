@@ -5,8 +5,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta charset="UTF-8">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -16,10 +17,10 @@
 <script type="text/javascript">
 	$(function() {
 		/* 뒤로가기 버튼 */
-		$(document).on("click", ".xi-angle-left", function(){
+		$(document).on("click", ".xi-angle-left", function() {
 			history.back();
 		});
-		
+
 		let rate;
 		let dno;
 		let keyword;
@@ -85,65 +86,67 @@
 
 			$('.reviewContent').show()
 		});
-		
-		$(document).on('input', '#content', function(){
-		    if ($(this).val().length >= 10) {
-		    	$('#finish').addClass('submit-btn-css');
-		    } else {
-		    	$('#finish').removeClass('submit-btn-css');
-		    }
+
+		$(document).on('input', '#content', function() {
+			if ($(this).val().length >= 10) {
+				$('#finish').addClass('submit-btn-css');
+			} else {
+				$('#finish').removeClass('submit-btn-css');
+			}
 		});
 
-		$('#finish').click(function() {
-			if (rate !== undefined && dno !== undefined && keyword !== undefined && $('#content').val().length > 10) {
-		    	alert(rate)
-		    	alert("!!!!")
-		        let form = $('<form></form>');
-		        form.attr("action", "./writeReview");
-		        form.attr("method", "post");
-		        form.append($("<input>", {
-		            type: 'hidden',
-		            name: "rate",
-		            value: rate
-		        }));
-		        form.append($("<input>", {
-		            type: 'hidden',
-		            name: "dno",
-		            value: dno
-		        }));
-		        form.append($("<input>", {
-		            type: 'hidden',
-		            name: "keyword",
-		            value: keyword
-		        }));
-		        form.append($("<input>", {
-		            type: 'hidden',
-		            name: "content",
-		            value: $('#content').val()
-		        }));
-		        form.append($("<input>", {
-		            type: 'hidden',
-		            name: "hno",
-		            value: $('#hno').val()
-		        }));
-		        form.append($("<input>", {
-		            type: 'hidden',
-		            name: "mno",
-		            value: $('#mno').val()
-		        }));
-		        form.appendTo("body");
-		        form.submit();
-		    } else {
-				 $("#dh-modal-alert").addClass("active").fadeIn();
-				    setTimeout(function() {
-				        $("#dh-modal-alert").fadeOut(function(){
-				            $(this).removeClass("active");
-				        });
-				    }, 1000);
-		        return false; // 버튼 클릭 이벤트를 중단합니다.
-		    }
-		});
-
+		$('#finish').click(
+				function() {
+					if (rate !== undefined && dno !== undefined
+							&& keyword !== undefined
+							&& $('#content').val().length > 10) {
+						alert(rate)
+						alert("!!!!")
+						let form = $('<form></form>');
+						form.attr("action", "./writeReview");
+						form.attr("method", "post");
+						form.append($("<input>", {
+							type : 'hidden',
+							name : "rate",
+							value : rate
+						}));
+						form.append($("<input>", {
+							type : 'hidden',
+							name : "dno",
+							value : dno
+						}));
+						form.append($("<input>", {
+							type : 'hidden',
+							name : "keyword",
+							value : keyword
+						}));
+						form.append($("<input>", {
+							type : 'hidden',
+							name : "content",
+							value : $('#content').val()
+						}));
+						form.append($("<input>", {
+							type : 'hidden',
+							name : "hno",
+							value : $('#hno').val()
+						}));
+						form.append($("<input>", {
+							type : 'hidden',
+							name : "mno",
+							value : $('#mno').val()
+						}));
+						form.appendTo("body");
+						form.submit();
+					} else {
+						$("#dh-modal-alert").addClass("active").fadeIn();
+						setTimeout(function() {
+							$("#dh-modal-alert").fadeOut(function() {
+								$(this).removeClass("active");
+							});
+						}, 1000);
+						return false; // 버튼 클릭 이벤트를 중단합니다.
+					}
+				});
 
 		function slideUpAndShrink() {
 			$('.hospitalInfo').slideUp().animate({
@@ -163,7 +166,7 @@
 	</header>
 	<input id="mno" type="hidden" value="${parameter.mno }">
 	<input id="hno" type="hidden" value="${parameter.hno }">
-	
+
 	<main class="total container">
 		<div class="hospitalInfo">
 			<img alt=""
@@ -173,8 +176,8 @@
 
 				<div class="selectStars">
 					<c:forEach var="i" begin="1" end="5">
-						<i class="star${i } xi-star-o"> <input id="rate"
-							type="hidden" value="${i }"></i>
+						<i class="star${i } xi-star-o"> <input id="rate" type="hidden"
+							value="${i }"></i>
 					</c:forEach>
 				</div>
 			</div>
@@ -182,15 +185,15 @@
 		<div class="goUp">
 			<div class="hospitalImg">
 				<img alt=""
-				src="https://cdn0.iconfinder.com/data/icons/medical-flat-20/58/006_Hospital-1024.png">
+					src="https://cdn0.iconfinder.com/data/icons/medical-flat-20/58/006_Hospital-1024.png">
 			</div>
 			<div id="hospitalName">
 				<span>${hospital.hname }</span>
 
 				<div class="selectStars">
 					<c:forEach var="i" begin="1" end="5">
-						<i class="star${i } xi-star-o"> <input id="rate"
-							type="hidden" value="${i }"></i>
+						<i class="star${i } xi-star-o"> <input id="rate" type="hidden"
+							value="${i }"></i>
 					</c:forEach>
 				</div>
 			</div>
@@ -202,9 +205,11 @@
 			<div class="selectDoctor">
 				<c:forEach var="doctor" items="${doctor}">
 					<div class="selectDoctorInfo doctor${doctor.dno }">
-						<div class="imgBox"><img alt="의사사진" src="${doctor.dimg }"></div>
-						${doctor.dname }
-						<input type="hidden" id="doctor" value="${doctor.dno }">
+						<div class="imgBox">
+							<img alt="의사사진" src="${doctor.dimg }">
+						</div>
+						${doctor.dname } <input type="hidden" id="doctor"
+							value="${doctor.dno }">
 					</div>
 				</c:forEach>
 			</div>
@@ -213,18 +218,30 @@
 		<div class="totalTreatment questionBox">
 			<div class="title">진료 결과는 어때요?</div>
 			<div class="reviewAnswerBox">
-				<button class="treatment t1" value="효과 없어요"><img src="./img/bad.png">효과 없어요</button>
-				<button class="treatment t2" value="보통이에요"><img src="./img/fine.png">보통이에요</button>
-				<button class="treatment t3" value="효과 좋아요"><img src="./img/good.png">효과 좋아요</button>
+				<button class="treatment t1" value="효과 없어요">
+					<img src="./img/bad.png">효과 없어요
+				</button>
+				<button class="treatment t2" value="보통이에요">
+					<img src="./img/fine.png">보통이에요
+				</button>
+				<button class="treatment t3" value="효과 좋아요">
+					<img src="./img/good.png">효과 좋아요
+				</button>
 			</div>
 		</div>
 
 		<div class="totalFeedback questionBox">
 			<div class="title">선생님은 친절하셨나요?</div>
 			<div class="reviewAnswerBox">
-				<button class="feedback f1" value="불친절해요"><img src="./img/unkind.png">불친절해요</button>
-				<button class="feedback f2" value="보통이에요"><img src="./img/normal.png">보통이에요</button>
-				<button class="feedback f3" value="친절해요"><img src="./img/kind.png">친절해요</button>
+				<button class="feedback f1" value="불친절해요">
+					<img src="./img/unkind.png">불친절해요
+				</button>
+				<button class="feedback f2" value="보통이에요">
+					<img src="./img/normal.png">보통이에요
+				</button>
+				<button class="feedback f3" value="친절해요">
+					<img src="./img/kind.png">친절해요
+				</button>
 			</div>
 		</div>
 
@@ -237,13 +254,14 @@
 	<footer>
 		<button id="finish">완료</button>
 	</footer>
-	
+
 	<!-- 알림창 -->
 	<div id="dh-modal-alert">
 		<div class="dh-modal">
 			<div class="dh-modal-content">
 				<div class="dh-modal-title">
-					<img class="dh-alert-img" src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+					<img class="dh-alert-img"
+						src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
 					알림
 				</div>
 				<div class="dh-modal-text">10글자 이상 입력해 주세요.</div>

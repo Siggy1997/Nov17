@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+	content="initial-scale=1, width=device-width, user-scalable=no" />
 <title>Insert title here</title>
 
 <link rel="stylesheet" href="../css/appointment.css">
