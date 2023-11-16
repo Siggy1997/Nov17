@@ -78,8 +78,8 @@
 	</select>
 
 	<insert id="insertRegisterHos" parameterType="Map">
-		INSERT INTO registerhospital (rhname, rhopendate, rhaddr, rhtelnumber, rhimg, rhinfo, rhopentime, rhclosetime, rhnightday, rhnightendtime, rhbreaktime, rhbreakendtime, rhholiday, rhholidayendtime, rhparking)
-		VALUES (#{rhname}, #{rhopendate}, #{rhaddr}, #{rhtelnumber}, #{rhimg}, #{rhinfo}, #{rhopentime}, #{rhclosetime}, #{rhnightday}, #{rhnightendtime}, #{rhbreaktime}, #{rhbreakendtime}, #{rhholiday}, #{rhholidayendtime}, #{rhparking})
+		INSERT INTO registerhospital (rhname, rhopendate, rhaddr, rhtelnumber, rhinfo, rhopentime, rhclosetime, rhnightday, rhnightendtime, rhbreaktime, rhbreakendtime, rhholiday, rhholidayendtime, rhparking)
+		VALUES (#{rhname}, #{rhopendate}, #{rhaddr}, #{rhtelnumber}, #{rhinfo}, #{rhopentime}, #{rhclosetime}, #{rhnightday}, #{rhnightendtime}, #{rhbreaktime}, #{rhbreakendtime}, #{rhholiday}, #{rhholidayendtime}, #{rhparking})
 	 	<selectKey resultType="Integer" keyProperty="rhno" order="AFTER">
         	SELECT LAST_INSERT_ID()
     	</selectKey>   
@@ -97,6 +97,11 @@
 	</select> -->
 	
 	<insert id="insertRegisterDoc" parameterType="Map">
+		INSERT INTO registerdoctor (rdname, rdinfo, rdgender, rdcareer, rdspecialist, dpno, rhno, rdtelehealth)
+		VALUES (#{rdname}, #{rdinfo}, #{rdgender}, #{rdcareer}, #{rdspecialist}, #{dpno}, #{rhno}, #{rdtelehealth})
+	</insert>
+
+	<insert id="insertRegisterDocom" parameterType="Map">
 		INSERT INTO registerdoctor (rdname, rdimg, rdinfo, rdgender, rdcareer, rdspecialist, dpno, rhno, rdtelehealth)
 		VALUES (#{rdname}, #{rdimg}, #{rdinfo}, #{rdgender}, #{rdcareer}, #{rdspecialist}, #{dpno}, #{rhno}, #{rdtelehealth})
 	</insert>
@@ -112,6 +117,14 @@
 	</update>
 	
 	<select id="detail" parameterType="Integer" resultType="Map">
+		SELECT *
+		FROM registerhospital rh
+		JOIN registerdoctor rd
+		ON rh.rhno = rd.rhno
+		WHERE rh.rhno=#{rhno}
+	</select>
+	
+	<select id="detailOne" parameterType="Integer" resultType="Map">
 		SELECT *
 		FROM registerhospital
 		WHERE rhno=#{rhno}
