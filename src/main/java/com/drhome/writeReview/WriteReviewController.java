@@ -32,6 +32,6 @@ public class WriteReviewController {
 	@PostMapping("/writeReview")
 	public String writeReview(@RequestParam Map<String, Object> write) {
 		writeReviewService.writeReview(write);
-		return "redirect:/hospitaldetail/"+write.get("hno");
+		return "redirect:/hospitalDetail/"+write.get("hno");
 	}
 }

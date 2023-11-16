@@ -9,6 +9,8 @@
 <meta name="viewport"
 	content="initial-scale=1, width=device-width, user-scalable=no" />
 <script src="./js/jquery-3.7.0.min.js"></script>
+
+
 <link rel="stylesheet" href="./css/boardSearch.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -33,6 +35,7 @@
 
 <div class="space">
 	<form action="/searchWord" method="post" onsubmit="searchForm()">
+	<div class="searchForm">
 		<select name = "selectOption">
           <option value = "all" selected>제목+내용</option>
           <option value = "title">제목만</option>
@@ -41,6 +44,7 @@
 		<input type="text" name="searchWord" id="searchWordInput"
 			placeholder="검색 할 내용을 입력하세요">		
 		<button type="submit" class="xi-search xi-x"></button>
+	</div>
 	</form>
 	</div>
 

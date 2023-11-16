@@ -34,14 +34,40 @@
 		mno, dpno, dno)
 		VALUES (#{date}, #{day}, #{time}, #{hno},
 		#{mno},
-		(SELECT dpno FROM department WHERE dpkind = #{dpkind}),
+		(SELECT dpno FROM
+		department WHERE dpkind = #{dpkind}),
 		(SELECT dno
-		FROM doctor WHERE hno =#{hno} AND dpno = (SELECT dpno FROM department
-		WHERE dpkind = #{dpkind})))
+		FROM doctor WHERE hno
+		=#{hno} AND dpno = (SELECT dpno FROM department
+		WHERE dpkind =
+		#{dpkind})))
+
+		<selectKey keyProperty="ano" resultType="int" order="AFTER">
+			SELECT
+			LAST_INSERT_ID() AS ano
+		</selectKey>
+
 	</insert>
 
 	<select id="findHospitalDepartmentsByHno">
 		SELECT hospitalDepartments FROM hospitalinfo_view
 		WHERE hno = #{hno}
 	</select>
+
+	<select id="findAppointmentDetailByAno">
+		SELECT adate, aday, TIME_FORMAT(atime, '%H:%i') as
+		atime,hname, dname, mname, dpkind
+		FROM appointment a
+		JOIN hospital h ON a.hno = h.hno
+		JOIN member m ON a.mno = m.mno
+		JOIN doctor d ON a.dno = d.dno
+		JOIN department dp ON a.dpno = dp.dpno
+		WHERE ano =#{ano}
+	</select>
+	
+	<insert id="pushtoAlert">
+		INSERT INTO notification (nappointmentNoti, mno)
+		VALUES(1, #{mno})
+	
+	</insert>
 </mapper>

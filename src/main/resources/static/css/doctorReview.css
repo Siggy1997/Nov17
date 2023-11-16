@@ -136,7 +136,7 @@ main {
 }
 
 .xi-star-o {
-	color: #F5F5F5;
+	color: #dbdbdb;
 }
 
 .xi-star {
@@ -144,8 +144,9 @@ main {
 }
 
 .grayLine {
-	border-bottom: 1px solid #dedcdc;
-	height: 20px;
+	height: 15px;
+    background-color: #F5F5F5;
+    margin: 10px 0;
 }
 
 .reviewContainer {

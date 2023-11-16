@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
 /* 기본 틀 */
 * {
 	font-family: "Pretendard Variable";
@@ -48,6 +52,7 @@ footer {
 
 main {
 	padding-top: 9vh;
+
 }
 
 .blank {
@@ -56,7 +61,7 @@ main {
 
 /* 모달 스타일 */
 .modal {
-	display: none;
+	display: none; /* 모달 숨김 */
 	position: fixed;
 	z-index: 1;
 	left: 0;
@@ -69,16 +74,20 @@ main {
 
 .modal-content {
 	background-color: #fff;
-	margin: 15% auto;
+	margin: 30% auto;
 	padding: 20px;
 	border: 1px solid #888;
-	width: 50%;
+	width: 80%;
+	height: 50%;
+	border-radius: 5px;
+
+	
 }
 
 .close {
 	color: #aaa;
 	float: right;
-	font-size: 28px;
+	font-size: 25px;
 	font-weight: bold;
 }
 
@@ -88,46 +97,67 @@ main {
 	cursor: pointer;
 }
 
+#rpcontent {
+		width: 97%;
+	height: 250px;
+	border: none;
+	background-color: #ebebeb;
+	  margin: 5% 1.5% 3% 1.5%;
+	  padding: 2%;
+	  font-size: medium;
+}
+
+#submitReport {
+		border: none;
+		box-shadow: none;
+		margin-left: 37%;
+	padding: 3%;
+	color: #787878;
+background-color: #ebebeb;
+	border-radius: 5px;
+	font-size: medium;
+}
+
+
 /*컨텐츠*/
 
-.freePosting {
-	margin: 3%;
-
+.space {
+		width: 90%;
+	margin: 0 auto;
 }
+
+
 
 .btitle {
 	font-weight: bold;
 	font-size: x-large;
-	margin-bottom: 5%;
+	margin-top: 3%;
+margin-bottom: 2%;
 }
 
 
 #reportButton {
 	float: right;
-	margin: 3%;
-	padding: 1%;
 }
 
 
-
-.bnickname, .bdate {
+.bnickname, .dot, .bdate, #reportButton {
 	display: inline-block;
-	margin-right: 10px;
-}
-
-.bdate {
+	margin-right: 1px;
 	color: grey;
 }
 
 .bdetail {
 	margin-top: 5%;
+	margin-bottom: 10%;
 	font-size: large;
 }
 
 #dibsButtonFalse, #dibsButtonTrue {
 	font-size: medium;
-	margin: 3%;
 	padding: 2%;
+	margin-top : 3%;
+	margin-bottom : 5%;
 	background-color: white;
 	border-radius: 5px;
 	border-color: lightgrey;
@@ -146,25 +176,24 @@ main {
 
 .bdelete, #editButton {
 	float: right;
-	margin: 3%;
 	padding: 1%;
 }
 
 .formContainer {
-	margin: 2%;
 	padding: 5%;
 }
 
 #ccontent {
-	margin: 3%;
 	padding: 2%;
 	width: 80%;
 	height: 40px;
-	float: left;
 	border: none;
 	border-radius: 5px;
-	background-color: lightgrey;
+	background-color: #ebebeb;
 	font-size: 16px;
+	position: absolute;
+	left: 5%;
+	bottom:20%;
 }
 
 .xi-pen-o {
@@ -175,39 +204,40 @@ main {
 #submitCommnetButton {
 	border: none;
 	background-color: white;
-	margin-left: 1%;
-	margin-top: 4%;
+	position: absolute;
+	right: 4%;
+	bottom:22%;
 }
 
 .comment {
-	
 	clear: both;
-	margin: 3%;
-	padding: 1%;
 }
 
-.ccommentList {
-	border-top: 1px solid lightgrey;
-	padding-top :5%;
-	
+.line {
+    border: 0.5px solid #d3d3d3;
+    width: 100%;
+    margin: 10px 0;
 }
 
 .commentTitle {
-	border-top: 1px solid lightgrey;
-	padding: 5% 0% 5% 0%;
-	font-weight: bold;
+		clear: both;
 	font-size: large;
-	clear: both;
+	font-weight: bold;	
+	padding-top: 5%;
+	padding-bottom: 5%;
+	width: 100%;
+	background-color: #f6f6f6;
 
 }
 
-
+.cnickname {
+	color:grey;
+	margin-top :7%;
+}
 
 .cdetail {
-	
+		margin: 2% 0 5% 0;
 	font-size: large;
-	margin-bottom:2%;
-	font-weight: bold;
 }
 
 .cdate {
@@ -220,22 +250,170 @@ main {
 	border: none;
 	background-color: white;
 	float: right;
+	 background: url('/img/siren.png') center/cover no-repeat;
 }
 
 #cdelete {
 	border: none;
 	background-color: white;
+	color:grey;
 }
 
 .rightSide {
 		 float: right;
   justify-content: flex-end;
   align-items: center;
-  margin-right : 3%;
 
 }
 
 .rightSide, .cdate{
 		display: inline-block;
 		
+}
+
+
+
+/* 로그인 모달 */
+.dh-modal-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+z-index: 1499;
+}
+
+.dh-modal-login {
+	width: 100%;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	align-items: center;
+	border-radius: 8px;
+	margin: 25px;
+z-index: 1500;
+}
+
+.dh-modal-header {
+	display: flex;
+	height: 70px;
+	align-items: center;
+}
+
+.dh-modal-header img {
+	width: 60px;
+	margin-right: 10px;
+}
+
+.dh-modal-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.h4 {
+	font-size: 14px;
+	font-weight: 700;
+	margin-top: 3px;
+}
+
+.h6 {
+	font-size: 11px;
+	font-weight: 400;
+	margin-top: 3px;
+	color: #5c5c5c;
+}
+
+.dh-modal-footer {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+}
+
+.dh-modal-button {
+	width: 50%;
+	height: 30px;
+	margin: 15px 0 0 15px;
+	background-color: #00C9FF;
+	color: white;
+	border: 1px solid #00C9FF;
+	border-radius: 10px;
+}
+
+.dh-close-modal {
+	color: #505050;
+	border: 1px solid #d9d9d9;
+	background-color: #F5F5F5;
+	margin: 15px 0 0 0;
+}
+
+/* 알림 모달 */
+#dh-modal-alert {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 1s ease-in-out;
+	background: rgba(0, 0, 0, 0.2);
+	justify-content: flex-end;
+	flex-direction: column;
+	z-index: 1499;
+}
+
+#dh-modal-alert.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+.dh-modal {
+	padding: 20px;
+	width: 90%;
+	border-radius: 15px;
+	background-color: #F4F4F4;
+	height: 90px;
+	display: flex;
+	align-items: center;
+	margin: 18px auto;
+	z-index: 1500;
+}
+
+.dh-modal-title {
+	font-size: 18px;
+	font-weight: 700;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 7px;
+	align-items: center;
+}
+
+.dh-modal-content {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+}
+
+.dh-alert-img {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+}
+
+.dh-modal-text {
+	color: #313131;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.dh-modal-blank {
+	height: 9vh;
 }

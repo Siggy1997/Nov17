@@ -223,8 +223,9 @@ main {
 }
 
 .selectOption {
-	border-bottom: 2px solid black;
-	color: black;
+	color: black !important;
+	font-weight: 700 !important;
+	border-bottom: 2px solid black !important;
 }
 
 /* 진료과 */
@@ -416,4 +417,3 @@ footer {
 a {
 	text-decoration: none;
 	color: black;
-}

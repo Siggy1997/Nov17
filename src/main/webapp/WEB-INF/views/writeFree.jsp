@@ -8,8 +8,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-	content="initial-scale=1, width=device-width, user-scalable=no" />
+
+<meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no"/> 
+
 <link rel="stylesheet" href="./css/writeFree.css">
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
@@ -17,31 +18,37 @@
 </head>
 <body>
 
-	<header>
-		<i class="xi-angle-left xi-x"></i>
-		<div class="header title">작성하기</div>
-		<div class="blank"></div>
-	</header>
+
+<header>
+    <i class="xi-angle-left xi-x" onclick="location.href = '/qnaBoard'"></i>
+    <div class="header title">작성하기</div>
+    <div class="blank"></div>
+</header>
+
 
 	<main>
 
-		<!-- <h2>[자유 게시판 글쓰기]</h2> -->
-		<form action='<c:url value='/postFree'/>' method="post" id="freeForm">
-			<div>
-				제목<input type="text" name="btitle">
-			</div>
-			<div>
-				내용
-				<textarea rows="5" cols="13" name="bcontent"></textarea>
-			</div>
-			<input type="hidden" name="bdate" id="bdate">
-			<button type="submit">완료</button>
-			<button type="button" onclick="location.href='qnaBoard'">목록</button>
-		</form>
 
-		<div id="imagePreview"></div>
+	<!-- <h2>[자유 게시판 글쓰기]</h2> -->
+	<form action='<c:url value='/postFree'/>' method="post" id="freeForm">
+		<div>
+			<input type="text" name="btitle" class="btitle">
+		</div>
+		<div>
+			
+			<textarea rows="5" cols="13" name="bcontent" class="bcontent"></textarea>
+		</div>
+		<input type="hidden" name="bdate" id="bdate">
+		<div class="rightSide">
+		<button type="button" onclick="location.href='qnaBoard'" class="cancel">목록</button>
+		<button type="submit" class="submit">완료</button>
+		</div>
+	</form>
 
-	</main>
+	<!-- <div id="imagePreview"></div> -->
+<div style="height: 9vh"></div>
+</main>
+
 
 	<footer></footer>
 
@@ -85,10 +92,6 @@
 					this.submit();
 				});
 
-		// 뒤로가기 버튼
-		$(document).on("click", ".xi-angle-left", function() {
-			history.back();
-		});
 	</script>
 
 </body>

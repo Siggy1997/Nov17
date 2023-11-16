@@ -32,18 +32,14 @@ public class LoginController {
       JSONObject json = new JSONObject();
       // 일치하는 아이디 체크
       int IDresult = loginService.IDresult(map);
-      System.out.println("map: " + map);
-      System.out.println("IDresult: " + IDresult);
       if (IDresult == 0) {
          json.put("IDresult", 0);
          return json.toString();
       } else {
          // 일치하는 비밀번호 체크
          int PWresult = loginService.PWresult(map);
-         System.out.println("PWresult: " + PWresult);
          if (PWresult == 1) {
             Map<String, Object> loginCheck = loginService.loginCheck(map);
-            System.out.println("mno, mname, mid, mhospitallike, mgrade, dno: " + loginCheck);
 
             session.setAttribute("mno", loginCheck.get("mno"));
             session.setAttribute("mid", loginCheck.get("mid"));
@@ -54,7 +50,6 @@ public class LoginController {
 
             int mgrade = (int) loginCheck.get("mgrade");
             int getMno = loginService.getMno(map);
-            System.out.println("mno: "+getMno);
             
             int selectHealthRecord = loginService.selectHealthRecord(getMno);
             
@@ -106,9 +101,7 @@ public class LoginController {
    @PostMapping("/findID")
    public String findID(@RequestParam Map<String, Object> map) {
       JSONObject json = new JSONObject();
-      System.out.println(map);
       Map<String, Object> findID = loginService.findID(map);
-      System.out.println(findID);
       json.put("findID", findID);
 
       return json.toString();
@@ -124,9 +117,7 @@ public class LoginController {
    @PostMapping("/findPW")
    public String findPW(@RequestParam Map<String, Object> map) {
       JSONObject json = new JSONObject();
-      System.out.println(map);
       Map<String, Object> findPW = loginService.findPW(map);
-      System.out.println(findPW);
       json.put("findPW", findPW);
 
       return json.toString();
