@@ -50,7 +50,6 @@ $(document).ready(function() {
 </head>
 
 <header>
-
 		<a href="/login"><i class="xi-angle-left xi-x"></i></a>
 		<div class="headerTitle">의사등록</div>
 		<div class="blank"></div>
@@ -59,7 +58,6 @@ $(document).ready(function() {
 <body>
 <form action="/completeHosDoc" class="GroupCenter" method="post">
 	<main>
-
 	<div class="article">
 		<span><img src="../img/DrHome_logo_side.png" style="width: 200px;" /></span>
 		<div class="content" style="font-weight: bold;">${rhnoDoctor.rhname}의
