@@ -70,100 +70,86 @@
 </script>
 </head>
 <body>
+<form action="/hospitalAdd" method="POST">
 
 	<header>
-		<i class="xi-angle-left xi-x" onclick="history.back()"></i>
 
-		<div class="headerTitle">
-			<h4 style="width: 104px; margin-right: -90px;">병원 개설</h4>
-		</div>
-
-		<div class="headerTitle">
-			<i class="xi-hospital xi-3x"></i>
-		</div>
+		<a href="/login"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">병원개설</div>
+		<div class="blank"></div>
 	</header>
 
-	<main>
-		<div class="article">
-			<h1 style="text-align: left; margin-left: 20px;">
-				Dr.Home<i class="xi-medicine xi-x"></i>
-			</h1>
-			<div class="content"
-				style="font-weight: bold; text-align: left; margin-left: 20px;">
-				닥터홈에 오신것을 환영합니다!<br> 병원 개설을 위해 아래 내용을 입력해주세요.
+<main>
+    <div class="main-area">
+	<div class="article">
+		<span><img src="../img/DrHome_logo_side.png" /></span>
+		<div class="content">
+			닥터홈에 오신것을 환영합니다!<br> 
+			병원 개설을 위해 아래 내용을 입력해주세요.
+		</div>
+			<div class="Group">
+				<p>병원명</p>
+				<input class="vector" type="text" placeholder="병원명" name="rhname">
 			</div>
-			<div class="tab">
-				<form action="/hospitalAdd" method="POST">
-					<div class="Group">
-						<input class="vector" type="text" placeholder="병원명" name="rhname">
-					</div>
-					<div class="Group">
-						<input class="vector" type="date" placeholder="개원일"
-							name="rhopendate">
-					</div>
-					<div class="Group">
-						<input class="vector" type="text" placeholder="주소" name="rhaddr">
-					</div>
-					<div class="Group">
-						<input class="vector" type="text" placeholder="전화번호"
-							name="rhtelnumber">
-					</div>
-					<div class="Group">
-						<input class="vector" type="text" placeholder="병원이미지" name="rhimg">
-					</div>
-					<div class="Group">
-						<input class="vector" type="text" placeholder="소개" name="rhinfo">
-					</div>
-					<div class="Group">
-						<input class="vector" type="text" placeholder="시작시간"
-							name="rhopentime">
-					</div>
-					<div class="Group">
-						<input class="vector" type="text" placeholder="종료시간"
-							name="rhclosetime">
-					</div>
-					<div class="Group">
-						<input class="vector" id="rhnightday" type="text"
-							placeholder="야간 진료요일" name="rhnightday">
-					</div>
-					<div class="Group" id="rhnightendtime">
-						<input class="vector" type="text" placeholder="야간 종료시간"
-							name="rhnightendtime">
-					</div>
-					<div class="Group">
-						<input class="vector" id="rhbreaktime" type="text"
-							placeholder="브레이크타임" name="rhbreaktime">
-					</div>
-					<div class="Group" id="rhbreakendtime">
-						<input class="vector" type="text" placeholder="브레이크 종료시간"
-							name="rhbreakendtime">
-					</div>
-					<div class="Group">
-						<div class="vector"
-							style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">공휴일
-							진료여부</div>
-						<input type="checkbox" id="rhholiday" name="rhholiday"
-							class="cm-toggle">
-						<!--  <input class="vector" id="hholiday" type="text" placeholder="공휴일 진료여부(0:진료X / 1:진료O)" name="hholiday"> -->
-					</div>
-					<div class="Group" id="rhholidayendtime">
-						<input class="vector" type="text" placeholder="공휴일 종료시간"
-							name="rhholidayendtime">
-					</div>
-					<div class="Group">
-						<div class="vector"
-							style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">주차
-							여부</div>
-						<input type="checkbox" id="rhparking" name="rhparking"
-							class="cm-toggle">
-						<!-- <input class="vector" type="text" placeholder="주차여부(0:불가능 / 1:가능)" name="hparking"> -->
-					</div>
-					<button class="btn" type="submit">병원 개설하기 ▷</button>
-				</form>
+			<div class="Group">
+				<p>설립연도</p>	
+				<input class="vector" type="date" name="rhopendate">
+			</div>
+			<div class="Group">
+				<p>주 소</p>	
+				<input class="vector" type="text" placeholder="주 소" name="rhaddr">
+			</div>
+			<div class="Group">
+				<p>전화번호</p>
+				<input class="vector" type="text" placeholder="전화번호" name="rhtelnumber">
+			</div>
+			<div class="Group">
+				<p>소 개</p>
+				<input class="vector" type="text" placeholder="소 개" name="rhinfo">
+			</div>
+			<div class="Group">
+				<p>시작시간</p>
+				<input class="vector" type="text" placeholder="시작시간" name="rhopentime">
+			</div>
+			<div class="Group">
+				<p>종료시간</p>
+				<input class="vector" type="text" placeholder="종료시간" name="rhclosetime">
+			</div>
+			<div class="Group">
+				<p>야간 진료 요일</p>
+				<input class="vector" id="rhnightday" type="text" placeholder="야간 진료요일" name="rhnightday">
+			</div>
+			<div class="Group" id="rhnightendtime">
+				<p>야간 종료시간</p>
+				<input class="vector" type="text" placeholder="야간 종료시간" name="rhnightendtime">
+			</div>
+			<div class="Group">
+				<p>브레이크 타임</p>
+				<input class="vector" id="rhbreaktime" type="text" placeholder="브레이크 타임" name="rhbreaktime">
+			</div>
+			<div class="Group" id="rhbreakendtime">
+				<p>브레이크 종료시간</p>
+				<input class="vector" type="text" placeholder="브레이크 종료시간" name="rhbreakendtime">
+			</div>
+			<div class="Group">
+				<p>공휴일 진료여부</p>
+				<input type="checkbox" id="rhholiday" name="rhholiday" class="vector cm-toggle">
+			</div>
+			<div class="Group" id="rhholidayendtime">
+				<p>공휴일 종료시간</p>
+				<input class="vector" type="text" placeholder="공휴일 종료시간" name="rhholidayendtime">
+			</div>
+			<div class="Group">
+				<p>주차 여부</p>
+				<input type="checkbox" id="rhparking" name="rhparking" class="vector cm-toggle">
 			</div>
 		</div>
-		<div style="height: 9vh"></div>
-	</main>
-	<footer> </footer>
+		</div>
+	<div style="height: 9vh"></div>
+</main>
+<footer>
+	<button class="btn" type="submit">병원 개설하기 ▷</button>
+</footer>
+</form>
 </body>
 </html>
