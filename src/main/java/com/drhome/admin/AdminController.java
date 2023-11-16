@@ -151,7 +151,7 @@ public class AdminController {
 		return "/newDoctor";
 	}
 	
-	@PostMapping("/completeHosDoc")
+	@PostMapping("/newDoctor")
 	public String newDoctor(@RequestParam Map<String, Object> map) {
 		System.out.println(map);
 		
@@ -184,7 +184,7 @@ public class AdminController {
 		System.out.println(map.get("rhno"));
 		System.out.println(map.get("rhname"));
 		// Base64.getEncoder().encodeToString(map.get("hname").getBytes())
-		return "redirect:/completeHosDoc";
+		return "redirect:/newDoctor";
 	}
 	
 	@RequestMapping(value = "/admin/hospitalOpen", method = RequestMethod.GET)
@@ -265,8 +265,6 @@ public class AdminController {
 		
 		return "redirect:/admin/newHosDoc";
 	}
-	
-	
 	
 	@PostMapping("/admin/adminMain")
 	public String ApprovalHosDoc(@RequestParam("rdno") int rdno, Map<String, Object> map) {
