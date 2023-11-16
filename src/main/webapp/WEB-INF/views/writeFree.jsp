@@ -92,9 +92,6 @@
 					this.submit();
 				});
 
-		
-	
-
 	</script>
 
 </body>

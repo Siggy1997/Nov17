@@ -159,7 +159,7 @@
 	</main>
 
 	<footer>
-		<button class="finish" disabled="disabled">예약완료</button>
+		<button class="finish" disabled="disabled">접수완료</button>
 	</footer>
 
 

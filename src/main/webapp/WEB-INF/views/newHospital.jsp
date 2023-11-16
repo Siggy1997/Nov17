@@ -73,6 +73,7 @@
 <form action="/hospitalAdd" method="POST">
 
 	<header>
+
 		<a href="/login"><i class="xi-angle-left xi-x"></i></a>
 		<div class="headerTitle">병원개설</div>
 		<div class="blank"></div>

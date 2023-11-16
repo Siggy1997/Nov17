@@ -12,34 +12,34 @@ public class AppointmentService {
 	@Autowired
 	private AppointmentDAO appointmentDAO;
 
-
 	public Map<String, Object> findHospitalDeatilByHno(Map<String, Object> hno) {
 		return appointmentDAO.findHospitalDeatilByHno(hno);
 	}
-
 
 	public List<Map<String, Object>> checkTimeStatus(Map<String, Object> data) {
 		return appointmentDAO.checkTimeStatus(data);
 	}
 
-
 	public ArrayList<Map<String, Object>> findDoctorByHno(Map<String, Object> hno) {
 		return appointmentDAO.findDoctorByHno(hno);
-	} 
-
+	}
 
 	public void appointmentFinish(Map<String, Object> data) {
 		appointmentDAO.appointmentFinish(data);
+		appointmentDAO.appointmentFinish(data);
 	}
-
 
 	public Map<String, Object> findHospitalDepartmentsByHno(Map<String, Object> hno) {
 		return appointmentDAO.findHospitalDepartmentsByHno(hno);
 	}
 
-
 	public void appointmentTodayFinish(Map<String, Object> data) {
 		appointmentDAO.appointmentTodayFinish(data);
+		appointmentDAO.appointmentFinish(data);
 	}
-	
+
+	public Map<String, Object> findAppointmentDetailByAno(int ano) {
+		return appointmentDAO.findAppointmentDetailByAno(ano);
+	}
+
 }
