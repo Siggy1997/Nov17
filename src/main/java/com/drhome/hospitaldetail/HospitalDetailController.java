@@ -49,8 +49,7 @@ public class HospitalDetailController {
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("averageHospitalRate", averageHospitalRate);
 		model.addAttribute("reviewCount", reviewCount);
-		System.out.println(hospital);
-
+		
 		return "/hospitalDetail";
 	}
 

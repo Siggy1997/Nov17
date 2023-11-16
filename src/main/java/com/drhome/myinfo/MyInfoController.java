@@ -64,7 +64,6 @@ public class MyInfoController {
 	public String changeAllMyInfo(@RequestParam Map<String, Object> map, @PathVariable int mno) {
 		map.put("mno", mno);
 		myInfoService.changeAllMyInfo(map);
-		System.out.println(map);
 		
 		return "redirect:/myInfo/{mno}";
 	}

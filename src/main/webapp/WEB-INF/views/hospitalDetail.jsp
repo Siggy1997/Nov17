@@ -19,11 +19,9 @@
 <script src="../js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e6035c5b6dc0c23f98779b6f6fded6d&libraries=services"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/sweet-modal/dist/min/jquery.sweet-modal.min.css" />
-<script
-	src="https://cdn.jsdelivr.net/npm/sweet-modal/dist/min/jquery.sweet-modal.min.js"></script>
-
+<script src="/js/wnInterface.js"></script>
+<script src="/js/mcore.min.js"></script>
+<script src="/js/mcore.extends.js"></script>
 <script type="text/javascript">
 
 $(function() {
@@ -55,6 +53,35 @@ $(function() {
 
 		sortReview(1)
 
+		
+			//모피어스 콜
+		document.getElementById("hospitalNum").addEventListener("click", function() {
+		  let phoneNumber = $(this).val();
+		  M.sys.call(phoneNumber);
+		});
+		
+        $('#share').click(function() {
+            let hname = $(this).val();
+            copyToClipboard(hname);
+            
+		    $("#dh-modal-alert").addClass("active").fadeIn();
+		    setTimeout(function() {
+		        $("#dh-modal-alert").fadeOut(function(){
+		            $(this).removeClass("active");
+		        });
+		    }, 1000);
+        });
+        
+        function copyToClipboard(text) {
+            let textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = 0;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
 
 
 		//진료 여부 보여주기
@@ -131,7 +158,7 @@ $(function() {
 		//리뷰 작성
 		$('#writeReview').click(function(){
 			if(${sessionScope.mno == null || sessionScope.mno == ''}){
-				alertModal()
+				 $('.dh-modal-wrapper').show();
 			} else{
 				location.href='../writeReview?mno=${sessionScope.mno}&hno=${hospital.hno}';
 			}
@@ -143,7 +170,7 @@ $(function() {
 		$(document).on("click", ".xi-heart, .xi-heart-o", function() {
 			
 			if(${sessionScope.mno == null || sessionScope.mno == ''}){
-				alertModal()
+				 $('.dh-modal-wrapper').show();
 			}else{
 				if ($(this).hasClass("xi-heart")) {
 					$(this).parent().html('<i class="xi-heart-o xi-x"></i>');
@@ -210,27 +237,7 @@ $(function() {
 		return parseInt(parts[0] + parts[1]);
 	}
 	
-	//모달 띄어주기
-	function alertModal(){
-		$.sweetModal({
-			content:'로그인 후에 서비스를 이용할 수 있어요.',
-			width: '100px',
-			icon: $.sweetModal.ICON_WARNING,
-			buttons: {
-				someAction: {
-					label: '닫기',
-					classes: 'redB',
-				},
-				someOtherAction: {
-					label: '이동',
-					classes: 'blueB',
-					action: function() {
-						window.location.href = '../login';						}
-				},
-			},
-		});
-	}
-		
+
 	//그래프로 보여주기
 	function displayBar(barElement, targetValue) {
 	    barElement.style.width = targetValue + '%';
@@ -290,11 +297,11 @@ $(function() {
 					}
 	             
 	                item += "<div class='reviewer'> &nbsp &nbsp" + n.mname + "</div></div>";
-	                item += "<div class='reviewLike'>"+n.rlike +"&nbsp&nbsp&nbsp&nbsp<img src='../img/thumbs_up.png' style='width: 20px'></div></div>";
+	                item += "<div class='reviewLike'><img src='../img/thumbs_up.png' style='width: 18px'>&nbsp&nbsp"+n.rlike +" 개</div></div>";
 	                
 	                item += "<input class='rno' type='hidden' value='"+ n.rno +"'>"
 	                item += "<input class='sortValue' type='hidden' value='"+ sortValue +"'</div>"
-					item += "<div class='reviewGrayLine'><div>"
+					item += "</div><div class='reviewGrayLine'>"
 	            $('#reviewListContainer').append(item);
 	            }
 	            // 보여질게 있으면 버튼 생성
@@ -315,7 +322,7 @@ $(function() {
 		//리뷰 좋아요
 		$(document).on("click", ".reviewLike", function() {
 			if(${sessionScope.mno == null || sessionScope.mno == ''}){
-				alertModal()
+				 $('.dh-modal-wrapper').show();
 			} else{
 			
 			reviewer =  $(this).parent().siblings(".rno").val()
@@ -338,7 +345,7 @@ $(function() {
 		//예약하기
 		$('.appointmentButton').click(function(){
 			if(${sessionScope.mno == null || sessionScope.mno == ''}){
-				alertModal()
+				 $('.dh-modal-wrapper').show();
 			}else{
 				location.href='../appointment/'+${hno};
 			}
@@ -347,7 +354,7 @@ $(function() {
 		//진료하기
 		$('.appointmentTodayButton').click(function(){
 			if(${sessionScope.mno == null || sessionScope.mno == ''}){
-				alertModal()
+				 $('.dh-modal-wrapper').show();
 			}else{
 				location.href='../appointmentToday/'+${hno};
 			}
@@ -362,6 +369,8 @@ $(function() {
 
 </head>
 <body>
+	<%@ include file="loginAlert.jsp"%>
+
 	<header>
 		<a href="../hospital"><i class="xi-angle-left xi-x"></i></a>
 
@@ -448,11 +457,11 @@ $(function() {
 		</div>
 
 		<div class="call">
-			<button value="${hospital.htelnumber }">
+			<button id="hospitalNum" value="${hospital.htelnumber }">
 				<!-- 모피어스 활용하기 -->
 				<i class="xi-call xi-x"></i>전화하기
 			</button>
-			<button>
+			<button id="share" value="${hospital.hname }">
 				<i class="xi-share-alt xi-x"></i>공유하기
 			</button>
 		</div>
@@ -760,12 +769,31 @@ $(function() {
 			</div>
 			<div class="grayLine"></div>
 
+
+
 			<div id="reviewListContainer"></div>
+
+
 
 		</div>
 
 
 		<div style="height: 7vh"></div>
+
+		<div id="dh-modal-alert">
+			<div class="dh-modal">
+				<div class="dh-modal-content">
+					<div class="dh-modal-title">
+						<img class="dh-alert-img"
+							src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png">
+						알림
+					</div>
+					<div class="dh-modal-text">복사가 완료되었습니다</div>
+				</div>
+			</div>
+			<div class="dh-modal-blank"></div>
+		</div>
+
 	</main>
 
 	<footer>

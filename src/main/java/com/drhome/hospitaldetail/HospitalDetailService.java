@@ -36,7 +36,6 @@ public class HospitalDetailService {
 
 	public void hospitalLike(Map<String, Object> map) {
 		hospitalDetailDAO.hospitalLike(map);
-
 	}
 
 
