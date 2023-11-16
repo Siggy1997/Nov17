@@ -103,15 +103,17 @@ main {
 
 
      .wrap {overflow: hidden;}
-     .info .title {position: absolute;margin: 5px 0 0 100px; bottom:62%;}
-  .info .desc {position: absolute;margin: 5px 0 0 100px; bottom:30%;}
-      .info .img {position: absolute; left: 5%;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden; bottom:30%;}
-  .info .status {position: absolute;margin: 10px 10px 0 250px; bottom:30%;}
+     .info .title {position: absolute;margin: 5px 0 0 10px; bottom:67%; font-weight: bold; font-size: large;}
+  .info .ellipsis {position: absolute;margin: 5px 0 0 10px; bottom:40%;}
+  .info .time {position: absolute;margin: 10px 10px 0 10px; bottom:20%;}
+    .info .availableDot {position: absolute;margin: 10px 10px 0 132px; bottom:20%; color: #0091FF; font-size: small;}
+    .info .unavailableDot {position: absolute;margin: 10px 10px 0 132px; bottom:20%; color: #9E9E9E; font-size: small;}
+  .info .status {position: absolute;margin: 10px 10px 0 150px; bottom:20%;}
   
 #searchInput {
   position: absolute;
     top: 22%;
-    left: 13%;
+    left: 15%;
     width: 255px;
     height: 37px;
     padding: 5px;

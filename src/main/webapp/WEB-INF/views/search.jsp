@@ -17,13 +17,14 @@
 <script src="./js/mcore.min.js"></script>
 <script src="./js/mcore.extends.js"></script>
 <script type="text/javascript">
+
 	window.onload = function() {
 	    document.getElementById('keyword').focus();
 	};
 	
 	$(function(){
 		
-		//실시간채팅으로 가기
+		/* 실시간채팅으로 가기 */
 		 $('.chatting').click(function() { 
 			 if(${sessionScope.mno == null || sessionScope.mno == ''}){
 				 $('.dh-modal-wrapper').show();
@@ -32,20 +33,16 @@
 			 }
 		 });
 
-		
 		/* 뒤로가기 버튼 */
 		$(document).on("click", ".xi-angle-left", function(){
 			location.href = '/main';
 		});
 		
-		/* 최근 검색어 가져오기 */
-		let storageKeyword = M.data.storage("recentKeyword");
-		alert("처음 저장된 검색어 : " + M.data.storage("recentKeyword"));
-		
 		/* 최근 검색어 키워드 넣기 */
-		if ( M.data.storage("recentKeyword") == null ) {
+		if ( M.data.storage("recentKeyword") == '' ) {
 			$(".searchRecentItems").html('');
 		} else {
+			let storageKeyword = M.data.storage("recentKeyword").trim();
 			let stringArray = separationString(storageKeyword);
 			let searchRecentItems = '';
 			for(let item of stringArray) {
@@ -57,7 +54,6 @@
 		/* 최근 검색어 전체 삭제 */
 		$(".searchDelete").click(function(){
 			M.data.removeStorage("recentKeyword");
-			alert("검색어 전체 삭제 : " + M.data.storage("recentKeyword"));
 			$(".searchRecentItems").html('');
 		});
 		
@@ -66,100 +62,56 @@
 		    let keyword = $(this).text();
 		    $('#keyword').val(keyword);
 		});
-
-	});
-	
-	$(document).on("submit", "#searchForm", function(){
-		let searchKeyword = $("#keyword").val();
-		alert(searchKeyword);
-		if ( M.data.storage("recentKeyword") != null ) {
-			let combine = M.data.storage("recentKeyword") + "," + searchKeyword;
-			alert(combine);
-			M.data.storage("recentKeyword", combine);
-			alert("저장된 검색어가 널이 아닐 때 저장 후 : " + M.data.storage("recentKeyword"));
-		} else {
-			M.data.storage("recentKeyword", searchKeyword);
-			alert("저장된 검색어가 널일 때 저장: " + storageKeyword);
-		}
-	});
-	
-	/* 쿠키 한개 삭제 */
-	$(document).on("click", ".deleteKeyword", function(){
-		let deleteKeyword = $(this).siblings().text();
-		let allCookieArray = separationString(storageKeyword);// 스트링 -> 배열
-		let deleteCookieArray = allCookieArray.filter(item => item !== deleteKeyword);// 삭제하고 다시 배열
-		let newCookie = deleteCookieArray.join(",");// 새로운 배열
-		M.data.storage("recentKeyword", newCookie);
-		alert("쿠키 한 개 삭제할 때" + storageKeyword);
-		$(this).parent().html('');
-	});
-	
-	/* 입력할 때 내용 지우기 */
-	if ($("#keyword").val() !== '') {
-		$(".icon").addClass("xi-close-circle");
-	} else {
-		$(".icon").removeClass("xi-close-circle");
-	}
-	$(document).on("input", "#keyword", function(){
+		
+		/* 최근 검색어 저장하기 */
+		$(document).on("submit", "#searchForm", function(){
+			let searchKeyword = $("#keyword").val().trim();
+			if ( searchKeyword != '' && searchKeyword != null ) {
+				if( M.data.storage("recentKeyword") == '' || M.data.storage("recentKeyword") == null ) {
+					M.data.storage("recentKeyword", searchKeyword);
+				} else {
+					let storageKeyword = M.data.storage("recentKeyword");
+					/* 중복값 제거하고 추가하기 */
+					let allCookieArray = separationString(storageKeyword);// 스트링 -> 배열
+					if ( !(allCookieArray.includes(searchKeyword)) ) {
+						let combine = M.data.storage("recentKeyword") + "," + searchKeyword;
+						M.data.storage("recentKeyword", combine);
+				    }
+				}
+			}
+		});
+		
+		/* 최근검색어 한개 삭제 */
+		$(document).on("click", ".deleteKeyword", function(){
+			let deleteKeyword = $(this).siblings().text();
+			let storageKeyword = M.data.storage("recentKeyword");
+			let allCookieArray = separationString(storageKeyword);// 스트링 -> 배열
+			let deleteCookieArray = allCookieArray.filter(item => item !== deleteKeyword);// 삭제하고 다시 배열
+			let newKeyword = deleteCookieArray.join(",");// 새로운 배열
+			M.data.storage("recentKeyword", newKeyword);
+			$(this).parent().html('').removeClass('recentItemBox');
+		});
+		
+		/* 입력할 때 내용 지우기 */
 		if ($("#keyword").val() !== '') {
 			$(".icon").addClass("xi-close-circle");
 		} else {
 			$(".icon").removeClass("xi-close-circle");
 		}
-	});
-	$(document).on("click", ".deleteSearch", function(){
-		$(".icon").removeClass("xi-close-circle");
-		$("#keyword").val('').focus();
-	});
-	
-	/* 쿠키 저장하기 */
-	function setCookie(cookieName, cookieValue, exdays){
+		$(document).on("input", "#keyword", function(){
+			if ($("#keyword").val() !== '') {
+				$(".icon").addClass("xi-close-circle");
+			} else {
+				$(".icon").removeClass("xi-close-circle");
+			}
+		});
 		
-		let existingCookie = getCookie(cookieName);
-		/* 쿠키 배열로 바꾸기 */
-		let arrayCookie = separationString(existingCookie);
-		let exdate = new Date();
-		exdate.setDate(exdate.getDate() + exdays);
-
-		/* 중복값 제거하고 추가하기 */
-		if ( !(arrayCookie.includes(cookieValue)) ) {
-			arrayCookie.push(cookieValue);
-			let newCookie = arrayCookie.join(",");
-	        let value = newCookie + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
-	        document.cookie = cookieName + "=" + value;
-	    }
-	}
-	
-	/* 쿠키 한개 삭제하기 */
-	function deleteCookie(deleteCookieName, cookieName, exdays) {
-		let exdate = new Date();
-		exdate.setDate(exdate.getDate() + exdays);
-		let allCookie = getCookie(cookieName);// 모든 쿠키 뽑기
-		let allCookieArray = separationString(allCookie);// 스트링 -> 배열
-		let deleteCookieArray = allCookieArray.filter(item => item !== deleteCookieName);// 삭제하고 다시 배열
-		let newCookie = deleteCookieArray.join(",");// 새로운 배열
-	    document.cookie = cookieName + "=" + newCookie + "; expires=" + exdate.toUTCString();
-	}
-	
-	/* 쿠기 전체 삭제하기 */
-	function deleteAllCookie(cookieName) {
-	    var exdate = new Date(0);
-	    document.cookie = cookieName + "=; expires=" + exdate.toUTCString();
-	}
-	
-	/* 쿠키 가져오기 */
-	function getCookie(cookieName) {
-	    let x, y;
-	    let val = document.cookie.split(";");
-	    for (let i = 0; i < val.length; i++) {
-	        x = val[i].substr(0, val[i].indexOf("="));
-	        y = val[i].substr(val[i].indexOf("=") + 1);
-	        x = x.trim();
-	        if (x === cookieName) {
-	            return decodeURIComponent(y);
-		    }
-		}
-	}
+		$(document).on("click", ".deleteSearch", function(){
+			$(".icon").removeClass("xi-close-circle");
+			$("#keyword").val('').focus();
+		});
+		
+	});
 	
 	/* String 잘라서 배열로 만들기 */
 	function separationString(stringList) {
@@ -168,7 +120,7 @@
 	            return item.trim();
 	        });
 	    } else {
-	        return [];
+	        return false;
 	    }
 	}
 </script>
@@ -231,9 +183,6 @@
 				</div>
 			</div>
 			<div style="height: 9vh"></div>
-			
-			
-		
 		</main>
 	</form>
 	

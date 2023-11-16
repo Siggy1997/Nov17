@@ -24,8 +24,4 @@ public interface SearchDAO {
 
 	String hospitalLikeList(int mno);
 
-
-
-
-
 }

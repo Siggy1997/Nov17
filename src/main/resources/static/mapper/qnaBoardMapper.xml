@@ -185,19 +185,6 @@
 		WHERE dpkind = #{selectDepartment})
 		WHERE bno=#{bno}
 	</update>
-
-	<select id="getQnaListByDepartment" parameterType="String"
-		resultType="Map">
-		SELECT board.bno, board.btitle, board.bcontent, department.dpkind AS dpkind,
-		COUNT(comment.cno) AS comment_count
-		FROM board
-		LEFT JOIN comment ON board.bno = comment.bno
-		LEFT JOIN department ON board.dpno = department.dpno
-		WHERE board.btype = 0
-		AND department.dpkind = #{department}
-		GROUP BY board.bno, board.btitle, board.bcontent, dpkind
-		ORDER BY board.bno DESC;
-	</select>
 	
 	<insert id="sendNotification">
 		INSERT INTO notification (mno, nqnaboardNoti )

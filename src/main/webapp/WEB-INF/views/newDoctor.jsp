@@ -46,7 +46,6 @@ $(document).ready(function() {
     });
 	
 });
-
 </script>
 </head>
 
@@ -55,7 +54,6 @@ $(document).ready(function() {
 		<div class="headerTitle">의사등록</div>
 		<div class="blank"></div>
 	</header>
-
 
 <body>
 <form action="/completeHosDoc" class="GroupCenter" method="post">
@@ -187,6 +185,5 @@ $(document).ready(function() {
 		<button class="btn" id="btnAdd" type="submit">등록 ▷</button>
 	</footer>
 	</form>
-
 </body>
 </html>

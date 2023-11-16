@@ -209,8 +209,8 @@ main {
 }
 
 .filter-btn-css-blue {
-	background-color: #9d9d9d;
-	border-color: #9d9d9d;
+	background-color: #c9c9c9;
+	border-color: #b8b8b8;
 	color: white;
 }
 
@@ -413,13 +413,45 @@ main {
 	font-size: 10px;
 }
 
+/* 정렬 */
 .sortByList {
-	border: none;
-	background-color: #F5F5F5;
 	color: #5c5c5c;
 	font-size: 12px;
 	height: 100%;
 	padding: 5px;
+	display: flex;
+	align-items: center;
+}
+
+#openSortList {
+	position: fixed;
+	top: 200px;
+	right: 29px;
+	width: 15%;
+	height: 1px;
+	transition: all 0.5s ease;
+	z-index: 999;
+}
+
+.maxList {
+	width: 15% !important;
+	height: 70px !important;
+	border-radius: 3px !important;
+	background-color: white !important;
+	border: 0.5px solid #cecece;
+}
+
+.optionTitle {
+	font-size: 12px;
+}
+
+.selectSortList {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
 }
 
 /* list */
@@ -652,4 +684,146 @@ main {
 
 .nightCare div {
 	font-size: 14px;
+}
+
+/* 유형 */
+#openCategory {
+	position: fixed;
+	top: 171px;
+	right: 19px;
+	width: 40%;
+	height: 1px;
+	transition: all 0.5s ease;
+	z-index: 999;
+}
+
+.max {
+	width: 40% !important;
+	height: 260px !important;
+	border-radius: 7px !important;
+	background-color: white !important;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
+}
+
+.optionGroup {
+	display: flex;
+	flex-direction: column;
+	margin: 8px 11px;
+}
+
+.optionGroup button {
+	width: 120px;
+	background-color: white;
+	color: #909090;
+	font-weight: 300;
+	border: none;
+	margin: 2px auto;
+	padding: 8px 6px;
+	font-size: 14px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.optionSubmit {
+	display: flex;
+	align-items: center;
+}
+
+.optionSubmit button {
+	width: 130px;
+	color: #787878;
+	background-color: #ebebeb;
+	border: none;
+	margin: 2px auto;
+	padding: 8px 6px;
+	font-size: 14px;
+	font-weight: 600;
+	border-radius: 7px;
+	background-color: #ebebeb;
+}
+
+.graySeperate-min {
+	height: 3px;
+	background-color: #F5F5F5;
+}
+
+.xi-radiobox-blank {
+	color: #b1b1b1;
+}
+
+.cate-css {
+	color: #00C9FF !important;
+	font-weight: 600 !important;
+}
+
+.com-btn-css {
+	color: white !important;
+	background-color: #00C9FF !important;
+}
+
+/* 알림 모달 */
+#dh-modal-alert {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 1s ease-in-out;
+	background: rgba(0, 0, 0, 0.2);
+	justify-content: flex-end;
+	flex-direction: column;
+	z-index: 1499;
+	transition: opacity 1s ease-in-out;
+}
+
+#dh-modal-alert.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+.dh-modal {
+	padding: 20px;
+	width: 90%;
+	border-radius: 15px;
+	background-color: #F4F4F4;
+	height: 90px;
+	display: flex;
+	align-items: center;
+	margin: 18px auto;
+	z-index: 1500;
+}
+
+.dh-modal-title {
+	font-size: 18px;
+	font-weight: 700;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 7px;
+	align-items: center;
+}
+
+.dh-modal-content {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+}
+
+.dh-alert-img {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+}
+
+.dh-modal-text {
+	color: #313131;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.dh-modal-blank {
+	height: 9vh;
 }

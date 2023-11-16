@@ -17,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 
 @Controller
 public class SearchController {
@@ -171,12 +171,6 @@ public class SearchController {
 		List<Map<String, Object>> departmentKeyword = searchService.departmentKeyword();
 		model.addAttribute("departmentKeyword", departmentKeyword);
 		
-		
-		//나중에 지우기
-//		session.setAttribute("mno", 3);
-//		session.setAttribute("mid", "peazh");
-//		session.invalidate();
-		
 		// 찜한 병원 리스트
 		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
 			String hospitalLikeList = searchService.hospitalLikeList((int) session.getAttribute("mno"));
@@ -198,19 +192,17 @@ public class SearchController {
 		return json.toString();
 	}
 	
-	@GetMapping("/hospitalLike")
-	public String hospitalLike(HttpSession session, Model model) {
+	@GetMapping("/hospitalLike/{mno}")
+	public String hospitalLike(@PathVariable int mno, Model model) {
 		
 		// 현재 요일와 시간
 		model.addAttribute("currentDay", searchUtil.currentDayOfTheWeek());
 		model.addAttribute("currentTime", searchUtil.currentTime());
 				
-		if ( session.getAttribute("mno") != null && session.getAttribute("mno") != "") {
-			String hospitalLikeList = searchService.hospitalLikeList((int) session.getAttribute("mno"));
-			model.addAttribute("hospitalLikeList", hospitalLikeList);
-			List<Map<String, Object>> hospitalList = searchService.hospitalList();
-			model.addAttribute("hospitalList", searchUtil.hnoUnique(hospitalList));
-		}
+		String hospitalLikeList = searchService.hospitalLikeList(mno);
+		model.addAttribute("hospitalLikeList", hospitalLikeList);
+		List<Map<String, Object>> hospitalList = searchService.hospitalList();
+		model.addAttribute("hospitalList", searchUtil.hnoUnique(hospitalList));
 		return "/hospitalLike";
 	}
 	
