@@ -183,7 +183,6 @@
 		WHERE rdno=#{rdno}
 	</select>
 	
-	
 	<select id="searchHos" parameterType="Map" resultType="Map">
 		SELECT *
 		FROM registerhospital
@@ -199,5 +198,4 @@
 	<delete id="deleteHos" parameterType="Integer" >
 		DELETE FROM registerhospital WHERE rhno = #{rhno}
 	</delete>
-
 </mapper>

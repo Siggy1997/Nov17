@@ -86,7 +86,7 @@ $(document).ready(function () {
 					tableMake += "<div style='text-align: left; margin-left: 10px; font-size: 12px;'>"+searchHos[i].rhaddr+"</div>";
 					tableMake += "<div style='text-align: left; margin-left: 10px; font-size: 12px;'>"+searchHos[i].rhtelnumber;
 					tableMake += "<span style='text-align: right; margin-left: 180px;'>"+searchHos[i].rhopendate+"</span></div>";
-					tableMake += "<hr style='height: 2px; background-color: #00C9FF; margin-top: 5px;'></div>";
+					tableMake += "<div class='graySeperate'></div></div>";
 				}
 				
 				
@@ -127,20 +127,19 @@ $(document).ready(function () {
 </head>
 
 <header>
-    <div class="xi-arrow x"></div>
-    
     <i class="xi-angle-left xi-x" onclick="history.back()"></i>
 
-	<div class="headerTitle"><i></i></div>
+	<div class="blank"></div>
+
+	<div><h3 style="text-align: center; margin-right: 40px; font-size: 25px;">병원 등록 관리</h3></div>
 	
-	<div class="headerTitle"><i class="xi-hospital xi-3x"></i></div>
+	<div class="blank"></div>
 </header>
 
 <body>
 	<main>
-	<h1 style="text-align: center;">병원 등록 관리</h1>
 	<div class="content">
-		<div style="text-align: center;">
+		<div class="searchTab">
 			<select id="searchN" name="searchN" style="width: 60px;">
 				<option value="" selected="selected">전체</option>
 				<option value="rhname">병원명</option>
@@ -157,7 +156,7 @@ $(document).ready(function () {
 						<div style="text-align: left; margin-left: 10px; font-size: 12px;">${hospitalOpen.rhtelnumber}
 							<span style="text-align: right; margin-left: 220px; ">${hospitalOpen.rhopendate}</span>
 						</div>
-						<hr style="height: 2px; background-color: #00C9FF; margin-top: 5px;">
+						<div class="graySeperate"></div>
 					</div>
 				</c:forEach>
 			</div>

@@ -47,22 +47,23 @@ $(document).ready(function() {
 </head>
 
 <header>
-    <div class="xi-arrow x"></div>
-    
     <i class="xi-angle-left xi-x" onclick="history.back()"></i>
 
-	<div><h3 style="width: 110px; text-align: center; margin-left: 80px;">의사 등록</h3></div>
+	<div class="blank"></div>
+
+	<div><h3 style="text-align: center; margin-right: 40px; font-size: 25px;">의사 등록</h3></div>
 	
-	<div class="headerTitle"><i class="xi-user xi-2x"></i></div>
+	<div class="blank"></div>
+	
 </header>
 
 <body>
+<form action="/newDoctor" class="GroupCenter" method="post">
 	<main>
 	<div class="article">
-		<h1>DR.Home</h1>
-		<div class="content" style="font-weight: bold">${rhnoDoctor.rhname}의
+		<h1>DR.Home</h1><span><img src="../img/newDoctor.png" /></span>
+		<div class="content" style="font-weight: bold;">${rhnoDoctor.rhname}의
 			의사 등록을 위해 <br>아래 내용을 입력해주세요.</div>
-		<form action="/completeHosDoc" class="GroupCenter" method="post">
 			<div class="Group">
 				<input class="vector" type="text" placeholder="성명" name="rdname">
 			</div>
@@ -73,7 +74,7 @@ $(document).ready(function() {
 				<input class="vector" type="text" placeholder="소개" name="rdinfo">
 			</div>
 			<div class="Group">
-				<div style="font-size: 13px; margin-left: -200px; color: gray;">성별</div>
+				<div style="font-size: 17px; margin-left: -200px; color: gray;">성별</div>
 				<div class="gender">
 					<div class="man">
 						<input type="radio" id="rdgender" name="rdgender" value="0" checked>남성
@@ -88,7 +89,7 @@ $(document).ready(function() {
 			</div>
 			<div class="Group">
 				<div class="vector"
-					style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">전문
+					style="text-align: left; margin-left: 100px; font-size: 17px; color: gray; text-decoration: underline;">전문
 					여부</div>
 				<input type="checkbox" id="rdspecialist" name="rdspecialist" class="cm-toggle">
 				<!-- <input class="vector" type="text" placeholder="전문의(0:일반의 / 1:전문의)" name="dspecialist"> -->
@@ -96,7 +97,7 @@ $(document).ready(function() {
 			<div class="Group">
 				<!-- <input class="vector" type="text" placeholder="진료과" name="dpno"> -->
 				<select name="dpno"
-					style="width: 227px; height: 22px; text-align: left; margin-left: 100px; font-size: 13px; color: gray;">
+					style="width: 227px; height: 22px; text-align: left; margin-left: 100px; font-size: 17px; color: gray;">
 					<option value="">진료과</option>
 					<option value="1">소아과</option>
 					<option value="2">치과</option>
@@ -117,20 +118,19 @@ $(document).ready(function() {
 			<input class="vector" type="hidden" placeholder="병원이름" name="rhname" value="${rhnoDoctor.rhname }">
 			<div class="Group">
 				<div class="vector"
-					style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">비대면진료 여부</div>
+					style="text-align: left; margin-left: 100px; font-size: 17px; color: gray; text-decoration: underline;">비대면진료 여부</div>
 				<input type="checkbox" id="rdtelehealth" name="rdtelehealth" class="cm-toggle">
 				<!-- <input class="vector" type="text" placeholder="비대면진료 여부(0:진료x / 1:진료o)" name="dtelehealth"> -->
 			</div>
-			<button class="btn" id="btnAdd" type="submit">등록 ▷</button>
-			<%-- <div class="btn2">
-				<a onclick="location.href='/newHosDoc?rhno=${param.rhno}'">등록된 의사 확인 하기 ▷</a>
-			</div> --%>
-		</form>
 	</div>
 	<div style="height: 9vh"></div>
 	</main>
 	<footer>
-	
+		<button class="btn" id="btnAdd" type="submit">추가 ▷</button>
+		<div class="btn2">
+			<a onclick="location.href='/completeHosDoc">등록 ▷</a>
+		</div>
 	</footer>
+	</form>
 </body>
 </html>

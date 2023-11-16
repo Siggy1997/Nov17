@@ -67,24 +67,26 @@
 </script>
 </head>
 <body>
+<form action="/hospitalAdd" method="POST">
 
 <header>
     <i class="xi-angle-left xi-x" onclick="history.back()"></i>
+    
+    <div class="blank"></div>
 
-	<div class="headerTitle"><h4 style="width: 104px; margin-right: -90px;">병원 개설</h4></div>
+	<div><h3 style="text-align: center; margin-right: 40px; font-size: 25px;">병원 개설</h3></div>
 	
-	<div class="headerTitle"><i class="xi-hospital xi-3x"></i></div>
+	<div class="blank"></div>
 </header>
 
 <main>
 	<div class="article">
-		<h1 style="text-align: left; margin-left: 20px;">Dr.Home<i class="xi-medicine xi-x"></i></h1>
-		<div class="content" style="font-weight: bold; text-align: left; margin-left: 20px;">
+		<h1 style="text-align: center;">Dr.Home</h1><span><img src="../img/newHospital.png" /></span>
+		<div class="content" style="font-weight: bold; text-align: center;">
 			닥터홈에 오신것을 환영합니다!<br> 
 			병원 개설을 위해 아래 내용을 입력해주세요.
+		<div class="line"></div>
 		</div>
-		<div class="tab">
-		<form action="/hospitalAdd" method="POST">
 			<div class="Group">
 				<input class="vector" type="text" placeholder="병원명" name="rhname">
 			</div>
@@ -122,7 +124,7 @@
 				<input class="vector" type="text" placeholder="브레이크 종료시간" name="rhbreakendtime">
 			</div>
 			<div class="Group">
-				<div class="vector" style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">공휴일 진료여부</div>
+				<div class="vector" style="text-align: left; margin-left: 54px; font-size: 17px; color: gray; text-decoration: underline;">공휴일 진료여부</div>
 				<input type="checkbox" id="rhholiday" name="rhholiday" class="cm-toggle">
 				<!--  <input class="vector" id="hholiday" type="text" placeholder="공휴일 진료여부(0:진료X / 1:진료O)" name="hholiday"> -->
 			</div>
@@ -130,18 +132,16 @@
 				<input class="vector" type="text" placeholder="공휴일 종료시간" name="rhholidayendtime">
 			</div>
 			<div class="Group">
-				<div class="vector" style="text-align: left; margin-left: 100px; font-size: 13px; color: gray; text-decoration: underline;">주차 여부</div>
+				<div class="vector" style="text-align: left; margin-left: 54px; font-size: 17px; color: gray; text-decoration: underline;">주차 여부</div>
 				<input type="checkbox" id="rhparking" name="rhparking" class="cm-toggle">
 				<!-- <input class="vector" type="text" placeholder="주차여부(0:불가능 / 1:가능)" name="hparking"> -->
 			</div>
-			<button class="btn" type="submit">병원 개설하기 ▷</button>
-		</form>
 		</div>
-	</div>
 	<div style="height: 9vh"></div>
 </main>
 <footer>
-
+	<button class="btn" type="submit">병원 개설하기 ▷</button>
 </footer>
+</form>
 </body>
 </html>
