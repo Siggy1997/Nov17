@@ -217,7 +217,11 @@
 		
 		/* 유형 모달 */
 		$(document).on("click", ".selectByCategory", function(){
-			$(".optionModal").modal("show");
+			//$(".optionModal").modal("show");
+		      $('#openCategory').toggleClass('max');
+		      $('.optionGroup').toggle('fast');
+			
+			
 		});
 		
 		/* 유형 검색하기 */
@@ -527,10 +531,48 @@
 						<div class="xi-angle-down-min deleteKeyword"></div>
 					</button>
 				</div>
+
+
+				<div class=""></div>
+
+
+
+
 				<button type="button" class="selectByCategory">
 					<span class="xi-tune"></span>
 				</button>
 			</div>
+
+			<div id="openCategory">
+			
+				<div class="optionGroup" style="display: none;">
+					<button type="button" class="optionKind">
+						<span class="optionKindText">전문의</span> <span
+							class="xi-radiobox-blank"></span>
+					</button>
+					<button type="button" class="optionKind">
+						<span class="optionKindText">여의사</span> <span
+							class="xi-radiobox-blank"></span>
+					</button>
+					<button type="button" class="optionKind">
+						<span class="optionKindText">주차장</span> <span
+							class="xi-radiobox-blank"></span>
+					</button>
+					<button type="button" class="optionKind" value="휴일진료">
+						<span class="optionKindText">휴일진료</span> <span
+							class="xi-radiobox-blank"></span>
+					</button>
+					<button type="button" class="optionKind" value="야간진료">
+						<span class="optionKindText">야간진료</span> <span
+							class="xi-radiobox-blank"></span>
+					</button>
+				</div>
+
+
+
+			</div>
+
+
 
 			<!-- title -->
 			<div class="hospitalBar bar">
@@ -880,7 +922,7 @@
 	</form>
 
 
-	<!-- Bootstrap core JS -->
+	<!— Bootstrap core JS —>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="js/scripts.js"></script>

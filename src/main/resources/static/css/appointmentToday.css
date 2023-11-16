@@ -159,12 +159,13 @@ a {
 .selectedButton {
 	background-color: #8ed6ff;
 	color: white;
+	border: 1px solid #8ed6ff;
 }
 
 .todayTimeIntro {
 	font-size: 14px;
 	font-weight: 400;
-	color: #787878; 
+	color: #787878;
 }
 
 .finish {

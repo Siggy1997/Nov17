@@ -28,7 +28,7 @@
 	<select id="getNotification">
 		SELECT nno, mno, DATE_FORMAT(ndate, '%Y-%m-%d 
 		%H:%i')AS ndate,
-		nchattingNoti, nqnaboardNoti, nfreeboardNoti, napoointmentNoti,
+		nchattingNoti, nqnaboardNoti, nfreeboardNoti, nappointmentNoti,
 		ntelehealthNoti,nread
 		FROM notification
 		WHERE mno=#{mno}
@@ -48,8 +48,9 @@
 	</update>
 	
 	<select id="userInfo" parameterType="Object" resultType="Map">
-		SELECT mnickname, mbirth, mimg, mid, mname
-		FROM member
+		SELECT mnickname, mbirth, mimg, mid, mname, dimg
+		FROM member m
+		LEFT JOIN doctor d ON m.dno = d.dno
 		WHERE mno = #{mno}
 	</select>
 

@@ -167,6 +167,7 @@
 </body>
 
 <script>
+
 //실시간채팅으로 가기
 $('.chatting').click(function() { 
 	 if(${sessionScope.mno == null || sessionScope.mno == ''}){

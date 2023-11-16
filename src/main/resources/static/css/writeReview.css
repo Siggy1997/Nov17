@@ -8,18 +8,6 @@
 	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
 	;
 
-@
-keyframes slidein {from { margin-left:100%;
-	width: 300%;
-}
-
-to {
-	margin-left: 0%;
-	width: 100%;
-}
-
-}
-
 /* 기본 틀 */
 * {
 	font-family: "Pretendard Variable";
@@ -27,7 +15,9 @@ to {
 	margin: 0;
 	padding: 0;
 }
-
+textarea:focus {
+    outline: none; /* 기본 focus 스타일 제거 */
+}
 body {
 	background-color: white;
 }
@@ -135,17 +125,17 @@ main {
 }
 
 .goUp #hospitalName {
-	width: 75%;
-	padding: 10px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
+    width: 75%;
+    padding: 10px 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .goUp span {
 	font-size: 16px;
 	margin-right: 5px;
-	font-weight: 700;
+	font-weight: 600;
 }
 
 .selectStars {
@@ -153,7 +143,7 @@ main {
 }
 
 .xi-star-o {
-	color: #F5F5F5;
+    color: #dbdbdb;
 }
 
 .xi-star {
@@ -161,8 +151,9 @@ main {
 }
 
 .grayLine {
-	border-bottom: 1px solid #dedcdc;
-	height: 20px;
+    height: 15px;
+    background-color: #F5F5F5;
+    margin: 10px 0;
 }
 
 /* 의사 고르기 */
@@ -277,7 +268,7 @@ main {
 }
 
 #finish {
-	display: none;
+	display:none;
 	width: 90%;
 	height: 80%;
 	border-radius: 7px;
