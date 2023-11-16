@@ -24,8 +24,8 @@ th, td {
 </head>
 <body>
 	<header>
-		<a href="/main"><i class="xi-angle-left xi-x"></i></a>
-		<div class="headerTitle">내 글 관리</div>
+		<a href="/menu"><i class="xi-angle-left xi-x"></i></a>
+		<div class="headerTitle">진료내역</div>
 		<div class="blank"></div>
 	</header>
 	

@@ -20,14 +20,12 @@ public class PayController {
 	
 	@GetMapping("/pay/{mno}")
 	public String pay(@PathVariable int mno, Model model, @RequestParam Map<String, Object> map) {
-		System.out.println(map);
 		map.put("mno", mno);
 		Map<String, Object> payMoney = payService.payMoney(map);
 		model.addAttribute("payMoney", payMoney);
 		
 		Map<String, Object> myPoint = payService.myPoint(map);
 		model.addAttribute("myPoint", myPoint);
-		System.out.println(myPoint);
 		
 		return "/pay";
 	}
@@ -36,11 +34,9 @@ public class PayController {
 	@PostMapping("/cardCheck/{mno}")
 	public String cardCheck(@RequestParam Map<String, Object> map, @PathVariable int mno) {
 		map.put("mno", mno);		
-		System.out.println(map);
 		Map<String, Object> cardCheck = payService.cardCheck(map);
 		JSONObject json = new JSONObject();
 		json.put("cardCheck", cardCheck);
-		System.out.println(cardCheck);
 
 		return json.toString();
 	}
@@ -56,7 +52,6 @@ public class PayController {
 	public String completePay(@RequestParam Map<String, Object> map, @PathVariable int mno) {
 		//카드 잔액 차감하기
 		map.put("mno", mno);
-		System.out.println("map:"+ map);
 		int intCdBalance = Integer.parseInt((String)map.get("cdbalance")) - Integer.parseInt((String)map.get("finalPay"));
 		map.put("intCdBalance", intCdBalance);
 		payService.minusCdbalance(map);
