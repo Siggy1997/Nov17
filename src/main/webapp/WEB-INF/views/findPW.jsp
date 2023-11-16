@@ -180,6 +180,8 @@
 		</div>
 	</main>	
 	
+	<div style="height: 9vh"></div>
+	
 	<footer></footer>
 	
 			<!-- 알람모달 -->
