@@ -161,7 +161,6 @@ public class TelehealthController {
 	public String doctorDetail(@PathVariable int dno, Model model) {
 		 
 		Map<String, Object> reviewCount = hospitalDetailService.countReviewByRate(dno);
-		System.out.println(reviewCount);
 		
 		model.addAttribute("reviewCount", reviewCount);
 		
@@ -241,7 +240,6 @@ public class TelehealthController {
 	@ResponseBody
 	@PostMapping("/reviewEdit")
 	public String reviewEdit(@RequestParam Map<String, Object> map) {
-		System.out.println(map);
 		telehealthService.reviewEdit(map);
 		JSONObject json = new JSONObject();
 		return json.toString();

@@ -69,20 +69,17 @@
 		});
 
 		/* 증상 선택했을 때 */
-		$(document).on(
-				"click",
-				".optionSymptom",
-				function() {
-					$(this).addClass("selectOption");
-					$(".optionDepartment").removeClass("selectOption");
-					$(".seletedDepartmentBox").hide();
-					$(".seletedSymptomBox").show();
-					let offset = $(".seletedSymptomBox").offset().top
-							- (20 * window.innerHeight / 100);
-					$("html, body").animate({
-						scrollTop : offset
-					}, 450);
-				});
+		$(document).on("click",".optionSymptom",function() {
+			$(this).addClass("selectOption");
+			$(".optionDepartment").removeClass("selectOption");
+			$(".seletedDepartmentBox").hide();
+			$(".seletedSymptomBox").show();
+			let offset = $(".seletedSymptomBox").offset().top
+					- (20 * window.innerHeight / 100);
+			$("html, body").animate({
+				scrollTop : offset
+			}, 450);
+		});
 
 		/* 증상 그룹별로 보여주기 */
 		let keywordClass = $(".symptomBox:first .symptomText").nextAll();
